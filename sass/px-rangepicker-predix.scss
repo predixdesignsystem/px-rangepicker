@@ -30,3 +30,11 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
     background-color: transparent;
   }
 }
+
+.rangepicker__box {
+  border-color: $gray4;
+}
+
+.rangepicker__box__field ~ span {
+  color: $gray5;
+}

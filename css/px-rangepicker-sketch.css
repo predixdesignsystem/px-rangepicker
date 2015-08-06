@@ -2712,12 +2712,67 @@ textarea {
   padding: 0;
   list-style: none; }
 
+/*------------------------------------*    #CLEARFIX
+\*------------------------------------*/
+/**
+ * Micro clearfix, as per: css-101.org/articles/clearfix/latest-new-clearfix-so-far.php
+ * Extend the clearfix class with Sass to avoid the `.clearfix` class appearing
+ * over and over in your markup.
+ */
+.clearfix:after,
+.box:after {
+  content: "";
+  display: table;
+  clear: both; }
+
+/**
+* 1. So we can apply the `.box` class to naturally-inline elements.
+*/
+.box {
+  display: block;
+  /* [1] */
+  padding: 1rem; }
+  .box > :last-child {
+    margin-bottom: 0; }
+
+/**
+   * Large box.
+   */
+.box--large {
+  padding: 1.3333333333rem; }
+
 .rangepicker__field {
   max-width: 16rem; }
   .rangepicker__field .text-input--bare {
     font-size: 1rem; }
     .rangepicker__field .text-input--bare:focus {
       outline: 0; }
+
+.rangepicker__box {
+  margin-top: 0.6666666667rem;
+  border: 1px solid;
+  border-radius: 3px;
+  max-width: 43rem; }
+
+.rangepicker__box__field {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  max-width: 14.3333333333rem;
+  height: 4.3333333333rem;
+  padding: 0.3333333333rem 0.6666666667rem 0; }
+  .rangepicker__box__field, .rangepicker__box__field ~ span {
+    font-size: 3rem;
+    line-height: 1.3333333333; }
+
+.rangepicker__box__field__ampm {
+  font-size: 1rem;
+  line-height: 1.3333333333;
+  margin-top: -0.3333333333rem;
+  margin-left: 0.6666666667rem; }
 
 /**
  * Margin and padding helper classes with breakpoint prefixes. Use these to tweak layout on a micro
@@ -2758,6 +2813,32 @@ textarea {
 .u-mv {
   margin-top: 1rem !important;
   margin-bottom: 1rem !important; }
+
+/**
+     * Add tiny margins.
+     */
+.u-m-- {
+  margin: 0.3333333333rem !important; }
+
+.u-mt-- {
+  margin-top: 0.3333333333rem !important; }
+
+.u-mr-- {
+  margin-right: 0.3333333333rem !important; }
+
+.u-mb-- {
+  margin-bottom: 0.3333333333rem !important; }
+
+.u-ml-- {
+  margin-left: 0.3333333333rem !important; }
+
+.u-mh-- {
+  margin-right: 0.3333333333rem !important;
+  margin-left: 0.3333333333rem !important; }
+
+.u-mv-- {
+  margin-top: 0.3333333333rem !important;
+  margin-bottom: 0.3333333333rem !important; }
 
 /**
      * Add small margins.

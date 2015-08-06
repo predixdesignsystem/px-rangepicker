@@ -39,6 +39,10 @@ $inuit-enable-text-input--bare  : true;
 // Objects
 @import "px-list-bare-design/_objects.list-bare.scss";
 
+$inuit-enable-box--large        : true;
+
+@import "px-box-design/_objects.box.scss";
+
 // Component
 .rangepicker__field {
   max-width: calculateRem(240px);
@@ -50,8 +54,33 @@ $inuit-enable-text-input--bare  : true;
   }
 }
 
+.rangepicker__box {
+  margin-top: $inuit-base-spacing-unit--small;
+  border: 1px solid;
+  border-radius: 3px;
+  max-width: calculateRem(645px);
+}
+
+.rangepicker__box__field {
+  display: flex;
+  align-items: center;
+  max-width: calculateRem(215px);
+  height: calculateRem(65px);
+  padding: $inuit-base-spacing-unit--tiny $inuit-base-spacing-unit--small 0;
+  &, & ~ span {
+    @include inuit-font-size(45px);
+  }
+}
+
+.rangepicker__box__field__ampm {
+  @include inuit-font-size(15px);
+  margin-top: -#{$inuit-base-spacing-unit--tiny};
+  margin-left: $inuit-base-spacing-unit--small;
+}
+
 // Trumps
 $inuit-enable-margins           : true;
+$inuit-enable-margins--tiny     : true;
 $inuit-enable-margins--small    : true;
 $inuit-enable-margins--large    : true;
 
