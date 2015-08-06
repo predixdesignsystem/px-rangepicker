@@ -1,0 +1,57 @@
+
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
+    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs
+    See https://github.sw.ge.com/jreichenberg/grunt-dep-serve#why-do-we-need-this
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+
+
+<!--
+Element providing solution to no problem in particular. As a simple, increments a counter when clicked.
+
+##### Usage
+
+    <px-rangepicker counter-value="1">Hi</px-rangepicker>
+
+@element px-rangepicker
+@blurb Element providing solution to no problem in particular.
+@homepage index.html
+@demo demo.html
+-->
+<dom-module id="px-rangepicker">
+    <link rel="import" type="css" href="css/px-rangepicker.css"/>
+    <template>
+      <form>
+        <ol class="flex list-bare">
+          <li class="rangepicker__field text-input flex flex--justify flex--middle u-mr+">
+            <label class=label--inline for=date-from>
+              <span class=a11y>From</span>
+              <i class="fa fa-calendar u-mr"></i>
+            </label>
+            <input id=date-from type=text class="text-input--bare u-mh-">
+            <label class="caps label--inline u-mr-" for=date-to>to</label>
+            <input id=date-to type=text class="text-input--bare u-ml-">
+          </li>
+          <li class="rangepicker__field text-input flex flex--justify flex--middle">
+            <label class=label--inline for=time-from>
+              <span class=a11y>From</span>
+              <i class="fa fa-clock-o u-mr"></i>
+            </label>
+            <input id=time-from type=text class="text-input--bare u-mh-">
+            <label class="caps label--inline u-mr-" for=time-to>to</label>
+            <input id=time-to type=text class="text-input--bare u-ml-">
+          </li>
+        </ol>
+      </form>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+
+        is: 'px-rangepicker'
+
+    });
+</script>
