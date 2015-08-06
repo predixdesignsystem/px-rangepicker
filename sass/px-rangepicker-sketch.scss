@@ -47,6 +47,9 @@ $inuit-enable-box--large        : true;
 .rangepicker__field {
   max-width: calculateRem(240px);
   .text-input--bare {
+    width: calculateRem(80px);
+    margin: 0;
+    padding: 0;
     font-size: 1rem;
     &:focus {
       outline: 0;

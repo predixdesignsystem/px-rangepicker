@@ -2757,6 +2757,9 @@ textarea {
 .rangepicker__field {
   max-width: 16rem; }
   .rangepicker__field .text-input--bare {
+    width: 5.3333333333rem;
+    margin: 0;
+    padding: 0;
     font-size: 1rem; }
     .rangepicker__field .text-input--bare:focus {
       outline: 0; }
