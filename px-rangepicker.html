@@ -46,13 +46,13 @@ Element providing solution to no problem in particular. As a simple, increments 
           <!--<input id=time-to type=text class=text-input--bare value="03:51:00 AM">-->
         <!--</div>-->
         <px-range-field class="u-mr+" icon="fa-calendar" from="06/24/2014" to="12/25/2015"></px-range-field>
-        <px-range-field class="u-mr+" icon="fa-clock-o" from="03:51:23 AM" to="09:00:00 PM"></px-range-field>
+        <px-range-field class="u-mr+" icon="fa-clock-o" from="{{fromTime}}" to="{{toTime}}"></px-range-field>
       </div>
       <div class=rangepicker__box>
         <div class="flex flex--middle border--bottom u-pr+">
-          <px-time-input class=u-pl+></px-time-input>
+          <px-time-input class=u-pl+ time="{{fromTime}}"></px-time-input>
           <span class=u-mh->-</span>
-          <px-time-input class="u-pr+ border--right"></px-time-input>
+          <px-time-input class="u-pr+ border--right" time="{{toTime}}"></px-time-input>
           <div class=rangepicker__box__select>
             <label class="caps weight--semibold u-mb-">Time Range</label>
             <select>
@@ -75,7 +75,13 @@ Element providing solution to no problem in particular. As a simple, increments 
 <script>
   Polymer({
 
-    is: 'px-rangepicker'
+    is: 'px-rangepicker',
+
+    ready: function() {
+      var now = moment();
+      this.set('fromTime', now.format("hh:mm:ss A"));
+      this.set('toTime', now.add(7, 'hours').format("hh:mm:ss A"));
+    }
 
   });
 </script>

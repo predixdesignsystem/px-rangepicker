@@ -42,13 +42,21 @@ Element providing solution to no problem in particular. As a simple, increments 
 
     is: 'px-time-input',
 
-    ready: function() {
-      var now = moment();
-      this.setTime({
-        hour: now.hour(),
-        minute: now.minute(),
-        second: now.second()
-      });
+    properties : {
+
+      time: {
+        type: String,
+        observer: 'timeChanged',
+        notify: true
+      }
+
+    },
+
+    timeChanged: function(newTime) {
+      var newTimeMoment = moment(newTime, 'hh:mm:ss A');
+      this.set('hours', newTimeMoment.format("hh"));
+      this.set('minutes', newTimeMoment.format("mm"));
+      this.set('seconds', newTimeMoment.format("ss"));
     },
 
     computeVisibleTime: function(hours, minutes, seconds) {
@@ -56,10 +64,16 @@ Element providing solution to no problem in particular. As a simple, increments 
     },
 
     setTime: function(timeObj) {
-      var time = moment(this.computeVisibleTime(timeObj.hour, timeObj.minute, timeObj.second), 'hh:mm:ss');
-      this.set('hours', time.format("hh"));
-      this.set('minutes', time.format("mm"));
-      this.set('seconds', time.format("ss"));
+      var time = moment({
+        hours: timeObj.hour,
+        minutes: timeObj.minute,
+        seconds: timeObj.second,
+        a: timeObj.a
+      });
+      var visibleTime = time.format('hh:mm:ss A');
+
+      this.set('time', visibleTime);
+
     },
 
     isValidTime: function(time) {
@@ -67,7 +81,7 @@ Element providing solution to no problem in particular. As a simple, increments 
     },
 
     getContinuedInput: function(currentInput, newCharacter) {
-       return currentInput.substr(currentInput.length - 1) + '' + newCharacter;
+       return currentInput.substr(currentInput.length - 1) + newCharacter;
     },
 
     changeTimeIfValid: function(fieldChanged, newCharacter) {
@@ -75,7 +89,8 @@ Element providing solution to no problem in particular. As a simple, increments 
       var time = {
         hour: this.hours,
         minute: this.minutes,
-        second: this.seconds
+        second: this.seconds,
+        a: 'am'
       };
 
       // first, try appending the new character as if the user is continuing their current number
