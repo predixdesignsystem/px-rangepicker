@@ -65,7 +65,11 @@ Element providing solution to no problem in particular. As a simple, increments 
       return moment(this.computeVisibleTime(time.hour, time.minute, time.second), 'h:m:s', true).isValid();
     },
 
-    changeTimeIfValid: function(fieldChanged, keyValue) {
+    getContinuedInput: function(currentInput, newCharacter) {
+       return currentInput.substr(currentInput.length - 1) + '' + newCharacter;
+    },
+
+    changeTimeIfValid: function(fieldChanged, newCharacter) {
 
       var time = {
         hour: this.hours,
@@ -73,20 +77,21 @@ Element providing solution to no problem in particular. As a simple, increments 
         second: this.seconds
       };
 
-      time[fieldChanged] = parseInt(time[fieldChanged]) + '' + keyValue;
+      // first, try appending the new character as if the user is continuing their current number
+      time[fieldChanged] = this.getContinuedInput(time[fieldChanged], newCharacter);
       if (this.isValidTime(time)) {
         this.setTime(time);
       }
 
       else {
-
-        time[fieldChanged] = keyValue;
+        // otherwise, try just using that new character as a new number
+        time[fieldChanged] = newCharacter;
 
         if (this.isValidTime(time)) {
           this.setTime(time);
         }
 
-        // if not a valid key, leave time as is currently
+        // if that doesn't work, ignore all other keys
 
       }
 
@@ -94,8 +99,10 @@ Element providing solution to no problem in particular. As a simple, increments 
 
     changeField: function(e, field) {
 
-      // always prevent default
-      e.preventDefault();
+      // if key is anything but a tab, prevent the default behavior
+      if(e.keyCode !== 9) {
+        e.preventDefault();
+      }
 
       var keyValue = e.keyCode - 48;
 
