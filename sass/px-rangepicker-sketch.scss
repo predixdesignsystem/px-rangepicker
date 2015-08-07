@@ -91,6 +91,9 @@ $inuit-enable-box--large        : true;
   @include inuit-font-size(15px);
   margin-top: -#{$inuit-base-spacing-unit--tiny};
   margin-left: $inuit-base-spacing-unit--small;
+  label {
+    margin-bottom: 0;
+  }
 }
 
 .rangepicker__box__select select {
