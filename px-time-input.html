@@ -19,15 +19,15 @@ Element providing solution to no problem in particular. As a simple, increments 
 @demo demo.html
 -->
 <dom-module id="px-time-input">
-  <link rel="import" type="css" href="css/px-rangepicker.css"/>
+  <link rel="import" type="css" href="css/px-time-input.css"/>
   <template>
-    <div class="text-input rangepicker__box__field">
-      <input type=text class="text-input--bare rangepicker__box__field__input" value="{{hours::input}}" on-keydown="changeHours"/>
+    <div class="text-input time-input__field">
+      <input type=text class="text-input--bare time-input__field__input" value="{{hours::input}}" on-keydown="changeHours"/>
       <span>:</span>
-      <input type=text class="text-input--bare rangepicker__box__field__input" value="{{minutes::input}}" on-keydown="changeMinutes"/>
+      <input type=text class="text-input--bare time-input__field__input" value="{{minutes::input}}" on-keydown="changeMinutes"/>
       <span>:</span>
-      <input type=text class="text-input--bare rangepicker__box__field__input" value="{{seconds::input}}" on-keydown="changeSeconds"/>
-      <div class=rangepicker__box__field__ampm>
+      <input type=text class="text-input--bare time-input__field__input" value="{{seconds::input}}" on-keydown="changeSeconds"/>
+      <div class=time-input__field__ampm>
         <label for=time-from-am>AM</label>
         <input class=a11y type=radio id=time-from-am name=ampm>
         <label for=time-from-pm>PM</label>

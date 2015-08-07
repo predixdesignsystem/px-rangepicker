@@ -9,7 +9,7 @@
  */
 
 //
-// Sass for the "sketch" notion of the px-rangepicker component
+// Sass for the "sketch" notion of the px-time-input component
 //
 // @author
 //
@@ -25,22 +25,13 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 @import "px-helpers-design/_generic.helpers.scss";
 
 // Base
-@import "px-flexbox-design/_base.flexbox.scss";
 @import "px-viewport-design/_base.viewport.scss";
 @import "px-typography-design/_base.typography.scss";
-@import "px-iconography-design/_base.iconography.scss";
 
 $inuit-enable-text-input--bare  : true;
 $inuit-enable-validation-states : true;
 
 @import "px-forms-design/_base.forms.scss";
-
-// Objects
-@import "px-list-bare-design/_objects.list-bare.scss";
-
-$inuit-enable-box--large        : true;
-
-@import "px-box-design/_objects.box.scss";
 
 // Component
 .text-input--bare {
@@ -51,27 +42,32 @@ $inuit-enable-box--large        : true;
   }
 }
 
-.rangepicker__field {
-  max-width: calculateRem(240px);
-  input {
-    @include inuit-font-size(15px,15px);
-    width: calculateRem(80px);
-    height: 2em;
+.time-input__field {
+  display: flex;
+  align-items: center;
+  max-width: calculateRem(215px);
+  height: 1.4444444444em;
+  padding: $inuit-base-spacing-unit--tiny $inuit-base-spacing-unit--small 0;
+  &, & ~ span {
+    @include inuit-font-size(45px);
   }
+}
+
+.time-input__field__input {
+  @include inuit-font-size(45px);
+  width: 1.0666666667em;
+  font-family: $predix-font-family;
+}
+
+.time-input__field__ampm {
+  @include inuit-font-size(15px);
+  margin-top: -#{$inuit-base-spacing-unit--tiny};
+  margin-left: $inuit-base-spacing-unit--small;
   label {
-    margin: 0;
+    margin-bottom: 0;
   }
 }
 
-.rangepicker__box {
-  margin-top: $inuit-base-spacing-unit--small;
-  border: 1px solid;
-  border-radius: 3px;
-  max-width: calculateRem(645px);
+.time-input__select select {
+  width: calculateRem(100px);
 }
-
-// Trumps
-$inuit-enable-margins--small    : true;
-$inuit-enable-margins--large    : true;
-
-@import "px-spacing-design/_trumps.spacing.scss";
