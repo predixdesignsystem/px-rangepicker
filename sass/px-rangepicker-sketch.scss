@@ -20,7 +20,6 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 */
 
 
-
 // Generic
 @import "px-normalize-design/_generic.normalize.scss";
 @import "px-box-sizing-design/_generic.box-sizing.scss";
@@ -48,6 +47,9 @@ $inuit-enable-box--large        : true;
 .rangepicker__field {
   max-width: calculateRem(240px);
   .text-input--bare {
+    width: calculateRem(80px);
+    margin: 0;
+    padding: 0;
     font-size: 1rem;
     &:focus {
       outline: 0;

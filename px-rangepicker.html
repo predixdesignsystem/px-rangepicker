@@ -1,3 +1,4 @@
+
 <!--
     Relative paths assume component is being run from inside an app or another component, where dependencies are flat
     siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
@@ -21,47 +22,47 @@ Element providing solution to no problem in particular. As a simple, increments 
 @demo demo.html
 -->
 <dom-module id="px-rangepicker">
-  <link rel="import" type="css" href="css/px-rangepicker.css"/>
-  <template>
-    <form>
-      <ol class="flex list-bare">
-        <li class="rangepicker__field text-input flex flex--justify flex--middle u-mr+">
-          <label class=label--inline for=date-from>
-            <span class=a11y>From</span>
-            <i class="fa fa-calendar u-mr"></i>
-          </label>
-          <input id=date-from type=text class="text-input--bare u-mh-">
-          <label class="caps label--inline u-mr-" for=date-to>to</label>
-          <input id=date-to type=text class="text-input--bare u-ml-">
-        </li>
-        <li class="rangepicker__field text-input flex flex--justify flex--middle">
-          <label class=label--inline for=time-from>
-            <span class=a11y>From</span>
-            <i class="fa fa-clock-o u-mr"></i>
-          </label>
-          <input id=time-from type=text class="text-input--bare u-mh-">
-          <label class="caps label--inline u-mr-" for=time-to>to</label>
-          <input id=time-to type=text class="text-input--bare u-ml-">
-        </li>
-      </ol>
-    </form>
-    <div class="box box--large rangepicker__box">
-      <form class="flex flex--middle">
-        <div class="text-input rangepicker__box__field">
-          <input class="text-input--bare rangepicker__box__field__input" value="{{hoursEntered::input}}"
-                 on-change="validateAndSetTime"/>
-          <span>:</span>
-          <input class="text-input--bare rangepicker__box__field__input" value="{{minutesEntered::input}}"
-                 on-change="validateAndSetTime"/>
-          <span>:</span>
-          <input class="text-input--bare rangepicker__box__field__input" value="{{secondsEntered::input}}"
-                 on-change="validateAndSetTime"/>
+    <link rel="import" type="css" href="css/px-rangepicker.css"/>
+    <template>
+      <form>
+        <ol class="flex list-bare">
+          <li class="rangepicker__field text-input flex flex--justify flex--middle u-mr+">
+            <label class=label--inline for=date-from>
+              <span class=a11y>From</span>
+              <i class="fa fa-calendar"></i>
+            </label>
+            <input id=date-from type=text class=text-input--bare>
+            <label class="caps label--inline" for=date-to>to</label>
+            <input id=date-to type=text class=text-input--bare>
+          </li>
+          <li class="rangepicker__field text-input flex flex--justify flex--middle">
+            <label class=label--inline for=time-from>
+              <span class=a11y>From</span>
+              <i class="fa fa-clock-o"></i>
+            </label>
+            <input id=time-from type=text class=text-input--bare>
+            <label class="caps label--inline" for=time-to>to</label>
+            <input id=time-to type=text class=text-input--bare>
+          </li>
+        </ol>
+      </form>
+      <div class="box box--large rangepicker__box">
+        <form class="flex flex--middle">
+          <div class="text-input rangepicker__box__field">
+            <input class="text-input--bare rangepicker__box__field__input" value="{{hoursEntered::input}}"
+                   on-change="validateAndSetTime"/>
+            <span>:</span>
+            <input class="text-input--bare rangepicker__box__field__input" value="{{minutesEntered::input}}"
+                   on-change="validateAndSetTime"/>
+            <span>:</span>
+            <input class="text-input--bare rangepicker__box__field__input" value="{{secondsEntered::input}}"
+                   on-change="validateAndSetTime"/>
 
-          <div class=rangepicker__box__field__ampm>
-            <div class=caps>AM</div>
-            <div class=caps>PM</div>
+            <div class=rangepicker__box__field__ampm>
+              <div class=caps>AM</div>
+              <div class=caps>PM</div>
+            </div>
           </div>
-        </div>
         <span class=u-mh->-</span>
 
         <div class="text-input rangepicker__box__field">
