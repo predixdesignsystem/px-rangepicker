@@ -19,7 +19,6 @@ THIS FILE SHOULD CONTAIN ONLY ABSTRACT/'SKETCH' THEME RULES, NOT SPECIFIC TO PRE
 Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 */
 
-
 // Generic
 @import "px-normalize-design/_generic.normalize.scss";
 @import "px-box-sizing-design/_generic.box-sizing.scss";
@@ -44,16 +43,23 @@ $inuit-enable-box--large        : true;
 @import "px-box-design/_objects.box.scss";
 
 // Component
+.text-input--bare {
+  margin: 0;
+  padding: 0;
+  &:focus {
+    outline: 0;
+  }
+}
+
 .rangepicker__field {
   max-width: calculateRem(240px);
-  .text-input--bare {
+  input {
+    @include inuit-font-size(15px,15px);
     width: calculateRem(80px);
+    height: 2em;
+  }
+  label {
     margin: 0;
-    padding: 0;
-    font-size: 1rem;
-    &:focus {
-      outline: 0;
-    }
   }
 }
 
@@ -68,7 +74,7 @@ $inuit-enable-box--large        : true;
   display: flex;
   align-items: center;
   max-width: calculateRem(215px);
-  height: calculateRem(65px);
+  height: 1.4444444444em;
   padding: $inuit-base-spacing-unit--tiny $inuit-base-spacing-unit--small 0;
   &, & ~ span {
     @include inuit-font-size(45px);
@@ -77,7 +83,8 @@ $inuit-enable-box--large        : true;
 
 .rangepicker__box__field__input {
   @include inuit-font-size(45px);
-  width:calculateRem(70px);
+  width: 1.0666666667em;
+  font-family: $predix-font-family;
 }
 
 .rangepicker__box__field__ampm {
@@ -86,6 +93,9 @@ $inuit-enable-box--large        : true;
   margin-left: $inuit-base-spacing-unit--small;
 }
 
+.rangepicker__box__select select {
+  width: calculateRem(100px);
+}
 
 // Trumps
 $inuit-enable-margins           : true;

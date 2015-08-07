@@ -2765,15 +2765,21 @@ textarea {
 .box--large {
   padding: 1.3333333333rem; }
 
+.text-input--bare {
+  margin: 0;
+  padding: 0; }
+  .text-input--bare:focus {
+    outline: 0; }
+
 .rangepicker__field {
   max-width: 16rem; }
-  .rangepicker__field .text-input--bare {
+  .rangepicker__field input {
+    font-size: 1rem;
+    line-height: 1;
     width: 5.3333333333rem;
-    margin: 0;
-    padding: 0;
-    font-size: 1rem; }
-    .rangepicker__field .text-input--bare:focus {
-      outline: 0; }
+    height: 2em; }
+  .rangepicker__field label {
+    margin: 0; }
 
 .rangepicker__box {
   margin-top: 0.6666666667rem;
@@ -2789,7 +2795,7 @@ textarea {
       -ms-flex-align: center;
           align-items: center;
   max-width: 14.3333333333rem;
-  height: 4.3333333333rem;
+  height: 1.4444444444em;
   padding: 0.3333333333rem 0.6666666667rem 0; }
   .rangepicker__box__field, .rangepicker__box__field ~ span {
     font-size: 3rem;
@@ -2798,13 +2804,17 @@ textarea {
 .rangepicker__box__field__input {
   font-size: 3rem;
   line-height: 1.3333333333;
-  width: 4.6666666667rem; }
+  width: 1.0666666667em;
+  font-family: "GE Inspira Sans", sans-serif; }
 
 .rangepicker__box__field__ampm {
   font-size: 1rem;
   line-height: 1.3333333333;
   margin-top: -0.3333333333rem;
   margin-left: 0.6666666667rem; }
+
+.rangepicker__box__select select {
+  width: 6.6666666667rem; }
 
 /**
  * Margin and padding helper classes with breakpoint prefixes. Use these to tweak layout on a micro

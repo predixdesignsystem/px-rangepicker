@@ -48,22 +48,19 @@ Element providing solution to no problem in particular. As a simple, increments 
     <div class="box box--large rangepicker__box">
       <form class="flex flex--middle">
         <div class="text-input rangepicker__box__field">
-          <input class="text-input--bare rangepicker__box__field__input" value="{{hours::input}}" on-keydown="checkthis" id="hours"/>
+          <input type=text class="text-input--bare rangepicker__box__field__input" value="{{hours::input}}" on-keydown="checkthis">
           <span>:</span>
-          <input class="text-input--bare rangepicker__box__field__input" value="{{minutes::input}}"/>
+          <input type=text class="text-input--bare rangepicker__box__field__input" value="{{minutes::input}}" on-keydown="changeMinutes">
           <span>:</span>
-          <input class="text-input--bare rangepicker__box__field__input" value="{{seconds::input}}"/>
-
+          <input type=text class="text-input--bare rangepicker__box__field__input" value="{{seconds::input}}" on-keydown="changeSeconds">
           <div class=rangepicker__box__field__ampm>
             <div class=caps>AM</div>
             <div class=caps>PM</div>
           </div>
         </div>
         <span class=u-mh->-</span>
-
         <div class="text-input rangepicker__box__field">
           <span>00</span>:<span>00</span>:<span>00</span>
-
           <div class=rangepicker__box__field__ampm>
             <div class=caps>AM</div>
             <div class=caps>PM</div>
