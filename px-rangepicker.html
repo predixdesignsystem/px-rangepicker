@@ -1,4 +1,3 @@
-
 <!--
     Relative paths assume component is being run from inside an app or another component, where dependencies are flat
     siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
@@ -22,47 +21,44 @@ Element providing solution to no problem in particular. As a simple, increments 
 @demo demo.html
 -->
 <dom-module id="px-rangepicker">
-    <link rel="import" type="css" href="css/px-rangepicker.css"/>
-    <template>
-      <form>
-        <ol class="flex list-bare">
-          <li class="rangepicker__field text-input flex flex--justify flex--middle u-mr+">
-            <label class=label--inline for=date-from>
-              <span class=a11y>From</span>
-              <i class="fa fa-calendar"></i>
-            </label>
-            <input id=date-from type=text class=text-input--bare>
-            <label class="caps label--inline" for=date-to>to</label>
-            <input id=date-to type=text class=text-input--bare>
-          </li>
-          <li class="rangepicker__field text-input flex flex--justify flex--middle">
-            <label class=label--inline for=time-from>
-              <span class=a11y>From</span>
-              <i class="fa fa-clock-o"></i>
-            </label>
-            <input id=time-from type=text class=text-input--bare>
-            <label class="caps label--inline" for=time-to>to</label>
-            <input id=time-to type=text class=text-input--bare>
-          </li>
-        </ol>
-      </form>
-      <div class="box box--large rangepicker__box">
-        <form class="flex flex--middle">
-          <div class="text-input rangepicker__box__field">
-            <input class="text-input--bare rangepicker__box__field__input" value="{{hoursEntered::input}}"
-                   on-change="validateAndSetTime"/>
-            <span>:</span>
-            <input class="text-input--bare rangepicker__box__field__input" value="{{minutesEntered::input}}"
-                   on-change="validateAndSetTime"/>
-            <span>:</span>
-            <input class="text-input--bare rangepicker__box__field__input" value="{{secondsEntered::input}}"
-                   on-change="validateAndSetTime"/>
+  <link rel="import" type="css" href="css/px-rangepicker.css"/>
+  <template>
+    <form>
+      <ol class="flex list-bare">
+        <li class="rangepicker__field text-input flex flex--justify flex--middle u-mr+">
+          <label class=label--inline for=date-from>
+            <span class=a11y>From</span>
+            <i class="fa fa-calendar"></i>
+          </label>
+          <input id=date-from type=text class=text-input--bare>
+          <label class="caps label--inline" for=date-to>to</label>
+          <input id=date-to type=text class=text-input--bare>
+        </li>
+        <li class="rangepicker__field text-input flex flex--justify flex--middle">
+          <label class=label--inline for=time-from>
+            <span class=a11y>From</span>
+            <i class="fa fa-clock-o"></i>
+          </label>
+          <input id=time-from type=text class=text-input--bare>
+          <label class="caps label--inline" for=time-to>to</label>
+          <input id=time-to type=text class=text-input--bare>
+        </li>
+      </ol>
+    </form>
+    <div class="box box--large rangepicker__box">
+      <form class="flex flex--middle">
+        <div class="text-input rangepicker__box__field">
+          <input class="text-input--bare rangepicker__box__field__input" value="{{hours::input}}" on-keydown="checkthis" id="hours"/>
+          <span>:</span>
+          <input class="text-input--bare rangepicker__box__field__input" value="{{minutes::input}}"/>
+          <span>:</span>
+          <input class="text-input--bare rangepicker__box__field__input" value="{{seconds::input}}"/>
 
-            <div class=rangepicker__box__field__ampm>
-              <div class=caps>AM</div>
-              <div class=caps>PM</div>
-            </div>
+          <div class=rangepicker__box__field__ampm>
+            <div class=caps>AM</div>
+            <div class=caps>PM</div>
           </div>
+        </div>
         <span class=u-mh->-</span>
 
         <div class="text-input rangepicker__box__field">
@@ -75,7 +71,6 @@ Element providing solution to no problem in particular. As a simple, increments 
         </div>
       </form>
     </div>
-    <div>{{time}}</div>
   </template>
 </dom-module>
 
@@ -88,19 +83,59 @@ Element providing solution to no problem in particular. As a simple, increments 
       var now = moment();
       console.log(now.second());
 
-      this.hoursEntered = now.format("hh");
-      this.minutesEntered = now.format("mm");
-      this.secondsEntered = now.format("ss");
+      this.setTime(now);
 
-      this.validateAndSetTime();
     },
 
-    validateAndSetTime: function() {
-      var enteredTime = moment({hour: this.hoursEntered, minute: this.minutesEntered, second: this.secondsEntered});
-      if (enteredTime.isValid()) {
-        this.set('time', enteredTime.format("hh:mm:ss"));
-      }
-    }
+    computeVisibleTime: function(hours, minutes, seconds) {
+      return hours + ':' + minutes + ':' + seconds;
+    },
 
-  });
+    setTime: function(time) {
+      this.set('hours', time.format("hh"));
+      this.set('minutes', time.format("mm"));
+      this.set('seconds', time.format("ss"));
+    },
+
+    checkthis: function(e) {
+
+      // always prevent default
+      e.preventDefault();
+
+      var keyValue = e.keyCode - 48;
+
+      if (keyValue >= 0 && keyValue <= 9) {
+
+        // continued typing
+        var continuedInput = parseInt(this.hours) + '' + keyValue;
+        if(moment(this.computeVisibleTime(continuedInput, this.minutes, this.seconds), 'h:m:s', true).isValid()) {
+          this.setTime(moment(this.computeVisibleTime(continuedInput, this.minutes, this.seconds), 'hh:mm:ss'));
+        }
+
+        else {
+
+          // start fresh
+          if(moment(this.computeVisibleTime(keyValue, this.minutes, this.seconds), 'h:m:s', true).isValid()) {
+            this.setTime(moment(this.computeVisibleTime(keyValue, this.minutes, this.seconds), 'hh:mm:ss'));
+          }
+
+          // if not valid, leave time as is
+
+        }
+      }
+
+        // TODO
+//      else {
+//
+//        var numPadKeyValue = e.keyCode - 96;
+//
+//        if (numPadKeyValue >= 0 && numPadKeyValue <= 9) {
+//          console.log('keep it!', numPadKeyValue);
+//        }
+//
+//      }
+
+      }
+
+    });
 </script>

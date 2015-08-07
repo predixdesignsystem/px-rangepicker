@@ -77,7 +77,7 @@ $inuit-enable-box--large        : true;
 
 .rangepicker__box__field__input {
   @include inuit-font-size(45px);
-  width:calculateRem(50px);
+  width:calculateRem(70px);
 }
 
 .rangepicker__box__field__ampm {
