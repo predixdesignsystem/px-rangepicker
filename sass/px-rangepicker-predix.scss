@@ -38,3 +38,7 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 .rangepicker__box__field ~ span {
   color: $gray5;
 }
+
+.rangepicker__box__field .text-input--bare {
+  background-color: transparent;
+}

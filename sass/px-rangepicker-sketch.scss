@@ -33,6 +33,7 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 @import "px-iconography-design/_base.iconography.scss";
 
 $inuit-enable-text-input--bare  : true;
+$inuit-enable-validation-states : true;
 
 @import "px-forms-design/_base.forms.scss";
 
@@ -72,11 +73,17 @@ $inuit-enable-box--large        : true;
   }
 }
 
+.rangepicker__box__field__input {
+  @include inuit-font-size(45px);
+  width:calculateRem(50px);
+}
+
 .rangepicker__box__field__ampm {
   @include inuit-font-size(15px);
   margin-top: -#{$inuit-base-spacing-unit--tiny};
   margin-left: $inuit-base-spacing-unit--small;
 }
+
 
 // Trumps
 $inuit-enable-margins           : true;
