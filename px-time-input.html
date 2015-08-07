@@ -1,0 +1,134 @@
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
+    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs
+    See https://github.sw.ge.com/jreichenberg/grunt-dep-serve#why-do-we-need-this
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+
+<script src="../moment/moment.js"></script>
+
+<!--
+Element providing solution to no problem in particular. As a simple, increments a counter when clicked.
+
+##### Usage
+
+@element px-rangepicker
+@blurb Element providing solution to no problem in particular.
+@homepage index.html
+@demo demo.html
+-->
+<dom-module id="px-time-input">
+  <link rel="import" type="css" href="css/px-rangepicker.css"/>
+  <template>
+    <div class="text-input rangepicker__box__field">
+      <input type=text class="text-input--bare rangepicker__box__field__input" value="{{hours::input}}" on-keydown="changeHours"/>
+      <span>:</span>
+      <input type=text class="text-input--bare rangepicker__box__field__input" value="{{minutes::input}}" on-keydown="changeMinutes"/>
+      <span>:</span>
+      <input type=text class="text-input--bare rangepicker__box__field__input" value="{{seconds::input}}" on-keydown="changeSeconds"/>
+
+      <div class=rangepicker__box__field__ampm>
+        <div class=caps>AM</div>
+        <div class=caps>PM</div>
+      </div>
+    </div>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'px-time-input',
+
+    ready: function() {
+      var now = moment();
+      this.setTime({
+        hour: now.hour(),
+        minute: now.minute(),
+        second: now.second()
+      });
+    },
+
+    computeVisibleTime: function(hours, minutes, seconds) {
+      return hours + ':' + minutes + ':' + seconds;
+    },
+
+    setTime: function(timeObj) {
+      var time = moment(this.computeVisibleTime(timeObj.hour, timeObj.minute, timeObj.second), 'hh:mm:ss');
+      this.set('hours', time.format("hh"));
+      this.set('minutes', time.format("mm"));
+      this.set('seconds', time.format("ss"));
+    },
+
+    isValidTime: function(time) {
+      return moment(this.computeVisibleTime(time.hour, time.minute, time.second), 'h:m:s', true).isValid();
+    },
+
+    changeTimeIfValid: function(fieldChanged, keyValue) {
+
+      var time = {
+        hour: this.hours,
+        minute: this.minutes,
+        second: this.seconds
+      };
+
+      time[fieldChanged] = parseInt(time[fieldChanged]) + '' + keyValue;
+      if (this.isValidTime(time)) {
+        this.setTime(time);
+      }
+
+      else {
+
+        time[fieldChanged] = keyValue;
+
+        if (this.isValidTime(time)) {
+          this.setTime(time);
+        }
+
+        // if not a valid key, leave time as is currently
+
+      }
+
+    },
+
+    changeField: function(e, field) {
+
+      // always prevent default
+      e.preventDefault();
+
+      var keyValue = e.keyCode - 48;
+
+      // normal number keys
+      if (keyValue >= 0 && keyValue <= 9) {
+        this.changeTimeIfValid(field, keyValue);
+      }
+
+      else {
+
+        // number pad number keys
+        var numPadKeyValue = e.keyCode - 96;
+        if (numPadKeyValue >= 0 && numPadKeyValue <= 9) {
+          this.changeTimeIfValid(field, numPadKeyValue);
+        }
+
+        // ignore all other key presses
+      }
+
+    },
+
+    changeHours: function(e) {
+      this.changeField(e, 'hour');
+    },
+
+    changeMinutes: function(e) {
+      this.changeField(e, 'minute');
+    },
+
+    changeSeconds: function(e) {
+      this.changeField(e, 'second');
+    }
+
+
+  });
+</script>
