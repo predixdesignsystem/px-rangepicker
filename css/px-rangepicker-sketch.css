@@ -2731,39 +2731,70 @@ textarea {
   border-color: #46ad00;
   color: inherit; }
 
-.list-bare {
+.btn {
+  display: inline-block;
+  overflow: visible;
   margin: 0;
-  padding: 0;
-  list-style: none; }
+  border: 1px solid #b1b1bc;
+  border-radius: 3px;
+  padding: 0 1em;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+  font: inherit;
+  line-height: calc(2em - 2px);
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+  background-color: #e4e4ea; }
+  .btn,
+  .btn:link,
+  .btn:visited,
+  .btn:hover,
+  .btn:focus,
+  .btn:active {
+    color: #3b3b3f; }
+  .btn:hover,
+  .btn:focus {
+    border-color: #9999a3;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    background-color: #b1b1bc; }
+  .btn:active {
+    border-color: #7c7c84;
+    box-shadow: none;
+    background-color: #9999a3; }
 
-/*------------------------------------*    #CLEARFIX
-\*------------------------------------*/
-/**
- * Micro clearfix, as per: css-101.org/articles/clearfix/latest-new-clearfix-so-far.php
- * Extend the clearfix class with Sass to avoid the `.clearfix` class appearing
- * over and over in your markup.
- */
-.clearfix:after,
-.box:after {
-  content: "";
-  display: table;
-  clear: both; }
+button.btn {
+  -webkit-appearance: button; }
 
 /**
-* 1. So we can apply the `.box` class to naturally-inline elements.
+* Establish default space between adjacent buttons
 */
-.box {
-  display: block;
-  /* [1] */
-  padding: 1rem; }
-  .box > :last-child {
-    margin-bottom: 0; }
+.btn + .btn {
+  margin-left: 0.6666666667rem; }
 
 /**
-   * Large box.
+   * Change button colors for primary buttons
    */
-.box--large {
-  padding: 1.3333333333rem; }
+.btn--primary {
+  border-color: #2b5ea2;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+  background-color: #3e87e8; }
+  .btn--primary,
+  .btn--primary:link,
+  .btn--primary:visited,
+  .btn--primary:hover,
+  .btn--primary:focus,
+  .btn--primary:active {
+    color: white; }
+  .btn--primary:hover,
+  .btn--primary:focus {
+    border-color: transparent;
+    background-color: #3573c5; }
+  .btn--primary:active {
+    border-color: transparent;
+    background-color: #2b5ea2; }
 
 .text-input--bare {
   margin: 0;
@@ -2786,6 +2817,24 @@ textarea {
   border: 1px solid;
   border-radius: 3px;
   max-width: 43rem; }
+  .rangepicker__box span {
+    font-size: 3rem;
+    line-height: 1.3333333333; }
+
+.border--right {
+  border-right: 1px solid; }
+
+.border--bottom {
+  border-bottom: 1px solid; }
+
+.rangepicker__box__select {
+  -webkit-align-self: flex-start;
+      -ms-flex-item-align: start;
+          align-self: flex-start;
+  margin-top: 1.3333333333rem;
+  margin-left: 1.3333333333rem; }
+  .rangepicker__box__select select {
+    max-width: 6.6666666667rem; }
 
 /**
  * Margin and padding helper classes. Use these to tweak layout on a micro
@@ -2844,3 +2893,55 @@ textarea {
 .u-mv\00002b {
   margin-top: 1.3333333333rem !important;
   margin-bottom: 1.3333333333rem !important; }
+
+/**
+     * Add small paddings.
+     */
+.u-p- {
+  padding: 0.6666666667rem !important; }
+
+.u-pt- {
+  padding-top: 0.6666666667rem !important; }
+
+.u-pr- {
+  padding-right: 0.6666666667rem !important; }
+
+.u-pb- {
+  padding-bottom: 0.6666666667rem !important; }
+
+.u-pl- {
+  padding-left: 0.6666666667rem !important; }
+
+.u-ph- {
+  padding-right: 0.6666666667rem !important;
+  padding-left: 0.6666666667rem !important; }
+
+.u-pv- {
+  padding-top: 0.6666666667rem !important;
+  padding-bottom: 0.6666666667rem !important; }
+
+/**
+     * Add large paddings.
+     */
+.u-p\00002b {
+  padding: 1.3333333333rem !important; }
+
+.u-pt\00002b {
+  padding-top: 1.3333333333rem !important; }
+
+.u-pr\00002b {
+  padding-right: 1.3333333333rem !important; }
+
+.u-pb\00002b {
+  padding-bottom: 1.3333333333rem !important; }
+
+.u-pl\00002b {
+  padding-left: 1.3333333333rem !important; }
+
+.u-ph\00002b {
+  padding-right: 1.3333333333rem !important;
+  padding-left: 1.3333333333rem !important; }
+
+.u-pv\00002b {
+  padding-top: 1.3333333333rem !important;
+  padding-bottom: 1.3333333333rem !important; }

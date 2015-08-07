@@ -36,11 +36,9 @@ $inuit-enable-validation-states : true;
 @import "px-forms-design/_base.forms.scss";
 
 // Objects
-@import "px-list-bare-design/_objects.list-bare.scss";
+$inuit-enable-btn--primary      : true;
 
-$inuit-enable-box--large        : true;
-
-@import "px-box-design/_objects.box.scss";
+@import "px-buttons-design/_objects.buttons.scss";
 
 // Component
 .text-input--bare {
@@ -68,10 +66,32 @@ $inuit-enable-box--large        : true;
   border: 1px solid;
   border-radius: 3px;
   max-width: calculateRem(645px);
+  span {
+    @include inuit-font-size(45px);
+  }
+}
+
+.border--right {
+  border-right: 1px solid;
+}
+
+.border--bottom {
+  border-bottom: 1px solid;
+}
+
+.rangepicker__box__select {
+  align-self: flex-start;
+  margin-top: $inuit-base-spacing-unit--large;
+  margin-left: $inuit-base-spacing-unit--large;
+  select {
+    max-width: calculateRem(100px);
+  }
 }
 
 // Trumps
 $inuit-enable-margins--small    : true;
 $inuit-enable-margins--large    : true;
+$inuit-enable-paddings--small   : true;
+$inuit-enable-paddings--large   : true;
 
 @import "px-spacing-design/_trumps.spacing.scss";

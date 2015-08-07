@@ -25,8 +25,8 @@ Element providing solution to no problem in particular. As a simple, increments 
   <link rel="import" type="css" href="css/px-rangepicker.css"/>
   <template>
     <form>
-      <ol class="flex list-bare">
-        <li class="rangepicker__field text-input flex flex--justify flex--middle u-mr+">
+      <div class=flex>
+        <div class="rangepicker__field text-input flex flex--justify flex--middle u-mr+">
           <label class=label--inline for=date-from>
             <span class=a11y>From</span>
             <i class="fa fa-calendar"></i>
@@ -34,8 +34,8 @@ Element providing solution to no problem in particular. As a simple, increments 
           <input id=date-from type=text class=text-input--bare>
           <label class="caps label--inline" for=date-to>to</label>
           <input id=date-to type=text class=text-input--bare>
-        </li>
-        <li class="rangepicker__field text-input flex flex--justify flex--middle">
+        </div>
+        <div class="rangepicker__field text-input flex flex--justify flex--middle">
           <label class=label--inline for=time-from>
             <span class=a11y>From</span>
             <i class="fa fa-clock-o"></i>
@@ -43,16 +43,29 @@ Element providing solution to no problem in particular. As a simple, increments 
           <input id=time-from type=text class=text-input--bare>
           <label class="caps label--inline" for=time-to>to</label>
           <input id=time-to type=text class=text-input--bare>
-        </li>
-      </ol>
+        </div>
+      </div>
+      <div class=rangepicker__box>
+        <div class="flex flex--middle border--bottom u-pr+">
+          <px-time-input class=u-pl+></px-time-input>
+          <span class=u-mh->-</span>
+          <px-time-input class="u-pr+ border--right"></px-time-input>
+          <div class=rangepicker__box__select>
+            <label class="caps weight--semibold u-mb-">Time Range</label>
+            <select>
+              <option>Select</option>
+              <option>1 min</option>
+              <option>5 mins</option>
+              <option>10 mins</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex flex--right u-p-">
+          <input class="btn btn--primary" type=submit value=Apply>
+          <button class=btn>Cancel</button>
+        </div>
+      </div>
     </form>
-    <div class="box box--large rangepicker__box">
-      <form class="flex flex--middle">
-        <px-time-input></px-time-input>
-        <span class=u-mh->-</span>
-        <px-time-input></px-time-input>
-      </form>
-    </div>
   </template>
 </dom-module>
 

@@ -786,7 +786,13 @@ textarea {
   .text-input--bare:focus {
     outline: 0; }
 
+:host {
+  padding-top: 1.3333333333rem;
+  padding-bottom: 1.3333333333rem; }
+
 .time-input__field {
+  font-size: 3rem;
+  line-height: 1.3333333333;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -796,9 +802,6 @@ textarea {
   max-width: 14.3333333333rem;
   height: 1.4444444444em;
   padding: 0.3333333333rem 0.6666666667rem 0; }
-  .time-input__field, .time-input__field ~ span {
-    font-size: 3rem;
-    line-height: 1.3333333333; }
 
 .time-input__field__input {
   font-size: 3rem;
@@ -813,6 +816,3 @@ textarea {
   margin-left: 0.6666666667rem; }
   .time-input__field__ampm label {
     margin-bottom: 0; }
-
-.time-input__select select {
-  width: 6.6666666667rem; }

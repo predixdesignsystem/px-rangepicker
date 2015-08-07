@@ -42,15 +42,18 @@ $inuit-enable-validation-states : true;
   }
 }
 
+:host {
+  padding-top: $inuit-base-spacing-unit--large;
+  padding-bottom: $inuit-base-spacing-unit--large;
+}
+
 .time-input__field {
+  @include inuit-font-size(45px);
   display: flex;
   align-items: center;
   max-width: calculateRem(215px);
   height: 1.4444444444em;
   padding: $inuit-base-spacing-unit--tiny $inuit-base-spacing-unit--small 0;
-  &, & ~ span {
-    @include inuit-font-size(45px);
-  }
 }
 
 .time-input__field__input {
@@ -66,8 +69,4 @@ $inuit-enable-validation-states : true;
   label {
     margin-bottom: 0;
   }
-}
-
-.time-input__select select {
-  width: calculateRem(100px);
 }
