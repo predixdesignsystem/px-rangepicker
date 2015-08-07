@@ -48,11 +48,11 @@ Element providing solution to no problem in particular. As a simple, increments 
     <div class="box box--large rangepicker__box">
       <form class="flex flex--middle">
         <div class="text-input rangepicker__box__field">
-          <input class="text-input--bare rangepicker__box__field__input" value="{{hours::input}}" on-keydown="checkthis" id="hours"/>
+          <input class="text-input--bare rangepicker__box__field__input" value="{{hours::input}}" on-keydown="changeHours"/>
           <span>:</span>
-          <input class="text-input--bare rangepicker__box__field__input" value="{{minutes::input}}"/>
+          <input class="text-input--bare rangepicker__box__field__input" value="{{minutes::input}}" on-keydown="changeMinutes"/>
           <span>:</span>
-          <input class="text-input--bare rangepicker__box__field__input" value="{{seconds::input}}"/>
+          <input class="text-input--bare rangepicker__box__field__input" value="{{seconds::input}}" on-keydown="changeSeconds"/>
 
           <div class=rangepicker__box__field__ampm>
             <div class=caps>AM</div>
@@ -81,61 +81,92 @@ Element providing solution to no problem in particular. As a simple, increments 
 
     ready: function() {
       var now = moment();
-      console.log(now.second());
-
-      this.setTime(now);
-
+      this.setTime({
+        hour: now.hour(),
+        minute: now.minute(),
+        second: now.second()
+      });
     },
 
     computeVisibleTime: function(hours, minutes, seconds) {
       return hours + ':' + minutes + ':' + seconds;
     },
 
-    setTime: function(time) {
+    setTime: function(timeObj) {
+      var time = moment(this.computeVisibleTime(timeObj.hour, timeObj.minute, timeObj.second), 'hh:mm:ss');
       this.set('hours', time.format("hh"));
       this.set('minutes', time.format("mm"));
       this.set('seconds', time.format("ss"));
     },
 
-    checkthis: function(e) {
+    isValidTime: function(time) {
+      return moment(this.computeVisibleTime(time.hour, time.minute, time.second), 'h:m:s', true).isValid();
+    },
+
+    changeTimeIfValid: function(fieldChanged, keyValue) {
+
+      var time = {
+        hour: this.hours,
+        minute: this.minutes,
+        second: this.seconds
+      };
+
+      time[fieldChanged] = parseInt(time[fieldChanged]) + '' + keyValue;
+      if(this.isValidTime(time)) {
+        this.setTime(time);
+      }
+
+      else {
+
+        time[fieldChanged] = keyValue;
+
+        if(this.isValidTime(time)) {
+          this.setTime(time);
+        }
+
+        // if not a valid key, leave time as is currently
+
+      }
+
+    },
+
+    changeField: function(e, field) {
 
       // always prevent default
       e.preventDefault();
 
       var keyValue = e.keyCode - 48;
 
+      // normal number keys
       if (keyValue >= 0 && keyValue <= 9) {
-
-        // continued typing
-        var continuedInput = parseInt(this.hours) + '' + keyValue;
-        if(moment(this.computeVisibleTime(continuedInput, this.minutes, this.seconds), 'h:m:s', true).isValid()) {
-          this.setTime(moment(this.computeVisibleTime(continuedInput, this.minutes, this.seconds), 'hh:mm:ss'));
-        }
-
-        else {
-
-          // start fresh
-          if(moment(this.computeVisibleTime(keyValue, this.minutes, this.seconds), 'h:m:s', true).isValid()) {
-            this.setTime(moment(this.computeVisibleTime(keyValue, this.minutes, this.seconds), 'hh:mm:ss'));
-          }
-
-          // if not valid, leave time as is
-
-        }
+        this.changeTimeIfValid(field, keyValue);
       }
 
-        // TODO
-//      else {
-//
-//        var numPadKeyValue = e.keyCode - 96;
-//
-//        if (numPadKeyValue >= 0 && numPadKeyValue <= 9) {
-//          console.log('keep it!', numPadKeyValue);
-//        }
-//
-//      }
+      else {
 
+        // number pad number keys
+        var numPadKeyValue = e.keyCode - 96;
+        if (numPadKeyValue >= 0 && numPadKeyValue <= 9) {
+          this.changeTimeIfValid(field, numPadKeyValue);
+        }
+
+        // ignore all other key presses
       }
 
-    });
+    },
+
+    changeHours: function(e) {
+      this.changeField(e, 'hour');
+    },
+
+    changeMinutes: function(e) {
+      this.changeField(e, 'minute');
+    },
+
+    changeSeconds: function(e) {
+      this.changeField(e, 'second');
+    }
+
+
+  });
 </script>
