@@ -6,6 +6,7 @@
 -->
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="px-time-input.html"/>
+<link rel="import" href="px-range-field.html"/>
 
 <script src="../moment/moment.js"></script>
 
@@ -26,24 +27,26 @@ Element providing solution to no problem in particular. As a simple, increments 
   <template>
     <form>
       <div class=flex>
-        <div class="rangepicker__field text-input flex flex--justify flex--middle u-mr+">
-          <label class=label--inline for=date-from>
-            <span class=a11y>From</span>
-            <i class="fa fa-calendar"></i>
-          </label>
-          <input id=date-from type=text class=text-input--bare>
-          <label class="caps label--inline" for=date-to>to</label>
-          <input id=date-to type=text class=text-input--bare>
-        </div>
-        <div class="rangepicker__field text-input flex flex--justify flex--middle">
-          <label class=label--inline for=time-from>
-            <span class=a11y>From</span>
-            <i class="fa fa-clock-o"></i>
-          </label>
-          <input id=time-from type=text class=text-input--bare>
-          <label class="caps label--inline" for=time-to>to</label>
-          <input id=time-to type=text class=text-input--bare>
-        </div>
+        <!--<div class="rangepicker__field text-input flex flex--justify flex--middle u-mr+">-->
+          <!--<label class=label--inline for=date-from>-->
+            <!--<span class=a11y>From</span>-->
+            <!--<i class="fa fa-calendar"></i>-->
+          <!--</label>-->
+          <!--<input id=date-from type=text class=text-input--bare>-->
+          <!--<label class="caps label--inline" for=date-to>to</label>-->
+          <!--<input id=date-to type=text class=text-input--bare>-->
+        <!--</div>-->
+        <!--<div class="rangepicker__field text-input flex flex--justify flex--middle">-->
+          <!--<label class=label--inline for=time-from>-->
+            <!--<span class=a11y>From</span>-->
+            <!--<i class="fa fa-clock-o"></i>-->
+          <!--</label>-->
+          <!--<input id=time-from type=text class=text-input--bare value="03:51:23 AM">-->
+          <!--<label class="caps label--inline" for=time-to>to</label>-->
+          <!--<input id=time-to type=text class=text-input--bare value="03:51:00 AM">-->
+        <!--</div>-->
+        <px-range-field class="u-mr+" icon="fa-calendar" from="06/24/2014" to="12/25/2015"></px-range-field>
+        <px-range-field class="u-mr+" icon="fa-clock-o" from="03:51:23 AM" to="09:00:00 PM"></px-range-field>
       </div>
       <div class=rangepicker__box>
         <div class="flex flex--middle border--bottom u-pr+">
