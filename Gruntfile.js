@@ -21,10 +21,16 @@ module.exports = function (grunt) {
                   bower: true
                 }
             },
-            dist: {
+            rangepicker: {
                 files: {
                     'css/noprefix/px-rangepicker-sketch.css': 'sass/px-rangepicker-sketch.scss',
                     'css/noprefix/px-rangepicker.css': 'sass/px-rangepicker-predix.scss'
+                }
+            },
+            timeInput: {
+                files: {
+                    'css/noprefix/px-time-input-sketch.css': 'sass/px-time-input-sketch.scss',
+                    'css/noprefix/px-time-input.css': 'sass/px-time-input-predix.scss'
                 }
             }
         },
