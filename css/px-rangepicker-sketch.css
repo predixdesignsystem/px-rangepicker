@@ -2731,6 +2731,71 @@ textarea {
   border-color: #46ad00;
   color: inherit; }
 
+.btn {
+  display: inline-block;
+  overflow: visible;
+  margin: 0;
+  border: 1px solid #b1b1bc;
+  border-radius: 3px;
+  padding: 0 1em;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+  font: inherit;
+  line-height: calc(2em - 2px);
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+  background-color: #e4e4ea; }
+  .btn,
+  .btn:link,
+  .btn:visited,
+  .btn:hover,
+  .btn:focus,
+  .btn:active {
+    color: #3b3b3f; }
+  .btn:hover,
+  .btn:focus {
+    border-color: #9999a3;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    background-color: #b1b1bc; }
+  .btn:active {
+    border-color: #7c7c84;
+    box-shadow: none;
+    background-color: #9999a3; }
+
+button.btn {
+  -webkit-appearance: button; }
+
+/**
+* Establish default space between adjacent buttons
+*/
+.btn + .btn {
+  margin-left: 0.6666666667rem; }
+
+/**
+   * Change button colors for primary buttons
+   */
+.btn--primary {
+  border-color: #2b5ea2;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+  background-color: #3e87e8; }
+  .btn--primary,
+  .btn--primary:link,
+  .btn--primary:visited,
+  .btn--primary:hover,
+  .btn--primary:focus,
+  .btn--primary:active {
+    color: white; }
+  .btn--primary:hover,
+  .btn--primary:focus {
+    border-color: transparent;
+    background-color: #3573c5; }
+  .btn--primary:active {
+    border-color: transparent;
+    background-color: #2b5ea2; }
+
 .text-input--bare {
   margin: 0;
   padding: 0; }

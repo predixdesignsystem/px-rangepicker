@@ -28,10 +28,10 @@ Element providing solution to no problem in particular. As a simple, increments 
       <span>:</span>
       <input type=text class="text-input--bare time-input__field__input" value="{{seconds::input}}" on-keydown="changeSeconds"/>
       <div class=time-input__field__ampm>
-        <label for=time-from-am>AM</label>
-        <input class=a11y type=radio id=time-from-am name=ampm>
-        <label for=time-from-pm>PM</label>
-        <input class=a11y type=radio id=time-from-pm name=ampm>
+        <label for=am>AM</label>
+        <input class=a11y type=radio id=am name=ampm on-change="selectAmPm">
+        <label for=pm>PM</label>
+        <input class=a11y type=radio id=pm name=ampm on-change="selectAmPm">
       </div>
     </div>
   </template>
@@ -64,16 +64,18 @@ Element providing solution to no problem in particular. As a simple, increments 
     },
 
     setTime: function(timeObj) {
-      var time = moment({
-        hours: timeObj.hour,
-        minutes: timeObj.minute,
-        seconds: timeObj.second,
-        a: timeObj.a
-      });
+      var time = moment();
+      time.hours(timeObj.hour);
+      time.minutes(timeObj.minute);
+      time.seconds(timeObj.second);
+
+      if(timeObj.ampm === 'pm') {
+        time.add(12, 'hours');
+      }
+
       var visibleTime = time.format('hh:mm:ss A');
 
       this.set('time', visibleTime);
-
     },
 
     isValidTime: function(time) {
@@ -90,7 +92,7 @@ Element providing solution to no problem in particular. As a simple, increments 
         hour: this.hours,
         minute: this.minutes,
         second: this.seconds,
-        a: 'am'
+        ampm: this.ampm
       };
 
       // first, try appending the new character as if the user is continuing their current number
@@ -150,8 +152,19 @@ Element providing solution to no problem in particular. As a simple, increments 
 
     changeSeconds: function(e) {
       this.changeField(e, 'second');
-    }
+    },
 
+    selectAmPm: function(e) {
+      this.ampm = e.target.id;
+      console.log(this.ampm);
+      this.setTime({
+        hour: this.hours,
+        minute: this.minutes,
+        second: this.seconds,
+        ampm: this.ampm
+      });
+
+    }
 
   });
 </script>
