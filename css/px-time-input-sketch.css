@@ -816,6 +816,3 @@ textarea {
   margin-left: 0.6666666667rem; }
   .time-input__field__ampm label {
     margin-bottom: 0; }
-  .time-input__field__ampm input[type="radio"]:checked {
-    color: blue;
-    background-color: green; }
