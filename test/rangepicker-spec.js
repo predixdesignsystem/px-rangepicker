@@ -1,32 +1,35 @@
 'use strict';
-describe('Rangepicker', function () {
+describe('Rangepicker', function() {
 
-  var $rangePicker, rangePicker, timeInput, rangeField;
+  var $rangePicker, rangePicker, fromTimeInput, toTimeInput, timeRange;
 
   var getFakeEvent = function(number, isNumberPad) {
     var keyCode = number + 48;
-    if(isNumberPad) {
+    if (isNumberPad) {
       keyCode = number + 96;
     }
 
     return {
-      preventDefault: function() {},
+      preventDefault: function() {
+      },
       keyCode: keyCode
     };
   };
 
-  px.beforeEachWithFixture(function () {
+  px.beforeEachWithFixture(function() {
     $fixture.append('<px-rangepicker></px-rangepicker>');
   });
 
-  describe('', function () {
+  describe('', function() {
 
-    px.beforeEachAsync(function(){
+    px.beforeEachAsync(function() {
       $rangePicker = $('px-rangepicker');
       rangePicker = document.querySelector('px-rangepicker');
 
-      timeInput = rangePicker.querySelector('px-time-input');
-      rangeField = rangePicker.querySelector('px-range-field');
+      fromTimeInput = rangePicker.querySelector('#fromTimeInput');
+      toTimeInput = rangePicker.querySelector('#toTimeInput');
+
+      timeRange = rangePicker.querySelector('#timeRange');
     });
 
     it('from time is initialized from the current time', function() {
@@ -44,8 +47,9 @@ describe('Rangepicker', function () {
     describe('when hours are changed', function() {
 
       function testHours(input, expectedHours, isNumberPad) {
-        timeInput.changeHours(getFakeEvent(input, isNumberPad));
-        expect(moment(timeInput.time, 'hh:mm:ss A').hours()).toBe(expectedHours);
+        toTimeInput.changeHours(getFakeEvent(input, isNumberPad));
+        expect(moment(toTimeInput.time, 'hh:mm:ss A').hours()).toBe(expectedHours); // check the time string is as expected
+        expect(moment(toTimeInput.time, 'hh:mm:ss A').format('hh')).toBe(toTimeInput.hours); // and the input field is as expected
       }
 
       it('single digits', function() {
@@ -84,12 +88,13 @@ describe('Rangepicker', function () {
     describe('when minutes are changed', function() {
 
       function testMinutes(input, expectedMinutes, isNumberPad) {
-        timeInput.changeMinutes(getFakeEvent(input, isNumberPad));
-        expect(moment(timeInput.time, 'hh:mm:ss A').minutes()).toBe(expectedMinutes);
+        toTimeInput.changeMinutes(getFakeEvent(input, isNumberPad));
+        expect(moment(toTimeInput.time, 'hh:mm:ss A').minutes()).toBe(expectedMinutes); // check the time string is as expected
+        expect(moment(toTimeInput.time, 'hh:mm:ss A').format('mm')).toBe(toTimeInput.minutes); // and the input field is as expected
       }
 
       beforeEach(function() {
-        timeInput.minutes = "00";
+        toTimeInput.minutes = "00";
       });
 
       it('single digits', function() {
@@ -120,12 +125,13 @@ describe('Rangepicker', function () {
     describe('when seconds are changed', function() {
 
       function testSeconds(input, expectedSeconds, isNumberPad) {
-        timeInput.changeSeconds(getFakeEvent(input, isNumberPad));
-        expect(moment(timeInput.time, 'hh:mm:ss A').seconds()).toBe(expectedSeconds);
+        toTimeInput.changeSeconds(getFakeEvent(input, isNumberPad));
+        expect(moment(toTimeInput.time, 'hh:mm:ss A').seconds()).toBe(expectedSeconds); // check the time string is as expected
+        expect(moment(toTimeInput.time, 'hh:mm:ss A').format('ss')).toBe(toTimeInput.seconds); // and the input field is as expected
       }
 
       beforeEach(function() {
-        timeInput.seconds = "00";
+        toTimeInput.seconds = "00";
       });
 
       it('single digits', function() {
@@ -152,8 +158,25 @@ describe('Rangepicker', function () {
 
     });
 
+    it('when time input time is changed the range field (collapsed view) is updated accordingly', function() {
+
+      fromTimeInput.changeHours(getFakeEvent(1));
+      fromTimeInput.changeMinutes(getFakeEvent(2));
+      fromTimeInput.changeMinutes(getFakeEvent(3));
+      fromTimeInput.changeSeconds(getFakeEvent(5));
+      fromTimeInput.changeSeconds(getFakeEvent(4));
+
+      toTimeInput.changeHours(getFakeEvent(1));
+      toTimeInput.changeHours(getFakeEvent(2));
+      toTimeInput.changeMinutes(getFakeEvent(5));
+      toTimeInput.changeMinutes(getFakeEvent(7));
+      toTimeInput.changeSeconds(getFakeEvent(3));
+      toTimeInput.changeSeconds(getFakeEvent(9));
+
+      expect(rangePicker.fromTime, 'hh:mm:ss A').toBe('01:23:54 AM');
+      expect(rangePicker.toTime, 'hh:mm:ss A').toBe('12:57:39 AM');
+    });
 
   });
-
 
 });
