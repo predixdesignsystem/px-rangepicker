@@ -29,9 +29,9 @@ Element providing solution to no problem in particular. As a simple, increments 
       <input type=text class="text-input--bare time-input__field__input" value="{{seconds::input}}" on-keydown="changeSeconds"/>
       <div class=time-input__field__ampm>
         <label for=am>AM</label>
-        <input class=a11y type=radio id=am name=ampm on-change="selectAmPm">
+        <input class=a11y type=radio id=am checked="{{isAM::change}}" on-change="selectAM">
         <label for=pm>PM</label>
-        <input class=a11y type=radio id=pm name=ampm on-change="selectAmPm">
+        <input class=a11y type=radio id=pm checked="{{!isAM::change}}" on-change="selectPM">
       </div>
     </div>
   </template>
@@ -57,29 +57,38 @@ Element providing solution to no problem in particular. As a simple, increments 
       this.set('hours', newTimeMoment.format("hh"));
       this.set('minutes', newTimeMoment.format("mm"));
       this.set('seconds', newTimeMoment.format("ss"));
+      if(newTimeMoment.format('A') === 'AM') {
+        this.set('isAM', true);
+      }
+      else {
+        this.set('isAM', false);
+      }
     },
 
-    computeVisibleTime: function(hours, minutes, seconds) {
-      return hours + ':' + minutes + ':' + seconds;
+    /**
+     * builds a simple, unformatted time string by concatenating Hours : Minutes : Seconds AM/PM (not formatting pretty)
+     */
+    buildSimpleUnformattedTime: function(hours, minutes, seconds, isAM) {
+      var simpleTimeString = hours + ':' + minutes + ':' + seconds + ' ';
+      if(isAM) {
+        simpleTimeString += 'AM';
+      }
+      else {
+        simpleTimeString += 'PM';
+      }
+      return simpleTimeString;
     },
 
     setTime: function(timeObj) {
-      var time = moment();
-      time.hours(timeObj.hour);
-      time.minutes(timeObj.minute);
-      time.seconds(timeObj.second);
-
-      if(timeObj.ampm === 'pm') {
-        time.add(12, 'hours');
-      }
-
-      var visibleTime = time.format('hh:mm:ss A');
-
-      this.set('time', visibleTime);
+      var simpleUnformattedTime = this.buildSimpleUnformattedTime(timeObj.hour, timeObj.minute, timeObj.second, timeObj.isAM);
+      var formattedTime = moment(simpleUnformattedTime, 'h:m:s A').format('hh:mm:ss A');
+      this.set('time', formattedTime);
     },
 
     isValidTime: function(time) {
-      return moment(this.computeVisibleTime(time.hour, time.minute, time.second), 'h:m:s', true).isValid();
+      // check that it fits the hour:minute:second am/pm format and is a valid date (but don't worry about formatting pretty)
+      var simpleUnformattedTime = this.buildSimpleUnformattedTime(time.hour, time.minute, time.second, time.isAM);
+      return moment(simpleUnformattedTime, 'h:m:s A', true).isValid();
     },
 
     getContinuedInput: function(currentInput, newCharacter) {
@@ -87,12 +96,11 @@ Element providing solution to no problem in particular. As a simple, increments 
     },
 
     changeTimeIfValid: function(fieldChanged, newCharacter) {
-
       var time = {
         hour: this.hours,
         minute: this.minutes,
         second: this.seconds,
-        ampm: this.ampm
+        isAM: this.isAM
       };
 
       // first, try appending the new character as if the user is continuing their current number
@@ -154,16 +162,24 @@ Element providing solution to no problem in particular. As a simple, increments 
       this.changeField(e, 'second');
     },
 
-    selectAmPm: function(e) {
-      this.ampm = e.target.id;
-      console.log(this.ampm);
+    selectAM: function(e) {
+      this.set('isAM', true);
       this.setTime({
         hour: this.hours,
         minute: this.minutes,
         second: this.seconds,
-        ampm: this.ampm
+        isAM: this.isAM
       });
+    },
 
+    selectPM: function(e) {
+      this.set('isAM', false);
+      this.setTime({
+        hour: this.hours,
+        minute: this.minutes,
+        second: this.seconds,
+        isAM: this.isAM
+      });
     }
 
   });
