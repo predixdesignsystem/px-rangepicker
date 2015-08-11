@@ -1,131 +1,142 @@
 'use strict';
 
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
-    var importOnce = require('node-sass-import-once');
-    // Project configuration.
-    grunt.initConfig({
+  var importOnce = require('node-sass-import-once');
+  // Project configuration.
+  grunt.initConfig({
 
-        clean: {
-            css: ['css'],
-            bower: ['bower_components'],
-            reports: ['reports']
-        },
+    clean: {
+      css: ['css'],
+      bower: ['bower_components'],
+      reports: ['reports'],
+      test: ['bower_components/test']
+    },
 
-        sass: {
-            options: {
-                importer: importOnce,
-                importOnce: {
-                  index: true,
-                  bower: true
-                }
-            },
-            rangepicker: {
-                files: {
-                    'css/noprefix/px-rangepicker-sketch.css': 'sass/px-rangepicker-sketch.scss',
-                    'css/noprefix/px-rangepicker.css': 'sass/px-rangepicker-predix.scss'
-                }
-            },
-            timeInput: {
-                files: {
-                    'css/noprefix/px-time-input-sketch.css': 'sass/px-time-input-sketch.scss',
-                    'css/noprefix/px-time-input.css': 'sass/px-time-input-predix.scss'
-                }
-            }
-        },
-
-        autoprefixer: {
-          options: {
-            browsers: ['last 2 version']
-          },
-          multiple_files: {
+    copy: {
+      test: {
+        files: [
+          {
+            cwd: '',
             expand: true,
-            flatten: true,
-            src: 'css/noprefix/*.css',
-            dest: 'css'
-          }
-        },
-
-        shell: {
-            options: {
-                stdout: true,
-                stderr: true
-            },
-            bower: {
-                command: 'bower install'
-            }
-        },
-
-        jshint: {
-            all: [
-                'Gruntfile.js',
-                'js/**/*.js'
+            src: [
+              '*.html',
+              'css/*.css'
             ],
-            options: {
-                jshintrc: '.jshintrc'
-            }
-        },
+            dest: 'bower_components/test'
+          }
+        ]
+      }
+    },
 
-        watch: {
-            sass: {
-                files: ['sass/**/*.scss'],
-                tasks: ['sass', 'autoprefixer'],
-                options: {
-                    interrupt: true
-                }
-            }
-        },
-
-        depserve: {
-            options: {
-                open: '<%= depserveOpenUrl %>'
-            }
-        },
-
-        webdriver: {
-            options: {
-                specFiles: ['test/*spec.js']
-            },
-            local: {
-                webdrivers: ['chrome']
-            }
+    sass: {
+      options: {
+        importer: importOnce,
+        importOnce: {
+          index: true,
+          bower: true
         }
-    });
+      },
+      rangepicker: {
+        files: {
+          'css/noprefix/px-rangepicker-sketch.css': 'sass/px-rangepicker-sketch.scss',
+          'css/noprefix/px-rangepicker.css': 'sass/px-rangepicker-predix.scss'
+        }
+      },
+      timeInput: {
+        files: {
+          'css/noprefix/px-time-input-sketch.css': 'sass/px-time-input-sketch.scss',
+          'css/noprefix/px-time-input.css': 'sass/px-time-input-predix.scss'
+        }
+      }
+    },
 
-    grunt.loadNpmTasks('grunt-sass');
-    grunt.loadNpmTasks('grunt-shell');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-dep-serve');
-    grunt.loadNpmTasks('webdriver-support');
-    grunt.loadNpmTasks('grunt-autoprefixer');
+    autoprefixer: {
+      options: {
+        browsers: ['last 2 version']
+      },
+      multiple_files: {
+        expand: true,
+        flatten: true,
+        src: 'css/noprefix/*.css',
+        dest: 'css'
+      }
+    },
 
-    // Default task.
-    grunt.registerTask('default', 'Basic build', [
-        'sass',
-        'autoprefixer'
-    ]);
+    shell: {
+      options: {
+        stdout: true,
+        stderr: true
+      },
+      bower: {
+        command: 'bower install'
+      }
+    },
 
-    // First run task.
-    grunt.registerTask('firstrun', 'Basic first run', function() {
-        grunt.config.set('depserveOpenUrl', '/index.html');
-        grunt.task.run('default');
-        grunt.task.run('depserve');
-    });
+    jshint: {
+      all: [
+        'Gruntfile.js',
+        'js/**/*.js'
+      ],
+      options: {
+        jshintrc: '.jshintrc'
+      }
+    },
 
-    // Default task.
-    grunt.registerTask('test', 'Test', [
-        'jshint',
-        'webdriver'
-    ]);
+    watch: {
+      sass: {
+        files: ['sass/**/*.scss'],
+        tasks: ['sass', 'autoprefixer'],
+        options: {
+          interrupt: true
+        }
+      }
+    },
 
-    grunt.registerTask('release', 'Release', [
-        'clean',
-        'shell:bower',
-        'default',
-        'test'
-    ]);
+    depserve: {
+      options: {
+        open: '<%= depserveOpenUrl %>'
+      }
+    },
+
+    // Karma Unit configuration
+    karma: {
+      runner: {
+        configFile: 'karma.conf.js',
+        singleRun: true
+      }
+    }
+  });
+
+  require('load-grunt-tasks')(grunt);
+
+  // Default task.
+  grunt.registerTask('default', 'Basic build', [
+    'sass',
+    'autoprefixer'
+  ]);
+
+  // First run task.
+  grunt.registerTask('firstrun', 'Basic first run', function() {
+    grunt.config.set('depserveOpenUrl', '/index.html');
+    grunt.task.run('default');
+    grunt.task.run('depserve');
+  });
+
+  // Default task.
+  grunt.registerTask('test', 'Test', [
+    'jshint',
+    'clean:test',
+    'copy:test',
+    'karma'
+  ]);
+
+  grunt.registerTask('release', 'Release', [
+    'clean',
+    'shell:bower',
+    'default',
+    'test'
+  ]);
 
 };
