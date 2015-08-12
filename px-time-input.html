@@ -28,16 +28,20 @@ Element providing solution to no problem in particular. As a simple, increments 
       <span>:</span>
       <input type=text class="text-input--bare time-input__field__input" value="{{seconds::input}}" on-keydown="changeSeconds"/>
       <div class=time-input__field__ampm>
-        <label for=am>AM</label>
-        <input class=a11y type=radio id=am checked="{{isAM::change}}" on-change="selectAM">
-        <label for=pm>PM</label>
-        <input class=a11y type=radio id=pm checked="{{!isAM::change}}" on-change="selectPM">
+        <label>
+          <input class=a11y type=radio id=am checked="{{isAM::change}}" on-change="selectAM">
+          <span>AM</span>
+        </label>
+        <label>
+          <input class=a11y type=radio id=pm checked="{{!isAM::change}}" on-change="selectPM">
+          <span>PM</span>
+        </label>
       </div>
     </div>
   </template>
 </dom-module>
 
-<script>
+<script>  
   Polymer({
 
     is: 'px-time-input',

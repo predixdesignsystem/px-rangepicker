@@ -22,25 +22,14 @@ Element providing solution to no problem in particular. As a simple, increments 
   <link rel="import" type="css" href="css/px-calendar.css"/>
   <template>
     <div>
-      <span>{{month}}</span>/
-      <span>{{date}}</span>/
-      <span>{{year}}</span>
+      <span>{{displayMonthName}}</span>
+      <span>{{displayYear}}</span>
     </div>
-    <div>
-      Day of week: <span>{{dayOfWeek}}</span>
-    </div>
-    <div>
-      Days in month: <span>{{daysInMonth}}</span>
-    </div>
-    <div>
-      Day beginning of month: <span>{{dayBeginningOfMonth}}</span>
-    </div>
-
     <table>
       <template is="dom-repeat" items="{{daysOfTheWeek}}">
         <th>{{item}}</th>
       </template>
-      <template is="dom-repeat" items="{{theMonth}}" as="week">
+      <template is="dom-repeat" items="{{calendar}}" as="week">
         <tr>
           <template is="dom-repeat" items="{{week}}">
             <td>{{item}}</td>
@@ -56,48 +45,47 @@ Element providing solution to no problem in particular. As a simple, increments 
   Polymer({
 
     is: 'px-calendar',
+    
+    properties: {
+      
+      month: {
+        type: Number
+      },
+      
+      year: {
+        type: Number
+      }
+      
+    },
 
-    getHeadings: function() {
-      var firstDayOfWeek = moment().startOf('week');
+    getDaysOfTheWeek: function() {
+      var day = moment().startOf('week');
       var daysOfWeek = [];
       for (var i = 0; i < 7; i++) {
-        daysOfWeek.push(firstDayOfWeek.format('dddd'));
-        firstDayOfWeek.add(1, 'days');
+        daysOfWeek.push(day.format('dd'));
+        day.add(1, 'days');
       }
       return daysOfWeek;
     },
-
-    ready: function() {
-
-      var calendarHeadings = this.getHeadings();
-      this.set('daysOfTheWeek', calendarHeadings);
-
-
-      var now = moment();
-      this.set('date', now.date());
-      this.set('month', now.month());
-      this.set('year', now.year());
-
-      this.daysInMonth = now.daysInMonth();
-      this.dayOfWeek = now.weekday();
-      this.dayBeginningOfMonth = now.startOf('month').day();
-
-      var dateCount = 1;
-      var tableCount = 0;
+    
+    constructMonth: function(numberOfDaysInMonth, dayBeginningOfMonth) {
+      var dateCount = 1; // 1-31 or 30 or 28
+      var daysNotInMonthCount = 0;
       var month = [];
 
-      while (dateCount <= this.daysInMonth) {
+      while (dateCount <= numberOfDaysInMonth) {
 
         var week = [];
-        var weekCount = 0;
+        var weekCount = 0;  // 0 - 6 (days of week)
 
-        while (tableCount < this.dayBeginningOfMonth) {
-          week.push('X');
-          tableCount++;
+        // days not in the month
+        while (daysNotInMonthCount < dayBeginningOfMonth) {
+          week.push('');
+          daysNotInMonthCount++;
           weekCount++;
         }
 
-        while (weekCount < 7 && dateCount <= this.daysInMonth) {
+        while (weekCount < 7 && dateCount <= numberOfDaysInMonth) {
           week.push(dateCount);
           dateCount++;
           weekCount++;
@@ -107,7 +95,31 @@ Element providing solution to no problem in particular. As a simple, increments 
 
       }
 
-      this.set('theMonth', month);
+      return month;
+
+    },
+
+    ready: function() {
+      
+      var x = this.getDaysOfTheWeek();
+      this.set('daysOfTheWeek', x);
+      
+      
+      
+      var monthToDisplay = moment({
+        year: this.year,
+        month: this.month
+      });
+
+      var numberOfDaysInMonth = monthToDisplay.daysInMonth();
+      var dayBeginningOfMonth = monthToDisplay.startOf('month').day();
+
+      this.displayMonthName = monthToDisplay.format('MMMM');
+      this.displayYear = monthToDisplay.format('YYYY');
+      
+      var calendar = this.constructMonth(numberOfDaysInMonth, dayBeginningOfMonth);
+            
+      this.set('calendar', calendar);
       
     }
 

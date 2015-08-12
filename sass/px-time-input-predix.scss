@@ -25,3 +25,12 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 .text-input--bare {
   background-color: transparent;
 }
+
+.time-input__field__ampm input {
+  + span {
+    color: $gray4;
+  }
+  &:checked + span {
+    color: $black;
+  }
+}

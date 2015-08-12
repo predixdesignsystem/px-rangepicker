@@ -9,7 +9,7 @@
  */
 
 //
-// Sass for the Predix notion of the px-rangepicker component
+// Sass for the Predix notion of the px-range-field component
 //
 // @author
 //
@@ -19,20 +19,15 @@ THIS FILE SHOULD CONTAIN ONLY RULES SPECIFIC TO PREDIX BRANDING
 common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 */
 
-@import 'px-rangepicker-sketch.scss';
+@import 'px-range-field-sketch.scss';
 
 // Component
-.rangepicker__box {
-  border-color: $gray4;
-  span {
-    color: $gray5;
+.text-input--bare {
+  background-color: transparent;
+}
+
+.range-field__field {
+  label {
+    color: $gray7;
   }
-}
-
-.border--right, .border--bottom {
-  border-color: $gray4;
-}
-
-.rangepicker__box__select label {
-  color: $gray8;
 }

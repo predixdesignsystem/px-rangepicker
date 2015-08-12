@@ -16,7 +16,7 @@ Element providing solution to no problem in particular. As a simple, increments 
 
 ##### Usage
 
-    <px-rangepicker counter-value="1">Hi</px-rangepicker>
+    <px-rangepicker></px-rangepicker>
 
 @element px-rangepicker
 @blurb Element providing solution to no problem in particular.
@@ -26,29 +26,11 @@ Element providing solution to no problem in particular. As a simple, increments 
 <dom-module id="px-rangepicker">
   <link rel="import" type="css" href="css/px-rangepicker.css"/>
   <template>
+    <div class=flex>
+      <px-range-field id="dateRange" class="u-mr+" icon="fa-calendar" from="06/24/2014" to="12/25/2015"></px-range-field>
+      <px-range-field id="timeRange" icon="fa-clock-o" from="{{fromTime}}" to="{{toTime}}"></px-range-field>
+    </div>
     <form>
-      <div class=flex>
-        <!--<div class="rangepicker__field text-input flex flex--justify flex--middle u-mr+">-->
-          <!--<label class=label--inline for=date-from>-->
-            <!--<span class=a11y>From</span>-->
-            <!--<i class="fa fa-calendar"></i>-->
-          <!--</label>-->
-          <!--<input id=date-from type=text class=text-input--bare>-->
-          <!--<label class="caps label--inline" for=date-to>to</label>-->
-          <!--<input id=date-to type=text class=text-input--bare>-->
-        <!--</div>-->
-        <!--<div class="rangepicker__field text-input flex flex--justify flex--middle">-->
-          <!--<label class=label--inline for=time-from>-->
-            <!--<span class=a11y>From</span>-->
-            <!--<i class="fa fa-clock-o"></i>-->
-          <!--</label>-->
-          <!--<input id=time-from type=text class=text-input--bare value="03:51:23 AM">-->
-          <!--<label class="caps label--inline" for=time-to>to</label>-->
-          <!--<input id=time-to type=text class=text-input--bare value="03:51:00 AM">-->
-        <!--</div>-->
-        <px-range-field id="dateRange" class="u-mr+" icon="fa-calendar" from="06/24/2014" to="12/25/2015"></px-range-field>
-        <px-range-field id="timeRange" class="u-mr+" icon="fa-clock-o" from="{{fromTime}}" to="{{toTime}}"></px-range-field>
-      </div>
       <div class=rangepicker__box>
         <div class="flex flex--middle border--bottom u-pr+">
           <px-time-input id="fromTimeInput" class=u-pl+ time="{{fromTime}}"></px-time-input>
@@ -58,9 +40,9 @@ Element providing solution to no problem in particular. As a simple, increments 
             <label class="caps weight--semibold u-mb-">Time Range</label>
             <select>
               <option>Select</option>
-              <option>1 min</option>
-              <option>5 mins</option>
-              <option>10 mins</option>
+              <option>1 minute</option>
+              <option>5 minutes</option>
+              <option>10 minutes</option>
             </select>
           </div>
         </div>
@@ -69,12 +51,9 @@ Element providing solution to no problem in particular. As a simple, increments 
           <button class=btn>Cancel</button>
         </div>
       </div>
-      <div class=rangepicker__box>
-        <div class="flex flex--middle border--bottom u-pr+">
-          <px-calendar></px-calendar>
-        </div>
-      </div>
     </form>
+    <px-calendar month="7" year="2015"></px-calendar>
+    <px-calendar month="8" year="2016"></px-calendar>
   </template>
 </dom-module>
 

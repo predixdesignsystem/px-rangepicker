@@ -29,7 +29,6 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 @import "px-typography-design/_base.typography.scss";
 
 $inuit-enable-text-input--bare  : true;
-$inuit-enable-validation-states : true;
 
 @import "px-forms-design/_base.forms.scss";
 
@@ -51,7 +50,6 @@ $inuit-enable-validation-states : true;
   @include inuit-font-size(45px);
   display: flex;
   align-items: center;
-  max-width: calculateRem(215px);
   height: 1.4444444444em;
   padding: $inuit-base-spacing-unit--tiny $inuit-base-spacing-unit--small 0;
 }
