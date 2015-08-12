@@ -26,15 +26,15 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
   background-color: transparent;
 }
 
+.border--right, .border--bottom {
+  border-color: $gray4;
+}
+
 .rangepicker__box {
   border-color: $gray4;
   span {
     color: $gray5;
   }
-}
-
-.border--right, .border--bottom {
-  border-color: $gray4;
 }
 
 .rangepicker__box__select label {

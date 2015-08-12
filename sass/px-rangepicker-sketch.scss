@@ -22,21 +22,11 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 // Generic
 @import "px-normalize-design/_generic.normalize.scss";
 @import "px-box-sizing-design/_generic.box-sizing.scss";
-@import "px-helpers-design/_generic.helpers.scss";
 
 // Base
 @import "px-flexbox-design/_base.flexbox.scss";
 @import "px-viewport-design/_base.viewport.scss";
 @import "px-typography-design/_base.typography.scss";
-
-$inuit-enable-text-input--bare  : true;
-
-@import "px-forms-design/_base.forms.scss";
-
-// Objects
-$inuit-enable-btn--primary      : true;
-
-@import "px-buttons-design/_objects.buttons.scss";
 
 // Component
 .text-input--bare {
@@ -45,6 +35,14 @@ $inuit-enable-btn--primary      : true;
   &:focus {
     outline: 0;
   }
+}
+
+.border--right {
+  border-right: 1px solid;
+}
+
+.border--bottom {
+  border-bottom: 1px solid;
 }
 
 .rangepicker__box {
@@ -57,14 +55,6 @@ $inuit-enable-btn--primary      : true;
   }
 }
 
-.border--right {
-  border-right: 1px solid;
-}
-
-.border--bottom {
-  border-bottom: 1px solid;
-}
-
 .rangepicker__box__select {
   align-self: flex-start;
   margin-top: $inuit-base-spacing-unit--large;
@@ -72,9 +62,6 @@ $inuit-enable-btn--primary      : true;
 }
 
 // Trumps
-$inuit-enable-margins--small    : true;
 $inuit-enable-margins--large    : true;
-$inuit-enable-paddings--small   : true;
-$inuit-enable-paddings--large   : true;
 
 @import "px-spacing-design/_trumps.spacing.scss";

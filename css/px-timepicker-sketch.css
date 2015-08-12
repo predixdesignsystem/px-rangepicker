@@ -740,19 +740,6 @@ sup {
 sub {
   bottom: -0.25em; }
 
-/*
- * Copyright (c) 2014 GE Global Research. All rights reserved.
- *
- * The copyright to the computer software herein is the property of
- * GE Global Research. The software may be used and/or copied only
- * with the written permission of GE Global Research or in accordance
- * with the terms and conditions stipulated in the agreement/contract
- * under which the software has been supplied.
- */
-/*
-THIS FILE SHOULD CONTAIN ONLY ABSTRACT/'SKETCH' THEME RULES, NOT SPECIFIC TO PREDIX BRANDING
-Predix branding rules go in px-rangepicker-predix.scss, not in this file.
-*/
 fieldset {
   margin: 0; }
   fieldset, fieldset legend {
@@ -908,12 +895,6 @@ textarea {
   line-height: inherit;
   color: #7c7c84; }
 
-/**
-   * Text inputs with no styles.
-   */
-.text-input--bare {
-  border: 0 !important; }
-
 .btn {
   display: inline-block;
   overflow: visible;
@@ -979,11 +960,30 @@ button.btn {
     border-color: transparent;
     background-color: #2b5ea2; }
 
+/*
+ * Copyright (c) 2014 GE Global Research. All rights reserved.
+ *
+ * The copyright to the computer software herein is the property of
+ * GE Global Research. The software may be used and/or copied only
+ * with the written permission of GE Global Research or in accordance
+ * with the terms and conditions stipulated in the agreement/contract
+ * under which the software has been supplied.
+ */
+/*
+THIS FILE SHOULD CONTAIN ONLY ABSTRACT/'SKETCH' THEME RULES, NOT SPECIFIC TO PREDIX BRANDING
+Predix branding rules go in px-rangepicker-predix.scss, not in this file.
+*/
 .text-input--bare {
   margin: 0;
   padding: 0; }
   .text-input--bare:focus {
     outline: 0; }
+
+.border--right {
+  border-right: 1px solid; }
+
+.border--bottom {
+  border-bottom: 1px solid; }
 
 .rangepicker__box {
   display: inline-block;
@@ -993,12 +993,6 @@ button.btn {
   .rangepicker__box span {
     font-size: 3rem;
     line-height: 1.3333333333; }
-
-.border--right {
-  border-right: 1px solid; }
-
-.border--bottom {
-  border-bottom: 1px solid; }
 
 .rangepicker__box__select {
   -webkit-align-self: flex-start;

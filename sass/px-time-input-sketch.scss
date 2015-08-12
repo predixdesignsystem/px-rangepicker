@@ -35,11 +35,6 @@ $inuit-enable-text-input--bare  : true;
 // Component
 @import "px-rangepicker-sketch.scss";
 
-:host {
-  padding-top: $inuit-base-spacing-unit--large;
-  padding-bottom: $inuit-base-spacing-unit--large;
-}
-
 .time-input__field {
   @include inuit-font-size(45px);
   display: flex;
