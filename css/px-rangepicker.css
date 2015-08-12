@@ -979,6 +979,12 @@ button.btn {
     border-color: transparent;
     background-color: #2b5ea2; }
 
+.text-input--bare {
+  margin: 0;
+  padding: 0; }
+  .text-input--bare:focus {
+    outline: 0; }
+
 .rangepicker__box {
   display: inline-block;
   margin-top: 0.6666666667rem;
@@ -1110,6 +1116,9 @@ button.btn {
 .u-pv\00002b {
   padding-top: 1.3333333333rem !important;
   padding-bottom: 1.3333333333rem !important; }
+
+.text-input--bare {
+  background-color: transparent; }
 
 .rangepicker__box {
   border-color: #d1d0d8; }

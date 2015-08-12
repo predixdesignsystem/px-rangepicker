@@ -9,6 +9,19 @@
  * under which the software has been supplied.
  */
 /*
+THIS FILE SHOULD CONTAIN ONLY RULES SPECIFIC TO PREDIX BRANDING
+common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
+*/
+/*
+ * Copyright (c) 2014 GE Global Research. All rights reserved.
+ *
+ * The copyright to the computer software herein is the property of
+ * GE Global Research. The software may be used and/or copied only
+ * with the written permission of GE Global Research or in accordance
+ * with the terms and conditions stipulated in the agreement/contract
+ * under which the software has been supplied.
+ */
+/*
 THIS FILE SHOULD CONTAIN ONLY ABSTRACT/'SKETCH' THEME RULES, NOT SPECIFIC TO PREDIX BRANDING
 Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 */
@@ -740,6 +753,19 @@ sup {
 sub {
   bottom: -0.25em; }
 
+/*
+ * Copyright (c) 2014 GE Global Research. All rights reserved.
+ *
+ * The copyright to the computer software herein is the property of
+ * GE Global Research. The software may be used and/or copied only
+ * with the written permission of GE Global Research or in accordance
+ * with the terms and conditions stipulated in the agreement/contract
+ * under which the software has been supplied.
+ */
+/*
+THIS FILE SHOULD CONTAIN ONLY ABSTRACT/'SKETCH' THEME RULES, NOT SPECIFIC TO PREDIX BRANDING
+Predix branding rules go in px-rangepicker-predix.scss, not in this file.
+*/
 fieldset {
   margin: 0; }
   fieldset, fieldset legend {
@@ -1103,3 +1129,30 @@ button.btn {
 .u-pv\00002b {
   padding-top: 1.3333333333rem !important;
   padding-bottom: 1.3333333333rem !important; }
+
+/*
+ * Copyright (c) 2014 GE Global Research. All rights reserved.
+ *
+ * The copyright to the computer software herein is the property of
+ * GE Global Research. The software may be used and/or copied only
+ * with the written permission of GE Global Research or in accordance
+ * with the terms and conditions stipulated in the agreement/contract
+ * under which the software has been supplied.
+ */
+/*
+THIS FILE SHOULD CONTAIN ONLY RULES SPECIFIC TO PREDIX BRANDING
+common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
+*/
+.text-input--bare {
+  background-color: transparent; }
+
+.rangepicker__box {
+  border-color: #d1d0d8; }
+  .rangepicker__box span {
+    color: #b1b1bc; }
+
+.border--right, .border--bottom {
+  border-color: #d1d0d8; }
+
+.rangepicker__box__select label {
+  color: #525156; }

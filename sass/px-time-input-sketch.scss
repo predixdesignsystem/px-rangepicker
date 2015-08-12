@@ -33,13 +33,7 @@ $inuit-enable-text-input--bare  : true;
 @import "px-forms-design/_base.forms.scss";
 
 // Component
-.text-input--bare {
-  margin: 0;
-  padding: 0;
-  &:focus {
-    outline: 0;
-  }
-}
+@import "px-rangepicker-sketch.scss";
 
 :host {
   padding-top: $inuit-base-spacing-unit--large;

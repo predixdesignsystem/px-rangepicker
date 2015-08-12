@@ -39,6 +39,14 @@ $inuit-enable-btn--primary      : true;
 @import "px-buttons-design/_objects.buttons.scss";
 
 // Component
+.text-input--bare {
+  margin: 0;
+  padding: 0;
+  &:focus {
+    outline: 0;
+  }
+}
+
 .rangepicker__box {
   display: inline-block;
   margin-top: $inuit-base-spacing-unit--small;
