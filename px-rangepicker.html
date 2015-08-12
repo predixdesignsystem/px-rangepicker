@@ -7,6 +7,7 @@
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="px-time-input.html"/>
 <link rel="import" href="px-range-field.html"/>
+<link rel="import" href="px-calendar.html"/>
 
 <script src="../moment/moment.js"></script>
 
@@ -66,6 +67,11 @@ Element providing solution to no problem in particular. As a simple, increments 
         <div class="flex flex--right u-p-">
           <input class="btn btn--primary" type=submit value=Apply>
           <button class=btn>Cancel</button>
+        </div>
+      </div>
+      <div class=rangepicker__box>
+        <div class="flex flex--middle border--bottom u-pr+">
+          <px-calendar></px-calendar>
         </div>
       </div>
     </form>

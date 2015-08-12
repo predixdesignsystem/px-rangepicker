@@ -1,0 +1,115 @@
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
+    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs
+    See https://github.sw.ge.com/jreichenberg/grunt-dep-serve#why-do-we-need-this
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+
+<script src="../moment/moment.js"></script>
+
+<!--
+Element providing solution to no problem in particular. As a simple, increments a counter when clicked.
+
+##### Usage
+
+@element px-rangepicker
+@blurb Element providing solution to no problem in particular.
+@homepage index.html
+@demo demo.html
+-->
+<dom-module id="px-calendar">
+  <link rel="import" type="css" href="css/px-calendar.css"/>
+  <template>
+    <div>
+      <span>{{month}}</span>/
+      <span>{{date}}</span>/
+      <span>{{year}}</span>
+    </div>
+    <div>
+      Day of week: <span>{{dayOfWeek}}</span>
+    </div>
+    <div>
+      Days in month: <span>{{daysInMonth}}</span>
+    </div>
+    <div>
+      Day beginning of month: <span>{{dayBeginningOfMonth}}</span>
+    </div>
+
+    <table>
+      <template is="dom-repeat" items="{{daysOfTheWeek}}">
+        <th>{{item}}</th>
+      </template>
+      <template is="dom-repeat" items="{{theMonth}}" as="week">
+        <tr>
+          <template is="dom-repeat" items="{{week}}">
+            <td>{{item}}</td>
+          </template>
+        </tr>
+      </template>
+    </table>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'px-calendar',
+
+    getHeadings: function() {
+      var firstDayOfWeek = moment().startOf('week');
+      var daysOfWeek = [];
+      for (var i = 0; i < 7; i++) {
+        daysOfWeek.push(firstDayOfWeek.format('dddd'));
+        firstDayOfWeek.add(1, 'days');
+      }
+      return daysOfWeek;
+    },
+
+    ready: function() {
+
+      var calendarHeadings = this.getHeadings();
+      this.set('daysOfTheWeek', calendarHeadings);
+
+
+      var now = moment();
+      this.set('date', now.date());
+      this.set('month', now.month());
+      this.set('year', now.year());
+
+      this.daysInMonth = now.daysInMonth();
+      this.dayOfWeek = now.weekday();
+      this.dayBeginningOfMonth = now.startOf('month').day();
+
+      var dateCount = 1;
+      var tableCount = 0;
+      var month = [];
+
+      while (dateCount <= this.daysInMonth) {
+
+        var week = [];
+        var weekCount = 0;
+
+        while (tableCount < this.dayBeginningOfMonth) {
+          week.push('X');
+          tableCount++;
+          weekCount++;
+        }
+
+        while (weekCount < 7 && dateCount <= this.daysInMonth) {
+          week.push(dateCount);
+          dateCount++;
+          weekCount++;
+        }
+
+        month.push(week);
+
+      }
+
+      this.set('theMonth', month);
+      
+    }
+
+  });
+</script>
