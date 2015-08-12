@@ -28,10 +28,8 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 @import "px-flexbox-design/_base.flexbox.scss";
 @import "px-viewport-design/_base.viewport.scss";
 @import "px-typography-design/_base.typography.scss";
-@import "px-iconography-design/_base.iconography.scss";
 
 $inuit-enable-text-input--bare  : true;
-$inuit-enable-validation-states : true;
 
 @import "px-forms-design/_base.forms.scss";
 
@@ -41,31 +39,11 @@ $inuit-enable-btn--primary      : true;
 @import "px-buttons-design/_objects.buttons.scss";
 
 // Component
-.text-input--bare {
-  margin: 0;
-  padding: 0;
-  &:focus {
-    outline: 0;
-  }
-}
-
-.rangepicker__field {
-  max-width: calculateRem(240px);
-  input {
-    @include inuit-font-size(15px,15px);
-    width: calculateRem(80px);
-    height: 2em;
-  }
-  label {
-    margin: 0;
-  }
-}
-
 .rangepicker__box {
+  display: inline-block;
   margin-top: $inuit-base-spacing-unit--small;
   border: 1px solid;
   border-radius: 3px;
-  max-width: calculateRem(645px);
   span {
     @include inuit-font-size(45px);
   }
@@ -83,9 +61,6 @@ $inuit-enable-btn--primary      : true;
   align-self: flex-start;
   margin-top: $inuit-base-spacing-unit--large;
   margin-left: $inuit-base-spacing-unit--large;
-  select {
-    max-width: calculateRem(100px);
-  }
 }
 
 // Trumps

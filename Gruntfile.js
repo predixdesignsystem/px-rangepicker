@@ -31,25 +31,37 @@ module.exports = function(grunt) {
     },
 
     sass: {
-      options: {
-        importer: importOnce,
-        importOnce: {
-          index: true,
-          bower: true
+        options: {
+            importer: importOnce,
+            importOnce: {
+              index: true,
+              bower: true
+            }
+        },
+        rangepicker: {
+            files: {
+                'css/noprefix/px-rangepicker-sketch.css': 'sass/px-rangepicker-sketch.scss',
+                'css/noprefix/px-rangepicker.css': 'sass/px-rangepicker-predix.scss'
+            }
+        },
+        timeInput: {
+            files: {
+                'css/noprefix/px-time-input-sketch.css': 'sass/px-time-input-sketch.scss',
+                'css/noprefix/px-time-input.css': 'sass/px-time-input-predix.scss'
+            }
+        },
+        rangeField: {
+            files: {
+                'css/noprefix/px-range-field-sketch.css': 'sass/px-range-field-sketch.scss',
+                'css/noprefix/px-range-field.css': 'sass/px-range-field-predix.scss'
+            }
+        },
+        calendar: {
+            files: {
+                'css/noprefix/px-calendar-sketch.css': 'sass/px-calendar-sketch.scss',
+                'css/noprefix/px-calendar.css': 'sass/px-calendar-predix.scss'
+            }
         }
-      },
-      rangepicker: {
-        files: {
-          'css/noprefix/px-rangepicker-sketch.css': 'sass/px-rangepicker-sketch.scss',
-          'css/noprefix/px-rangepicker.css': 'sass/px-rangepicker-predix.scss'
-        }
-      },
-      timeInput: {
-        files: {
-          'css/noprefix/px-time-input-sketch.css': 'sass/px-time-input-sketch.scss',
-          'css/noprefix/px-time-input.css': 'sass/px-time-input-predix.scss'
-        }
-      }
     },
 
     autoprefixer: {
