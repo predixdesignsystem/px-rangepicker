@@ -270,6 +270,7 @@ describe('Rangepicker', function() {
 
     it('when time input time is changed the range field (collapsed view) is updated accordingly', function() {
 
+      fromTimeInput.changeHours(getFakeEvent(0));
       fromTimeInput.changeHours(getFakeEvent(1));
       fromTimeInput.changeMinutes(getFakeEvent(2));
       fromTimeInput.changeMinutes(getFakeEvent(3));
@@ -277,6 +278,7 @@ describe('Rangepicker', function() {
       fromTimeInput.changeSeconds(getFakeEvent(4));
       fromTimeInput.selectAM();
 
+      toTimeInput.changeHours(getFakeEvent(0));
       toTimeInput.changeHours(getFakeEvent(1));
       toTimeInput.changeHours(getFakeEvent(2));
       toTimeInput.changeMinutes(getFakeEvent(5));
