@@ -24,15 +24,32 @@ Element providing solution to no problem in particular. As a simple, increments 
 <dom-module id="px-datepicker">
   <link rel="import" type="css" href="css/px-datepicker.css"/>
   <template> 
-    <px-calendar month="7" year="2015" start-date="{{startDate}}" end-date="{{endDate}}"></px-calendar>
-    <px-calendar month="8" year="2016" start-date="{{startDate}}" end-date="{{endDate}}"></px-calendar>
+    <px-calendar display-month-year="{{displayMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>
+    <px-calendar display-month-year="{{displaySecondMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>
   </template>
 </dom-module>
 
 <script>
   Polymer({
 
-    is: 'px-datepicker'
+    is: 'px-datepicker',
+    
+    properties: {
+      date: {
+        type: String,
+        observer: 'updateFirstMonthYear'
+      }
+    },
+    
+    observers: ['updateSecondMonthYear(displayMonthYear)'],
+    
+    updateFirstMonthYear: function() {
+      this.set('displayMonthYear', moment(this.date, 'MM/DD/YYYY').format('MM/YYYY'));
+    },
+    
+    updateSecondMonthYear: function() {
+      this.set('displaySecondMonthYear', moment(this.displayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
+    }
 
   });
 </script>

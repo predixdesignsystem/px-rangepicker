@@ -32,7 +32,9 @@ Element providing solution to no problem in particular. As a simple, increments 
       <template is="dom-repeat" items="{{calendar}}" as="week">
         <tr>
           <template is="dom-repeat" items="{{week}}">
-            <td>{{item}}</td>
+            <td>
+              <button class="btn btn--bare" value="{{item}}" on-click="selectDate">{{item}}</button>
+            </td>
           </template>
         </tr>
       </template>
@@ -47,16 +49,32 @@ Element providing solution to no problem in particular. As a simple, increments 
     is: 'px-calendar',
     
     properties: {
-      
-      month: {
-        type: Number
+
+      displayMonthYear: {
+        type: String
       },
       
-      year: {
+/*
+      displayMonth: {
         type: Number
+//         observer: 'renderMonth'
+      },
+      
+      displayYear: {
+        type: Number
+//         observer: 'renderMonth'
+      },
+*/
+      
+      selectedDate: {
+        
       }
       
     },
+    
+    observers: [
+    'renderMonth(displayMonthYear)'
+    ],
 
     getDaysOfTheWeek: function() {
       var day = moment().startOf('week');
@@ -98,16 +116,15 @@ Element providing solution to no problem in particular. As a simple, increments 
       return month;
 
     },
-
-    ready: function() {
-      
-      var daysOfTheWeek = this.getDaysOfTheWeek();
-      this.set('daysOfTheWeek', daysOfTheWeek);
-      
-      var monthToDisplay = moment({
-        year: this.year,
-        month: this.month
+    
+    renderMonth: function() {
+      var monthToDisplay = moment(this.displayMonthYear, 'M/YYYY')
+/*
+      moment({
+        year: this.displayYear,
+        month: this.displayMonth
       });
+*/
 
       var numberOfDaysInMonth = monthToDisplay.daysInMonth();
       var dayBeginningOfMonth = monthToDisplay.startOf('month').day();
@@ -118,6 +135,17 @@ Element providing solution to no problem in particular. As a simple, increments 
       var calendar = this.constructMonth(numberOfDaysInMonth, dayBeginningOfMonth);
             
       this.set('calendar', calendar);
+    },
+    
+    selectDate: function(e){
+//       this.selectedDate = e.target.value;
+      console.log(e.target.value);
+    },
+
+    ready: function() {
+      
+      var daysOfTheWeek = this.getDaysOfTheWeek();
+      this.set('daysOfTheWeek', daysOfTheWeek);
       
     }
 

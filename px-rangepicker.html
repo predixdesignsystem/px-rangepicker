@@ -27,11 +27,12 @@ Element providing solution to no problem in particular. As a simple, increments 
   <link rel="import" type="css" href="css/px-rangepicker.css"/>
   <template>
     <div class=flex>
-      <px-range-field id="dateRange" class="u-mr+" icon="fa-calendar" from="06/24/2014" to="12/25/2015"></px-range-field>
+      <px-range-field id="dateRange" class="u-mr+" icon="fa-calendar" from="{{fromDate}}" to="{{toDate}}"></px-range-field>
       <px-range-field id="timeRange" icon="fa-clock-o" from="{{fromTime}}" to="{{toTime}}"></px-range-field>
     </div>
     <px-timepicker from-time="{{fromTime}}" to-time="{{toTime}}"></px-timepicker> 
-    <px-datepicker></px-datepicker>
+    <px-datepicker date="{{fromDate}}"></px-datepicker>
+    <px-datepicker date="{{toDate}}"></px-datepicker>
   </template>
 </dom-module>
 
@@ -41,9 +42,11 @@ Element providing solution to no problem in particular. As a simple, increments 
     is: 'px-rangepicker',
 
     ready: function() {
-      var now = moment();
+      var now = moment('12/2015', 'MM/YYYY');
       this.set('fromTime', now.format("hh:mm:ss A"));
       this.set('toTime', now.add(7, 'hours').format("hh:mm:ss A"));
+      this.set('fromDate', now.format("MM/DD/YYYY"));
+      this.set('toDate', now.add(3, 'years').format("MM/DD/YYYY"));
     }
 
   });
