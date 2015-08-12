@@ -23,9 +23,13 @@ Element providing solution to no problem in particular. As a simple, increments 
 -->
 <dom-module id="px-datepicker">
   <link rel="import" type="css" href="css/px-datepicker.css"/>
-  <template> 
-    <px-calendar display-month-year="{{displayMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>
-    <px-calendar display-month-year="{{displaySecondMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>
+  <template>
+    <div class="rangepicker__box u-p+">
+      <div class=flex>
+        <px-calendar class=u-mr+ display-month-year="{{displayMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>
+        <px-calendar class=u-ml+ display-month-year="{{displaySecondMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>
+      </div>
+    </div>
   </template>
 </dom-module>
 

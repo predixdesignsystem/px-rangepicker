@@ -22,12 +22,43 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 // Generic
 @import "px-normalize-design/_generic.normalize.scss";
 @import "px-box-sizing-design/_generic.box-sizing.scss";
+@import "px-helpers-design/_generic.helpers.scss";
 
 // Base
 @import "px-viewport-design/_base.viewport.scss";
 @import "px-typography-design/_base.typography.scss";
 
+$inuit-enable-table--small      : true;
+$inuit-enable-table--no-cells   : true;
+
+@import "px-tables-design/_base.tables.scss";
+
 // Objects
-$inuit-enable-btn--bare   : true;
+$inuit-enable-btn--bare         : true;
 
 @import "px-buttons-design/_objects.buttons.scss";
+
+// Component
+h3 {
+  @include inuit-font-size(15px);
+}
+
+.table {
+  th, td {
+    box-sizing: content-box;
+    width: 1.3333333333em;
+    &:first-of-type {
+      padding-left: 0;
+    }
+    &:last-of-type {
+      padding-right: 0;
+    }
+  }
+}
+
+// Trumps
+$inuit-enable-margins--large    : true;
+$inuit-enable-margins--none     : true;
+$inuit-enable-paddings--none    : true;
+
+@import "px-spacing-design/_trumps.spacing.scss";

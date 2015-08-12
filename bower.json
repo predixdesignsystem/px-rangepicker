@@ -14,13 +14,14 @@
     "test"
   ],
   "dependencies": {
+    "moment": "~2.10.6",
     "polymer": "~1.0.0",
     "px-iconography-design": "git://github.build.ge.com/PXd/px-iconography-design.git#~0.2.0",
     "px-theme": "git://github.build.ge.com/PXc/px-theme.git#~0.2.0",
-    "moment": "~2.10.6",
     "px-buttons-design": "git://github.build.ge.com/PXd/px-buttons-design.git#~0.4.0",
     "px-forms-design": "git://github.build.ge.com/PXd/px-forms-design.git#~0.3.0",
-    "px-starter-kit-design": "git://github.build.ge.com/PXd/px-starter-kit-design.git#~0.4.0"
+    "px-starter-kit-design": "git://github.build.ge.com/PXd/px-starter-kit-design.git#~0.4.0",
+    "px-tables-design": "git://github.build.ge.com/PXd/px-tables-design.git#~0.3.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#~v1.0.0",

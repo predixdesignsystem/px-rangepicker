@@ -593,9 +593,6 @@ sub {
   margin-top: 0.6666666667rem;
   border: 1px solid;
   border-radius: 3px; }
-  .rangepicker__box span {
-    font-size: 3rem;
-    line-height: 1.3333333333; }
 
 .rangepicker__box__select {
   -webkit-align-self: flex-start;

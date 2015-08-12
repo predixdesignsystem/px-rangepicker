@@ -50,9 +50,6 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
   margin-top: $inuit-base-spacing-unit--small;
   border: 1px solid;
   border-radius: 3px;
-  span {
-    @include inuit-font-size(45px);
-  }
 }
 
 .rangepicker__box__select {

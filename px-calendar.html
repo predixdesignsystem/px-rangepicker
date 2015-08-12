@@ -21,14 +21,16 @@ Element providing solution to no problem in particular. As a simple, increments 
 <dom-module id="px-calendar">
   <link rel="import" type="css" href="css/px-calendar.css"/>
   <template>
-    <div>
+    <h3 class="caps text--center u-mt0 u-mb+">
       <span>{{displayMonthName}}</span>
       <span>{{displayYear}}</span>
-    </div>
-    <table>
-      <template is="dom-repeat" items="{{daysOfTheWeek}}">
-        <th>{{item}}</th>
-      </template>
+    </h3>
+    <table class="table table--small table--no-cells text--center">
+      <tr>
+        <template is="dom-repeat" items="{{daysOfTheWeek}}">
+          <th class="caps u-pt0">{{item}}</th>
+        </template>
+      </tr>
       <template is="dom-repeat" items="{{calendar}}" as="week">
         <tr>
           <template is="dom-repeat" items="{{week}}">
@@ -103,8 +105,13 @@ Element providing solution to no problem in particular. As a simple, increments 
           weekCount++;
         }
 
-        while (weekCount < 7 && dateCount <= numberOfDaysInMonth) {
-          week.push(dateCount);
+        while (weekCount < 7) {
+          if(dateCount <= numberOfDaysInMonth) {
+            week.push(dateCount);
+          }
+          else {
+            week.push('');
+          }
           dateCount++;
           weekCount++;
         }
