@@ -26,11 +26,11 @@ Element providing solution to no problem in particular. As a simple, increments 
 <dom-module id="px-rangepicker">
   <link rel="import" type="css" href="css/px-rangepicker.css"/>
   <template>
+    <div class=flex>
+      <px-range-field id="dateRange" class="u-mr+" icon="fa-calendar" from="06/24/2014" to="12/25/2015"></px-range-field>
+      <px-range-field id="timeRange" icon="fa-clock-o" from="{{fromTime}}" to="{{toTime}}"></px-range-field>
+    </div>
     <form>
-      <div class=flex>
-        <px-range-field id="dateRange" class="u-mr+" icon="fa-calendar" from="06/24/2014" to="12/25/2015"></px-range-field>
-        <px-range-field id="timeRange" icon="fa-clock-o" from="{{fromTime}}" to="{{toTime}}"></px-range-field>
-      </div>
       <div class=rangepicker__box>
         <div class="flex flex--middle border--bottom u-pr+">
           <px-time-input id="fromTimeInput" class=u-pl+ time="{{fromTime}}"></px-time-input>
@@ -51,12 +51,9 @@ Element providing solution to no problem in particular. As a simple, increments 
           <button class=btn>Cancel</button>
         </div>
       </div>
-      <div class=rangepicker__box>
-        <div class="flex flex--middle border--bottom u-pr+">
-          <px-calendar></px-calendar>
-        </div>
-      </div>
     </form>
+    <px-calendar month="7" year="2015"></px-calendar>
+    <px-calendar month="8" year="2016"></px-calendar>
   </template>
 </dom-module>
 
