@@ -1,0 +1,38 @@
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
+    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs
+    See https://github.sw.ge.com/jreichenberg/grunt-dep-serve#why-do-we-need-this
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="px-calendar.html"/>
+
+<script src="../moment/moment.js"></script>
+
+<!--
+Element providing solution to no problem in particular. As a simple, increments a counter when clicked.
+
+##### Usage
+
+    <px-datepicker></px-datepicker>
+
+@element px-datepicker
+@blurb Element providing solution to no problem in particular.
+@homepage index.html
+@demo demo.html
+-->
+<dom-module id="px-datepicker">
+  <link rel="import" type="css" href="css/px-datepicker.css"/>
+  <template> 
+    <px-calendar month="7" year="2015" start-date="{{startDate}}" end-date="{{endDate}}"></px-calendar>
+    <px-calendar month="8" year="2016" start-date="{{startDate}}" end-date="{{endDate}}"></px-calendar>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'px-datepicker'
+
+  });
+</script>
