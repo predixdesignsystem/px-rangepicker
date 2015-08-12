@@ -101,10 +101,8 @@ Element providing solution to no problem in particular. As a simple, increments 
 
     ready: function() {
       
-      var x = this.getDaysOfTheWeek();
-      this.set('daysOfTheWeek', x);
-      
-      
+      var daysOfTheWeek = this.getDaysOfTheWeek();
+      this.set('daysOfTheWeek', daysOfTheWeek);
       
       var monthToDisplay = moment({
         year: this.year,
