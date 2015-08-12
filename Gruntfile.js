@@ -67,6 +67,12 @@ module.exports = function(grunt) {
                 'css/noprefix/px-timepicker-sketch.css': 'sass/px-timepicker-sketch.scss',
                 'css/noprefix/px-timepicker.css': 'sass/px-timepicker-predix.scss'
             }
+        },
+        calendar: {
+            files: {
+                'css/noprefix/px-calendar-sketch.css': 'sass/px-calendar-sketch.scss',
+                'css/noprefix/px-calendar.css': 'sass/px-calendar-predix.scss'
+            }
         }
     },
 
