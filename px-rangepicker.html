@@ -30,7 +30,7 @@ Element providing solution to no problem in particular. As a simple, increments 
       <px-range-field id="dateRange" class="u-mr+" icon="fa-calendar" from="{{fromDate}}" to="{{toDate}}"></px-range-field>
       <px-range-field id="timeRange" icon="fa-clock-o" from="{{fromTime}}" to="{{toTime}}"></px-range-field>
     </div>
-    <px-timepicker from-time="{{fromTime}}" to-time="{{toTime}}"></px-timepicker> 
+    <px-timepicker from-time="{{fromTime}}" to-time="{{toTime}}"></px-timepicker>
     <px-datepicker date="{{fromDate}}"></px-datepicker>
     <px-datepicker date="{{toDate}}"></px-datepicker>
   </template>
@@ -42,7 +42,7 @@ Element providing solution to no problem in particular. As a simple, increments 
     is: 'px-rangepicker',
 
     ready: function() {
-      var now = moment('12/2015', 'MM/YYYY');
+      var now = moment();
       this.set('fromTime', now.format("hh:mm:ss A"));
       this.set('toTime', now.add(7, 'hours').format("hh:mm:ss A"));
       this.set('fromDate', now.format("MM/DD/YYYY"));

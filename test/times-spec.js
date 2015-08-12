@@ -1,5 +1,5 @@
 'use strict';
-describe('Rangepicker', function() {
+describe('Times', function() {
 
   var rangePicker, fromTimeInput, toTimeInput, timeRange;
 

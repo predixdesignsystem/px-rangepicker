@@ -26,6 +26,7 @@ module.exports = function(config) {
       // source files which will be pulled in with html imports
       {pattern: 'bower_components/polymer/*.html', included: false},
       {pattern: 'bower_components/test/px-timepicker.html', included: false},
+      {pattern: 'bower_components/test/px-calendar.html', included: false},
       {pattern: 'bower_components/test/px-datepicker.html', included: false},
       {pattern: 'bower_components/test/px-time-input.html', included: false},
       {pattern: 'bower_components/test/px-range-field.html', included: false},
