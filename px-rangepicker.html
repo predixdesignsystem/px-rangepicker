@@ -12,11 +12,11 @@
 <script src="../moment/moment.js"></script>
 
 <!--
-Element providing solution to no problem in particular. As a simple, increments a counter when clicked.
+Rangepicker with time element.
 
 ##### Usage
 
-    <px-rangepicker></px-rangepicker>
+    <px-rangepicker from-time={{...}} to-time={{...}} from-date={{...}} to-date={{...}}></px-rangepicker>
 
 @element px-rangepicker
 @blurb Element providing solution to no problem in particular.
@@ -41,12 +41,27 @@ Element providing solution to no problem in particular. As a simple, increments 
 
     is: 'px-rangepicker',
 
+    properties: {
+
+      fromTime: {
+        type: String
+      },
+
+      toTime: {
+        type: String
+      },
+
+      fromDate: {
+        type: String
+      },
+
+      toDate: {
+        type: String
+      }
+
+    },
+
     ready: function() {
-      var now = moment();
-      this.set('fromTime', now.format("hh:mm:ss A"));
-      this.set('toTime', now.add(7, 'hours').format("hh:mm:ss A"));
-      this.set('fromDate', now.format("MM/DD/YYYY"));
-      this.set('toDate', now.add(3, 'years').format("MM/DD/YYYY"));
 
       var self = this;
       this.$.dateRange.addEventListener('px-selected-range-field', function(e) {

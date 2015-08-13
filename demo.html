@@ -1,34 +1,56 @@
 <!doctype html>
 
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>px-rangepicker Demo</title>
-        <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
-        <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
-        <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
-        <link rel="import" href="px-rangepicker.html"/>
-        <style>
-          html {
-            font-size: 0.9375rem;
-          }
-        </style>
-    </head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>px-rangepicker Demo</title>
+  <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+  <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+  <link rel="import" href="px-rangepicker.html"/>
 
-    <body>
+  <link rel="import" href="../iron-ajax/iron-ajax.html"/>
 
-        <h3>Demo</h3>
+  <style>
+    html {
+      font-size: 0.9375rem;
+    }
+  </style>
+</head>
 
-        <p>
-            Although related, examples are /not/ the same as the test fixtures.
-            Tests are tests, examples are examples.
-        </p>
+<body>
 
-        <p>
-            Also see the <a href="index.html">documentation</a> and the <a href="test/fixture.html">UI test fixture</a>.
-        </p>
+  <h3>Demo</h3>
 
-        <px-rangepicker></px-rangepicker>
-    </body>
+  <p>
+    Also see the <a href="index.html">documentation</a> and the <a href="test/fixture.html">UI test fixture</a>.
+  </p>
+
+  <!-- Wrap elements with auto-binding template to -->
+  <!-- allow use of Polymer bindings in main document -->
+  <template id="just-for-demo" is="dom-bind">
+
+    <iron-ajax
+      auto
+      url="demo-data/sample-data.json"
+      last-response="{{sampleData}}"
+      handle-as="json"></iron-ajax>
+
+    <div>
+      Time is from <span>{{sampleData.fromTime}}</span> to <span>{{sampleData.toTime}}</span>
+    </div>
+    <div>
+      Date is from <span>{{sampleData.fromDate}}</span> to <span>{{sampleData.toDate}}</span>
+    </div>
+
+    <br>
+    <br>
+
+    <px-rangepicker from-time="{{sampleData.fromTime}}" to-time="{{sampleData.toTime}}"
+                    from-date="{{sampleData.fromDate}}" to-date="{{sampleData.toDate}}"></px-rangepicker>
+
+  </template>
+
+</body>
 </html>
