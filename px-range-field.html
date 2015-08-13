@@ -20,13 +20,13 @@ Element providing solution to no problem in particular. As a simple, increments 
   <link rel="import" type="css" href="css/px-range-field.css"/>
   <template>
     <div class="range-field__field text-input flex flex--middle">
-      <label class=label--inline for=from>
+      <label class=label--inline on-click="selectFrom">
         <span class=a11y>From</span>
         <i id="icon" class="fa"></i>
       </label>
-      <input id=from type=text class=text-input--bare value="{{from}}">
-      <label class="caps label--inline" for=to>to</label>
-      <input id=to type=text class=text-input--bare value="{{to}}">
+      <input id=from type=text class=text-input--bare value="{{from}}" on-click="selectFrom">
+      <label class="caps label--inline" on-click="selectTo">to</label>
+      <input id=to type=text class=text-input--bare value="{{to}}" on-click="selectTo">
     </div>
   </template>
 </dom-module>
@@ -54,6 +54,14 @@ Element providing solution to no problem in particular. As a simple, increments 
 
     ready: function() {
       this.toggleClass(this.icon, true, this.$.icon);
+    },
+
+    selectFrom: function() {
+      this.fire('px-selected-range-field', 'from');
+    },
+
+    selectTo: function() {
+      this.fire('px-selected-range-field', 'to');
     }
 
   });

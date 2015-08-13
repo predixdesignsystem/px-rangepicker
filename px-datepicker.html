@@ -39,7 +39,7 @@ Element providing solution to no problem in particular. As a simple, increments 
     is: 'px-datepicker',
 
     properties: {
-      date: {
+      selectedDate: {
         type: String,
         observer: 'updateFirstMonthYear'
       }
@@ -48,7 +48,7 @@ Element providing solution to no problem in particular. As a simple, increments 
     observers: ['updateSecondMonthYear(displayMonthYear)'],
 
     updateFirstMonthYear: function() {
-      this.set('displayMonthYear', moment(this.date, 'MM/DD/YYYY').format('MM/YYYY'));
+      this.set('displayMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY'));
     },
 
     updateSecondMonthYear: function() {
@@ -56,8 +56,6 @@ Element providing solution to no problem in particular. As a simple, increments 
     },
 
     ready: function() {
-      this.selectedDate = '08/24/2015';
-
       var self = this;
       this.$.box.addEventListener('px-selected-date', function(e) {
         self.set('selectedDate', e.detail);

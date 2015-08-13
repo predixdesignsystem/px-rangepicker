@@ -9,14 +9,11 @@
 <script src="../moment/moment.js"></script>
 
 <!--
-Element providing solution to no problem in particular. As a simple, increments a counter when clicked.
+Element that renders a calendar for the given year and selects the given date.
 
 ##### Usage
+<px-calendar display-month-year="{{displayMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>
 
-@element px-rangepicker
-@blurb Element providing solution to no problem in particular.
-@homepage index.html
-@demo demo.html
 -->
 <dom-module id="px-calendar">
   <link rel="import" type="css" href="css/px-calendar.css"/>
@@ -115,7 +112,11 @@ Element providing solution to no problem in particular. As a simple, increments 
       });
     },
 
-    constructMonth: function(numberOfDaysInMonth, dayBeginningOfMonth) {
+    constructMonth: function(monthToDisplay) {
+
+      var numberOfDaysInMonth = monthToDisplay.daysInMonth();
+      var dayBeginningOfMonth = monthToDisplay.startOf('month').day();
+
       var dateCount = 1; // 1-31 or 30 or 28
       var daysNotInMonthCount = 0;
       var month = [];
@@ -154,15 +155,10 @@ Element providing solution to no problem in particular. As a simple, increments 
     renderMonth: function() {
       var monthToDisplay = moment(this.displayMonthYear, 'M/YYYY');
 
-      this.numberOfDaysInMonth = monthToDisplay.daysInMonth();
-      var dayBeginningOfMonth = monthToDisplay.startOf('month').day();
-
       this.displayMonthName = monthToDisplay.format('MMMM');
       this.displayYear = monthToDisplay.format('YYYY');
 
-      var calendar = this.constructMonth(this.numberOfDaysInMonth, dayBeginningOfMonth);
-
-      this.set('calendar', calendar);
+      this.set('calendar', this.constructMonth(monthToDisplay));
 
       // then call changeSelectedDate to see if the selectedDate is in this month & select it if it is
       this.changeSelectedDate();

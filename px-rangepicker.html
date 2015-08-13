@@ -30,9 +30,9 @@ Element providing solution to no problem in particular. As a simple, increments 
       <px-range-field id="dateRange" class="u-mr+" icon="fa-calendar" from="{{fromDate}}" to="{{toDate}}"></px-range-field>
       <px-range-field id="timeRange" icon="fa-clock-o" from="{{fromTime}}" to="{{toTime}}"></px-range-field>
     </div>
-    <px-timepicker from-time="{{fromTime}}" to-time="{{toTime}}"></px-timepicker>
-    <px-datepicker date="{{fromDate}}"></px-datepicker>
-    <px-datepicker date="{{toDate}}"></px-datepicker>
+    <px-timepicker id="timepicker" from-time="{{fromTime}}" to-time="{{toTime}}" hidden></px-timepicker>
+    <px-datepicker id="datepicker" selected-date="{{fromDate}}" hidden></px-datepicker>
+    <!--<px-datepicker date="{{toDate}}"></px-datepicker>-->
   </template>
 </dom-module>
 
@@ -47,6 +47,16 @@ Element providing solution to no problem in particular. As a simple, increments 
       this.set('toTime', now.add(7, 'hours').format("hh:mm:ss A"));
       this.set('fromDate', now.format("MM/DD/YYYY"));
       this.set('toDate', now.add(3, 'years').format("MM/DD/YYYY"));
+
+      var self = this;
+      this.$.dateRange.addEventListener('px-selected-range-field', function(e) {
+        self.$.datepicker.toggleAttribute('hidden', false);
+      });
+
+      this.$.timeRange.addEventListener('px-selected-range-field', function(e) {
+        self.$.timepicker.toggleAttribute('hidden', false);
+      });
+
     }
 
   });
