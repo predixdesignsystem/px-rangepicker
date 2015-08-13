@@ -25,9 +25,13 @@ Element providing solution to no problem in particular. As a simple, increments 
   <link rel="import" type="css" href="css/px-datepicker.css"/>
   <template>
     <div id="box" class="rangepicker__box u-p+">
-      <div class=flex>
-        <px-calendar class=u-mr+ display-month-year="{{displayMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>
-        <px-calendar class=u-ml+ display-month-year="{{displaySecondMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>
+      <div class="flex flex--middle border--bottom u-pr+">
+        <px-calendar class=u-mr+ display-month-year="{{displayMonthYear}}" selected-date-of-month="{{selectedDateOfMonth}}"></px-calendar>
+        <!--<px-calendar class=u-ml+ display-month-year="{{displayMonthYear}}" selected-date-of-month="{{selectedDateInput}}"></px-calendar>-->
+      </div>
+      <div class="flex flex--right u-p-">
+        <input class="btn btn--primary" type=submit value=Apply on-click="applyDate">
+        <button class=btn on-click="cancel">Cancel</button>
       </div>
     </div>
   </template>
@@ -41,25 +45,39 @@ Element providing solution to no problem in particular. As a simple, increments 
     properties: {
       selectedDate: {
         type: String,
-        observer: 'updateFirstMonthYear'
+        observer: 'updateSelectedDate',
+        notify: true
       }
     },
 
-    observers: ['updateSecondMonthYear(displayMonthYear)'],
-
-    updateFirstMonthYear: function() {
+    resetInputFields: function() {
       this.set('displayMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY'));
+      this.set('selectedDateOfMonth', moment(this.selectedDate, 'MM/DD/YYYY').format('D'));
     },
 
-    updateSecondMonthYear: function() {
-      this.set('displaySecondMonthYear', moment(this.displayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
+    updateSelectedDate: function() {
+      this.resetInputFields();
     },
 
-    ready: function() {
-      var self = this;
-      this.$.box.addEventListener('px-selected-date', function(e) {
-        self.set('selectedDate', e.detail);
-      });
+
+//
+//    observers: ['updateSecondMonthYear(displayMonthYear)'],
+//
+//    updateSecondMonthYear: function() {
+//      this.set('displaySecondMonthYear', moment(this.displayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
+//    },
+//
+    applyDate: function() {
+      var newSelectedDate = moment(this.displayMonthYear, 'MM/YYYY');
+      newSelectedDate.date(this.selectedDateOfMonth);
+      this.set('selectedDate', newSelectedDate.format('MM/DD/YYYY')); // set the selected date to the input date
+
+      this.fire('px-date-picking-done');
+    },
+
+    cancel: function() {
+      this.resetInputFields(); // reset the input to the previously chosen date
+      this.fire('px-date-picking-done');
     }
 
 

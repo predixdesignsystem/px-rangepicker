@@ -69,16 +69,20 @@ Rangepicker with time element.
 
       var self = this;
 
-      this.$.dateRange.addEventListener('px-selected-range-field', function(e) {
-        self.$.datepicker.toggleAttribute('hidden', false);
-      });
-
       this.$.timeRange.addEventListener('px-selected-range-field', function(e) {
         self.$.timepicker.toggleAttribute('hidden', false);
       });
 
       this.$.timepicker.addEventListener('px-time-picking-done', function(e) {
         self.$.timepicker.toggleAttribute('hidden', true);
+      });
+
+      this.$.datepicker.addEventListener('px-date-picking-done', function(e) {
+        self.$.datepicker.toggleAttribute('hidden', true);
+      });
+
+      this.$.dateRange.addEventListener('px-selected-range-field', function(e) {
+        self.$.datepicker.toggleAttribute('hidden', false);
       });
     }
 
