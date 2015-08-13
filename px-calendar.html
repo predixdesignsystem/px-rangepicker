@@ -18,25 +18,29 @@ Element that renders a calendar for the given year and selects the given date.
 <dom-module id="px-calendar">
   <link rel="import" type="css" href="css/px-calendar.css"/>
   <template>
-    <h3 class="caps text--center u-mt0 u-mb+">
-      <span>{{displayMonthName}}</span>
-      <span>{{displayYear}}</span>
-    </h3>
     <table class="table table--small table--no-cells text--center">
-      <tr>
-        <template is="dom-repeat" items="{{daysOfTheWeek}}" as="dayOfTheWeek">
-          <th class="caps u-pt0">{{dayOfTheWeek}}</th>
-        </template>
-      </tr>
-      <template is="dom-repeat" items="{{calendar}}" as="week">
+      <caption>
+        <span>{{displayMonthName}}</span>
+        <span>{{displayYear}}</span>
+      </caption>
+      <thead>
         <tr>
-          <template is="dom-repeat" items="{{week}}" as="day">
-            <td>
-              <button class$="{{day.styles}}" value="{{day.value}}" on-click="selectDate">{{day.value}}</button>
-            </td>
+          <template is="dom-repeat" items="{{daysOfTheWeek}}" as="dayOfTheWeek">
+            <th class="caps u-pt0">{{dayOfTheWeek}}</th>
           </template>
         </tr>
-      </template>
+      </thead>
+      <tbody>
+        <template is="dom-repeat" items="{{calendar}}" as="week">
+          <tr>
+            <template is="dom-repeat" items="{{week}}" as="day">
+              <td>
+                <button class$="{{day.styles}}" value="{{day.value}}" on-click="selectDate">{{day.value}}</button>
+              </td>
+            </template>
+          </tr>
+        </template>
+      </tbody>
     </table>
 
   </template>
@@ -101,7 +105,7 @@ Element that renders a calendar for the given year and selects the given date.
 
           var styles = 'btn btn--bare';
           if(self.isMatchingDate(dateObj.value)) {
-            styles = 'btn btn--bare selected';
+            styles = 'btn btn--bare is-selected';
           }
 
           if (dateObj.styles !== styles) {

@@ -679,17 +679,26 @@ button.btn {
     background: none;
     color: inherit; }
 
-h3 {
-  font-size: 1rem;
-  line-height: 1.3333333333; }
+caption {
+  margin-bottom: 1rem;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase; }
 
 .table th, .table td {
-  box-sizing: content-box;
-  width: 1.3333333333em; }
+  box-sizing: content-box; }
   .table th:first-of-type, .table td:first-of-type {
     padding-left: 0; }
   .table th:last-of-type, .table td:last-of-type {
     padding-right: 0; }
+
+.btn--bare {
+  min-width: 1.2em;
+  border-radius: 2.4em; }
+
+.is-selected {
+  margin: -0.2666666667rem;
+  padding: 0.2666666667rem; }
 
 /**
  * Margin and padding helper classes. Use these to tweak layout on a micro
@@ -697,32 +706,6 @@ h3 {
  *
  * `.u-(m|p)(t|r|b|l|h|v)(-|+|0) {}` = utility - margin/padding top/right/bottom/left/horizontal/vertical less/more/none
  */
-/**
-     * Add large margins.
-     */
-.u-m\00002b {
-  margin: 1.3333333333rem !important; }
-
-.u-mt\00002b {
-  margin-top: 1.3333333333rem !important; }
-
-.u-mr\00002b {
-  margin-right: 1.3333333333rem !important; }
-
-.u-mb\00002b {
-  margin-bottom: 1.3333333333rem !important; }
-
-.u-ml\00002b {
-  margin-left: 1.3333333333rem !important; }
-
-.u-mh\00002b {
-  margin-right: 1.3333333333rem !important;
-  margin-left: 1.3333333333rem !important; }
-
-.u-mv\00002b {
-  margin-top: 1.3333333333rem !important;
-  margin-bottom: 1.3333333333rem !important; }
-
 /**
      * Remove margins.
      */
@@ -748,29 +731,3 @@ h3 {
 .u-mv0 {
   margin-top: 0 !important;
   margin-bottom: 0 !important; }
-
-/**
-     * Remove paddings.
-     */
-.u-p0 {
-  padding: 0 !important; }
-
-.u-pt0 {
-  padding-top: 0 !important; }
-
-.u-pr0 {
-  padding-right: 0 !important; }
-
-.u-pb0 {
-  padding-bottom: 0 !important; }
-
-.u-pl0 {
-  padding-left: 0 !important; }
-
-.u-ph0 {
-  padding-right: 0 !important;
-  padding-left: 0 !important; }
-
-.u-pv0 {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important; }
