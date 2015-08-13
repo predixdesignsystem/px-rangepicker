@@ -35,7 +35,7 @@ Element providing solution to no problem in particular. As a simple, increments 
         <tr>
           <template is="dom-repeat" items="{{week}}" as="day">
             <td>
-              <button id="{{createId(day)}}" class$="{{getInitialStyles(day)}}" value="{{day}}" on-click="selectDate">{{day}}</button>
+              <button class$="{{day.styles}}" value="{{day.value}}" on-click="selectDate">{{day.value}}</button>
             </td>
           </template>
         </tr>
@@ -64,43 +64,8 @@ Element providing solution to no problem in particular. As a simple, increments 
 
     },
 
-    createId: function(base) {
-      return 'item'  + base;
-    },
-
-    getInitialStyles: function(item) {
-      var styles = 'btn btn--bare';
-      if(this.isInThisMonth && item == this.selectedDateDay) {
-        styles += ' selected';
-      }
-      return styles;
-    },
-
-    changeSelectedDate: function() {
-
-      var selectedDateMonthYear = moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY');
-      this.selectedDateDay = moment(this.selectedDate, 'MM/DD/YYYY').format('D');
-
-      if(selectedDateMonthYear === this.displayMonthYear) {
-
-        this.isInThisMonth = true;
-//
-//        // first time, class$= gets all the styles
-//
-//        // every other time
-        for(var i=1; i<=this.numberOfDaysInMonth; i++) {
-          var isToggled = false;
-          if(this.selectedDateDay == i) {
-            isToggled = true;
-          }
-          this.toggleClass('selected', isToggled, this.$$('#item'+i));
-        }
-
-      }
-      else {
-        this.isInThisMonth = false;
-      }
-
+    ready: function() {
+      this.daysOfTheWeek = this.getDaysOfTheWeek();
     },
 
     getDaysOfTheWeek: function() {
@@ -111,6 +76,43 @@ Element providing solution to no problem in particular. As a simple, increments 
         day.add(1, 'days');
       }
       return daysOfWeek;
+    },
+
+    isSelectedDateInThisMonth: function() {
+      var selectedDateMonthYear = moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY');
+      return selectedDateMonthYear === this.displayMonthYear;
+    },
+
+    isMatchingDate: function(date) {
+      if(!this.isSelectedDateInThisMonth()) {
+        return false;
+      }
+
+      var selectedDateDay = moment(this.selectedDate, 'MM/DD/YYYY').format('D');
+      return selectedDateDay == date;
+    },
+
+    changeSelectedDate: function() {
+
+      if(!this.calendar) {
+        return;
+      }
+
+      var self = this;
+      this.calendar.forEach(function(week, i) {
+        week.forEach(function(dateObj, j) {
+
+          var styles = 'btn btn--bare';
+          if(self.isMatchingDate(dateObj.value)) {
+            styles = 'btn btn--bare selected';
+          }
+
+          if (dateObj.styles !== styles) {
+            self.set('calendar.' + i + '.' + j, {value: dateObj.value, styles: styles});
+          }
+
+        });
+      });
     },
 
     constructMonth: function(numberOfDaysInMonth, dayBeginningOfMonth) {
@@ -125,17 +127,17 @@ Element providing solution to no problem in particular. As a simple, increments 
 
         // days not in the month
         while (daysNotInMonthCount < dayBeginningOfMonth) {
-          week.push('');
+          week.push({value: '', styles: 'btn btn--bare'});
           daysNotInMonthCount++;
           weekCount++;
         }
 
         while (weekCount < 7) {
-          if(dateCount <= numberOfDaysInMonth) {
-            week.push(dateCount);
+          if (dateCount <= numberOfDaysInMonth) {
+            week.push({value: dateCount, styles: 'btn btn--bare'});
           }
           else {
-            week.push('');
+            week.push({value: '', styles: 'btn btn--bare'});
           }
           dateCount++;
           weekCount++;
@@ -150,7 +152,7 @@ Element providing solution to no problem in particular. As a simple, increments 
     },
 
     renderMonth: function() {
-      var monthToDisplay = moment(this.displayMonthYear, 'M/YYYY')
+      var monthToDisplay = moment(this.displayMonthYear, 'M/YYYY');
 
       this.numberOfDaysInMonth = monthToDisplay.daysInMonth();
       var dayBeginningOfMonth = monthToDisplay.startOf('month').day();
@@ -166,20 +168,13 @@ Element providing solution to no problem in particular. As a simple, increments 
       this.changeSelectedDate();
     },
 
-    selectDate: function(e){
+    selectDate: function(e) {
 
       var newSelectedDate = moment(this.displayMonthYear, 'MM/YYYY');
 
       newSelectedDate.date(e.target.value);
 
       this.fire('px-selected-date', newSelectedDate.format('MM/DD/YYYY'));
-
-    },
-
-    ready: function() {
-
-      var daysOfTheWeek = this.getDaysOfTheWeek();
-      this.set('daysOfTheWeek', daysOfTheWeek);
 
     }
 

@@ -24,10 +24,10 @@ Element providing solution to no problem in particular. As a simple, increments 
 <dom-module id="px-datepicker">
   <link rel="import" type="css" href="css/px-datepicker.css"/>
   <template>
-    <div class="rangepicker__box u-p+">
+    <div id="box" class="rangepicker__box u-p+">
       <div class=flex>
         <px-calendar class=u-mr+ display-month-year="{{displayMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>
-        <!--<px-calendar class=u-ml+ display-month-year="{{displaySecondMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>-->
+        <px-calendar class=u-ml+ display-month-year="{{displaySecondMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>
       </div>
     </div>
   </template>
@@ -58,8 +58,9 @@ Element providing solution to no problem in particular. As a simple, increments 
     ready: function() {
       this.selectedDate = '08/24/2015';
 
-      this.$$('px-calendar').addEventListener('px-selected-date', function(e) {
-        this.set('selectedDate', e.detail);
+      var self = this;
+      this.$.box.addEventListener('px-selected-date', function(e) {
+        self.set('selectedDate', e.detail);
       });
     }
 
