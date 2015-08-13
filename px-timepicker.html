@@ -24,28 +24,26 @@ Element providing solution to no problem in particular. As a simple, increments 
 <dom-module id="px-timepicker">
   <link rel="import" type="css" href="css/px-timepicker.css"/>
   <template>
-    <form>
-      <div class=rangepicker__box>
-        <div class="flex flex--middle border--bottom u-pr+">
-          <px-time-input id="fromTimeInput" class="u-pv+ u-pl+" time="{{fromTime}}"></px-time-input>
-          <span class=u-mh->-</span>
-          <px-time-input id="toTimeInput" class="u-pv+ u-pr+ border--right" time="{{toTime}}"></px-time-input>
-          <div class=rangepicker__box__select>
-            <label class="caps weight--semibold u-mb-">Time Range</label>
-            <select>
-              <option>Select</option>
-              <option>1 minute</option>
-              <option>5 minutes</option>
-              <option>10 minutes</option>
-            </select>
-          </div>
-        </div>
-        <div class="flex flex--right u-p-">
-          <input class="btn btn--primary" type=submit value=Apply>
-          <button class=btn>Cancel</button>
+    <div class=rangepicker__box>
+      <div class="flex flex--middle border--bottom u-pr+">
+        <px-time-input id="fromTimeInput" class="u-pv+ u-pl+" time="{{fromTimeInput}}"></px-time-input>
+        <span class=u-mh->-</span>
+        <px-time-input id="toTimeInput" class="u-pv+ u-pr+ border--right" time="{{toTimeInput}}"></px-time-input>
+        <div class=rangepicker__box__select>
+          <label class="caps weight--semibold u-mb-">Time Range</label>
+          <select>
+            <option>Select</option>
+            <option>1 minute</option>
+            <option>5 minutes</option>
+            <option>10 minutes</option>
+          </select>
         </div>
       </div>
-    </form>
+      <div class="flex flex--right u-p-">
+        <input class="btn btn--primary" type=submit value=Apply on-click="applyTime">
+        <button class=btn on-click="cancel">Cancel</button>
+      </div>
+    </div>
   </template>
 </dom-module>
 
@@ -53,16 +51,38 @@ Element providing solution to no problem in particular. As a simple, increments 
   Polymer({
 
     is: 'px-timepicker',
-    
+
     properties: {
       toTime: {
         type: String,
-        notify: true
+        notify: true,
+        observer: 'changeToTime'
       },
       fromTime: {
         type: String,
-        notify: true
+        notify: true,
+        observer: 'changeFromTime'
       }
+    },
+
+    changeToTime: function() {
+      this.set('toTimeInput', this.toTime);
+    },
+
+    changeFromTime: function() {
+      this.set('fromTimeInput', this.fromTime);
+    },
+
+    applyTime: function() {
+      this.set('toTime', this.toTimeInput); // set the selected time to the input time
+      this.set('fromTime', this.fromTimeInput);
+      this.fire('px-time-picking-done');
+    },
+
+    cancel: function() {
+      this.set('toTimeInput', this.toTime); // reset the input to the previously chosen time
+      this.set('fromTimeInput', this.fromTime);
+      this.fire('px-time-picking-done');
     }
 
   });

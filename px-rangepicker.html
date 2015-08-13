@@ -44,19 +44,23 @@ Rangepicker with time element.
     properties: {
 
       fromTime: {
-        type: String
+        type: String,
+        notify: true
       },
 
       toTime: {
-        type: String
+        type: String,
+        notify: true
       },
 
       fromDate: {
-        type: String
+        type: String,
+        notify: true
       },
 
       toDate: {
-        type: String
+        type: String,
+        notify: true
       }
 
     },
@@ -64,6 +68,7 @@ Rangepicker with time element.
     ready: function() {
 
       var self = this;
+
       this.$.dateRange.addEventListener('px-selected-range-field', function(e) {
         self.$.datepicker.toggleAttribute('hidden', false);
       });
@@ -72,6 +77,9 @@ Rangepicker with time element.
         self.$.timepicker.toggleAttribute('hidden', false);
       });
 
+      this.$.timepicker.addEventListener('px-time-picking-done', function(e) {
+        self.$.timepicker.toggleAttribute('hidden', true);
+      });
     }
 
   });
