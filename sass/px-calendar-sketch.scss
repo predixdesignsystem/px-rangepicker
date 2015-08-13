@@ -39,14 +39,16 @@ $inuit-enable-btn--bare         : true;
 @import "px-buttons-design/_objects.buttons.scss";
 
 // Component
-h3 {
-  @include inuit-font-size(15px);
+caption {
+  margin-bottom: $inuit-base-spacing-unit;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .table {
   th, td {
     box-sizing: content-box;
-    width: 1.3333333333em;
     &:first-of-type {
       padding-left: 0;
     }
@@ -56,9 +58,17 @@ h3 {
   }
 }
 
+.btn--bare {
+  min-width: 1.2em;
+  border-radius: 2.4em;
+}
+
+.is-selected {
+  margin: -#{calculateRem(4px)};
+  padding: calculateRem(4px);
+}
+
 // Trumps
-$inuit-enable-margins--large    : true;
 $inuit-enable-margins--none     : true;
-$inuit-enable-paddings--none    : true;
 
 @import "px-spacing-design/_trumps.spacing.scss";
