@@ -27,15 +27,15 @@ Element providing solution to no problem in particular. As a simple, increments 
     </h3>
     <table class="table table--small table--no-cells text--center">
       <tr>
-        <template is="dom-repeat" items="{{daysOfTheWeek}}">
-          <th class="caps u-pt0">{{item}}</th>
+        <template is="dom-repeat" items="{{daysOfTheWeek}}" as="dayOfTheWeek">
+          <th class="caps u-pt0">{{dayOfTheWeek}}</th>
         </template>
       </tr>
       <template is="dom-repeat" items="{{calendar}}" as="week">
         <tr>
-          <template is="dom-repeat" items="{{week}}">
+          <template is="dom-repeat" items="{{week}}" as="day">
             <td>
-              <button class="btn btn--bare" value="{{item}}" on-click="selectDate">{{item}}</button>
+              <button id="{{createId(day)}}" class$="{{getInitialStyles(day)}}" value="{{day}}" on-click="selectDate">{{day}}</button>
             </td>
           </template>
         </tr>
@@ -49,34 +49,59 @@ Element providing solution to no problem in particular. As a simple, increments 
   Polymer({
 
     is: 'px-calendar',
-    
+
     properties: {
 
       displayMonthYear: {
-        type: String
+        type: String,
+        observer: 'renderMonth'
       },
-      
-/*
-      displayMonth: {
-        type: Number
-//         observer: 'renderMonth'
-      },
-      
-      displayYear: {
-        type: Number
-//         observer: 'renderMonth'
-      },
-*/
-      
+
       selectedDate: {
-        
+        type: String,
+        observer: 'changeSelectedDate'
       }
-      
+
     },
-    
-    observers: [
-    'renderMonth(displayMonthYear)'
-    ],
+
+    createId: function(base) {
+      return 'item'  + base;
+    },
+
+    getInitialStyles: function(item) {
+      var styles = 'btn btn--bare';
+      if(this.isInThisMonth && item == this.selectedDateDay) {
+        styles += ' selected';
+      }
+      return styles;
+    },
+
+    changeSelectedDate: function() {
+
+      var selectedDateMonthYear = moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY');
+      this.selectedDateDay = moment(this.selectedDate, 'MM/DD/YYYY').format('D');
+
+      if(selectedDateMonthYear === this.displayMonthYear) {
+
+        this.isInThisMonth = true;
+//
+//        // first time, class$= gets all the styles
+//
+//        // every other time
+        for(var i=1; i<=this.numberOfDaysInMonth; i++) {
+          var isToggled = false;
+          if(this.selectedDateDay == i) {
+            isToggled = true;
+          }
+          this.toggleClass('selected', isToggled, this.$$('#item'+i));
+        }
+
+      }
+      else {
+        this.isInThisMonth = false;
+      }
+
+    },
 
     getDaysOfTheWeek: function() {
       var day = moment().startOf('week');
@@ -87,7 +112,7 @@ Element providing solution to no problem in particular. As a simple, increments 
       }
       return daysOfWeek;
     },
-    
+
     constructMonth: function(numberOfDaysInMonth, dayBeginningOfMonth) {
       var dateCount = 1; // 1-31 or 30 or 28
       var daysNotInMonthCount = 0;
@@ -123,37 +148,39 @@ Element providing solution to no problem in particular. As a simple, increments 
       return month;
 
     },
-    
+
     renderMonth: function() {
       var monthToDisplay = moment(this.displayMonthYear, 'M/YYYY')
-/*
-      moment({
-        year: this.displayYear,
-        month: this.displayMonth
-      });
-*/
 
-      var numberOfDaysInMonth = monthToDisplay.daysInMonth();
+      this.numberOfDaysInMonth = monthToDisplay.daysInMonth();
       var dayBeginningOfMonth = monthToDisplay.startOf('month').day();
 
       this.displayMonthName = monthToDisplay.format('MMMM');
       this.displayYear = monthToDisplay.format('YYYY');
-      
-      var calendar = this.constructMonth(numberOfDaysInMonth, dayBeginningOfMonth);
-            
+
+      var calendar = this.constructMonth(this.numberOfDaysInMonth, dayBeginningOfMonth);
+
       this.set('calendar', calendar);
+
+      // then call changeSelectedDate to see if the selectedDate is in this month & select it if it is
+      this.changeSelectedDate();
     },
-    
+
     selectDate: function(e){
-//       this.selectedDate = e.target.value;
-      console.log(e.target.value);
+
+      var newSelectedDate = moment(this.displayMonthYear, 'MM/YYYY');
+
+      newSelectedDate.date(e.target.value);
+
+      this.fire('px-selected-date', newSelectedDate.format('MM/DD/YYYY'));
+
     },
 
     ready: function() {
-      
+
       var daysOfTheWeek = this.getDaysOfTheWeek();
       this.set('daysOfTheWeek', daysOfTheWeek);
-      
+
     }
 
   });

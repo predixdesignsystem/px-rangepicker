@@ -20,3 +20,8 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 */
 
 @import 'px-calendar-sketch.scss';
+
+.selected.btn {
+  color: white;
+  background-color: blue;
+}

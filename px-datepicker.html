@@ -27,7 +27,7 @@ Element providing solution to no problem in particular. As a simple, increments 
     <div class="rangepicker__box u-p+">
       <div class=flex>
         <px-calendar class=u-mr+ display-month-year="{{displayMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>
-        <px-calendar class=u-ml+ display-month-year="{{displaySecondMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>
+        <!--<px-calendar class=u-ml+ display-month-year="{{displaySecondMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>-->
       </div>
     </div>
   </template>
@@ -37,23 +37,32 @@ Element providing solution to no problem in particular. As a simple, increments 
   Polymer({
 
     is: 'px-datepicker',
-    
+
     properties: {
       date: {
         type: String,
         observer: 'updateFirstMonthYear'
       }
     },
-    
+
     observers: ['updateSecondMonthYear(displayMonthYear)'],
-    
+
     updateFirstMonthYear: function() {
       this.set('displayMonthYear', moment(this.date, 'MM/DD/YYYY').format('MM/YYYY'));
     },
-    
+
     updateSecondMonthYear: function() {
       this.set('displaySecondMonthYear', moment(this.displayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
+    },
+
+    ready: function() {
+      this.selectedDate = '08/24/2015';
+
+      this.$$('px-calendar').addEventListener('px-selected-date', function(e) {
+        this.set('selectedDate', e.detail);
+      });
     }
+
 
   });
 </script>

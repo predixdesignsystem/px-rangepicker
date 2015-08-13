@@ -787,3 +787,7 @@ h3 {
 .u-pv0 {
   padding-top: 0 !important;
   padding-bottom: 0 !important; }
+
+.selected.btn {
+  color: white;
+  background-color: blue; }
