@@ -14,16 +14,20 @@ Datepicker element which allows user to select a date.
 <dom-module id="px-datepicker">
   <link rel="import" type="css" href="css/px-datepicker.css"/>
   <template>
-    <div id="box" class="rangepicker__box u-p+">
-      <div class="flex">
-        <button on-click="_jumpBack">&lt;</button>
-        <button on-click="_jumpForward">&gt;</button>
+    <div id="box" class="rangepicker__box u-pt+ u-pb-">
+      <div class="flex flex--justify u-mh+ u--mb+ calendar__page">
+        <button on-click="jumpBack" class="btn btn--bare">
+          <i class="fa fa-angle-left"></i>
+        </button>
+        <button on-click="jumpForward" class="btn btn--bare">
+          <i class="fa fa-angle-right"></i>
+        </button>
       </div>
-      <div class="flex flex--middle border--bottom u-pr+">
+      <div class="flex flex--middle border--bottom u-ph+">
         <px-calendar class=u-mr+ display-month-year="{{firstDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
         <px-calendar class=u-ml+ display-month-year="{{secondDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
       </div>
-      <div class="flex flex--right u-p-">
+      <div class="flex flex--right u-pt- u-pr-">
         <input class="btn btn--primary" type=submit value=Apply on-click="_applyDate">
         <button class=btn on-click="_cancel">Cancel</button>
       </div>
