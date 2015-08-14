@@ -651,9 +651,6 @@ sub {
     border-color: #7c7c84;
     box-shadow: none;
     background-color: #9999a3; }
-  .btn:active,
-  .btn:focus {
-    outline: none; }
 
 button.btn {
   -webkit-appearance: button; }
@@ -689,7 +686,8 @@ caption {
   text-transform: uppercase; }
 
 .table th, .table td {
-  box-sizing: content-box; }
+  box-sizing: content-box;
+  min-width: 1.6rem; }
   .table th:first-of-type, .table td:first-of-type {
     padding-left: 0; }
   .table th:last-of-type, .table td:last-of-type {
