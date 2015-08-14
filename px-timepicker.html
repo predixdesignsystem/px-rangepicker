@@ -1,25 +1,15 @@
-<!--
-    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
-    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
-    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs
-    See https://github.sw.ge.com/jreichenberg/grunt-dep-serve#why-do-we-need-this
--->
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="px-time-input.html"/>
 
 <script src="../moment/moment.js"></script>
 
 <!--
-Element providing solution to no problem in particular. As a simple, increments a counter when clicked.
+Timepicker element which allows user to select a start and end time.
 
 ##### Usage
 
-    <px-timepicker></px-timepicker>
+    <px-timepicker from-time="{{fromTime}}" to-time="{{toTime}}"></px-timepicker>
 
-@element px-timepicker
-@blurb Element providing solution to no problem in particular.
-@homepage index.html
-@demo demo.html
 -->
 <dom-module id="px-timepicker">
   <link rel="import" type="css" href="css/px-timepicker.css"/>
@@ -40,8 +30,8 @@ Element providing solution to no problem in particular. As a simple, increments 
         </div>
       </div>
       <div class="flex flex--right u-p-">
-        <input class="btn btn--primary" type=submit value=Apply on-click="applyTime">
-        <button class=btn on-click="cancel">Cancel</button>
+        <input class="btn btn--primary" type=submit value=Apply on-click="_applyTime">
+        <button class=btn on-click="_cancel">Cancel</button>
       </div>
     </div>
   </template>
@@ -53,33 +43,46 @@ Element providing solution to no problem in particular. As a simple, increments 
     is: 'px-timepicker',
 
     properties: {
+
+      /**
+       * Start time for time picker
+       *
+       * Format 'hh:mm:ss A', for example: '10:22:00 AM'
+       */
       toTime: {
         type: String,
         notify: true,
-        observer: 'changeToTime'
+        observer: '_changeToTime'
       },
+
+      /**
+       * End time for time picker
+       *
+       * Format 'hh:mm:ss A', for example: '04:55:00 PM'
+       */
       fromTime: {
         type: String,
         notify: true,
-        observer: 'changeFromTime'
+        observer: '_changeFromTime'
       }
+
     },
 
-    changeToTime: function() {
+    _changeToTime: function() {
       this.set('toTimeInput', this.toTime);
     },
 
-    changeFromTime: function() {
+    _changeFromTime: function() {
       this.set('fromTimeInput', this.fromTime);
     },
 
-    applyTime: function() {
+    _applyTime: function() {
       this.set('toTime', this.toTimeInput); // set the selected time to the input time
       this.set('fromTime', this.fromTimeInput);
       this.fire('px-time-picking-done');
     },
 
-    cancel: function() {
+    _cancel: function() {
       this.set('toTimeInput', this.toTime); // reset the input to the previously chosen time
       this.set('fromTimeInput', this.fromTime);
       this.fire('px-time-picking-done');

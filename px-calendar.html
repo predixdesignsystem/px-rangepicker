@@ -1,9 +1,3 @@
-<!--
-    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
-    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
-    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs
-    See https://github.sw.ge.com/jreichenberg/grunt-dep-serve#why-do-we-need-this
--->
 <link rel="import" href="../polymer/polymer.html"/>
 
 <script src="../moment/moment.js"></script>
@@ -12,7 +6,10 @@
 Element that renders a calendar for the given year and selects the given date.
 
 ##### Usage
-<px-calendar display-month-year="{{displayMonthYear}}" selected-date="{{selectedDate}}"></px-calendar>
+
+    <px-calendar display-month-year="{{displayMonthYear}}"
+                 last-clicked-date="{{selectedDate}}">
+    </px-calendar>
 
 -->
 <dom-module id="px-calendar">
@@ -35,7 +32,7 @@ Element that renders a calendar for the given year and selects the given date.
           <tr>
             <template is="dom-repeat" items="{{week}}" as="day">
               <td>
-                <button class$="{{day.styles}}" value="{{day.value}}" on-click="selectDate">{{day.value}}</button>
+                <button class$="{{day.styles}}" value="{{day.value}}" on-click="_selectDate">{{day.value}}</button>
               </td>
             </template>
           </tr>
@@ -53,24 +50,34 @@ Element that renders a calendar for the given year and selects the given date.
 
     properties: {
 
+      /**
+       * The month and year to display
+       *
+       * Format 'MM/YYYY', for example: '02/2015' is Feb 2015
+       */
       displayMonthYear: {
         type: String,
-        observer: 'renderMonth'
+        observer: '_renderMonth'
       },
 
+      /**
+       * Last clicked / selected date
+       *
+       * Format 'MM/DD/YYYY', for example: '01/25/2015' is Jan 25 2015
+       */
       lastClickedDate: {
         type: String,
-        observer: 'updateSelectionStyles',
+        observer: '_updateSelectionStyles',
         notify: true
       }
 
     },
 
     ready: function() {
-      this.daysOfTheWeek = this.getDaysOfTheWeek();
+      this.daysOfTheWeek = this._getDaysOfTheWeek();
     },
 
-    getDaysOfTheWeek: function() {
+    _getDaysOfTheWeek: function() {
       var day = moment().startOf('week');
       var daysOfWeek = [];
       for (var i = 0; i < 7; i++) {
@@ -80,13 +87,13 @@ Element that renders a calendar for the given year and selects the given date.
       return daysOfWeek;
     },
 
-    isSelectedDateInThisMonth: function() {
+    _isSelectedDateInThisMonth: function() {
       var selectedDateMonthYear = moment(this.lastClickedDate, 'MM/DD/YYYY').format('MM/YYYY');
       return selectedDateMonthYear === this.displayMonthYear;
     },
 
-    isMatchingDate: function(date) {
-      if(!this.isSelectedDateInThisMonth()) {
+    _isMatchingDate: function(date) {
+      if(!this._isSelectedDateInThisMonth()) {
         return false;
       }
 
@@ -94,7 +101,7 @@ Element that renders a calendar for the given year and selects the given date.
       return selectedDateDay == date;
     },
 
-    updateSelectionStyles: function() {
+    _updateSelectionStyles: function() {
 
       if(!this.calendar) {
         return;
@@ -105,7 +112,7 @@ Element that renders a calendar for the given year and selects the given date.
         week.forEach(function(dateObj, j) {
 
           var styles = 'btn btn--bare';
-          if(self.isMatchingDate(dateObj.value)) {
+          if(self._isMatchingDate(dateObj.value)) {
             styles = 'btn btn--bare is-selected';
           }
 
@@ -117,7 +124,7 @@ Element that renders a calendar for the given year and selects the given date.
       });
     },
 
-    constructMonth: function(monthToDisplay) {
+    _constructMonth: function(monthToDisplay) {
 
       var numberOfDaysInMonth = monthToDisplay.daysInMonth();
       var dayBeginningOfMonth = monthToDisplay.startOf('month').day();
@@ -157,18 +164,18 @@ Element that renders a calendar for the given year and selects the given date.
 
     },
 
-    renderMonth: function() {
+    _renderMonth: function() {
       var monthToDisplay = moment(this.displayMonthYear, 'M/YYYY');
 
       this.displayMonthName = monthToDisplay.format('MMMM');
       this.displayYear = monthToDisplay.format('YYYY');
 
-      this.set('calendar', this.constructMonth(monthToDisplay));
+      this.set('calendar', this._constructMonth(monthToDisplay));
 
-      this.updateSelectionStyles();
+      this._updateSelectionStyles();
     },
 
-    selectDate: function(e) {
+    _selectDate: function(e) {
       var newSelectedDate = moment(this.displayMonthYear, 'MM/YYYY');
       newSelectedDate.date(e.target.value);
       this.set('lastClickedDate', newSelectedDate.format('MM/DD/YYYY'));

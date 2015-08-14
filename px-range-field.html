@@ -1,20 +1,14 @@
-<!--
-    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
-    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
-    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs
-    See https://github.sw.ge.com/jreichenberg/grunt-dep-serve#why-do-we-need-this
--->
 <link rel="import" href="../polymer/polymer.html"/>
 
 <!--
-Element providing solution to no problem in particular. As a simple, increments a counter when clicked.
+Range field component which displays to/from fields and font awesome icon.
 
 ##### Usage
 
-@element px-rangepicker
-@blurb Element providing solution to no problem in particular.
-@homepage index.html
-@demo demo.html
+    <px-range-field icon="fa-calendar"
+                    from="{{fromDate}}" to="{{toDate}}">
+    </px-range-field>
+
 -->
 <dom-module id="px-range-field">
   <link rel="import" type="css" href="css/px-range-field.css"/>
@@ -24,9 +18,9 @@ Element providing solution to no problem in particular. As a simple, increments 
         <span class=a11y>From</span>
         <i id="icon" class="fa"></i>
       </label>
-      <input id=from type=text class=text-input--bare value="{{from}}" on-click="selectFrom">
+      <input id=from type=text class=text-input--bare value="{{from}}" on-click="_selectFrom">
       <label class="caps label--inline" on-click="selectTo">to</label>
-      <input id=to type=text class=text-input--bare value="{{to}}" on-click="selectTo">
+      <input id=to type=text class=text-input--bare value="{{to}}" on-click="_selectTo">
     </div>
   </template>
 </dom-module>
@@ -38,14 +32,29 @@ Element providing solution to no problem in particular. As a simple, increments 
 
     properties: {
 
+      /**
+       * Font awesome icon to display
+       *
+       * 'fa-calendar' or 'fa-clock-o'
+       */
       icon: {
         type: String
       },
 
+      /**
+       * From field text
+       *
+       * '08/10/2014' or '10:30:00 AM'
+       */
       from: {
         type: String
       },
 
+      /**
+       * To field text
+       *
+       * '08/10/2014' or '10:30:00 AM'
+       */
       to: {
         type: String
       }
@@ -56,11 +65,11 @@ Element providing solution to no problem in particular. As a simple, increments 
       this.toggleClass(this.icon, true, this.$.icon);
     },
 
-    selectFrom: function() {
+    _selectFrom: function() {
       this.fire('px-selected-range-field', 'from');
     },
 
-    selectTo: function() {
+    _selectTo: function() {
       this.fire('px-selected-range-field', 'to');
     }
 

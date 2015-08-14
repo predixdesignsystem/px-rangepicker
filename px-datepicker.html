@@ -1,41 +1,31 @@
-<!--
-    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
-    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
-    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs
-    See https://github.sw.ge.com/jreichenberg/grunt-dep-serve#why-do-we-need-this
--->
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="px-calendar.html"/>
 
 <script src="../moment/moment.js"></script>
 
 <!--
-Element providing solution to no problem in particular. As a simple, increments a counter when clicked.
+Datepicker element which allows user to select a date.
 
 ##### Usage
 
-    <px-datepicker></px-datepicker>
+    <px-datepicker selected-date="{{datePickerDate}}"></px-datepicker>
 
-@element px-datepicker
-@blurb Element providing solution to no problem in particular.
-@homepage index.html
-@demo demo.html
 -->
 <dom-module id="px-datepicker">
   <link rel="import" type="css" href="css/px-datepicker.css"/>
   <template>
     <div id="box" class="rangepicker__box u-p+">
       <div class="flex">
-        <button on-click="jumpBack">&lt;</button>
-        <button on-click="jumpForward">&gt;</button>
+        <button on-click="_jumpBack">&lt;</button>
+        <button on-click="_jumpForward">&gt;</button>
       </div>
       <div class="flex flex--middle border--bottom u-pr+">
         <px-calendar class=u-mr+ display-month-year="{{firstDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
         <px-calendar class=u-ml+ display-month-year="{{secondDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
       </div>
       <div class="flex flex--right u-p-">
-        <input class="btn btn--primary" type=submit value=Apply on-click="applyDate">
-        <button class=btn on-click="cancel">Cancel</button>
+        <input class="btn btn--primary" type=submit value=Apply on-click="_applyDate">
+        <button class=btn on-click="_cancel">Cancel</button>
       </div>
     </div>
   </template>
@@ -47,43 +37,50 @@ Element providing solution to no problem in particular. As a simple, increments 
     is: 'px-datepicker',
 
     properties: {
+
+      /**
+       * Selected date for date picker
+       *
+       * Format 'MM/DD/YYYY', for example: '01/25/2015' is Jan 25 2015
+       */
       selectedDate: {
         type: String,
-        observer: 'updateSelectedDate',
+        observer: '_updateSelectedDate',
         notify: true
       }
+
     },
 
-    resetInputFields: function() {
+    _resetInputFields: function() {
       this.set('firstDisplayMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY'));
       this.set('lastClickedDate', this.selectedDate);
     },
 
-    updateSelectedDate: function() {
-      this.resetInputFields();
+    _updateSelectedDate: function() {
+      this._resetInputFields();
     },
 
-    observers: ['updateSecondDisplayMonthYear(firstDisplayMonthYear)'],
+    observers: ['_updateSecondDisplayMonthYear(firstDisplayMonthYear)'],
 
-    updateSecondDisplayMonthYear: function() {
+    _updateSecondDisplayMonthYear: function() {
       this.set('secondDisplayMonthYear', moment(this.firstDisplayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
     },
 
-    jumpBack: function() {
+    _jumpBack: function() {
       this.set('firstDisplayMonthYear', moment(this.firstDisplayMonthYear, 'MM/YYYY').subtract(2, 'months').format('MM/YYYY'));
     },
 
-    jumpForward: function() {
+    _jumpForward: function() {
       this.set('firstDisplayMonthYear', moment(this.firstDisplayMonthYear, 'MM/YYYY').add(2, 'months').format('MM/YYYY'));
     },
 
-    applyDate: function() {
+    _applyDate: function() {
       this.set('selectedDate', this.lastClickedDate); // set the selected date to the input date
       this.fire('px-date-picking-done');
     },
 
-    cancel: function() {
-      this.resetInputFields(); // reset the input to the previously chosen date
+    _cancel: function() {
+      this._resetInputFields(); // reset the input to the previously chosen date
       this.fire('px-date-picking-done');
     }
 

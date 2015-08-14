@@ -1,9 +1,3 @@
-<!--
-    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
-    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
-    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs
-    See https://github.sw.ge.com/jreichenberg/grunt-dep-serve#why-do-we-need-this
--->
 <link rel="import" href="../polymer/polymer.html"/>
 
 <script src="../moment/moment.js"></script>
@@ -13,27 +7,25 @@ Element providing solution to no problem in particular. As a simple, increments 
 
 ##### Usage
 
-@element px-rangepicker
-@blurb Element providing solution to no problem in particular.
-@homepage index.html
-@demo demo.html
+    <px-time-input time="{{fromTimeInput}}"></px-time-input>
+
 -->
 <dom-module id="px-time-input">
   <link rel="import" type="css" href="css/px-time-input.css"/>
   <template>
     <div class="text-input time-input__field">
-      <input type=text class="text-input--bare time-input__field__input" value="{{hours::input}}" on-keydown="changeHours"/>
+      <input type=text class="text-input--bare time-input__field__input" value="{{hours::input}}" on-keydown="_changeHours"/>
       <span>:</span>
-      <input type=text class="text-input--bare time-input__field__input" value="{{minutes::input}}" on-keydown="changeMinutes"/>
+      <input type=text class="text-input--bare time-input__field__input" value="{{minutes::input}}" on-keydown="_changeMinutes"/>
       <span>:</span>
-      <input type=text class="text-input--bare time-input__field__input" value="{{seconds::input}}" on-keydown="changeSeconds"/>
+      <input type=text class="text-input--bare time-input__field__input" value="{{seconds::input}}" on-keydown="_changeSeconds"/>
       <div class=time-input__field__ampm>
         <label>
-          <input class=a11y type=radio id=am checked="{{isAM::change}}" on-change="selectAM">
+          <input class=a11y type=radio id=am checked="{{isAM::change}}" on-change="_selectAM">
           <span>AM</span>
         </label>
         <label>
-          <input class=a11y type=radio id=pm checked="{{!isAM::change}}" on-change="selectPM">
+          <input class=a11y type=radio id=pm checked="{{!isAM::change}}" on-change="_selectPM">
           <span>PM</span>
         </label>
       </div>
@@ -41,22 +33,27 @@ Element providing solution to no problem in particular. As a simple, increments 
   </template>
 </dom-module>
 
-<script>  
+<script>
   Polymer({
 
     is: 'px-time-input',
 
     properties : {
 
+      /**
+       * Time for time input
+       *
+       * Format 'hh:mm:ss A', for example: '10:22:00 AM'
+       */
       time: {
         type: String,
-        observer: 'timeChanged',
+        observer: '_timeChanged',
         notify: true
       }
 
     },
 
-    timeChanged: function(newTime) {
+    _timeChanged: function(newTime) {
       var newTimeMoment = moment(newTime, 'hh:mm:ss A');
       this.set('hours', newTimeMoment.format("hh"));
       this.set('minutes', newTimeMoment.format("mm"));
@@ -72,7 +69,7 @@ Element providing solution to no problem in particular. As a simple, increments 
     /**
      * builds a simple, unformatted time string by concatenating Hours : Minutes : Seconds AM/PM (not formatting pretty)
      */
-    buildSimpleUnformattedTime: function(hours, minutes, seconds, isAM) {
+    _buildSimpleUnformattedTime: function(hours, minutes, seconds, isAM) {
       var simpleTimeString = hours + ':' + minutes + ':' + seconds + ' ';
       if(isAM) {
         simpleTimeString += 'AM';
@@ -83,23 +80,23 @@ Element providing solution to no problem in particular. As a simple, increments 
       return simpleTimeString;
     },
 
-    setTime: function(timeObj) {
-      var simpleUnformattedTime = this.buildSimpleUnformattedTime(timeObj.hour, timeObj.minute, timeObj.second, timeObj.isAM);
+    _setTime: function(timeObj) {
+      var simpleUnformattedTime = this._buildSimpleUnformattedTime(timeObj.hour, timeObj.minute, timeObj.second, timeObj.isAM);
       var formattedTime = moment(simpleUnformattedTime, 'h:m:s A').format('hh:mm:ss A');
       this.set('time', formattedTime);
     },
 
-    isValidTime: function(time) {
+    _isValidTime: function(time) {
       // check that it fits the hour:minute:second am/pm format and is a valid date (but don't worry about formatting pretty)
-      var simpleUnformattedTime = this.buildSimpleUnformattedTime(time.hour, time.minute, time.second, time.isAM);
+      var simpleUnformattedTime = this._buildSimpleUnformattedTime(time.hour, time.minute, time.second, time.isAM);
       return moment(simpleUnformattedTime, 'h:m:s A', true).isValid();
     },
 
-    getContinuedInput: function(currentInput, newCharacter) {
+    _getContinuedInput: function(currentInput, newCharacter) {
        return currentInput.substr(currentInput.length - 1) + newCharacter;
     },
 
-    changeTimeIfValid: function(fieldChanged, newCharacter) {
+    _changeTimeIfValid: function(fieldChanged, newCharacter) {
       var time = {
         hour: this.hours,
         minute: this.minutes,
@@ -108,17 +105,17 @@ Element providing solution to no problem in particular. As a simple, increments 
       };
 
       // first, try appending the new character as if the user is continuing their current number
-      time[fieldChanged] = this.getContinuedInput(time[fieldChanged], newCharacter);
-      if (this.isValidTime(time)) {
-        this.setTime(time);
+      time[fieldChanged] = this._getContinuedInput(time[fieldChanged], newCharacter);
+      if (this._isValidTime(time)) {
+        this._setTime(time);
       }
 
       else {
         // otherwise, try just using that new character as a new number
         time[fieldChanged] = newCharacter;
 
-        if (this.isValidTime(time)) {
-          this.setTime(time);
+        if (this._isValidTime(time)) {
+          this._setTime(time);
         }
 
         // if that doesn't work, ignore all other keys
@@ -127,7 +124,7 @@ Element providing solution to no problem in particular. As a simple, increments 
 
     },
 
-    changeField: function(e, field) {
+    _changeField: function(e, field) {
 
       // if key is anything but a tab, prevent the default behavior
       if(e.keyCode !== 9) {
@@ -138,7 +135,7 @@ Element providing solution to no problem in particular. As a simple, increments 
 
       // normal number keys
       if (keyValue >= 0 && keyValue <= 9) {
-        this.changeTimeIfValid(field, keyValue);
+        this._changeTimeIfValid(field, keyValue);
       }
 
       else {
@@ -146,7 +143,7 @@ Element providing solution to no problem in particular. As a simple, increments 
         // number pad number keys
         var numPadKeyValue = e.keyCode - 96;
         if (numPadKeyValue >= 0 && numPadKeyValue <= 9) {
-          this.changeTimeIfValid(field, numPadKeyValue);
+          this._changeTimeIfValid(field, numPadKeyValue);
         }
 
         // ignore all other key presses
@@ -154,21 +151,21 @@ Element providing solution to no problem in particular. As a simple, increments 
 
     },
 
-    changeHours: function(e) {
-      this.changeField(e, 'hour');
+    _changeHours: function(e) {
+      this._changeField(e, 'hour');
     },
 
-    changeMinutes: function(e) {
-      this.changeField(e, 'minute');
+    _changeMinutes: function(e) {
+      this._changeField(e, 'minute');
     },
 
-    changeSeconds: function(e) {
-      this.changeField(e, 'second');
+    _changeSeconds: function(e) {
+      this._changeField(e, 'second');
     },
 
-    selectAM: function(e) {
+    _selectAM: function(e) {
       this.set('isAM', true);
-      this.setTime({
+      this._setTime({
         hour: this.hours,
         minute: this.minutes,
         second: this.seconds,
@@ -176,9 +173,9 @@ Element providing solution to no problem in particular. As a simple, increments 
       });
     },
 
-    selectPM: function(e) {
+    _selectPM: function(e) {
       this.set('isAM', false);
-      this.setTime({
+      this._setTime({
         hour: this.hours,
         minute: this.minutes,
         second: this.seconds,
