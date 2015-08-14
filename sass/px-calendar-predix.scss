@@ -7,24 +7,21 @@
  * with the terms and conditions stipulated in the agreement/contract
  * under which the software has been supplied.
  */
-
 //
 // Sass for the Predix notion of the px-range-field component
 //
 // @author
 //
-
 /*
 THIS FILE SHOULD CONTAIN ONLY RULES SPECIFIC TO PREDIX BRANDING
 common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 */
-
 @import 'px-calendar-sketch.scss';
 
-.is-selected {
+.btn--bare.is-selected {
   background-color: $select-blue-default;
   color: $white;
-  &:hover {
+  &:hover, &:focus {
     background-color: $select-blue-hover;
     color: $white;
   }

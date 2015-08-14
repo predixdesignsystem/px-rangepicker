@@ -16,14 +16,14 @@ Datepicker element which allows user to select a date.
   <template>
     <div id="box" class="rangepicker__box u-pt+ u-pb-">
       <div class="flex flex--justify u-mh+ u--mb+ calendar__page">
-        <button on-click="jumpBack" class="btn btn--bare">
+        <button on-click="_jumpBack" class="btn btn--bare">
           <i class="fa fa-angle-left"></i>
         </button>
-        <button on-click="jumpForward" class="btn btn--bare">
+        <button on-click="_jumpForward" class="btn btn--bare">
           <i class="fa fa-angle-right"></i>
         </button>
       </div>
-      <div class="flex flex--middle border--bottom u-ph+">
+      <div class="flex border--bottom u-ph+">
         <px-calendar class=u-mr+ display-month-year="{{firstDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
         <px-calendar class=u-ml+ display-month-year="{{secondDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
       </div>
