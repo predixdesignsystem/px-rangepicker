@@ -24,8 +24,8 @@ Datepicker element which allows user to select a date.
         </button>
       </div>
       <div class="flex border--bottom u-ph+">
-        <px-calendar class=u-mr+ display-month-year="{{firstDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
-        <px-calendar class=u-ml+ display-month-year="{{secondDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
+        <px-calendar class=u-mr+ display-month-year="{{secondDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
+        <px-calendar class=u-ml+ display-month-year="{{firstDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
       </div>
       <div class="flex flex--right u-pt- u-pr-">
         <input class="btn btn--primary" type=submit value=Apply on-click="_applyDate">
@@ -67,15 +67,15 @@ Datepicker element which allows user to select a date.
     observers: ['_updateSecondDisplayMonthYear(firstDisplayMonthYear)'],
 
     _updateSecondDisplayMonthYear: function() {
-      this.set('secondDisplayMonthYear', moment(this.firstDisplayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
+      this.set('secondDisplayMonthYear', moment(this.firstDisplayMonthYear, 'MM/YYYY').subtract(1, 'months').format('MM/YYYY'));
     },
 
     _jumpBack: function() {
-      this.set('firstDisplayMonthYear', moment(this.firstDisplayMonthYear, 'MM/YYYY').subtract(2, 'months').format('MM/YYYY'));
+      this.set('firstDisplayMonthYear', moment(this.firstDisplayMonthYear, 'MM/YYYY').subtract(1, 'months').format('MM/YYYY'));
     },
 
     _jumpForward: function() {
-      this.set('firstDisplayMonthYear', moment(this.firstDisplayMonthYear, 'MM/YYYY').add(2, 'months').format('MM/YYYY'));
+      this.set('firstDisplayMonthYear', moment(this.firstDisplayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
     },
 
     _applyDate: function() {
