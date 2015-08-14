@@ -14,13 +14,13 @@ Range field component which displays to/from fields and font awesome icon.
   <link rel="import" type="css" href="css/px-range-field.css"/>
   <template>
     <div class="range-field__field text-input flex flex--middle">
-      <label class=label--inline on-click="selectFrom">
+      <label class=label--inline on-click="_selectFrom">
         <span class=a11y>From</span>
         <i id="icon" class="fa"></i>
       </label>
       <input id=from type=text class=text-input--bare value="{{from}}" on-click="_selectFrom">
-      <label class="caps label--inline" on-click="selectTo">to</label>
-      <input id=to type=text class=text-input--bare value="{{to}}" on-click="_selectTo" disabled>
+      <label class="caps label--inline" on-click="_selectTo">to</label>
+      <input id=to type=text class=text-input--bare value="{{to}}" on-click="_selectTo">
     </div>
   </template>
 </dom-module>

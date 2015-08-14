@@ -24,8 +24,8 @@ Datepicker element which allows user to select a date.
         </button>
       </div>
       <div class="flex border--bottom u-ph+">
-        <px-calendar id="leftCalendar" class=u-mr+ display-month-year="{{secondDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
-        <px-calendar id="rightCalendar" class=u-ml+ display-month-year="{{firstDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
+        <px-calendar id="leftCalendar" class=u-mr+ display-month-year="{{leftDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
+        <px-calendar id="rightCalendar" class=u-ml+ display-month-year="{{rightDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
       </div>
       <div class="flex flex--right u-pt- u-pr-">
         <input class="btn btn--primary" type=submit value=Apply on-click="_applyDate">
@@ -51,12 +51,29 @@ Datepicker element which allows user to select a date.
         type: String,
         observer: '_updateSelectedDate',
         notify: true
+      },
+
+      selectedDateOnLeft: {
+        type: Boolean,
+        observer: '_updateSelectedDateSide'
       }
 
     },
 
+    _updateSelectedDateSide: function() {
+      this._updateSelectedDate();
+    },
+
     _resetInputFields: function() {
-      this.set('firstDisplayMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY'));
+      if(this.selectedDateOnLeft) {
+        this.set('leftDisplayMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY'));
+        this.set('rightDisplayMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').add(1, 'months').format('MM/YYYY'));
+      }
+      else {
+        this.set('rightDisplayMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY'));
+        this.set('leftDisplayMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').subtract(1, 'months').format('MM/YYYY'));
+      }
+
       this.set('lastClickedDate', this.selectedDate);
     },
 
@@ -64,18 +81,14 @@ Datepicker element which allows user to select a date.
       this._resetInputFields();
     },
 
-    observers: ['_updateSecondDisplayMonthYear(firstDisplayMonthYear)'],
-
-    _updateSecondDisplayMonthYear: function() {
-      this.set('secondDisplayMonthYear', moment(this.firstDisplayMonthYear, 'MM/YYYY').subtract(1, 'months').format('MM/YYYY'));
-    },
-
     _jumpBack: function() {
-      this.set('firstDisplayMonthYear', moment(this.firstDisplayMonthYear, 'MM/YYYY').subtract(1, 'months').format('MM/YYYY'));
+      this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear, 'MM/YYYY').subtract(1, 'months').format('MM/YYYY'));
+      this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear, 'MM/YYYY').subtract(1, 'months').format('MM/YYYY'));
     },
 
     _jumpForward: function() {
-      this.set('firstDisplayMonthYear', moment(this.firstDisplayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
+      this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
+      this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
     },
 
     _applyDate: function() {

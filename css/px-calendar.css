@@ -695,6 +695,27 @@ button.btn {
     background: none;
     color: inherit; }
 
+/**
+   * Change button colors for disabled buttons
+   */
+.btn--disabled,
+.btn--disabled:link,
+.btn--disabled:visited,
+.btn--disabled:hover,
+.btn--disabled:active,
+.btn--disabled:focus,
+.btn[disabled],
+.btn[disabled]:link,
+.btn[disabled]:visited,
+.btn[disabled]:hover,
+.btn[disabled]:active,
+.btn[disabled]:focus {
+  border-color: #d1d0d8;
+  box-shadow: none;
+  cursor: not-allowed;
+  background-color: white;
+  color: #d1d0d8; }
+
 caption {
   margin-bottom: 1rem;
   font-weight: bold;
@@ -704,6 +725,8 @@ caption {
 .table th, .table td {
   box-sizing: content-box;
   min-width: 1.6rem; }
+  .table th:empty, .table td:empty {
+    height: 1.2rem; }
   .table th:first-of-type, .table td:first-of-type {
     padding-left: 0; }
   .table th:last-of-type, .table td:last-of-type {

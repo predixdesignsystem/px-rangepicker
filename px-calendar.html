@@ -32,9 +32,20 @@ Element that renders a calendar for the given year and selects the given date.
           <tr>
             <template is="dom-repeat" items="{{week}}" as="day">
               <td>
-                <button class$="{{day.styles}}" value="{{day.value}}" on-click="_selectDate">{{day.value}}</button>
+                <button class$="{{day.styles}}" value="{{day.value}}" on-click="_selectDate" disabled="{{day.isDisabled}}">{{day.value}}</button>
               </td>
             </template>
+          </tr>
+        </template>
+        <template is="dom-repeat" items="{{weeksToAdd}}">
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
         </template>
       </tbody>
@@ -101,6 +112,15 @@ Element that renders a calendar for the given year and selects the given date.
       return selectedDateDay == date;
     },
 
+    _isPastTodaysDate: function(date) {
+      var todaysDay = moment();
+      var currentlyComparingDate = moment(this.displayMonthYear, 'MM/YYYY').date(date);
+      if(currentlyComparingDate.isAfter(todaysDay)) {
+        return true;
+      }
+      return false;
+    },
+
     _updateSelectionStyles: function() {
 
       if(!this.calendar) {
@@ -111,13 +131,19 @@ Element that renders a calendar for the given year and selects the given date.
       this.calendar.forEach(function(week, i) {
         week.forEach(function(dateObj, j) {
 
+          var isDisabled = false;
+
           var styles = 'btn btn--bare';
           if(self._isMatchingDate(dateObj.value)) {
-            styles = 'btn btn--bare is-selected';
+            styles += ' is-selected';
+          }
+          if(self._isPastTodaysDate(dateObj.value)) {
+            styles += ' btn--disabled';
+            isDisabled = true;
           }
 
-          if (dateObj.styles !== styles) {
-            self.set('calendar.' + i + '.' + j, {value: dateObj.value, styles: styles});
+          if (dateObj.styles !== styles || dateObj.isDisabled !== isDisabled) {
+            self.set('calendar.' + i + '.' + j, {value: dateObj.value, styles: styles, isDisabled: isDisabled});
           }
 
         });
@@ -140,17 +166,17 @@ Element that renders a calendar for the given year and selects the given date.
 
         // days not in the month
         while (daysNotInMonthCount < dayBeginningOfMonth) {
-          week.push({value: '', styles: 'btn btn--bare'});
+          week.push({value: '', styles: 'btn btn--bare', isDisabled: false});
           daysNotInMonthCount++;
           weekCount++;
         }
 
         while (weekCount < 7) {
           if (dateCount <= numberOfDaysInMonth) {
-            week.push({value: dateCount, styles: 'btn btn--bare'});
+            week.push({value: dateCount, styles: 'btn btn--bare', isDisabled: false});
           }
           else {
-            week.push({value: '', styles: 'btn btn--bare'});
+            week.push({value: '', styles: 'btn btn--bare', isDisabled: false});
           }
           dateCount++;
           weekCount++;
@@ -171,6 +197,13 @@ Element that renders a calendar for the given year and selects the given date.
       this.displayYear = monthToDisplay.format('YYYY');
 
       this.set('calendar', this._constructMonth(monthToDisplay));
+
+      var numberOfWeeksToAdd = 6 - this.calendar.length;
+      var weeksToAdd = [];
+      for (var i = 0; i < numberOfWeeksToAdd; i++) {
+        weeksToAdd.push(i)
+      }
+      this.set('weeksToAdd', weeksToAdd);
 
       this._updateSelectionStyles();
     },
