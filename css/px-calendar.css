@@ -702,7 +702,8 @@ caption {
   text-transform: uppercase; }
 
 .table th, .table td {
-  box-sizing: content-box; }
+  box-sizing: content-box;
+  min-width: 1.6rem; }
   .table th:first-of-type, .table td:first-of-type {
     padding-left: 0; }
   .table th:last-of-type, .table td:last-of-type {

@@ -49,6 +49,7 @@ caption {
 .table {
   th, td {
     box-sizing: content-box;
+    min-width: calculateRem(24px);
     &:first-of-type {
       padding-left: 0;
     }
