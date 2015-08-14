@@ -30,8 +30,8 @@ Element providing solution to no problem in particular. As a simple, increments 
         <button on-click="jumpForward">&gt;</button>
       </div>
       <div class="flex flex--middle border--bottom u-pr+">
-        <px-calendar class=u-mr+ display-month-year="{{displayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
-        <!--<px-calendar class=u-ml+ display-month-year="{{displayMonthYear}}" selected-date-of-month="{{selectedDateInput}}"></px-calendar>-->
+        <px-calendar class=u-mr+ display-month-year="{{firstDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
+        <px-calendar class=u-ml+ display-month-year="{{secondDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
       </div>
       <div class="flex flex--right u-p-">
         <input class="btn btn--primary" type=submit value=Apply on-click="applyDate">
@@ -55,7 +55,7 @@ Element providing solution to no problem in particular. As a simple, increments 
     },
 
     resetInputFields: function() {
-      this.set('displayMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY'));
+      this.set('firstDisplayMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY'));
       this.set('lastClickedDate', this.selectedDate);
     },
 
@@ -63,20 +63,20 @@ Element providing solution to no problem in particular. As a simple, increments 
       this.resetInputFields();
     },
 
+    observers: ['updateSecondDisplayMonthYear(firstDisplayMonthYear)'],
+
+    updateSecondDisplayMonthYear: function() {
+      this.set('secondDisplayMonthYear', moment(this.firstDisplayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
+    },
+
     jumpBack: function() {
-      this.set('displayMonthYear', moment(this.displayMonthYear, 'MM/YYYY').subtract(1, 'months').format('MM/YYYY'));
+      this.set('firstDisplayMonthYear', moment(this.firstDisplayMonthYear, 'MM/YYYY').subtract(2, 'months').format('MM/YYYY'));
     },
 
     jumpForward: function() {
-      this.set('displayMonthYear', moment(this.displayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
+      this.set('firstDisplayMonthYear', moment(this.firstDisplayMonthYear, 'MM/YYYY').add(2, 'months').format('MM/YYYY'));
     },
-//
-//    observers: ['updateSecondMonthYear(displayMonthYear)'],
-//
-//    updateSecondMonthYear: function() {
-//      this.set('displaySecondMonthYear', moment(this.displayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
-//    },
-//
+
     applyDate: function() {
       this.set('selectedDate', this.lastClickedDate); // set the selected date to the input date
       this.fire('px-date-picking-done');
