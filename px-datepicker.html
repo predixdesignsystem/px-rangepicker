@@ -15,17 +15,15 @@ Datepicker element which allows user to select a date.
   <link rel="import" type="css" href="css/px-datepicker.css"/>
   <template>
     <div id="box" class="rangepicker__box u-pt+ u-pb-">
-      <div class="flex flex--justify u-mh+ u--mb+ calendar__page">
-        <button on-click="_jumpBack" class="btn btn--bare">
+      <div class="flex border--bottom u-ph+">
+        <button on-click="_jumpBack" class="btn btn--bare flex__item--top u--mr-">
           <i class="fa fa-angle-left"></i>
         </button>
-        <button on-click="_jumpForward" class="btn btn--bare">
-          <i class="fa fa-angle-right"></i>
-        </button>
-      </div>
-      <div class="flex border--bottom u-ph+">
         <px-calendar id="leftCalendar" class=u-mr+ display-month-year="{{leftDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
         <px-calendar id="rightCalendar" class=u-ml+ display-month-year="{{rightDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
+        <button on-click="_jumpForward" class="btn btn--bare flex__item--top u--ml-" disabled="{{isCurrentMonth}}">
+          <i class="fa fa-angle-right"></i>
+        </button>
       </div>
       <div class="flex flex--right u-pt- u-pr-">
         <input class="btn btn--primary" type=submit value=Apply on-click="_applyDate">
@@ -60,35 +58,40 @@ Datepicker element which allows user to select a date.
 
     },
 
+    _updateSelectedDate: function() {
+      this.set('selectedDateMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY'));
+      this._resetInputFields();
+    },
+
     _updateSelectedDateSide: function() {
       this._updateSelectedDate();
     },
 
     _resetInputFields: function() {
       if(this.selectedDateOnLeft) {
-        this.set('leftDisplayMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY'));
-        this.set('rightDisplayMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').add(1, 'months').format('MM/YYYY'));
+        this.set('leftDisplayMonthYear', this._addMonth('selectedDateMonthYear', 0));
+        this.set('rightDisplayMonthYear', this._addMonth('selectedDateMonthYear', 1));
       }
       else {
-        this.set('rightDisplayMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY'));
-        this.set('leftDisplayMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').subtract(1, 'months').format('MM/YYYY'));
+        this.set('rightDisplayMonthYear', this._addMonth('selectedDateMonthYear', 0));
+        this.set('leftDisplayMonthYear', this._addMonth('selectedDateMonthYear', -1));
       }
 
       this.set('lastClickedDate', this.selectedDate);
     },
 
-    _updateSelectedDate: function() {
-      this._resetInputFields();
+    _addMonth: function(monthYear, numberToAdd) {
+      return moment(this[monthYear], 'MM/YYYY').add(numberToAdd, 'months').format('MM/YYYY');
     },
 
     _jumpBack: function() {
-      this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear, 'MM/YYYY').subtract(1, 'months').format('MM/YYYY'));
-      this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear, 'MM/YYYY').subtract(1, 'months').format('MM/YYYY'));
+      this.set('leftDisplayMonthYear', this._addMonth('leftDisplayMonthYear', -1));
+      this.set('rightDisplayMonthYear', this._addMonth('rightDisplayMonthYear', -1));
     },
 
     _jumpForward: function() {
-      this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
-      this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
+      this.set('leftDisplayMonthYear', this._addMonth('leftDisplayMonthYear', 1));
+      this.set('rightDisplayMonthYear', this._addMonth('rightDisplayMonthYear', 1));
     },
 
     _applyDate: function() {

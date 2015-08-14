@@ -2529,6 +2529,32 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
   margin-bottom: 1.3333333333rem !important; }
 
 /**
+     * Small negative margins.
+     */
+.u--m- {
+  margin: -0.6666666667rem !important; }
+
+.u--mt- {
+  margin-top: -0.6666666667rem !important; }
+
+.u--mr- {
+  margin-right: -0.6666666667rem !important; }
+
+.u--mb- {
+  margin-bottom: -0.6666666667rem !important; }
+
+.u--ml- {
+  margin-left: -0.6666666667rem !important; }
+
+.u--mh- {
+  margin-right: -0.6666666667rem !important;
+  margin-left: -0.6666666667rem !important; }
+
+.u--mv- {
+  margin-top: -0.6666666667rem !important;
+  margin-bottom: -0.6666666667rem !important; }
+
+/**
      * Large negative margins.
      */
 .u--m\00002b {
