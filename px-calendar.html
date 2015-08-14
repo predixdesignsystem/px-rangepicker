@@ -58,9 +58,9 @@ Element that renders a calendar for the given year and selects the given date.
         observer: 'renderMonth'
       },
 
-      selectedDateOfMonth: {
+      lastClickedDate: {
         type: String,
-        observer: 'changeSelectedDateOfMonth',
+        observer: 'updateSelectionStyles',
         notify: true
       }
 
@@ -81,15 +81,20 @@ Element that renders a calendar for the given year and selects the given date.
     },
 
     isSelectedDateInThisMonth: function() {
-      var selectedDateMonthYear = moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY');
+      var selectedDateMonthYear = moment(this.lastClickedDate, 'MM/DD/YYYY').format('MM/YYYY');
       return selectedDateMonthYear === this.displayMonthYear;
     },
 
     isMatchingDate: function(date) {
-      return this.selectedDateOfMonth == date;
+      if(!this.isSelectedDateInThisMonth()) {
+        return false;
+      }
+
+      var selectedDateDay = moment(this.lastClickedDate, 'MM/DD/YYYY').format('D');
+      return selectedDateDay == date;
     },
 
-    changeSelectedDateOfMonth: function() {
+    updateSelectionStyles: function() {
 
       if(!this.calendar) {
         return;
@@ -160,12 +165,13 @@ Element that renders a calendar for the given year and selects the given date.
 
       this.set('calendar', this.constructMonth(monthToDisplay));
 
-      // then call changeSelectedDateOfMonth to update selected date
-      this.changeSelectedDateOfMonth();
+      this.updateSelectionStyles();
     },
 
     selectDate: function(e) {
-      this.set('selectedDateOfMonth', e.target.value);
+      var newSelectedDate = moment(this.displayMonthYear, 'MM/YYYY');
+      newSelectedDate.date(e.target.value);
+      this.set('lastClickedDate', newSelectedDate.format('MM/DD/YYYY'));
     }
 
   });

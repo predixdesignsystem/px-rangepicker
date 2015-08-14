@@ -25,8 +25,12 @@ Element providing solution to no problem in particular. As a simple, increments 
   <link rel="import" type="css" href="css/px-datepicker.css"/>
   <template>
     <div id="box" class="rangepicker__box u-p+">
+      <div class="flex">
+        <button on-click="jumpBack">&lt;</button>
+        <button on-click="jumpForward">&gt;</button>
+      </div>
       <div class="flex flex--middle border--bottom u-pr+">
-        <px-calendar class=u-mr+ display-month-year="{{displayMonthYear}}" selected-date-of-month="{{selectedDateOfMonth}}"></px-calendar>
+        <px-calendar class=u-mr+ display-month-year="{{displayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
         <!--<px-calendar class=u-ml+ display-month-year="{{displayMonthYear}}" selected-date-of-month="{{selectedDateInput}}"></px-calendar>-->
       </div>
       <div class="flex flex--right u-p-">
@@ -52,14 +56,20 @@ Element providing solution to no problem in particular. As a simple, increments 
 
     resetInputFields: function() {
       this.set('displayMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY'));
-      this.set('selectedDateOfMonth', moment(this.selectedDate, 'MM/DD/YYYY').format('D'));
+      this.set('lastClickedDate', this.selectedDate);
     },
 
     updateSelectedDate: function() {
       this.resetInputFields();
     },
 
+    jumpBack: function() {
+      this.set('displayMonthYear', moment(this.displayMonthYear, 'MM/YYYY').subtract(1, 'months').format('MM/YYYY'));
+    },
 
+    jumpForward: function() {
+      this.set('displayMonthYear', moment(this.displayMonthYear, 'MM/YYYY').add(1, 'months').format('MM/YYYY'));
+    },
 //
 //    observers: ['updateSecondMonthYear(displayMonthYear)'],
 //
@@ -68,10 +78,7 @@ Element providing solution to no problem in particular. As a simple, increments 
 //    },
 //
     applyDate: function() {
-      var newSelectedDate = moment(this.displayMonthYear, 'MM/YYYY');
-      newSelectedDate.date(this.selectedDateOfMonth);
-      this.set('selectedDate', newSelectedDate.format('MM/DD/YYYY')); // set the selected date to the input date
-
+      this.set('selectedDate', this.lastClickedDate); // set the selected date to the input date
       this.fire('px-date-picking-done');
     },
 
