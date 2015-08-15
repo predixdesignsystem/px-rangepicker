@@ -4,11 +4,11 @@ describe('The calendar', function() {
   var calendar;
 
   function date(date) {
-    return {value: date, styles: 'btn btn--bare'};
+    return {value: date, styles: 'btn btn--bare', isDisabled: false};
   }
 
   function selectedDate(date) {
-    return {value: date, styles: 'btn btn--bare is-selected'};
+    return {value: date, styles: 'btn btn--bare is-selected', isDisabled: false};
   }
 
   describe('February 2015', function() {
@@ -156,3 +156,4 @@ describe('The calendar', function() {
   });
 
 });
+
