@@ -21,7 +21,7 @@ Datepicker element which allows user to select a date.
         </button>
         <px-calendar id="leftCalendar" class=u-mr+ display-month-year="{{leftDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
         <px-calendar id="rightCalendar" class=u-ml+ display-month-year="{{rightDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
-        <button on-click="_jumpForward" class="btn btn--bare flex__item--top u--ml-" disabled="{{isCurrentMonth}}">
+        <button id=btnNextMonth on-click="_jumpForward" class="btn btn--bare flex__item--top u--ml-">
           <i class="fa fa-angle-right"></i>
         </button>
       </div>
@@ -61,6 +61,26 @@ Datepicker element which allows user to select a date.
     _updateSelectedDate: function() {
       this.set('selectedDateMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY'));
       this._resetInputFields();
+      this._checkCurrentMonth();
+    },
+    
+    _checkCurrentMonth: function() {
+      if(this._isCurrentMonth()) {
+        this.toggleAttribute('disabled', true, this.$.btnNextMonth);
+        this.toggleClass('btn--disabled', true, this.$.btnNextMonth);
+      }
+      else {
+        this.toggleAttribute('disabled', false, this.$.btnNextMonth);
+        this.toggleClass('btn--disabled', false, this.$.btnNextMonth);
+      }
+    },
+    
+    _isCurrentMonth: function() {
+      var now = moment();
+      if(moment(this.rightDisplayMonthYear, 'MM/YYYY').isSame(now, 'month')) {
+        return true;
+      }
+      return false;
     },
 
     _updateSelectedDateSide: function() {
@@ -87,11 +107,13 @@ Datepicker element which allows user to select a date.
     _jumpBack: function() {
       this.set('leftDisplayMonthYear', this._addMonth('leftDisplayMonthYear', -1));
       this.set('rightDisplayMonthYear', this._addMonth('rightDisplayMonthYear', -1));
+      this._checkCurrentMonth();
     },
 
     _jumpForward: function() {
       this.set('leftDisplayMonthYear', this._addMonth('leftDisplayMonthYear', 1));
       this.set('rightDisplayMonthYear', this._addMonth('rightDisplayMonthYear', 1));
+      this._checkCurrentMonth();
     },
 
     _applyDate: function() {

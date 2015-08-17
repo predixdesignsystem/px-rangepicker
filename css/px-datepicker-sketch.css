@@ -2455,6 +2455,27 @@ button.btn {
     border-color: transparent;
     background-color: #2b5ea2; }
 
+/**
+   * Change button colors for disabled buttons
+   */
+.btn--disabled,
+.btn--disabled:link,
+.btn--disabled:visited,
+.btn--disabled:hover,
+.btn--disabled:active,
+.btn--disabled:focus,
+.btn[disabled],
+.btn[disabled]:link,
+.btn[disabled]:visited,
+.btn[disabled]:hover,
+.btn[disabled]:active,
+.btn[disabled]:focus {
+  border-color: #d1d0d8;
+  box-shadow: none;
+  cursor: not-allowed;
+  background-color: white;
+  color: #d1d0d8; }
+
 /*
  * Copyright (c) 2014 GE Global Research. All rights reserved.
  *
@@ -2492,9 +2513,6 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
           align-self: flex-start;
   margin-top: 1.3333333333rem;
   margin-left: 1.3333333333rem; }
-
-.calendar__page .btn {
-  line-height: 1.5; }
 
 /**
  * Margin and padding helper classes. Use these to tweak layout on a micro
