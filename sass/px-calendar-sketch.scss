@@ -28,7 +28,6 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 @import "px-viewport-design/_base.viewport.scss";
 @import "px-typography-design/_base.typography.scss";
 
-$inuit-enable-table--small      : true;
 $inuit-enable-table--no-cells   : true;
 
 @import "px-tables-design/_base.tables.scss";
@@ -51,6 +50,7 @@ caption {
   th, td {
     box-sizing: content-box;
     min-width: calculateRem(24px);
+    padding: 0;
     &:empty {
       height: calculateRem(18px);
     }
@@ -61,24 +61,55 @@ caption {
       padding-right: 0;
     }
   }
+  td {
+    &:first-of-type, &.is-first {
+      div {
+        border-top-left-radius: 2.4em;
+        border-bottom-left-radius: 2.4em;
+      }
+    }
+    &:last-of-type, &.is-last {
+      div {
+        border-top-right-radius: 2.4em;
+        border-bottom-right-radius: 2.4em;
+      }
+    }
+    div {
+      height: calculateRem(26px);
+      margin-top: 2px;
+      margin-bottom: 2px;
+      padding-right: $inuit-base-spacing-unit--tiny;
+      padding-left: $inuit-base-spacing-unit--tiny;
+    }
+  }
+  :not(.is-between) + .is-selected div {
+    border-top-left-radius: 2.4em;
+    border-bottom-left-radius: 2.4em;
+  }
+  .is-between + .is-selected div {
+    border-top-right-radius: 2.4em;
+    border-bottom-right-radius: 2.4em;
+  }
+  .is-selected-solo div {
+    border-radius: 2.4em;
+  }
+  .is-selected + .is-selected div {
+    border-radius: 0 2.4em 2.4em 0;
+  }
 }
 
 .btn--bare {
   min-width: 1.2em;
+  margin-right: -#{calculateRem(4px)};
+  margin-left: -#{calculateRem(4px)};
+  padding-right: calculateRem(4px);
+  padding-left: calculateRem(4px);
   border-radius: 2.4em;
+  line-height: 1.733333333333;
 }
 
 td {
-  &:first-of-type {
-    border-radius: 2.4em 0 0 2.4em;
-  }
-  &:last-of-type {
-    border-radius: 0 2.4em 2.4em 0;
-  }
-  .btn {
-    margin: -#{calculateRem(4px)};
-    padding: calculateRem(4px);
-  }
+
 }
 
 // Trumps

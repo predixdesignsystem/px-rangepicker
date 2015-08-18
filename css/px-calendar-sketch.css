@@ -605,13 +605,6 @@ sub {
     padding: 0.6666666667rem; }
 
 /**
-   * Tightly packed cells.
-   */
-.table--small th,
-.table--small td {
-  padding: 0.3333333333rem; }
-
-/**
    * Remove borders around a `table`.
    */
 .table--no-cells th,
@@ -711,7 +704,8 @@ caption {
 
 .table th, .table td {
   box-sizing: content-box;
-  min-width: 1.6rem; }
+  min-width: 1.6rem;
+  padding: 0; }
   .table th:empty, .table td:empty {
     height: 1.2rem; }
   .table th:first-of-type, .table td:first-of-type {
@@ -719,19 +713,43 @@ caption {
   .table th:last-of-type, .table td:last-of-type {
     padding-right: 0; }
 
-.btn--bare {
-  min-width: 1.2em;
+.table td:first-of-type div, .table td.is-first div {
+  border-top-left-radius: 2.4em;
+  border-bottom-left-radius: 2.4em; }
+
+.table td:last-of-type div, .table td.is-last div {
+  border-top-right-radius: 2.4em;
+  border-bottom-right-radius: 2.4em; }
+
+.table td div {
+  height: 1.7333333333rem;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding-right: 0.3333333333rem;
+  padding-left: 0.3333333333rem; }
+
+.table :not(.is-between) + .is-selected div {
+  border-top-left-radius: 2.4em;
+  border-bottom-left-radius: 2.4em; }
+
+.table .is-between + .is-selected div {
+  border-top-right-radius: 2.4em;
+  border-bottom-right-radius: 2.4em; }
+
+.table .is-selected-solo div {
   border-radius: 2.4em; }
 
-td:first-of-type {
-  border-radius: 2.4em 0 0 2.4em; }
-
-td:last-of-type {
+.table .is-selected + .is-selected div {
   border-radius: 0 2.4em 2.4em 0; }
 
-td .btn {
-  margin: -0.2666666667rem;
-  padding: 0.2666666667rem; }
+.btn--bare {
+  min-width: 1.2em;
+  margin-right: -0.2666666667rem;
+  margin-left: -0.2666666667rem;
+  padding-right: 0.2666666667rem;
+  padding-left: 0.2666666667rem;
+  border-radius: 2.4em;
+  line-height: 1.733333333333; }
 
 /**
  * Margin and padding helper classes. Use these to tweak layout on a micro

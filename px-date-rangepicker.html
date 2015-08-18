@@ -22,14 +22,14 @@ Datepicker element which allows user to select a date.
         <px-calendar id="leftCalendar"
                      class=u-mr+
                      display-month-year="{{leftDisplayMonthYear}}"
-                     selected-to-date="{{selectedToDate}}"
-                     selected-from-date="{{selectedFromDate}}">
+                     first-date="{{firstDate}}"
+                     second-date="{{secondDate}}">
         </px-calendar>
         <px-calendar id="rightCalendar"
                      class=u-ml+
                      display-month-year="{{rightDisplayMonthYear}}"
-                     selected-to-date="{{selectedToDate}}"
-                     selected-from-date="{{selectedFromDate}}">
+                     first-date="{{firstDate}}"
+                     second-date="{{secondDate}}">
         </px-calendar>
         <button id=btnNextMonth on-click="_jumpForward" class="btn btn--bare flex__item--top u--ml-">
           <i class="fa fa-angle-right"></i>
@@ -66,10 +66,28 @@ Datepicker element which allows user to select a date.
       'updateSelectedRange(fromDate, toDate)'
     ],
 
+    ready: function() {
+      var self = this;
+      this.$.box.addEventListener('range-selected', function() {
+
+        var fromDate = self.firstDate;
+        var toDate = self.secondDate;
+
+        if (moment(self.firstDate, 'MM/DD/YYYY').isAfter(moment(self.secondDate, 'MM/DD/YYYY'))) {
+          toDate = self.firstDate;
+          fromDate = self.secondDate;
+        }
+
+        self.set('fromDate', fromDate);
+        self.set('toDate', toDate);
+
+      });
+    },
+
     updateSelectedRange: function() {
 
       // if no display months set (nothing on the calendars), initialize them to the fromDate & fromDate + 1
-      if(!this.leftDisplayMonthYear && !this.rightDisplayMonthYear) {
+      if (!this.leftDisplayMonthYear && !this.rightDisplayMonthYear) {
         this._resetInputFields();
       }
 
@@ -78,7 +96,7 @@ Datepicker element which allows user to select a date.
     },
 
     _checkCurrentMonth: function() {
-      if(this._isCurrentMonth()) {
+      if (this._isCurrentMonth()) {
         this.toggleAttribute('disabled', true, this.$.btnNextMonth);
         this.toggleClass('btn--disabled', true, this.$.btnNextMonth);
       }
@@ -90,7 +108,7 @@ Datepicker element which allows user to select a date.
 
     _isCurrentMonth: function() {
       var now = moment();
-      if(moment(this.rightDisplayMonthYear, 'MM/YYYY').isSame(now, 'month')) {
+      if (moment(this.rightDisplayMonthYear, 'MM/YYYY').isSame(now, 'month')) {
         return true;
       }
       return false;
@@ -101,8 +119,8 @@ Datepicker element which allows user to select a date.
       this.set('leftDisplayMonthYear', moment(this.fromDate, 'MM/DD/YYYY').add(0, 'months').format('MM/YYYY'));//this._addMonth('fromDate', 0));
       this.set('rightDisplayMonthYear', moment(this.fromDate, 'MM/DD/YYYY').add(1, 'months').format('MM/YYYY'));//this._addMonth('fromDate', 1));
 
-      this.set('selectedFromDate', this.fromDate);
-      this.set('selectedToDate', this.toDate);
+      this.set('firstDate', this.fromDate);
+      this.set('secondDate', this.toDate);
     },
 
     _addMonth: function(monthYear, numberToAdd) {
