@@ -31,7 +31,7 @@ Element that renders a calendar for the given year and selects the given date.
         <template is="dom-repeat" items="{{calendar}}" as="week">
           <tr>
             <template is="dom-repeat" items="{{week}}" as="day">
-              <td>
+              <td class$="{{day.tdStyles}}">
                 <button class$="{{day.styles}}" value="{{day.value}}" on-click="_selectDate" disabled="{{day.isDisabled}}">{{day.value}}</button>
               </td>
             </template>
@@ -72,11 +72,22 @@ Element that renders a calendar for the given year and selects the given date.
       },
 
       /**
-       * Last clicked / selected date
+       * Date to end the selection
        *
        * Format 'MM/DD/YYYY', for example: '01/25/2015' is Jan 25 2015
        */
-      lastClickedDate: {
+      selectedToDate: {
+        type: String,
+        observer: '_updateSelectionStyles',
+        notify: true
+      },
+
+      /**
+       * Date to start the selection
+       *
+       * Format 'MM/DD/YYYY', for example: '01/25/2015' is Jan 25 2015
+       */
+      selectedFromDate: {
         type: String,
         observer: '_updateSelectionStyles',
         notify: true
@@ -98,24 +109,44 @@ Element that renders a calendar for the given year and selects the given date.
       return daysOfWeek;
     },
 
-    _isSelectedDateInThisMonth: function() {
-      var selectedDateMonthYear = moment(this.lastClickedDate, 'MM/DD/YYYY').format('MM/YYYY');
-      return selectedDateMonthYear === this.displayMonthYear;
-    },
+    _isASelectedDate: function(date) {
 
-    _isMatchingDate: function(date) {
-      if(!this._isSelectedDateInThisMonth()) {
-        return false;
+
+      var selectedTo = moment(this.selectedToDate, 'MM/DD/YYYY').format('MM/YYYY');
+      if (selectedTo === this.displayMonthYear) { // in this month
+        var selectedDateDay = moment(this.selectedToDate, 'MM/DD/YYYY').format('D');
+        if (selectedDateDay == date) {
+          return true;
+        }
       }
 
-      var selectedDateDay = moment(this.lastClickedDate, 'MM/DD/YYYY').format('D');
-      return selectedDateDay == date;
+      var selectedFrom = moment(this.selectedFromDate, 'MM/DD/YYYY').format('MM/YYYY');
+      if (selectedFrom === this.displayMonthYear) { // in this month
+        var selectedDateDay = moment(this.selectedFromDate, 'MM/DD/YYYY').format('D');
+        if (selectedDateDay == date) {
+          return true;
+        }
+      }
+
+
+      return false;
+    },
+
+    _isBetweenSelectedDates: function(date) {
+      if(date !== '') {
+        var selectedTo = moment(this.selectedToDate, 'MM/DD/YYYY');
+        var selectedFrom = moment(this.selectedFromDate, 'MM/DD/YYYY');
+        if (moment(this.displayMonthYear, 'MM/YYYY').date(date).isBetween(selectedFrom, selectedTo, 'day')) {
+          return true;
+        }
+      }
+      return false;
     },
 
     _isPastTodaysDate: function(date) {
       var todaysDay = moment();
       var currentlyComparingDate = moment(this.displayMonthYear, 'MM/YYYY').date(date);
-      if(currentlyComparingDate.isAfter(todaysDay)) {
+      if (currentlyComparingDate.isAfter(todaysDay)) {
         return true;
       }
       return false;
@@ -123,7 +154,7 @@ Element that renders a calendar for the given year and selects the given date.
 
     _updateSelectionStyles: function() {
 
-      if(!this.calendar) {
+      if (!this.calendar) {
         return;
       }
 
@@ -131,19 +162,22 @@ Element that renders a calendar for the given year and selects the given date.
       this.calendar.forEach(function(week, i) {
         week.forEach(function(dateObj, j) {
 
-          var isDisabled = false;
+          var isDisabled = false, tdStyles = '';
 
           var styles = 'btn btn--bare';
-          if(self._isMatchingDate(dateObj.value)) {
-            styles += ' is-selected';
+          if (self._isASelectedDate(dateObj.value)) {
+            tdStyles = 'is-selected';
           }
-          if(self._isPastTodaysDate(dateObj.value)) {
+          if (self._isBetweenSelectedDates(dateObj.value)) {
+            tdStyles = 'is-between';
+          }
+          if (self._isPastTodaysDate(dateObj.value)) {
             styles += ' btn--disabled';
             isDisabled = true;
           }
 
-          if (dateObj.styles !== styles || dateObj.isDisabled !== isDisabled) {
-            self.set('calendar.' + i + '.' + j, {value: dateObj.value, styles: styles, isDisabled: isDisabled});
+          if (dateObj.styles !== styles || dateObj.isDisabled !== isDisabled  || dateObj.tdStyles !== tdStyles) {
+            self.set('calendar.' + i + '.' + j, {value: dateObj.value, styles: styles, isDisabled: isDisabled, tdStyles: tdStyles});
           }
 
         });
@@ -166,17 +200,17 @@ Element that renders a calendar for the given year and selects the given date.
 
         // days not in the month
         while (daysNotInMonthCount < dayBeginningOfMonth) {
-          week.push({value: '', styles: 'btn btn--bare', isDisabled: false});
+          week.push({value: '', styles: 'btn btn--bare', isDisabled: false, tdStyles: ''});
           daysNotInMonthCount++;
           weekCount++;
         }
 
         while (weekCount < 7) {
           if (dateCount <= numberOfDaysInMonth) {
-            week.push({value: dateCount, styles: 'btn btn--bare', isDisabled: false});
+            week.push({value: dateCount, styles: 'btn btn--bare', isDisabled: false, tdStyles: ''});
           }
           else {
-            week.push({value: '', styles: 'btn btn--bare', isDisabled: false});
+            week.push({value: '', styles: 'btn btn--bare', isDisabled: false, tdStyles: ''});
           }
           dateCount++;
           weekCount++;
@@ -209,9 +243,18 @@ Element that renders a calendar for the given year and selects the given date.
     },
 
     _selectDate: function(e) {
+
       var newSelectedDate = moment(this.displayMonthYear, 'MM/YYYY');
       newSelectedDate.date(e.target.value);
-      this.set('lastClickedDate', newSelectedDate.format('MM/DD/YYYY'));
+
+      if(this.selectedToDate) {
+        this.set('selectedToDate', null);
+        this.set('selectedFromDate', newSelectedDate.format('MM/DD/YYYY'));
+      }
+      else { // no to date
+        this.set('selectedToDate', newSelectedDate.format('MM/DD/YYYY'));
+      }
+
     }
 
   });

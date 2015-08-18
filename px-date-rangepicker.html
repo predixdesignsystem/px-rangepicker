@@ -19,8 +19,18 @@ Datepicker element which allows user to select a date.
         <button on-click="_jumpBack" class="btn btn--bare flex__item--top u--mr-">
           <i class="fa fa-angle-left"></i>
         </button>
-        <px-calendar id="leftCalendar" class=u-mr+ display-month-year="{{leftDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
-        <px-calendar id="rightCalendar" class=u-ml+ display-month-year="{{rightDisplayMonthYear}}" last-clicked-date="{{lastClickedDate}}"></px-calendar>
+        <px-calendar id="leftCalendar"
+                     class=u-mr+
+                     display-month-year="{{leftDisplayMonthYear}}"
+                     selected-to-date="{{selectedToDate}}"
+                     selected-from-date="{{selectedFromDate}}">
+        </px-calendar>
+        <px-calendar id="rightCalendar"
+                     class=u-ml+
+                     display-month-year="{{rightDisplayMonthYear}}"
+                     selected-to-date="{{selectedToDate}}"
+                     selected-from-date="{{selectedFromDate}}">
+        </px-calendar>
         <button id=btnNextMonth on-click="_jumpForward" class="btn btn--bare flex__item--top u--ml-">
           <i class="fa fa-angle-right"></i>
         </button>
@@ -40,30 +50,33 @@ Datepicker element which allows user to select a date.
 
     properties: {
 
-      /**
-       * Selected date for date picker
-       *
-       * Format 'MM/DD/YYYY', for example: '01/25/2015' is Jan 25 2015
-       */
-      selectedDate: {
+      fromDate: {
         type: String,
-        observer: '_updateSelectedDate',
         notify: true
       },
 
-      selectedDateOnLeft: {
-        type: Boolean,
-        observer: '_updateSelectedDateSide'
+      toDate: {
+        type: String,
+        notify: true
       }
 
     },
 
-    _updateSelectedDate: function() {
-      this.set('selectedDateMonthYear', moment(this.selectedDate, 'MM/DD/YYYY').format('MM/YYYY'));
-      this._resetInputFields();
+    observers: [
+      'updateSelectedRange(fromDate, toDate)'
+    ],
+
+    updateSelectedRange: function() {
+
+      // if no display months set (nothing on the calendars), initialize them to the fromDate & fromDate + 1
+      if(!this.leftDisplayMonthYear && !this.rightDisplayMonthYear) {
+        this._resetInputFields();
+      }
+
       this._checkCurrentMonth();
+
     },
-    
+
     _checkCurrentMonth: function() {
       if(this._isCurrentMonth()) {
         this.toggleAttribute('disabled', true, this.$.btnNextMonth);
@@ -74,7 +87,7 @@ Datepicker element which allows user to select a date.
         this.toggleClass('btn--disabled', false, this.$.btnNextMonth);
       }
     },
-    
+
     _isCurrentMonth: function() {
       var now = moment();
       if(moment(this.rightDisplayMonthYear, 'MM/YYYY').isSame(now, 'month')) {
@@ -83,21 +96,13 @@ Datepicker element which allows user to select a date.
       return false;
     },
 
-    _updateSelectedDateSide: function() {
-      this._updateSelectedDate();
-    },
-
     _resetInputFields: function() {
-      if(this.selectedDateOnLeft) {
-        this.set('leftDisplayMonthYear', this._addMonth('selectedDateMonthYear', 0));
-        this.set('rightDisplayMonthYear', this._addMonth('selectedDateMonthYear', 1));
-      }
-      else {
-        this.set('rightDisplayMonthYear', this._addMonth('selectedDateMonthYear', 0));
-        this.set('leftDisplayMonthYear', this._addMonth('selectedDateMonthYear', -1));
-      }
 
-      this.set('lastClickedDate', this.selectedDate);
+      this.set('leftDisplayMonthYear', moment(this.fromDate, 'MM/DD/YYYY').add(0, 'months').format('MM/YYYY'));//this._addMonth('fromDate', 0));
+      this.set('rightDisplayMonthYear', moment(this.fromDate, 'MM/DD/YYYY').add(1, 'months').format('MM/YYYY'));//this._addMonth('fromDate', 1));
+
+      this.set('selectedFromDate', this.fromDate);
+      this.set('selectedToDate', this.toDate);
     },
 
     _addMonth: function(monthYear, numberToAdd) {
@@ -117,12 +122,15 @@ Datepicker element which allows user to select a date.
     },
 
     _applyDate: function() {
-      this.set('selectedDate', this.lastClickedDate); // set the selected date to the input date
+      this.set('fromDate', this.selectedFromDate); // set the selected date to the input date
+      this.set('toDate', this.selectedToDate);
+
       this.fire('px-date-picking-done');
     },
 
     _cancel: function() {
       this._resetInputFields(); // reset the input to the previously chosen date
+
       this.fire('px-date-picking-done');
     }
 

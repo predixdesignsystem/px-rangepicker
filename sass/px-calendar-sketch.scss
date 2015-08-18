@@ -68,12 +68,20 @@ caption {
   border-radius: 2.4em;
 }
 
-.is-selected {
-  margin: -#{calculateRem(4px)};
-  padding: calculateRem(4px);
+td {
+  &:first-of-type {
+    border-radius: 2.4em 0 0 2.4em;
+  }
+  &:last-of-type {
+    border-radius: 0 2.4em 2.4em 0;
+  }
+  .btn {
+    margin: -#{calculateRem(4px)};
+    padding: calculateRem(4px);
+  }
 }
 
 // Trumps
-$inuit-enable-margins--none              : true;
+$inuit-enable-margins--none: true;
 
 @import "px-spacing-design/_trumps.spacing.scss";

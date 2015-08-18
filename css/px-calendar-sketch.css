@@ -723,7 +723,13 @@ caption {
   min-width: 1.2em;
   border-radius: 2.4em; }
 
-.is-selected {
+td:first-of-type {
+  border-radius: 2.4em 0 0 2.4em; }
+
+td:last-of-type {
+  border-radius: 0 2.4em 2.4em 0; }
+
+td .btn {
   margin: -0.2666666667rem;
   padding: 0.2666666667rem; }
 

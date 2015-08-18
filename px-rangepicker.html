@@ -51,8 +51,8 @@ Rangepicker with time element.
     </px-time-rangepicker>
     <px-date-rangepicker
       id="dateRangePicker"
-      selected-date="{{datePickerDate}}"
-      selected-date-on-left="{{isSelectedDateOnLeft}}"
+      from-date="{{fromDate}}"
+      to-date="{{toDate}}"
       hidden>
     </px-date-rangepicker>
   </template>
@@ -107,18 +107,18 @@ Rangepicker with time element.
 
     },
 
-    observers: [
-      '_updateSelectedDate(datePickerDate)'
-    ],
-
-    _updateSelectedDate: function() {
-      if (this.selectedDateField === 'from') {
-        this.set('fromDate', this.datePickerDate);
-      }
-      else if (this.selectedDateField === 'to') {
-        this.set('toDate', this.datePickerDate);
-      }
-    },
+//    observers: [
+//      '_updateSelectedDate(datePickerDate)'
+//    ],
+//
+//    _updateSelectedDate: function() {
+//      if (this.selectedDateField === 'from') {
+//        this.set('fromDate', this.datePickerDate);
+//      }
+//      else if (this.selectedDateField === 'to') {
+//        this.set('toDate', this.datePickerDate);
+//      }
+//    },
 
     ready: function() {
 
@@ -134,40 +134,40 @@ Rangepicker with time element.
         self.$.dateRangePicker.toggleAttribute('hidden', true);
       });
     },
-    
+
     setupRangeFieldListeners: function() {
-      
+
       var self = this;
-      
+
       this.$.fromDate.addEventListener('px-selected-range-field', function(e) {
         self.$.dateRangePicker.toggleAttribute('hidden', false);
       });
-      
+
       this.$.toDate.addEventListener('px-selected-range-field', function(e) {
         self.$.dateRangePicker.toggleAttribute('hidden', false);
       });
-      
+
       this.$.fromTime.addEventListener('px-selected-range-field', function(e) {
         self.$.timeRangePicker.toggleAttribute('hidden', false);
-        
-        self.selectedDateField = 'from';
-        self.set('datePickerDate', self.fromDate);
-        if (moment(self.fromDate, 'MM/DD/YYYY').isBefore(moment(self.toDate, 'MM/DD/YYYY'), 'month')) {
-          self.set('isSelectedDateOnLeft', true);
-        }
-        else {
-          self.set('isSelectedDateOnLeft', false);
-        }
+//
+//        self.selectedDateField = 'from';
+//        self.set('datePickerDate', self.fromDate);
+//        if (moment(self.fromDate, 'MM/DD/YYYY').isBefore(moment(self.toDate, 'MM/DD/YYYY'), 'month')) {
+//          self.set('isSelectedDateOnLeft', true);
+//        }
+//        else {
+//          self.set('isSelectedDateOnLeft', false);
+//        }
       });
-      
+
       this.$.toTime.addEventListener('px-selected-range-field', function(e) {
         self.$.timeRangePicker.toggleAttribute('hidden', false);
-        
-        self.selectedDateField = 'to';
-        self.set('datePickerDate', self.toDate);
-        self.set('isSelectedDateOnLeft', false);
+//
+//        self.selectedDateField = 'to';
+//        self.set('datePickerDate', self.toDate);
+//        self.set('isSelectedDateOnLeft', false);
       });
-      
+
     }
 
   });
