@@ -56,16 +56,16 @@ module.exports = function(grunt) {
                 'css/noprefix/px-range-field.css': 'sass/px-range-field-predix.scss'
             }
         },
-        datepicker: {
+        dateRangePicker: {
             files: {
-                'css/noprefix/px-datepicker-sketch.css': 'sass/px-datepicker-sketch.scss',
-                'css/noprefix/px-datepicker.css': 'sass/px-datepicker-predix.scss'
+                'css/noprefix/px-date-rangepicker-sketch.css': 'sass/px-date-rangepicker-sketch.scss',
+                'css/noprefix/px-date-rangepicker.css': 'sass/px-date-rangepicker-predix.scss'
             }
         },
-        timepicker: {
+        timeRangePicker: {
             files: {
-                'css/noprefix/px-timepicker-sketch.css': 'sass/px-timepicker-sketch.scss',
-                'css/noprefix/px-timepicker.css': 'sass/px-timepicker-predix.scss'
+                'css/noprefix/px-time-rangepicker-sketch.css': 'sass/px-time-rangepicker-sketch.scss',
+                'css/noprefix/px-time-rangepicker.css': 'sass/px-time-rangepicker-predix.scss'
             }
         },
         calendar: {
