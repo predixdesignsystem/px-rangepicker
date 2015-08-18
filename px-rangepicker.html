@@ -17,14 +17,44 @@ Rangepicker with time element.
 <dom-module id="px-rangepicker">
   <link rel="import" type="css" href="css/px-rangepicker.css"/>
   <template>
-    <div class=flex>
-      <px-range-field id="dateRange" class="u-mr+" icon="fa-calendar" from="{{fromDate}}"
-                      to="{{toDate}}"></px-range-field>
-      <px-range-field id="timeRange" icon="fa-clock-o" from="{{fromTime}}" to="{{toTime}}"></px-range-field>
+    <div class="flex flex--middle flex--wrap">
+      <span class=a11y>From</span>
+      <px-range-field
+        id="fromDate"
+        date-time-value="{{fromDate}}"
+        date-or-time="Date"
+        class=u-mr->
+      </px-range-field>
+      <px-range-field
+        id="fromTime"
+        date-time-value="{{fromTime}}"
+        date-or-time="Time">
+      </px-range-field>
+      <div class="range">To</div>
+      <px-range-field
+        id="toDate"
+        date-time-value="{{toDate}}"
+        date-or-time="Date"
+        class=u-mr->
+      </px-range-field>
+      <px-range-field
+        id="toTime"
+        date-time-value="{{toTime}}"
+        date-or-time="Time">
+      </px-range-field>
     </div>
-    <px-timepicker id="timepicker" from-time="{{fromTime}}" to-time="{{toTime}}" hidden></px-timepicker>
-    <px-datepicker id="datepicker" selected-date="{{datePickerDate}}" selected-date-on-left="{{isSelectedDateOnLeft}}"
-                   hidden></px-datepicker>
+    <px-timepicker
+      id="timepicker"
+      from-time="{{fromTime}}"
+      to-time="{{toTime}}"
+      hidden>
+    </px-timepicker>
+    <px-datepicker
+      id="datepicker"
+      selected-date="{{datePickerDate}}"
+      selected-date-on-left="{{isSelectedDateOnLeft}}"
+      hidden>
+    </px-datepicker>
   </template>
 </dom-module>
 
@@ -94,9 +124,7 @@ Rangepicker with time element.
 
       var self = this;
 
-      this.$.timeRange.addEventListener('px-selected-range-field', function(e) {
-        self.$.timepicker.toggleAttribute('hidden', false);
-      });
+      this.setupRangeFieldListeners();
 
       this.$.timepicker.addEventListener('px-time-picking-done', function(e) {
         self.$.timepicker.toggleAttribute('hidden', true);
@@ -105,26 +133,41 @@ Rangepicker with time element.
       this.$.datepicker.addEventListener('px-date-picking-done', function(e) {
         self.$.datepicker.toggleAttribute('hidden', true);
       });
-
-      this.$.dateRange.addEventListener('px-selected-range-field', function(e) {
+    },
+    
+    setupRangeFieldListeners: function() {
+      
+      var self = this;
+      
+      this.$.fromDate.addEventListener('px-selected-range-field', function(e) {
         self.$.datepicker.toggleAttribute('hidden', false);
-
-        if (e.detail === 'from') {
-          self.selectedDateField = 'from';
-          self.set('datePickerDate', self.fromDate);
-          if (moment(self.fromDate, 'MM/DD/YYYY').isBefore(moment(self.toDate, 'MM/DD/YYYY'), 'month')) {
-            self.set('isSelectedDateOnLeft', true);
-          }
-          else {
-            self.set('isSelectedDateOnLeft', false);
-          }
+      });
+      
+      this.$.toDate.addEventListener('px-selected-range-field', function(e) {
+        self.$.datepicker.toggleAttribute('hidden', false);
+      });
+      
+      this.$.fromTime.addEventListener('px-selected-range-field', function(e) {
+        self.$.timepicker.toggleAttribute('hidden', false);
+        
+        self.selectedDateField = 'from';
+        self.set('datePickerDate', self.fromDate);
+        if (moment(self.fromDate, 'MM/DD/YYYY').isBefore(moment(self.toDate, 'MM/DD/YYYY'), 'month')) {
+          self.set('isSelectedDateOnLeft', true);
         }
-        else if (e.detail === 'to') {
-          self.selectedDateField = 'to';
-          self.set('datePickerDate', self.toDate);
+        else {
           self.set('isSelectedDateOnLeft', false);
         }
       });
+      
+      this.$.toTime.addEventListener('px-selected-range-field', function(e) {
+        self.$.timepicker.toggleAttribute('hidden', false);
+        
+        self.selectedDateField = 'to';
+        self.set('datePickerDate', self.toDate);
+        self.set('isSelectedDateOnLeft', false);
+      });
+      
     }
 
   });

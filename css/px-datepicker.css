@@ -2502,6 +2502,195 @@ button.btn {
 THIS FILE SHOULD CONTAIN ONLY ABSTRACT/'SKETCH' THEME RULES, NOT SPECIFIC TO PREDIX BRANDING
 Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 */
+/**
+ * A series of helper classes to use arbitrarily. Only use a helper class if an
+ * element/component doesn’t already have a class to which you could apply this
+ * styling, e.g. if you need to float `.main-nav` left then add `float:left;` to
+ * that ruleset as opposed to adding the `.float--left` class to the markup.
+ *
+ * A lot of these classes carry `!important` as you will always want them to win
+ * out over other selectors.
+ */
+/**
+ * Add/remove floats
+ */
+.float--right {
+  float: right !important; }
+
+.float--left {
+  float: left !important; }
+
+.float--none {
+  float: none !important; }
+
+/**
+ * Text alignment
+ */
+.text--left {
+  text-align: left !important; }
+
+.text--center {
+  text-align: center !important; }
+
+.text--right {
+  text-align: right !important; }
+
+/**
+ * Full height element
+ */
+.full-height {
+  height: 100% !important; }
+
+/**
+ * Add a help cursor to any element that gives the user extra information on
+ * `:hover`.
+ */
+.informative {
+  cursor: help !important; }
+
+/**
+ * Mute an object by reducing its opacity.
+ */
+.muted {
+  opacity: 0.5 !important; }
+
+/**
+ * Align items to the right where they imply progression/movement forward, e.g.:
+ *
+   <p class=proceed><a href=#>Read more...</a></p>
+ *
+ */
+.proceed {
+  text-align: right !important; }
+
+/**
+ * Apply capital case to an element (usually a `strong`).
+ */
+.caps {
+  text-transform: uppercase !important; }
+
+/**
+ * Hide visually and from screen readers:
+ * http://juicystudio.com/article/screen-readers-display-none.php
+ */
+.hidden {
+  display: none !important;
+  visibility: hidden; }
+
+/**
+ * Hide content off-screen without resorting to `display:none;`
+ */
+.a11y,
+.visuallyhidden {
+  position: absolute !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  clip: rect(0 0 0 0) !important; }
+
+.a11y.focusable:active,
+.a11y.focusable:focus,
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus {
+  position: static;
+  overflow: visible;
+  width: auto;
+  height: auto;
+  margin: 0;
+  clip: auto; }
+
+@media screen and (max-width: 47.9375rem) {
+  .a11y-palm,
+  .visuallyhidden-palm {
+    position: absolute !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    clip: rect(0 0 0 0) !important; } }
+
+@media screen and (min-width: 48rem) and (max-width: 68.204166667rem) {
+  .a11y-lap,
+  .visuallyhidden-lap {
+    position: absolute !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    clip: rect(0 0 0 0) !important; } }
+
+@media screen and (min-width: 48rem) {
+  .a11y-lap-and-up,
+  .visuallyhidden-lap-and-up {
+    position: absolute !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    clip: rect(0 0 0 0) !important; } }
+
+@media screen and (max-width: 68.204166667rem) {
+  .a11y-portable,
+  .visuallyhidden-portable {
+    position: absolute !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    clip: rect(0 0 0 0) !important; } }
+
+@media screen and (min-width: 68.266666667rem) {
+  .a11y-desk,
+  .visuallyhidden-desk {
+    position: absolute !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    clip: rect(0 0 0 0) !important; } }
+
+@media screen and (min-width: 80rem) {
+  .a11y-desk-wide,
+  .visuallyhidden-desk-wide {
+    position: absolute !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    clip: rect(0 0 0 0) !important; } }
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+  .a11y-retina,
+  .visuallyhidden-retina {
+    position: absolute !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    clip: rect(0 0 0 0) !important; } }
+
+/**
+ * Hide visually and from screen readers, but maintain layout
+ */
+.invisible {
+  visibility: hidden !important; }
+
 .text-input--bare {
   margin: 0;
   padding: 0; }
@@ -2527,12 +2716,70 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
   margin-top: 1.3333333333rem;
   margin-left: 1.3333333333rem; }
 
+.range {
+  margin: 0 0.6666666667rem 1rem;
+  text-transform: uppercase; }
+
 /**
  * Margin and padding helper classes. Use these to tweak layout on a micro
  * level.
  *
  * `.u-(m|p)(t|r|b|l|h|v)(-|+|0) {}` = utility - margin/padding top/right/bottom/left/horizontal/vertical less/more/none
  */
+/**
+     * Margin helper classes.
+     *
+     * Add margins.
+     */
+.u-m {
+  margin: 1rem !important; }
+
+.u-mt {
+  margin-top: 1rem !important; }
+
+.u-mr {
+  margin-right: 1rem !important; }
+
+.u-mb {
+  margin-bottom: 1rem !important; }
+
+.u-ml {
+  margin-left: 1rem !important; }
+
+.u-mh {
+  margin-right: 1rem !important;
+  margin-left: 1rem !important; }
+
+.u-mv {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important; }
+
+/**
+     * Add small margins.
+     */
+.u-m- {
+  margin: 0.6666666667rem !important; }
+
+.u-mt- {
+  margin-top: 0.6666666667rem !important; }
+
+.u-mr- {
+  margin-right: 0.6666666667rem !important; }
+
+.u-mb- {
+  margin-bottom: 0.6666666667rem !important; }
+
+.u-ml- {
+  margin-left: 0.6666666667rem !important; }
+
+.u-mh- {
+  margin-right: 0.6666666667rem !important;
+  margin-left: 0.6666666667rem !important; }
+
+.u-mv- {
+  margin-top: 0.6666666667rem !important;
+  margin-bottom: 0.6666666667rem !important; }
+
 /**
      * Add large margins.
      */
@@ -2689,6 +2936,9 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 
 .rangepicker__box__select label {
   color: #525156; }
+
+.range {
+  color: #7c7c84; }
 
 .btn--bare {
   color: #0a9ec1; }

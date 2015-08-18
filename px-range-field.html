@@ -13,14 +13,12 @@ Range field component which displays to/from fields and font awesome icon.
 <dom-module id="px-range-field">
   <link rel="import" type="css" href="css/px-range-field.css"/>
   <template>
-    <div class="range-field__field text-input flex flex--middle">
-      <label class=label--inline on-click="_selectFrom">
-        <span class=a11y>From</span>
-        <i id="icon" class="fa"></i>
+    <div class="range-field__field text-input flex flex--middle u-mb">
+      <label class=label--inline on-click="_selectRange">
+        <span class=a11y>{{dateOrTime}}</span>
+        <i id=icon class=fa></i>
+        <input type=text class=text-input--bare value="{{dateTimeValue}}" on-click="_selectRange">
       </label>
-      <input id=from type=text class=text-input--bare value="{{from}}" on-click="_selectFrom">
-      <label class="caps label--inline" on-click="_selectTo">to</label>
-      <input id=to type=text class=text-input--bare value="{{to}}" on-click="_selectTo">
     </div>
   </template>
 </dom-module>
@@ -33,44 +31,39 @@ Range field component which displays to/from fields and font awesome icon.
     properties: {
 
       /**
-       * Font awesome icon to display
+       * Field text
        *
-       * 'fa-calendar' or 'fa-clock-o'
+       * '08/10/2014' or '10:30:00 AM'
        */
-      icon: {
+      dateTimeValue: {
         type: String
       },
 
       /**
-       * From field text
+       * Date or Time?
+       * (Comes with icon for free)
        *
-       * '08/10/2014' or '10:30:00 AM'
+       * 'Date' or 'Time'
        */
-      from: {
-        type: String
-      },
-
-      /**
-       * To field text
-       *
-       * '08/10/2014' or '10:30:00 AM'
-       */
-      to: {
+      dateOrTime: {
         type: String
       }
 
     },
 
     ready: function() {
-      this.toggleClass(this.icon, true, this.$.icon);
+      var icon = "";
+      if(this.dateOrTime.toLowerCase() == 'date') {
+        icon = "fa-calendar"
+      }
+      else {
+        icon = "fa-clock-o"
+      }
+      this.toggleClass(icon, true, this.$.icon);
     },
-
-    _selectFrom: function() {
-      this.fire('px-selected-range-field', 'from');
-    },
-
-    _selectTo: function() {
-      this.fire('px-selected-range-field', 'to');
+    
+    _selectRange: function() {
+      this.fire('px-selected-range-field');
     }
 
   });

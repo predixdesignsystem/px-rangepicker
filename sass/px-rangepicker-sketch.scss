@@ -22,6 +22,7 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 // Generic
 @import "px-normalize-design/_generic.normalize.scss";
 @import "px-box-sizing-design/_generic.box-sizing.scss";
+@import "px-helpers-design/_generic.helpers.scss";
 
 // Base
 @import "px-flexbox-design/_base.flexbox.scss";
@@ -58,7 +59,13 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
   margin-left: $inuit-base-spacing-unit--large;
 }
 
+.range {
+  margin: 0 $inuit-base-spacing-unit--small $inuit-base-spacing-unit;
+  text-transform: uppercase;
+}
+
 // Trumps
-$inuit-enable-margins--large    : true;
+$inuit-enable-margins           : true;
+$inuit-enable-margins--small    : true;
 
 @import "px-spacing-design/_trumps.spacing.scss";
