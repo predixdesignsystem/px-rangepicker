@@ -61,6 +61,15 @@ Datepicker element which allows user to select a date.
       }
 
     },
+    
+    _updateFromDate: function() {
+      this.set('leftDisplayMonthYear', this._addMonth('fromDate', 0));
+      this.set('rightDisplayMonthYear', this._addMonth('fromDate', 1));
+    },
+    
+    _addMonth: function(monthYear, numberToAdd) {
+      return moment(this[monthYear], 'MM/DD/YYYY').add(numberToAdd, 'months').format('MM/YYYY');
+    },
 
     observers: [
       'updateSelectedRange(fromDate, toDate)'
@@ -123,9 +132,7 @@ Datepicker element which allows user to select a date.
       this.set('secondDate', this.toDate);
     },
 
-    _addMonth: function(monthYear, numberToAdd) {
-      return moment(this[monthYear], 'MM/YYYY').add(numberToAdd, 'months').format('MM/YYYY');
-    },
+
 
     _jumpBack: function() {
       this.set('leftDisplayMonthYear', this._addMonth('leftDisplayMonthYear', -1));
