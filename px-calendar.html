@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="px-calendar-cell.html"/>
 
 <script src="../moment/moment.js"></script>
 
@@ -15,7 +16,7 @@ Element that renders a calendar for the given year and selects the given date.
 <dom-module id="px-calendar">
   <link rel="import" type="css" href="css/px-calendar.css"/>
   <template>
-    <table class="table table--no-cells text--center">
+    <table class="table table--no-cells text--center" id="calendar">
       <caption>
         <span>{{displayMonthName}}</span>
         <span>{{displayYear}}</span>
@@ -30,11 +31,9 @@ Element that renders a calendar for the given year and selects the given date.
       <tbody>
         <template is="dom-repeat" items="{{calendar}}" as="week">
           <tr>
-            <template is="dom-repeat" items="{{week}}" as="day">
-              <td class$="{{day.tdStyles}}">
-                <div>
-                  <button class$="{{day.styles}}" value="{{day.value}}" on-click="_selectDate" disabled="{{day.isDisabled}}">{{day.value}}</button>
-                </div>
+            <template is="dom-repeat" items="{{week}}" as="date">
+              <td>
+                <px-calendar-cell date="{{date}}" first-date="{{firstDateMoment}}" second-date="{{secondDateMoment}}"></px-calendar-cell>
               </td>
             </template>
           </tr>
@@ -76,20 +75,41 @@ Element that renders a calendar for the given year and selects the given date.
 
       firstDate: {
         type: String,
-        observer: '_updateSelectionStyles',
+        observer: '_changeFirstDate',
         notify: true
       },
 
       secondDate: {
         type: String,
-        observer: '_updateSelectionStyles',
+        observer: '_changeSecondDate',
         notify: true
       }
 
     },
-
+    
+    _changeFirstDate: function() {
+      this.set('firstDateMoment', moment(this.firstDate, 'MM/DD/YYYY'));
+    },
+    
+    _changeSecondDate: function() {
+      if(this.secondDate === null) {
+        this.set('secondDateMoment', null);
+      }
+      else {
+        this.set('secondDateMoment', moment(this.secondDate, 'MM/DD/YYYY'));
+      }
+    },
+    
     ready: function() {
       this.daysOfTheWeek = this._getDaysOfTheWeek();
+      
+      var self = this;
+      this.$.calendar.addEventListener('px-date-selected', function(e) {
+        
+        var day = e.detail;
+        self._selectDate(day);
+        
+      });
     },
 
     _getDaysOfTheWeek: function() {
@@ -100,114 +120,6 @@ Element that renders a calendar for the given year and selects the given date.
         day.add(1, 'days');
       }
       return daysOfWeek;
-    },
-
-    _isASelectedDate: function(date) {
-
-
-      var selectedTo = moment(this.firstDate, 'MM/DD/YYYY').format('MM/YYYY');
-      if (selectedTo === this.displayMonthYear) { // in this month
-        var selectedDateDay = moment(this.firstDate, 'MM/DD/YYYY').format('D');
-        if (selectedDateDay == date) {
-          return true;
-        }
-      }
-
-      var selectedFrom = moment(this.secondDate, 'MM/DD/YYYY').format('MM/YYYY');
-      if (selectedFrom === this.displayMonthYear) { // in this month
-        var selectedDateDay = moment(this.secondDate, 'MM/DD/YYYY').format('D');
-        if (selectedDateDay == date) {
-          return true;
-        }
-      }
-
-
-      return false;
-    },
-
-    _isBetweenSelectedDates: function(date) {
-      if(date !== '') {
-        var firstDate = moment(this.firstDate, 'MM/DD/YYYY');
-        var secondDate = moment(this.secondDate, 'MM/DD/YYYY');
-        if (
-          (moment(this.displayMonthYear, 'MM/YYYY').date(date).isBetween(firstDate, secondDate, 'day')) || (moment(this.displayMonthYear, 'MM/YYYY').date(date).isBetween(secondDate, firstDate, 'day'))
-        ) {
-          return true;
-        }
-      }
-      return false;
-    },
-
-    _isPastTodaysDate: function(date) {
-      var todaysDay = moment();
-      var currentlyComparingDate = moment(this.displayMonthYear, 'MM/YYYY').date(date);
-      if (currentlyComparingDate.isAfter(todaysDay)) {
-        return true;
-      }
-      return false;
-    },
-
-    _isSoloDate: function(date) {
-      if(date !== '') {
-        var firstDate = moment(this.firstDate, 'MM/DD/YYYY');
-        var secondDate = moment(this.secondDate, 'MM/DD/YYYY');
-
-
-        var firstAndSecondDatesSame = firstDate.isSame(secondDate, 'day');
-        var onlyHaveFirstDate = this.secondDate === null;
-
-        var shouldApplyToThisDate = (moment(this.displayMonthYear, 'MM/YYYY').date(date).isSame(firstDate, 'day'));
-
-        if(firstAndSecondDatesSame && shouldApplyToThisDate) {
-          return true;
-        }
-
-        if(onlyHaveFirstDate && shouldApplyToThisDate) {
-          return true;
-        }
-      }
-      return false;
-    },
-
-    _updateSelectionStyles: function() {
-
-      if (!this.calendar) {
-        return;
-      }
-
-      var self = this;
-      this.calendar.forEach(function(week, i) {
-        week.forEach(function(dateObj, j) {
-
-          var isDisabled = false, tdStyles = '';
-
-          var styles = 'btn btn--bare';
-          if (dateObj.value == "1") {
-            tdStyles += ' is-first';
-          }
-          if (dateObj.value == moment(self.displayMonthYear, 'MM/YYYY').daysInMonth()) {
-            tdStyles += ' is-last';
-          }
-          if (self._isASelectedDate(dateObj.value)) {
-            tdStyles += ' is-selected';
-          }
-          if (self._isBetweenSelectedDates(dateObj.value)) {
-            tdStyles += ' is-between';
-          }
-          if (self._isSoloDate(dateObj.value)) {
-            tdStyles += ' is-selected-solo';
-          }
-          if (self._isPastTodaysDate(dateObj.value)) {
-            styles += ' btn--disabled';
-            isDisabled = true;
-          }
-
-          if (dateObj.styles !== styles || dateObj.isDisabled !== isDisabled  || dateObj.tdStyles !== tdStyles) {
-            self.set('calendar.' + i + '.' + j, {value: dateObj.value, styles: styles, isDisabled: isDisabled, tdStyles: tdStyles});
-          }
-
-        });
-      });
     },
 
     _constructMonth: function(monthToDisplay) {
@@ -226,17 +138,17 @@ Element that renders a calendar for the given year and selects the given date.
 
         // days not in the month
         while (daysNotInMonthCount < dayBeginningOfMonth) {
-          week.push({value: '', styles: 'btn btn--bare', isDisabled: false, tdStyles: ''});
+          week.push(null);
           daysNotInMonthCount++;
           weekCount++;
         }
 
         while (weekCount < 7) {
           if (dateCount <= numberOfDaysInMonth) {
-            week.push({value: dateCount, styles: 'btn btn--bare', isDisabled: false, tdStyles: ''});
+            week.push(moment(this.displayMonthYear, 'MM/YYYY').date(dateCount));
           }
           else {
-            week.push({value: '', styles: 'btn btn--bare', isDisabled: false, tdStyles: ''});
+            week.push(null);
           }
           dateCount++;
           weekCount++;
@@ -265,21 +177,20 @@ Element that renders a calendar for the given year and selects the given date.
       }
       this.set('weeksToAdd', weeksToAdd);
 
-      this._updateSelectionStyles();
     },
 
-    _selectDate: function(e) {
+    _selectDate: function(day) {
 
       var newSelectedDate = moment(this.displayMonthYear, 'MM/YYYY');
-      newSelectedDate.date(e.target.value);
+      newSelectedDate.date(day);
 
       if(this.firstDate && !this.secondDate) {
         this.set('secondDate', newSelectedDate.format('MM/DD/YYYY'));
         this.fire('range-selected');
       }
       else {
-        this.set('firstDate', newSelectedDate.format('MM/DD/YYYY'));
         this.set('secondDate', null);
+        this.set('firstDate', newSelectedDate.format('MM/DD/YYYY'));
       }
 
     }
