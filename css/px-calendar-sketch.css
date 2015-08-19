@@ -707,49 +707,41 @@ caption {
   min-width: 1.6rem;
   padding: 0; }
   .table th:empty, .table td:empty {
-    height: 1.2rem; }
-  .table th:first-of-type, .table td:first-of-type {
-    padding-left: 0; }
-  .table th:last-of-type, .table td:last-of-type {
-    padding-right: 0; }
+    height: 2rem; }
 
-.table td:first-of-type div, .table td.is-first div {
-  border-top-left-radius: 2.4em;
-  border-bottom-left-radius: 2.4em; }
-
-.table td:last-of-type div, .table td.is-last div {
-  border-top-right-radius: 2.4em;
-  border-bottom-right-radius: 2.4em; }
-
-.table td div {
+div {
   height: 1.7333333333rem;
   margin-top: 2px;
   margin-bottom: 2px;
   padding-right: 0.3333333333rem;
   padding-left: 0.3333333333rem; }
 
-.table :not(.is-between) + .is-selected div {
-  border-top-left-radius: 2.4em;
-  border-bottom-left-radius: 2.4em; }
+.is-selected, .is-start.is-end, .is-selected.is-selected-only {
+  border-top-left-radius: 2.4rem;
+  border-top-right-radius: 2.4rem;
+  border-bottom-right-radius: 2.4rem;
+  border-bottom-left-radius: 2.4rem; }
 
-.table .is-between + .is-selected div {
-  border-top-right-radius: 2.4em;
-  border-bottom-right-radius: 2.4em; }
+.is-start {
+  border-top-left-radius: 2.4rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 2.4rem; }
 
-.table .is-selected-solo div {
-  border-radius: 2.4em; }
-
-.table .is-selected + .is-selected div {
-  border-radius: 0 2.4em 2.4em 0; }
+.is-end {
+  border-top-left-radius: 0;
+  border-top-right-radius: 2.4rem;
+  border-bottom-right-radius: 2.4rem;
+  border-bottom-left-radius: 0; }
 
 .btn--bare {
-  min-width: 1.2em;
+  min-width: 1.2rem;
   margin-right: -0.2666666667rem;
   margin-left: -0.2666666667rem;
   padding-right: 0.2666666667rem;
   padding-left: 0.2666666667rem;
-  border-radius: 2.4em;
-  line-height: 1.733333333333; }
+  border-radius: 2.4rem;
+  line-height: 1.7333333333rem; }
 
 /**
  * Margin and padding helper classes. Use these to tweak layout on a micro

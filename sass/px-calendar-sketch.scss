@@ -39,6 +39,22 @@ $inuit-enable-btn--disabled     : true;
 @import "px-buttons-design/_objects.buttons.scss";
 
 // Component
+$cell-border-radius             : $inuit-base-spacing-unit * 2.4;
+
+@mixin cell-rounded-left($top-left, $bottom-left) {
+  border-top-left-radius: $top-left;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: $bottom-left;
+}
+
+@mixin cell-rounded-right($top-right, $bottom-right) {
+  border-top-left-radius: 0;
+  border-top-right-radius: $top-right;
+  border-bottom-right-radius: $bottom-right;
+  border-bottom-left-radius: 0;
+}
+
 caption {
   margin-bottom: $inuit-base-spacing-unit;
   font-weight: bold;
@@ -52,64 +68,42 @@ caption {
     min-width: calculateRem(24px);
     padding: 0;
     &:empty {
-      height: calculateRem(18px);
+      height: calculateRem(30px);
     }
-    &:first-of-type {
-      padding-left: 0;
-    }
-    &:last-of-type {
-      padding-right: 0;
-    }
-  }
-  td {
-    &:first-of-type, &.is-first {
-      div {
-        border-top-left-radius: 2.4em;
-        border-bottom-left-radius: 2.4em;
-      }
-    }
-    &:last-of-type, &.is-last {
-      div {
-        border-top-right-radius: 2.4em;
-        border-bottom-right-radius: 2.4em;
-      }
-    }
-    div {
-      height: calculateRem(26px);
-      margin-top: 2px;
-      margin-bottom: 2px;
-      padding-right: $inuit-base-spacing-unit--tiny;
-      padding-left: $inuit-base-spacing-unit--tiny;
-    }
-  }
-  :not(.is-between) + .is-selected div {
-    border-top-left-radius: 2.4em;
-    border-bottom-left-radius: 2.4em;
-  }
-  .is-between + .is-selected div {
-    border-top-right-radius: 2.4em;
-    border-bottom-right-radius: 2.4em;
-  }
-  .is-selected-solo div {
-    border-radius: 2.4em;
-  }
-  .is-selected + .is-selected div {
-    border-radius: 0 2.4em 2.4em 0;
   }
 }
 
+div {
+  height: calculateRem(26px);
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding-right: $inuit-base-spacing-unit--tiny;
+  padding-left: $inuit-base-spacing-unit--tiny;
+}
+
+.is-selected, .is-start.is-end, .is-selected.is-selected-only {
+  border-top-left-radius: $cell-border-radius;
+  border-top-right-radius: $cell-border-radius;
+  border-bottom-right-radius: $cell-border-radius;
+  border-bottom-left-radius: $cell-border-radius;
+}
+
+.is-start {
+  @include cell-rounded-left($cell-border-radius, $cell-border-radius)
+}
+
+.is-end {
+  @include cell-rounded-right($cell-border-radius, $cell-border-radius)
+}
+
 .btn--bare {
-  min-width: 1.2em;
+  min-width: $cell-border-radius / 2;
   margin-right: -#{calculateRem(4px)};
   margin-left: -#{calculateRem(4px)};
   padding-right: calculateRem(4px);
   padding-left: calculateRem(4px);
-  border-radius: 2.4em;
-  line-height: 1.733333333333;
-}
-
-td {
-
+  border-radius: $cell-border-radius;
+  line-height: calculateRem(26px);
 }
 
 // Trumps

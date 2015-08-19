@@ -33,8 +33,6 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 }
 
 .is-between, .is-selected {
-  div {
-    background-color: $gray3;
-  }
+  background-color: $gray3;
 }
 
