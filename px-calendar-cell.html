@@ -1,0 +1,132 @@
+<link rel="import" href="../polymer/polymer.html"/>
+
+<script src="../moment/moment.js"></script>
+
+<!--
+Element that renders a calendar cell for a given date (and for non-dates)
+
+##### Usage
+
+    <px-calendar-cell>
+    </px-calendar-cell>
+
+-->
+<dom-module id="px-calendar-cell">
+  <link rel="import" type="css" href="css/px-calendar.css"/>
+  <template>
+    <div class$="{{cellStyles}}">
+      <template is="dom-if" if="{{date}}">
+        <button class$="{{btnStyles}}" value="{{day}}" on-click="_selectDate" disabled="{{isDisabled}}">{{day}}</button>
+      </template>
+    </div>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'px-calendar-cell',
+
+    properties: {
+      
+      date: Object,
+            
+      firstDate: String,
+      
+      secondDate: String
+      
+    },
+    
+    observers: [
+      'updateDate(date, firstDate, secondDate)'
+    ],
+        
+    _selectDate: function(e) {
+      this.fire('px-date-selected', this.day);
+    },
+    
+    updateDate: function() {
+            
+      var cellStyles = '';
+      var btnStyles = 'btn btn--bare';
+      var isDisabled = false;
+                  
+      if(this.date) {
+        this.set('day', this.date.format('D'));
+        
+        cellStyles += this._addSelectedClasses(cellStyles);
+        cellStyles += this._addStartOrEndOfWeekMonthClasses(cellStyles);
+        cellStyles += this._addRangeClasses(cellStyles);
+        
+        if (this._isPastTodaysDate()) {
+          btnStyles += ' btn--disabled';
+          isDisabled = true;
+        }
+
+      }
+      else {
+        cellStyles += ' is-empty';
+      }
+      
+      this.set('btnStyles', btnStyles);
+      this.set('isDisabled', isDisabled);
+      this.set('cellStyles', cellStyles);
+      
+    },
+    
+    _isPastTodaysDate: function(date) {
+      var todaysDay = moment();
+      if (this.date.isAfter(todaysDay)) {
+        return true;
+      }
+      return false;
+    },
+    
+    _addSelectedClasses(cellStyles) {
+      if(this.date.isSame(this.firstDate, 'day') || this.date.isSame(this.secondDate, 'day')) {
+        cellStyles += ' is-selected';
+      }
+      
+      if(this.secondDate === null) {
+        cellStyles += ' is-selected-only';
+      }
+      
+      return cellStyles;
+    },
+    
+    _addStartOrEndOfWeekMonthClasses: function(cellStyles) {
+      if (this.day == 1 || this.date.weekday() == 0) {
+        cellStyles += ' is-start';
+      }
+      
+      if (this.day == this.date.daysInMonth() || this.date.weekday() == 6) {
+        cellStyles += ' is-end';
+      }
+      
+      return cellStyles;
+    },
+    
+    _addRangeClasses: function(cellStyles) {
+      var startDate = this.firstDate;
+      var endDate = this.secondDate;
+      
+      if(this.firstDate.isAfter(this.secondDate, 'day')) {
+        endDate = this.firstDate;
+        startDate = this.secondDate;
+      }
+      
+      if(this.date.isSame(startDate, 'day')) {
+        cellStyles += ' is-start';
+      }
+      if(this.date.isSame(endDate, 'day')) {
+        cellStyles += ' is-end';
+      }
+      if(this.date.isBetween(startDate, endDate, 'day')) {
+        cellStyles += ' is-between';
+      }
+      
+      return cellStyles;
+    }
+    
+  });
+</script>
