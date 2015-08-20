@@ -131,8 +131,16 @@ Rangepicker with time element.
       });
 
       this.$.rangeFields.addEventListener('px-selected-range-field', function(e) {
+        var dateOrTime = e.detail.dateOrTime;
+        var toOrFrom = e.detail.toOrFrom;
+
         self.$.dateRangePicker.show();
         self.$.timeRangePicker.toggleAttribute('hidden', false);
+
+        if(dateOrTime === 'time') {
+          self.$.timeRangePicker.focusField = toOrFrom;
+        }
+
       });
     }
 

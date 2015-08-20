@@ -60,6 +60,11 @@ Timepicker element which allows user to select a start and end time.
         type: Object,
         notify: true,
         observer: '_changeFromTime'
+      },
+
+      focusField: {
+        type: String,
+        observer: '_setFocusField'
       }
 
     },
@@ -70,6 +75,15 @@ Timepicker element which allows user to select a start and end time.
 
     _changeFromTime: function() {
       this.set('fromTimeInput', moment(this.fromTime));
+    },
+
+    _setFocusField: function() {
+      if(this.focusField === 'to') {
+        this.$.toTimeInput.focus();
+      }
+      else if(this.focusField === 'from') {
+        this.$.fromTimeInput.focus();
+      }
     },
 
     _applyTime: function() {

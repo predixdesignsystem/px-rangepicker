@@ -14,7 +14,7 @@ Element providing solution to no problem in particular. As a simple, increments 
   <link rel="import" type="css" href="css/px-time-input.css"/>
   <template>
     <div class="text-input time-input__field">
-      <input type=text class="text-input--bare time-input__field__input" value="{{hours::input}}" on-keydown="_changeHours"/>
+      <input id="hoursInput" type=text class="text-input--bare time-input__field__input" value="{{hours::input}}" on-keydown="_changeHours"/>
       <span>:</span>
       <input type=text class="text-input--bare time-input__field__input" value="{{minutes::input}}" on-keydown="_changeMinutes"/>
       <span>:</span>
@@ -178,6 +178,10 @@ Element providing solution to no problem in particular. As a simple, increments 
         second: this.seconds,
         isAM: this.isAM
       });
+    },
+
+    focus: function() {
+      this.$.hoursInput.focus();
     }
 
   });
