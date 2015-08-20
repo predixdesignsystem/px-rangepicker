@@ -21,13 +21,13 @@ Rangepicker modal.
         <div>
           <px-date-rangepicker
             id="dateRangePicker"
-            from-date="{{fromDate}}"
-            to-date="{{toDate}}">
+            from-date="{{fromDateMoment}}"
+            to-date="{{toDateMoment}}">
           </px-date-rangepicker>
           <px-time-rangepicker
             id="timeRangePicker"
-            from-time="{{fromTime}}"
-            to-time="{{toTime}}">
+            from-time="{{fromTimeMoment}}"
+            to-time="{{toTimeMoment}}">
           </px-time-rangepicker>
         </div>
         <div class=u-p+>
@@ -66,16 +66,16 @@ Rangepicker modal.
   Polymer({
 
     is: 'px-rangepicker-modal',
-
+    
     properties: {
 
-      /**
+    /**
        * Start time for time picker
        *
        * Format 'hh:mm:ss A', for example: '10:22:00 AM'
        */
-      fromTime: {
-        type: String,
+      fromTimeMoment: {
+        type: Object,
         notify: true
       },
 
@@ -84,8 +84,8 @@ Rangepicker modal.
        *
        * Format 'hh:mm:ss A', for example: '04:55:00 PM'
        */
-      toTime: {
-        type: String,
+      toTimeMoment: {
+        type: Object,
         notify: true
       },
 
@@ -94,8 +94,8 @@ Rangepicker modal.
        *
        * Format 'MM/DD/YYYY', for example: '01/25/2015' is Jan 25 2015
        */
-      fromDate: {
-        type: String,
+      fromDateMoment: {
+        type: Object,
         notify: true
       },
 
@@ -104,8 +104,8 @@ Rangepicker modal.
        *
        * Format 'MM/DD/YYYY', for example: '11/03/2015' is Nov 3 2015
        */
-      toDate: {
-        type: String,
+      toDateMoment: {
+        type: Object,
         notify: true
       }
 
