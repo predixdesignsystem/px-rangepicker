@@ -19,25 +19,25 @@ Rangepicker with time element.
       <span class=a11y>From</span>
       <px-range-field
         id="fromDate"
-        date-time-value="{{fromDate}}"
+        date-time-value="{{fromDateDisplay}}"
         date-or-time="Date"
         class=u-mr->
       </px-range-field>
       <px-range-field
         id="fromTime"
-        date-time-value="{{fromTime}}"
+        date-time-value="{{fromTimeDisplay}}"
         date-or-time="Time">
       </px-range-field>
       <div class="range">To</div>
       <px-range-field
         id="toDate"
-        date-time-value="{{toDate}}"
+        date-time-value="{{toDateDisplay}}"
         date-or-time="Date"
         class=u-mr->
       </px-range-field>
       <px-range-field
         id="toTime"
-        date-time-value="{{toTime}}"
+        date-time-value="{{toTimeDisplay}}"
         date-or-time="Time">
       </px-range-field>
       <button class="btn btn--icon btn--tertiary u-mb u-ml+">
@@ -55,45 +55,52 @@ Rangepicker with time element.
     properties: {
 
       /**
-       * Start time for time picker
-       *
-       * Format 'hh:mm:ss A', for example: '10:22:00 AM'
+       * Moment object start time for time picker
        */
       fromTime: {
-        type: String,
-        notify: true
+        type: Object,
+        observer: '_updateFromTime'
       },
 
       /**
-       * End time for time picker
-       *
-       * Format 'hh:mm:ss A', for example: '04:55:00 PM'
+       * Moment object end time for time picker
        */
       toTime: {
-        type: String,
-        notify: true
+        type: Object,
+        observer: '_updateToTime'
       },
 
       /**
-       * Start date for date picker
-       *
-       * Format 'MM/DD/YYYY', for example: '01/25/2015' is Jan 25 2015
+       * Moment object start date for date picker
        */
       fromDate: {
-        type: String,
-        notify: true
+        type: Object,
+        observer: '_updateFromDate'
       },
 
       /**
-       * End date for date picker
-       *
-       * Format 'MM/DD/YYYY', for example: '11/03/2015' is Nov 3 2015
+       * Moment object end date for date picker
        */
       toDate: {
-        type: String,
-        notify: true
+        type: Object,
+        observer: '_updateToDate'
       }
+    },
 
+    _updateFromDate: function() {
+      this.set('fromDateDisplay', this.fromDate.format('MM/DD/YYYY'));
+    },
+
+    _updateToDate: function() {
+      this.set('toDateDisplay', this.toDate.format('MM/DD/YYYY'));
+    },
+
+    _updateFromTime: function() {
+      this.set('fromTimeDisplay', this.fromTime.format('hh:mm:ss A'));
+    },
+
+    _updateToTime: function() {
+      this.set('toTimeDisplay', this.toTime.format('hh:mm:ss A'));
     }
 
   });

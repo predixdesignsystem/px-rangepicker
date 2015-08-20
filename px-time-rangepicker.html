@@ -45,23 +45,19 @@ Timepicker element which allows user to select a start and end time.
     properties: {
 
       /**
-       * Start time for time picker
-       *
-       * Format 'hh:mm:ss A', for example: '10:22:00 AM'
+       * Moment object with start time for time picker
        */
       toTime: {
-        type: String,
+        type: Object,
         notify: true,
         observer: '_changeToTime'
       },
 
       /**
-       * End time for time picker
-       *
-       * Format 'hh:mm:ss A', for example: '04:55:00 PM'
+       * Moment object with start time for time picker
        */
       fromTime: {
-        type: String,
+        type: Object,
         notify: true,
         observer: '_changeFromTime'
       }
@@ -69,22 +65,22 @@ Timepicker element which allows user to select a start and end time.
     },
 
     _changeToTime: function() {
-      this.set('toTimeInput', this.toTime);
+      this.set('toTimeInput', moment(this.toTime));
     },
 
     _changeFromTime: function() {
-      this.set('fromTimeInput', this.fromTime);
+      this.set('fromTimeInput', moment(this.fromTime));
     },
 
     _applyTime: function() {
-      this.set('toTime', this.toTimeInput); // set the selected time to the input time
-      this.set('fromTime', this.fromTimeInput);
+      this.set('toTime', moment(this.toTimeInput)); // set the selected time to the input time
+      this.set('fromTime', moment(this.fromTimeInput));
       this.fire('px-time-picking-done');
     },
 
     _cancel: function() {
-      this.set('toTimeInput', this.toTime); // reset the input to the previously chosen time
-      this.set('fromTimeInput', this.fromTime);
+      this.set('toTimeInput', moment(this.toTime)); // reset the input to the previously chosen time
+      this.set('fromTimeInput', moment(this.fromTime));
       this.fire('px-time-picking-done');
     }
 

@@ -41,24 +41,21 @@ Element providing solution to no problem in particular. As a simple, increments 
     properties : {
 
       /**
-       * Time for time input
-       *
-       * Format 'hh:mm:ss A', for example: '10:22:00 AM'
+       * Moment object of the time in the input fields
        */
       time: {
-        type: String,
+        type: Object,
         observer: '_timeChanged',
         notify: true
       }
 
     },
 
-    _timeChanged: function(newTime) {
-      var newTimeMoment = moment(newTime, 'hh:mm:ss A');
-      this.set('hours', newTimeMoment.format("hh"));
-      this.set('minutes', newTimeMoment.format("mm"));
-      this.set('seconds', newTimeMoment.format("ss"));
-      if(newTimeMoment.format('A') === 'AM') {
+    _timeChanged: function() {
+      this.set('hours', this.time.format("hh"));
+      this.set('minutes', this.time.format("mm"));
+      this.set('seconds', this.time.format("ss"));
+      if(this.time.format('A') === 'AM') {
         this.set('isAM', true);
       }
       else {
@@ -82,7 +79,7 @@ Element providing solution to no problem in particular. As a simple, increments 
 
     _setTime: function(timeObj) {
       var simpleUnformattedTime = this._buildSimpleUnformattedTime(timeObj.hour, timeObj.minute, timeObj.second, timeObj.isAM);
-      var formattedTime = moment(simpleUnformattedTime, 'h:m:s A').format('hh:mm:ss A');
+      var formattedTime = moment(simpleUnformattedTime, 'h:m:s A');
       this.set('time', formattedTime);
     },
 

@@ -18,15 +18,15 @@ Rangepicker with time element.
   <link rel="import" type="css" href="css/px-rangepicker.css"/>
   <template>
     <px-range-fields id="rangeFields"
-      from-time="{{fromTime}}"
-      to-time="{{toTime}}"
-      from-date="{{fromDate}}"
-      to-date="{{toDate}}">
+      from-time="{{fromTimeMoment}}"
+      to-time="{{toTimeMoment}}"
+      from-date="{{fromDateMoment}}"
+      to-date="{{toDateMoment}}">
     </px-range-fields>
     <px-time-rangepicker
       id="timeRangePicker"
-      from-time="{{fromTime}}"
-      to-time="{{toTime}}"
+      from-time="{{fromTimeMoment}}"
+      to-time="{{toTimeMoment}}"
       hidden>
     </px-time-rangepicker>
     <px-date-rangepicker
@@ -52,7 +52,8 @@ Rangepicker with time element.
        */
       fromTime: {
         type: String,
-        notify: true
+        notify: true,
+        observer: '_updateFromTime'
       },
 
       /**
@@ -62,7 +63,8 @@ Rangepicker with time element.
        */
       toTime: {
         type: String,
-        notify: true
+        notify: true,
+        observer: '_updateToTime'
       },
 
       /**
@@ -90,12 +92,14 @@ Rangepicker with time element.
     },
 
     observers: [
-      '_updateInputs(fromDateMoment, toDateMoment)'
+      '_updateInputs(fromDateMoment, toDateMoment, fromTimeMoment, toTimeMoment)'
     ],
 
     _updateInputs: function() {
       this.set('fromDate', this.fromDateMoment.format('MM/DD/YYYY'));
       this.set('toDate', this.toDateMoment.format('MM/DD/YYYY'));
+      this.set('fromTime', this.fromTimeMoment.format('hh:mm:ss A'));
+      this.set('toTime', this.toTimeMoment.format('hh:mm:ss A'));
     },
 
     _updateFromDate: function() {
@@ -104,6 +108,14 @@ Rangepicker with time element.
 
     _updateToDate: function() {
       this.set('toDateMoment', moment(this.toDate, 'MM/DD/YYYY'));
+    },
+
+    _updateFromTime: function() {
+      this.set('fromTimeMoment', moment(this.fromTime, 'hh:mm:ss A'));
+    },
+
+    _updateToTime: function() {
+      this.set('toTimeMoment', moment(this.toTime, 'hh:mm:ss A'));
     },
 
     ready: function() {
