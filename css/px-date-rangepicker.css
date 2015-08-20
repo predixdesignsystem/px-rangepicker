@@ -2489,6 +2489,11 @@ button.btn {
   background-color: white;
   color: #d1d0d8; }
 
+.list-bare {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+
 /*
  * Copyright (c) 2014 GE Global Research. All rights reserved.
  *
@@ -2805,6 +2810,32 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 .u-mv\00002b {
   margin-top: 1.3333333333rem !important;
   margin-bottom: 1.3333333333rem !important; }
+
+/**
+     * Remove margins.
+     */
+.u-m0 {
+  margin: 0 !important; }
+
+.u-mt0 {
+  margin-top: 0 !important; }
+
+.u-mr0 {
+  margin-right: 0 !important; }
+
+.u-mb0 {
+  margin-bottom: 0 !important; }
+
+.u-ml0 {
+  margin-left: 0 !important; }
+
+.u-mh0 {
+  margin-right: 0 !important;
+  margin-left: 0 !important; }
+
+.u-mv0 {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important; }
 
 /**
      * Small negative margins.

@@ -2720,6 +2720,87 @@ textarea {
 THIS FILE SHOULD CONTAIN ONLY ABSTRACT/'SKETCH' THEME RULES, NOT SPECIFIC TO PREDIX BRANDING
 Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 */
+.btn {
+  display: inline-block;
+  overflow: visible;
+  margin: 0;
+  border: 1px solid #b1b1bc;
+  border-radius: 3px;
+  padding: 0 1em;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+  font: inherit;
+  line-height: calc(2em - 2px);
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+  background-color: #e4e4ea; }
+  .btn,
+  .btn:link,
+  .btn:visited,
+  .btn:hover,
+  .btn:focus,
+  .btn:active {
+    color: #3b3b3f; }
+  .btn:hover,
+  .btn:focus {
+    border-color: #9999a3;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    background-color: #b1b1bc; }
+  .btn:active {
+    border-color: #7c7c84;
+    box-shadow: none;
+    background-color: #9999a3; }
+  .btn:active,
+  .btn:focus {
+    outline: none; }
+
+button.btn {
+  -webkit-appearance: button; }
+
+/**
+* Establish default space between adjacent buttons
+*/
+.btn + .btn {
+  margin-left: 0.6666666667rem; }
+
+/**
+   * Change button colors for tertiary buttons
+   */
+.btn--tertiary {
+  border-color: #b1b1bc;
+  box-shadow: none;
+  background-color: white; }
+  .btn--tertiary,
+  .btn--tertiary:link,
+  .btn--tertiary:visited,
+  .btn--tertiary:hover,
+  .btn--tertiary:focus,
+  .btn--tertiary:active {
+    color: #3e87e8; }
+  .btn--tertiary:hover,
+  .btn--tertiary:focus {
+    border-color: #9999a3;
+    box-shadow: none;
+    background-color: #e4e4ea; }
+  .btn--tertiary:active {
+    border-color: #7c7c84;
+    box-shadow: none;
+    background-color: #b1b1bc; }
+
+/**
+   * Round-ended buttons.
+   *
+   * 1. Overly-large value to ensure the radius rounds the whole end of the
+   *    button.
+   */
+.btn--icon {
+  width: 2em;
+  border-radius: 6.6666666667em;
+  padding: 1px 0 0 1px; }
+
 .text-input--bare {
   margin: 0;
   padding: 0; }
@@ -2808,6 +2889,32 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 .u-mv- {
   margin-top: 0.6666666667rem !important;
   margin-bottom: 0.6666666667rem !important; }
+
+/**
+     * Add large margins.
+     */
+.u-m\00002b {
+  margin: 1.3333333333rem !important; }
+
+.u-mt\00002b {
+  margin-top: 1.3333333333rem !important; }
+
+.u-mr\00002b {
+  margin-right: 1.3333333333rem !important; }
+
+.u-mb\00002b {
+  margin-bottom: 1.3333333333rem !important; }
+
+.u-ml\00002b {
+  margin-left: 1.3333333333rem !important; }
+
+.u-mh\00002b {
+  margin-right: 1.3333333333rem !important;
+  margin-left: 1.3333333333rem !important; }
+
+.u-mv\00002b {
+  margin-top: 1.3333333333rem !important;
+  margin-bottom: 1.3333333333rem !important; }
 
 .range-field__field .text-input--bare {
   font-size: 1rem;
