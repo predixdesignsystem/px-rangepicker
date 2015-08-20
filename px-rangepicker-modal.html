@@ -9,7 +9,8 @@ Rangepicker modal.
 
 ##### Usage
 
-    <px-rangepicker-modal>
+    <px-rangepicker-modal from-time={{...}} to-time={{...}}
+                          from-date={{...}} to-date={{...}}>
     </px-rangepicker-modal>
 -->
 <dom-module id="px-rangepicker-modal">
@@ -21,13 +22,13 @@ Rangepicker modal.
         <div>
           <px-date-rangepicker
             id="dateRangePicker"
-            from-date="{{fromDateMoment}}"
-            to-date="{{toDateMoment}}">
+            from-date="{{fromDate}}"
+            to-date="{{toDate}}">
           </px-date-rangepicker>
           <px-time-rangepicker
             id="timeRangePicker"
-            from-time="{{fromTimeMoment}}"
-            to-time="{{toTimeMoment}}">
+            from-time="{{fromTime}}"
+            to-time="{{toTime}}">
           </px-time-rangepicker>
         </div>
         <div class=u-p+>
@@ -66,45 +67,37 @@ Rangepicker modal.
   Polymer({
 
     is: 'px-rangepicker-modal',
-    
+
     properties: {
 
-    /**
-       * Start time for time picker
-       *
-       * Format 'hh:mm:ss A', for example: '10:22:00 AM'
+     /**
+       * Moment object start time for time picker
        */
-      fromTimeMoment: {
+      fromTime: {
         type: Object,
         notify: true
       },
 
       /**
-       * End time for time picker
-       *
-       * Format 'hh:mm:ss A', for example: '04:55:00 PM'
+       * Moment object end time for time picker
        */
-      toTimeMoment: {
+      toTime: {
         type: Object,
         notify: true
       },
 
       /**
-       * Start date for date picker
-       *
-       * Format 'MM/DD/YYYY', for example: '01/25/2015' is Jan 25 2015
+       * Moment object start date for date picker
        */
-      fromDateMoment: {
+      fromDate: {
         type: Object,
         notify: true
       },
 
       /**
-       * End date for date picker
-       *
-       * Format 'MM/DD/YYYY', for example: '11/03/2015' is Nov 3 2015
+       * Moment object end date for date picker
        */
-      toDateMoment: {
+      toDate: {
         type: Object,
         notify: true
       }
