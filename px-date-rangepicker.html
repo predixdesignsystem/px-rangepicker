@@ -87,12 +87,7 @@ Datepicker element which allows user to select a date.
       }
 
     },
-    
-    _updateFromDate: function() {
-      this.set('leftDisplayMonthYear', this._addMonth('fromDate', 0));
-      this.set('rightDisplayMonthYear', this._addMonth('fromDate', 1));
-    },
-    
+
     _addMonth: function(monthYear, numberToAdd) {
       return moment(this[monthYear], 'MM/DD/YYYY').add(numberToAdd, 'months').format('MM/YYYY');
     },
@@ -113,8 +108,8 @@ Datepicker element which allows user to select a date.
           fromDate = self.secondDate;
         }
 
-        self.set('fromDate', fromDate);
-        self.set('toDate', toDate);
+        self.set('fromDateInput', fromDate);
+        self.set('toDateInput', toDate);
 
       });
     },
@@ -151,11 +146,14 @@ Datepicker element which allows user to select a date.
 
     _resetInputFields: function() {
 
-      this.set('leftDisplayMonthYear', moment(this.fromDate, 'MM/DD/YYYY').add(0, 'months').format('MM/YYYY'));//this._addMonth('fromDate', 0));
-      this.set('rightDisplayMonthYear', moment(this.fromDate, 'MM/DD/YYYY').add(1, 'months').format('MM/YYYY'));//this._addMonth('fromDate', 1));
+      this.set('fromDateInput', this.fromDate);
+      this.set('toDateInput', this.toDate);
 
-      this.set('firstDate', this.fromDate);
-      this.set('secondDate', this.toDate);
+      this.set('firstDate', this.fromDateInput);
+      this.set('secondDate', this.toDateInput);
+
+      this.set('leftDisplayMonthYear', moment(this.fromDateInput, 'MM/DD/YYYY').add(0, 'months').format('MM/YYYY'));
+      this.set('rightDisplayMonthYear', moment(this.fromDateInput, 'MM/DD/YYYY').add(1, 'months').format('MM/YYYY'));
     },
 
     _jumpBack: function() {
@@ -171,27 +169,22 @@ Datepicker element which allows user to select a date.
     },
 
     _applyDate: function() {
+      this.set('fromDate', this.fromDateInput);
+      this.set('toDate', this.toDateInput);
+
       this.fire('px-date-picking-done');
     },
 
     _cancel: function() {
-      //this._resetInputFields(); // reset the input to the previously chosen date
-      
-      this.set('firstDate', this.backupFirstDate);
-      this.set('secondDate', this.backupSecondDate);
+      this._resetInputFields(); // reset the input to the previously chosen date
 
       this.fire('px-date-picking-done');
     },
-    
-    _saveBackup: function() {
-      this.backupFirstDate = this.firstDate;
-      this.backupSecondDate = this.secondDate;
-    },
-    
+
     hide: function() {
       this.toggleAttribute('hidden', true);
     },
-        
+
     show: function() {
       this.toggleAttribute('hidden', false);
     }
