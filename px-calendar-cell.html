@@ -45,7 +45,17 @@ Element that renders a calendar cell for a given date (and for non-date cells in
       /**
        * Moment object with second selected date of the range (start or end of range), used for determining styling of this cell
        */
-      secondRangeDate: Object
+      secondRangeDate: Object,
+
+      /**
+       * Set this attribute when you do want to allow future dates in the calendar
+       *
+       * If not set, then future dates will be disabled and unclickable.
+       */
+      allowFutureDates: {
+        type: Boolean,
+        value: false
+      }
 
     },
 
@@ -86,7 +96,7 @@ Element that renders a calendar cell for a given date (and for non-date cells in
           cellStyles += ' is-between';
         }
 
-        if (this._isPastTodaysDate()) {
+        if (!this.allowFutureDates && this._isPastTodaysDate()) {
           btnStyles += ' btn--disabled';
           isDisabled = true;
         }

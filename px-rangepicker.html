@@ -18,10 +18,10 @@ Rangepicker with time element.
   <link rel="import" type="css" href="css/px-rangepicker.css"/>
   <template>
     <px-range-fields id="rangeFields"
-      from-time="{{fromTimeMoment}}"
-      to-time="{{toTimeMoment}}"
-      from-date="{{fromDateMoment}}"
-      to-date="{{toDateMoment}}">
+                     from-time="{{fromTimeMoment}}"
+                     to-time="{{toTimeMoment}}"
+                     from-date="{{fromDateMoment}}"
+                     to-date="{{toDateMoment}}">
     </px-range-fields>
     <px-time-rangepicker
       id="timeRangePicker"
@@ -33,6 +33,7 @@ Rangepicker with time element.
       id="dateRangePicker"
       from-date="{{fromDateMoment}}"
       to-date="{{toDateMoment}}"
+      allow-future-dates="{{allowFutureDates}}"
       hidden>
     </px-date-rangepicker>
   </template>
@@ -87,6 +88,16 @@ Rangepicker with time element.
         type: String,
         notify: true,
         observer: '_updateToDate'
+      },
+
+      /**
+       * Set this attribute when you do want to allow future dates in the date range picker.
+       *
+       * If not set, then future dates will be disabled and unclickable.
+       */
+      allowFutureDates: {
+        type: Boolean,
+        value: false
       }
 
     },
@@ -137,7 +148,7 @@ Rangepicker with time element.
         self.$.dateRangePicker.show();
         self.$.timeRangePicker.toggleAttribute('hidden', false);
 
-        if(dateOrTime === 'time') {
+        if (dateOrTime === 'time') {
           self.$.timeRangePicker.focusField = toOrFrom;
         }
 
