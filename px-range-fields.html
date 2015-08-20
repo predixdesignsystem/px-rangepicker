@@ -1,0 +1,100 @@
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="px-range-field.html"/>
+
+<script src="../moment/moment.js"></script>
+
+<!--
+Rangepicker with time element.
+
+##### Usage
+
+    <px-range-fields from-time={{...}} to-time={{...}}
+                    from-date={{...}} to-date={{...}}>
+    </px-range-fields>
+-->
+<dom-module id="px-range-fields">
+  <link rel="import" type="css" href="css/px-rangepicker.css"/>
+  <template>
+    <div class="flex flex--middle flex--wrap">
+      <span class=a11y>From</span>
+      <px-range-field
+        id="fromDate"
+        date-time-value="{{fromDate}}"
+        date-or-time="Date"
+        class=u-mr->
+      </px-range-field>
+      <px-range-field
+        id="fromTime"
+        date-time-value="{{fromTime}}"
+        date-or-time="Time">
+      </px-range-field>
+      <div class="range">To</div>
+      <px-range-field
+        id="toDate"
+        date-time-value="{{toDate}}"
+        date-or-time="Date"
+        class=u-mr->
+      </px-range-field>
+      <px-range-field
+        id="toTime"
+        date-time-value="{{toTime}}"
+        date-or-time="Time">
+      </px-range-field>
+      <button class="btn btn--icon btn--tertiary u-mb u-ml+">
+        <i class="fa fa-check"></i>
+      </button>
+    </div>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'px-range-fields',
+
+    properties: {
+
+      /**
+       * Start time for time picker
+       *
+       * Format 'hh:mm:ss A', for example: '10:22:00 AM'
+       */
+      fromTime: {
+        type: String,
+        notify: true
+      },
+
+      /**
+       * End time for time picker
+       *
+       * Format 'hh:mm:ss A', for example: '04:55:00 PM'
+       */
+      toTime: {
+        type: String,
+        notify: true
+      },
+
+      /**
+       * Start date for date picker
+       *
+       * Format 'MM/DD/YYYY', for example: '01/25/2015' is Jan 25 2015
+       */
+      fromDate: {
+        type: String,
+        notify: true
+      },
+
+      /**
+       * End date for date picker
+       *
+       * Format 'MM/DD/YYYY', for example: '11/03/2015' is Nov 3 2015
+       */
+      toDate: {
+        type: String,
+        notify: true
+      }
+
+    }
+
+  });
+</script>

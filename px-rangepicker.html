@@ -1,5 +1,5 @@
 <link rel="import" href="../polymer/polymer.html"/>
-<link rel="import" href="px-range-field.html"/>
+<link rel="import" href="px-range-fields.html"/>
 <link rel="import" href="px-time-rangepicker.html"/>
 <link rel="import" href="px-date-rangepicker.html"/>
 
@@ -17,32 +17,12 @@ Rangepicker with time element.
 <dom-module id="px-rangepicker">
   <link rel="import" type="css" href="css/px-rangepicker.css"/>
   <template>
-    <div class="flex flex--middle flex--wrap">
-      <span class=a11y>From</span>
-      <px-range-field
-        id="fromDate"
-        date-time-value="{{fromDate}}"
-        date-or-time="Date"
-        class=u-mr->
-      </px-range-field>
-      <px-range-field
-        id="fromTime"
-        date-time-value="{{fromTime}}"
-        date-or-time="Time">
-      </px-range-field>
-      <div class="range">To</div>
-      <px-range-field
-        id="toDate"
-        date-time-value="{{toDate}}"
-        date-or-time="Date"
-        class=u-mr->
-      </px-range-field>
-      <px-range-field
-        id="toTime"
-        date-time-value="{{toTime}}"
-        date-or-time="Time">
-      </px-range-field>
-    </div>
+    <px-range-fields id="rangeFields"
+      from-time="{{fromTime}}"
+      to-time="{{toTime}}"
+      from-date="{{fromDate}}"
+      to-date="{{toDate}}">
+    </px-range-fields>
     <px-time-rangepicker
       id="timeRangePicker"
       from-time="{{fromTime}}"
@@ -106,68 +86,23 @@ Rangepicker with time element.
       }
 
     },
-
-//    observers: [
-//      '_updateSelectedDate(datePickerDate)'
-//    ],
-//
-//    _updateSelectedDate: function() {
-//      if (this.selectedDateField === 'from') {
-//        this.set('fromDate', this.datePickerDate);
-//      }
-//      else if (this.selectedDateField === 'to') {
-//        this.set('toDate', this.datePickerDate);
-//      }
-//    },
-
+    
     ready: function() {
 
       var self = this;
-
-      this.setupRangeFieldListeners();
 
       this.$.timeRangePicker.addEventListener('px-time-picking-done', function(e) {
         self.$.timeRangePicker.toggleAttribute('hidden', true);
       });
 
       this.$.dateRangePicker.addEventListener('px-date-picking-done', function(e) {
-        self.$.dateRangePicker.toggleAttribute('hidden', true);
+        self.$.dateRangePicker.hide();
       });
-    },
-
-    setupRangeFieldListeners: function() {
-
-      var self = this;
-
-      this.$.fromDate.addEventListener('px-selected-range-field', function(e) {
-        self.$.dateRangePicker.toggleAttribute('hidden', false);
-      });
-
-      this.$.toDate.addEventListener('px-selected-range-field', function(e) {
-        self.$.dateRangePicker.toggleAttribute('hidden', false);
-      });
-
-      this.$.fromTime.addEventListener('px-selected-range-field', function(e) {
+      
+      this.$.rangeFields.addEventListener('px-selected-range-field', function(e) {
+        self.$.dateRangePicker.show();
         self.$.timeRangePicker.toggleAttribute('hidden', false);
-//
-//        self.selectedDateField = 'from';
-//        self.set('datePickerDate', self.fromDate);
-//        if (moment(self.fromDate, 'MM/DD/YYYY').isBefore(moment(self.toDate, 'MM/DD/YYYY'), 'month')) {
-//          self.set('isSelectedDateOnLeft', true);
-//        }
-//        else {
-//          self.set('isSelectedDateOnLeft', false);
-//        }
       });
-
-      this.$.toTime.addEventListener('px-selected-range-field', function(e) {
-        self.$.timeRangePicker.toggleAttribute('hidden', false);
-//
-//        self.selectedDateField = 'to';
-//        self.set('datePickerDate', self.toDate);
-//        self.set('isSelectedDateOnLeft', false);
-      });
-
     }
 
   });
