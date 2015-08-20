@@ -8,7 +8,7 @@ Element that renders a calendar cell for a given date (and for non-date cells in
 ##### Usage
 
     <px-calendar-cell
-        date-to-display="{{...}}"
+        display-date="{{...}}"
         first-range-date="{{...}}"
         second-range-date="{{...}}>
     </px-calendar-cell>
@@ -18,7 +18,7 @@ Element that renders a calendar cell for a given date (and for non-date cells in
   <link rel="import" type="css" href="css/px-calendar.css"/>
   <template>
     <div class$="{{cellStyles}}">
-      <template is="dom-if" if="{{dateToDisplay}}">
+      <template is="dom-if" if="{{displayDate}}">
         <button class$="{{btnStyles}}" value="{{day}}" on-click="_selectDate" disabled="{{isDisabled}}">{{day}}</button>
       </template>
     </div>
@@ -35,7 +35,7 @@ Element that renders a calendar cell for a given date (and for non-date cells in
       /**
        * Moment object with date to display in this cell
        */
-      dateToDisplay: Object,
+      displayDate: Object,
 
       /**
        * Moment object with first selected date of the range (start or end of range), used for determining styling of this cell
@@ -50,7 +50,7 @@ Element that renders a calendar cell for a given date (and for non-date cells in
     },
 
     observers: [
-      '_updateDate(dateToDisplay, firstRangeDate, secondRangeDate)'
+      '_updateDate(displayDate, firstRangeDate, secondRangeDate)'
     ],
 
     _updateDate: function() {
@@ -59,12 +59,12 @@ Element that renders a calendar cell for a given date (and for non-date cells in
       var btnStyles = 'btn btn--bare';
       var isDisabled = false;
 
-      if (this.dateToDisplay === null) {
+      if (this.displayDate === null) {
         // if the cell is a blank cell of calendar (before/after start of month)
         cellStyles += ' is-empty';
       }
       else {
-        this.set('day', this.dateToDisplay.format('D'));
+        this.set('day', this.displayDate.format('D'));
 
         if (this._isStartOfRange() || this._isEndOfRange()) {
           cellStyles += ' is-selected';
@@ -103,15 +103,15 @@ Element that renders a calendar cell for a given date (and for non-date cells in
     },
 
     _isStartOfRange: function() {
-      return this.dateToDisplay.isSame(this._getStartDate(), 'day');
+      return this.displayDate.isSame(this._getStartDate(), 'day');
     },
 
     _isEndOfRange: function() {
-      return this.dateToDisplay.isSame(this._getEndDate(), 'day');
+      return this.displayDate.isSame(this._getEndDate(), 'day');
     },
 
     _isWithinRange: function() {
-      return this.dateToDisplay.isBetween(this._getStartDate(), this._getEndDate(), 'day');
+      return this.displayDate.isBetween(this._getStartDate(), this._getEndDate(), 'day');
     },
 
     _getStartDate: function() {
@@ -135,16 +135,16 @@ Element that renders a calendar cell for a given date (and for non-date cells in
     },
 
     _isStartOfWeekOrMonth: function() {
-      return this.day == 1 || this.dateToDisplay.weekday() == 0;
+      return this.day == 1 || this.displayDate.weekday() == 0;
     },
 
     _isEndOfWeekOrMonth: function() {
-      return this.day == this.dateToDisplay.daysInMonth() || this.dateToDisplay.weekday() == 6;
+      return this.day == this.displayDate.daysInMonth() || this.displayDate.weekday() == 6;
     },
 
     _isPastTodaysDate: function() {
       var todaysDate = moment();
-      return this.dateToDisplay.isAfter(todaysDate);
+      return this.displayDate.isAfter(todaysDate);
     }
 
   });

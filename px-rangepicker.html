@@ -31,8 +31,8 @@ Rangepicker with time element.
     </px-time-rangepicker>
     <px-date-rangepicker
       id="dateRangePicker"
-      from-date="{{fromDate}}"
-      to-date="{{toDate}}"
+      from-date="{{fromDateMoment}}"
+      to-date="{{toDateMoment}}"
       hidden>
     </px-date-rangepicker>
   </template>
@@ -72,7 +72,8 @@ Rangepicker with time element.
        */
       fromDate: {
         type: String,
-        notify: true
+        notify: true,
+        observer: '_updateFromDate'
       },
 
       /**
@@ -82,11 +83,29 @@ Rangepicker with time element.
        */
       toDate: {
         type: String,
-        notify: true
+        notify: true,
+        observer: '_updateToDate'
       }
 
     },
-    
+
+    observers: [
+      '_updateInputs(fromDateMoment, toDateMoment)'
+    ],
+
+    _updateInputs: function() {
+      this.set('fromDate', this.fromDateMoment.format('MM/DD/YYYY'));
+      this.set('toDate', this.toDateMoment.format('MM/DD/YYYY'));
+    },
+
+    _updateFromDate: function() {
+      this.set('fromDateMoment', moment(this.fromDate, 'MM/DD/YYYY'));
+    },
+
+    _updateToDate: function() {
+      this.set('toDateMoment', moment(this.toDate, 'MM/DD/YYYY'));
+    },
+
     ready: function() {
 
       var self = this;
@@ -98,7 +117,7 @@ Rangepicker with time element.
       this.$.dateRangePicker.addEventListener('px-date-picking-done', function(e) {
         self.$.dateRangePicker.hide();
       });
-      
+
       this.$.rangeFields.addEventListener('px-selected-range-field', function(e) {
         self.$.dateRangePicker.show();
         self.$.timeRangePicker.toggleAttribute('hidden', false);

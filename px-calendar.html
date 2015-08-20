@@ -8,8 +8,9 @@ Element that renders a calendar for the given year and selects the given date.
 
 ##### Usage
 
-    <px-calendar display-month-year="{{displayMonthYear}}"
-                 last-clicked-date="{{selectedDate}}">
+    <px-calendar display-month-year="{{...}}"
+                 first-range-date="{{...}}"
+                 second-range-date="{{...}}">
     </px-calendar>
 
 -->
@@ -18,8 +19,8 @@ Element that renders a calendar for the given year and selects the given date.
   <template>
     <table class="table table--no-cells text--center" id="calendar">
       <caption>
-        <span>{{displayMonthName}}</span>
-        <span>{{displayYear}}</span>
+        <span>{{month}}</span>
+        <span>{{year}}</span>
       </caption>
       <thead>
         <tr>
@@ -33,7 +34,10 @@ Element that renders a calendar for the given year and selects the given date.
           <tr>
             <template is="dom-repeat" items="{{week}}" as="date">
               <td>
-                <px-calendar-cell date-to-display="{{date}}" first-range-date="{{firstDateMoment}}" second-range-date="{{secondDateMoment}}"></px-calendar-cell>
+                <px-calendar-cell display-date="{{date}}"
+                                  first-range-date="{{firstRangeDate}}"
+                                  second-range-date="{{secondRangeDate}}">
+                </px-calendar-cell>
               </td>
             </template>
           </tr>
@@ -63,41 +67,29 @@ Element that renders a calendar for the given year and selects the given date.
     properties: {
 
       /**
-       * The month and year to display
-       *
-       * Format 'MM/YYYY', for example: '02/2015' is Feb 2015
+       * Moment object with the month and year to display in this calendar
        */
       displayMonthYear: {
-        type: String,
+        type: Object,
         observer: '_renderMonth'
       },
 
-
-      firstDate: {
-        type: String,
-        observer: '_changeFirstDate',
+      /**
+       * Moment object with first selected date of the range (start or end of range)
+       */
+      firstRangeDate: {
+        type: Object,
         notify: true
       },
 
-      secondDate: {
-        type: String,
-        observer: '_changeSecondDate',
+      /**
+       * Moment object with second selected date of the range (start or end of range), or null if only 1 side of range selected
+       */
+      secondRangeDate: {
+        type: Object,
         notify: true
       }
 
-    },
-
-    _changeFirstDate: function() {
-      this.set('firstDateMoment', moment(this.firstDate, 'MM/DD/YYYY'));
-    },
-
-    _changeSecondDate: function() {
-      if(this.secondDate === null) {
-        this.set('secondDateMoment', null);
-      }
-      else {
-        this.set('secondDateMoment', moment(this.secondDate, 'MM/DD/YYYY'));
-      }
     },
 
     ready: function() {
@@ -105,10 +97,8 @@ Element that renders a calendar for the given year and selects the given date.
 
       var self = this;
       this.$.calendar.addEventListener('px-date-selected', function(e) {
-
         var day = e.detail;
         self._selectDate(day);
-
       });
     },
 
@@ -122,10 +112,41 @@ Element that renders a calendar for the given year and selects the given date.
       return daysOfWeek;
     },
 
-    _constructMonth: function(monthToDisplay) {
+    _renderMonth: function() {
+      this.month = this.displayMonthYear.format('MMMM');
+      this.year = this.displayMonthYear.format('YYYY');
 
-      var numberOfDaysInMonth = monthToDisplay.daysInMonth();
-      var dayBeginningOfMonth = monthToDisplay.startOf('month').day();
+      this.set('calendar', this._constructMonth());
+
+      var numberOfWeeksToAdd = 6 - this.calendar.length;
+      var weeksToAdd = [];
+      for (var i = 0; i < numberOfWeeksToAdd; i++) {
+        weeksToAdd.push(i)
+      }
+      this.set('weeksToAdd', weeksToAdd);
+
+    },
+
+    _selectDate: function(day) {
+
+      var newSelectedDate = moment(this.displayMonthYear.date(day));
+
+      if (this.firstRangeDate && !this.secondRangeDate) {
+        // treat the click as the second date - the range is selected!
+        this.set('secondRangeDate', newSelectedDate);
+        this.fire('range-selected');
+      }
+      else {
+        this.set('secondRangeDate', null);
+        this.set('firstRangeDate', newSelectedDate);
+      }
+
+    },
+
+    _constructMonth: function() {
+
+      var numberOfDaysInMonth = this.displayMonthYear.daysInMonth();
+      var dayBeginningOfMonth = this.displayMonthYear.startOf('month').day();
 
       var dateCount = 1; // 1-31 or 30 or 28
       var daysNotInMonthCount = 0;
@@ -145,7 +166,7 @@ Element that renders a calendar for the given year and selects the given date.
 
         while (weekCount < 7) {
           if (dateCount <= numberOfDaysInMonth) {
-            week.push(moment(this.displayMonthYear, 'MM/YYYY').date(dateCount));
+            week.push(moment(this.displayMonthYear.date(dateCount))); // need clone
           }
           else {
             week.push(null);
@@ -159,39 +180,6 @@ Element that renders a calendar for the given year and selects the given date.
       }
 
       return month;
-
-    },
-
-    _renderMonth: function() {
-      var monthToDisplay = moment(this.displayMonthYear, 'M/YYYY');
-
-      this.displayMonthName = monthToDisplay.format('MMMM');
-      this.displayYear = monthToDisplay.format('YYYY');
-
-      this.set('calendar', this._constructMonth(monthToDisplay));
-
-      var numberOfWeeksToAdd = 6 - this.calendar.length;
-      var weeksToAdd = [];
-      for (var i = 0; i < numberOfWeeksToAdd; i++) {
-        weeksToAdd.push(i)
-      }
-      this.set('weeksToAdd', weeksToAdd);
-
-    },
-
-    _selectDate: function(day) {
-
-      var newSelectedDate = moment(this.displayMonthYear, 'MM/YYYY');
-      newSelectedDate.date(day);
-
-      if(this.firstDate && !this.secondDate) {
-        this.set('secondDate', newSelectedDate.format('MM/DD/YYYY'));
-        this.fire('range-selected');
-      }
-      else {
-        this.set('secondDate', null);
-        this.set('firstDate', newSelectedDate.format('MM/DD/YYYY'));
-      }
 
     }
 

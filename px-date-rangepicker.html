@@ -23,15 +23,15 @@ Datepicker element which allows user to select a date.
           </button>
           <px-calendar id="leftCalendar"
                        display-month-year="{{leftDisplayMonthYear}}"
-                       first-date="{{firstDate}}"
-                       second-date="{{secondDate}}">
+                       first-range-date="{{firstDate}}"
+                       second-range-date="{{secondDate}}">
           </px-calendar>
         </div>
         <div class="flex flex--top u-ml+ border--right u-pt+ u-pr+">
           <px-calendar id="rightCalendar"
                        display-month-year="{{rightDisplayMonthYear}}"
-                       first-date="{{firstDate}}"
-                       second-date="{{secondDate}}">
+                       first-range-date="{{firstDate}}"
+                       second-range-date="{{secondDate}}">
           </px-calendar>
           <button id=btnNextMonth on-click="_jumpForward" class="btn btn--bare u--ml-">
             <i class="fa fa-angle-right"></i>
@@ -76,43 +76,27 @@ Datepicker element which allows user to select a date.
 
     properties: {
 
+      /**
+       * Moment object with range start date
+       */
       fromDate: {
-        type: String,
+        type: Object,
         notify: true
       },
 
+      /**
+       * Moment object with range end date
+       */
       toDate: {
-        type: String,
+        type: Object,
         notify: true
       }
 
     },
 
-    _addMonth: function(monthYear, numberToAdd) {
-      return moment(this[monthYear], 'MM/DD/YYYY').add(numberToAdd, 'months').format('MM/YYYY');
-    },
-
     observers: [
       'updateSelectedRange(fromDate, toDate)'
     ],
-
-    ready: function() {
-      var self = this;
-      this.$.box.addEventListener('range-selected', function() {
-
-        var fromDate = self.firstDate;
-        var toDate = self.secondDate;
-
-        if (moment(self.firstDate, 'MM/DD/YYYY').isAfter(moment(self.secondDate, 'MM/DD/YYYY'))) {
-          toDate = self.firstDate;
-          fromDate = self.secondDate;
-        }
-
-        self.set('fromDateInput', fromDate);
-        self.set('toDateInput', toDate);
-
-      });
-    },
 
     updateSelectedRange: function() {
 
@@ -123,6 +107,24 @@ Datepicker element which allows user to select a date.
 
       this._checkCurrentMonth();
 
+    },
+
+    ready: function() {
+      var self = this;
+      this.$.box.addEventListener('range-selected', function() {
+
+        var fromDate = self.firstDate;
+        var toDate = self.secondDate;
+
+        if (self.firstDate.isAfter(self.secondDate)) {
+          toDate = self.firstDate;
+          fromDate = self.secondDate;
+        }
+
+        self.set('fromDateInput', fromDate);
+        self.set('toDateInput', toDate);
+
+      });
     },
 
     _checkCurrentMonth: function() {
@@ -138,39 +140,36 @@ Datepicker element which allows user to select a date.
 
     _isCurrentMonth: function() {
       var now = moment();
-      if (moment(this.rightDisplayMonthYear, 'MM/YYYY').isSame(now, 'month')) {
-        return true;
-      }
-      return false;
+      return this.rightDisplayMonthYear.isSame(now, 'month');
     },
 
     _resetInputFields: function() {
 
-      this.set('fromDateInput', this.fromDate);
-      this.set('toDateInput', this.toDate);
+      this.set('fromDateInput', moment(this.fromDate));
+      this.set('toDateInput', moment(this.toDate));
 
-      this.set('firstDate', this.fromDateInput);
-      this.set('secondDate', this.toDateInput);
+      this.set('firstDate', moment(this.fromDateInput));
+      this.set('secondDate', moment(this.toDateInput));
 
-      this.set('leftDisplayMonthYear', moment(this.fromDateInput, 'MM/DD/YYYY').add(0, 'months').format('MM/YYYY'));
-      this.set('rightDisplayMonthYear', moment(this.fromDateInput, 'MM/DD/YYYY').add(1, 'months').format('MM/YYYY'));
+      this.set('leftDisplayMonthYear', moment(this.fromDateInput).startOf('month'));
+      this.set('rightDisplayMonthYear', moment(this.fromDateInput).startOf('month').add(1, 'months'));
     },
 
     _jumpBack: function() {
-      this.set('leftDisplayMonthYear', this._addMonth('leftDisplayMonthYear', -1));
-      this.set('rightDisplayMonthYear', this._addMonth('rightDisplayMonthYear', -1));
+      this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear.add(-1, 'months')));
+      this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear.add(-1, 'months')));
       this._checkCurrentMonth();
     },
 
     _jumpForward: function() {
-      this.set('leftDisplayMonthYear', this._addMonth('leftDisplayMonthYear', 1));
-      this.set('rightDisplayMonthYear', this._addMonth('rightDisplayMonthYear', 1));
+      this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear.add(1, 'months')));
+      this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear.add(1, 'months')));
       this._checkCurrentMonth();
     },
 
     _applyDate: function() {
-      this.set('fromDate', this.fromDateInput);
-      this.set('toDate', this.toDateInput);
+      this.set('fromDate', moment(this.fromDateInput));
+      this.set('toDate', moment(this.toDateInput));
 
       this.fire('px-date-picking-done');
     },
