@@ -42,17 +42,6 @@ Element that renders a calendar for the given year and selects the given date.
             </template>
           </tr>
         </template>
-        <template is="dom-repeat" items="{{weeksToAdd}}">
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </template>
       </tbody>
     </table>
 
@@ -117,14 +106,6 @@ Element that renders a calendar for the given year and selects the given date.
       this.year = this.displayMonthYear.format('YYYY');
 
       this.set('calendar', this._constructMonth());
-
-      var numberOfWeeksToAdd = 6 - this.calendar.length;
-      var weeksToAdd = [];
-      for (var i = 0; i < numberOfWeeksToAdd; i++) {
-        weeksToAdd.push(i)
-      }
-      this.set('weeksToAdd', weeksToAdd);
-
     },
 
     _selectDate: function(day) {
@@ -148,31 +129,29 @@ Element that renders a calendar for the given year and selects the given date.
       var numberOfDaysInMonth = this.displayMonthYear.daysInMonth();
       var dayBeginningOfMonth = this.displayMonthYear.startOf('month').day();
 
-      var dateCount = 1; // 1-31 or 30 or 28
-      var daysNotInMonthCount = 0;
+      var numberOfWeeks = 6; // will always have 6 weeks to make calendar not change height
+      var daysBeforeMonthStartsCount = 0;
+
+      var date = 1;
       var month = [];
 
-      while (dateCount <= numberOfDaysInMonth) {
+      for(var weekCount = 0; weekCount < numberOfWeeks; weekCount++) {
 
         var week = [];
-        var weekCount = 0;  // 0 - 6 (days of week)
 
-        // days not in the month
-        while (daysNotInMonthCount < dayBeginningOfMonth) {
-          week.push(null);
-          daysNotInMonthCount++;
-          weekCount++;
+        while(daysBeforeMonthStartsCount < dayBeginningOfMonth) {
+          week.push(null); // push empty cells on before the 1st of the month
+          daysBeforeMonthStartsCount++;
         }
 
-        while (weekCount < 7) {
-          if (dateCount <= numberOfDaysInMonth) {
-            week.push(moment(this.displayMonthYear.date(dateCount))); // need clone
+        while(week.length < 7) {
+          if (date <= numberOfDaysInMonth) {
+            week.push(moment(this.displayMonthYear.date(date)));
+            date++;
           }
           else {
-            week.push(null);
+            week.push(null); // push empty cells on after the last day of the month (to fill the week, extra weeks)
           }
-          dateCount++;
-          weekCount++;
         }
 
         month.push(week);
