@@ -33,7 +33,7 @@ Element that renders a calendar for the given year and selects the given date.
           <tr>
             <template is="dom-repeat" items="{{week}}" as="date">
               <td>
-                <px-calendar-cell date="{{date}}" first-date="{{firstDateMoment}}" second-date="{{secondDateMoment}}"></px-calendar-cell>
+                <px-calendar-cell date-to-display="{{date}}" first-range-date="{{firstDateMoment}}" second-range-date="{{secondDateMoment}}"></px-calendar-cell>
               </td>
             </template>
           </tr>
@@ -86,11 +86,11 @@ Element that renders a calendar for the given year and selects the given date.
       }
 
     },
-    
+
     _changeFirstDate: function() {
       this.set('firstDateMoment', moment(this.firstDate, 'MM/DD/YYYY'));
     },
-    
+
     _changeSecondDate: function() {
       if(this.secondDate === null) {
         this.set('secondDateMoment', null);
@@ -99,16 +99,16 @@ Element that renders a calendar for the given year and selects the given date.
         this.set('secondDateMoment', moment(this.secondDate, 'MM/DD/YYYY'));
       }
     },
-    
+
     ready: function() {
       this.daysOfTheWeek = this._getDaysOfTheWeek();
-      
+
       var self = this;
       this.$.calendar.addEventListener('px-date-selected', function(e) {
-        
+
         var day = e.detail;
         self._selectDate(day);
-        
+
       });
     },
 
