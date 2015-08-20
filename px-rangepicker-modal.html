@@ -22,13 +22,13 @@ Rangepicker modal.
         <div>
           <px-date-rangepicker
             id="dateRangePicker"
-            from-date="{{fromDate}}"
-            to-date="{{toDate}}">
+            from-date="{{fromDateInput}}"
+            to-date="{{toDateInput}}">
           </px-date-rangepicker>
           <px-time-rangepicker
             id="timeRangePicker"
-            from-time="{{fromTime}}"
-            to-time="{{toTime}}">
+            from-time="{{fromTimeInput}}"
+            to-time="{{toTimeInput}}">
           </px-time-rangepicker>
         </div>
         <div class=u-p+>
@@ -56,7 +56,7 @@ Rangepicker modal.
         </div>
       </div>
       <div class="flex flex--right u-p-">
-        <input class="btn btn--primary" type=submit value=Apply on-click="_applyDate">
+        <input class="btn btn--primary" type=submit value=Apply on-click="_apply">
         <button class=btn on-click="_cancel">Cancel</button>
       </div>
     </div>
@@ -75,7 +75,8 @@ Rangepicker modal.
        */
       fromTime: {
         type: Object,
-        notify: true
+        notify: true,
+        observer: '_copyFromTime'
       },
 
       /**
@@ -83,7 +84,8 @@ Rangepicker modal.
        */
       toTime: {
         type: Object,
-        notify: true
+        notify: true,
+        observer: '_copyToTime'
       },
 
       /**
@@ -91,7 +93,8 @@ Rangepicker modal.
        */
       fromDate: {
         type: Object,
-        notify: true
+        notify: true,
+        observer: '_copyFromDate'
       },
 
       /**
@@ -99,9 +102,42 @@ Rangepicker modal.
        */
       toDate: {
         type: Object,
-        notify: true
+        notify: true,
+        observer: '_copyToDate'
       }
 
+    },
+
+    // make a local copy of all time/date inputs to make changes until the user hits Apply
+
+    _copyToTime: function() {
+      this.set('toTimeInput', moment(this.toTime));
+    },
+
+    _copyFromTime: function() {
+      this.set('fromTimeInput', moment(this.fromTime));
+    },
+
+    _copyToDate: function() {
+      this.set('toDateInput', moment(this.toDate));
+    },
+
+    _copyFromDate: function() {
+      this.set('fromDateInput', moment(this.fromDate));
+    },
+
+    _apply: function() {
+      this.set('toTime', moment(this.toTimeInput));
+      this.set('fromTime', moment(this.fromTimeInput));
+      this.set('fromDate', moment(this.fromDateInput));
+      this.set('toDate', moment(this.toDateInput));
+    },
+
+    _cancel: function() {
+      this.set('toTimeInput', moment(this.toTime));
+      this.set('fromTimeInput', moment(this.fromTime));
+      this.set('toDateInput', moment(this.toDate));
+      this.set('fromDateInput', moment(this.fromDate));
     }
 
   });

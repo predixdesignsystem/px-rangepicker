@@ -8,13 +8,12 @@ Datepicker element which allows user to select a date.
 
 ##### Usage
 
-    <px-datepicker selected-date="{{datePickerDate}}"></px-datepicker>
+    <px-date-rangepicker from-date="{{...}}" to-date="{{...}}"></px-date-rangepicker>
 
 -->
 <dom-module id="px-date-rangepicker">
   <link rel="import" type="css" href="css/px-date-rangepicker.css"/>
   <template>
-    <div class=overlay></div>
     <div id=box class="flex flex--top border--bottom u-ph+">
       <div class="flex flex--top u-mr+ u-pt+">
         <button on-click="_jumpBack" class="btn btn--bare u--mr-">
@@ -23,16 +22,16 @@ Datepicker element which allows user to select a date.
         <px-calendar
           id="leftCalendar"
           display-month-year="{{leftDisplayMonthYear}}"
-          first-range-date="{{firstDate}}"
-          second-range-date="{{secondDate}}">
+          first-range-date="{{firstRangeDate}}"
+          second-range-date="{{secondRangeDate}}">
         </px-calendar>
       </div>
       <div class="flex flex--top u-ml+ border--right u-pt+ u-pr+">
         <px-calendar
           id="rightCalendar"
           display-month-year="{{rightDisplayMonthYear}}"
-          first-range-date="{{firstDate}}"
-          second-range-date="{{secondDate}}">
+          first-range-date="{{firstRangeDate}}"
+          second-range-date="{{secondRangeDate}}">
         </px-calendar>
         <button id=btnNextMonth on-click="_jumpForward" class="btn btn--bare u--ml-">
           <i class="fa fa-angle-right"></i>
@@ -72,10 +71,22 @@ Datepicker element which allows user to select a date.
     ],
 
     updateSelectedRange: function() {
-
+console.log('update selected');
       // if no display months set (nothing on the calendars), initialize them to the fromDate & fromDate + 1
+      // otherwise, leave them as they are already set
       if (!this.leftDisplayMonthYear && !this.rightDisplayMonthYear) {
-        this._resetInputFields();
+        console.log('.... month');
+        this.set('leftDisplayMonthYear', moment(this.fromDate).startOf('month'));
+        this.set('rightDisplayMonthYear', moment(this.fromDate).startOf('month').add(1, 'months'));
+      }
+
+      if(!this.firstRangeDate || !this.firstRangeDate.isSame(this.fromDate, 'day')) {
+        console.log('....... date');
+        this.set('firstRangeDate', moment(this.fromDate));
+      }
+      if(!this.secondRangeDate || !this.secondRangeDate.isSame(this.toDate, 'day')) {
+        console.log('....... date2');
+        this.set('secondRangeDate', moment(this.toDate));
       }
 
       this._checkCurrentMonth();
@@ -86,16 +97,16 @@ Datepicker element which allows user to select a date.
       var self = this;
       this.$.box.addEventListener('range-selected', function() {
 
-        var fromDate = self.firstDate;
-        var toDate = self.secondDate;
+        var fromDate = self.firstRangeDate;
+        var toDate = self.secondRangeDate;
 
-        if (self.firstDate.isAfter(self.secondDate)) {
-          toDate = self.firstDate;
-          fromDate = self.secondDate;
+        if (self.firstRangeDate.isAfter(self.secondRangeDate)) {
+          toDate = self.firstRangeDate;
+          fromDate = self.secondRangeDate;
         }
 
-        self.set('fromDateInput', fromDate);
-        self.set('toDateInput', toDate);
+        self.set('fromDate', fromDate);
+        self.set('toDate', toDate);
 
       });
     },
@@ -116,18 +127,6 @@ Datepicker element which allows user to select a date.
       return this.rightDisplayMonthYear.isSame(now, 'month');
     },
 
-    _resetInputFields: function() {
-
-      this.set('fromDateInput', moment(this.fromDate));
-      this.set('toDateInput', moment(this.toDate));
-
-      this.set('firstDate', moment(this.fromDateInput));
-      this.set('secondDate', moment(this.toDateInput));
-
-      this.set('leftDisplayMonthYear', moment(this.fromDateInput).startOf('month'));
-      this.set('rightDisplayMonthYear', moment(this.fromDateInput).startOf('month').add(1, 'months'));
-    },
-
     _jumpBack: function() {
       this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear.add(-1, 'months')));
       this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear.add(-1, 'months')));
@@ -138,29 +137,7 @@ Datepicker element which allows user to select a date.
       this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear.add(1, 'months')));
       this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear.add(1, 'months')));
       this._checkCurrentMonth();
-    },
-
-    _applyDate: function() {
-      this.set('fromDate', moment(this.fromDateInput));
-      this.set('toDate', moment(this.toDateInput));
-
-      this.fire('px-date-picking-done');
-    },
-
-    _cancel: function() {
-      this._resetInputFields(); // reset the input to the previously chosen date
-
-      this.fire('px-date-picking-done');
-    },
-
-    hide: function() {
-      this.toggleAttribute('hidden', true);
-    },
-
-    show: function() {
-      this.toggleAttribute('hidden', false);
     }
-
 
   });
 </script>

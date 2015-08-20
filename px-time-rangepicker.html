@@ -15,9 +15,9 @@ Timepicker element which allows user to select a start and end time.
   <link rel="import" type="css" href="css/px-time-rangepicker.css"/>
   <template>
     <div class="flex flex--middle u-p+">
-      <px-time-input id="fromTimeInput" time="{{fromTimeInput}}"></px-time-input>
+      <px-time-input time="{{fromTime}}"></px-time-input>
       <span class=u-mh->-</span>
-      <px-time-input id="toTimeInput" time="{{toTimeInput}}"></px-time-input>
+      <px-time-input time="{{toTime}}"></px-time-input>
     </div>
   </template>
 </dom-module>
@@ -34,8 +34,7 @@ Timepicker element which allows user to select a start and end time.
        */
       toTime: {
         type: Object,
-        notify: true,
-        observer: '_changeToTime'
+        notify: true
       },
 
       /**
@@ -43,30 +42,9 @@ Timepicker element which allows user to select a start and end time.
        */
       fromTime: {
         type: Object,
-        notify: true,
-        observer: '_changeFromTime'
+        notify: true
       }
 
-    },
-
-    _changeToTime: function() {
-      this.set('toTimeInput', moment(this.toTime));
-    },
-
-    _changeFromTime: function() {
-      this.set('fromTimeInput', moment(this.fromTime));
-    },
-
-    _applyTime: function() {
-      this.set('toTime', moment(this.toTimeInput)); // set the selected time to the input time
-      this.set('fromTime', moment(this.fromTimeInput));
-      this.fire('px-time-picking-done');
-    },
-
-    _cancel: function() {
-      this.set('toTimeInput', moment(this.toTime)); // reset the input to the previously chosen time
-      this.set('fromTimeInput', moment(this.fromTime));
-      this.fire('px-time-picking-done');
     }
 
   });
