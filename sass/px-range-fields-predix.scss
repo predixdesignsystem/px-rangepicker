@@ -19,13 +19,19 @@ THIS FILE SHOULD CONTAIN ONLY RULES SPECIFIC TO PREDIX BRANDING
 common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 */
 
-@import 'px-range-field-sketch.scss';
+@import 'px-range-fields-sketch.scss';
 
 // Component
-@import "px-rangepicker-predix.scss";
+.text-input--bare {
+  background: transparent;
+}
 
 .range-field__field {
   label {
     color: $gray7;
   }
+}
+
+.range {
+  color: $gray7;
 }

@@ -1,7 +1,6 @@
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="px-range-fields.html"/>
-<link rel="import" href="px-time-rangepicker.html"/>
-<link rel="import" href="px-date-rangepicker.html"/>
+<link rel="import" href="px-rangepicker-modal.html"/>
 
 <script src="../moment/moment.js"></script>
 
@@ -15,26 +14,22 @@ Rangepicker with time element.
     </px-rangepicker>
 -->
 <dom-module id="px-rangepicker">
-  <link rel="import" type="css" href="css/px-rangepicker.css"/>
   <template>
-    <px-range-fields id="rangeFields"
+    <px-range-fields
+      id="rangeFields"
       from-time="{{fromTimeMoment}}"
       to-time="{{toTimeMoment}}"
       from-date="{{fromDateMoment}}"
       to-date="{{toDateMoment}}">
     </px-range-fields>
-    <px-time-rangepicker
-      id="timeRangePicker"
+    <px-rangepicker-modal
+      id=rangePickerModal
       from-time="{{fromTimeMoment}}"
       to-time="{{toTimeMoment}}"
-      hidden>
-    </px-time-rangepicker>
-    <px-date-rangepicker
-      id="dateRangePicker"
       from-date="{{fromDateMoment}}"
       to-date="{{toDateMoment}}"
       hidden>
-    </px-date-rangepicker>
+    </px-rangepicker-modal>
   </template>
 </dom-module>
 
@@ -122,6 +117,7 @@ Rangepicker with time element.
 
       var self = this;
 
+/*
       this.$.timeRangePicker.addEventListener('px-time-picking-done', function(e) {
         self.$.timeRangePicker.toggleAttribute('hidden', true);
       });
@@ -129,10 +125,10 @@ Rangepicker with time element.
       this.$.dateRangePicker.addEventListener('px-date-picking-done', function(e) {
         self.$.dateRangePicker.hide();
       });
+*/
 
       this.$.rangeFields.addEventListener('px-selected-range-field', function(e) {
-        self.$.dateRangePicker.show();
-        self.$.timeRangePicker.toggleAttribute('hidden', false);
+        self.$.rangePickerModal.toggleAttribute('hidden');
       });
     }
 

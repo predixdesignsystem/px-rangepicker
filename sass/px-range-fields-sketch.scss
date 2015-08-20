@@ -34,8 +34,20 @@ $inuit-enable-text-input--bare  : true;
 
 @import "px-forms-design/_base.forms.scss";
 
+// Objects
+$inuit-enable-btn--icon         : true;
+$inuit-enable-btn--tertiary     : true;
+
+@import "px-buttons-design/_objects.buttons.scss";
+
 // Component
-@import "px-rangepicker-sketch.scss";
+.text-input--bare {
+  margin: 0;
+  padding: 0;
+  &:focus {
+    outline: 0;
+  }
+}
 
 .range-field__field {
   .text-input--bare {
@@ -48,3 +60,15 @@ $inuit-enable-text-input--bare  : true;
     margin: 0;
   }
 }
+
+.range {
+  margin: 0 $inuit-base-spacing-unit--small $inuit-base-spacing-unit;
+  text-transform: uppercase;
+}
+
+// Trumps
+$inuit-enable-margins           : true;
+$inuit-enable-margins--small    : true;
+$inuit-enable-margins--large    : true;
+
+@import "px-spacing-design/_trumps.spacing.scss";

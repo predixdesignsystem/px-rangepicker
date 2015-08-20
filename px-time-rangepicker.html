@@ -14,25 +14,10 @@ Timepicker element which allows user to select a start and end time.
 <dom-module id="px-time-rangepicker">
   <link rel="import" type="css" href="css/px-time-rangepicker.css"/>
   <template>
-    <div class=rangepicker__box>
-      <div class="flex flex--middle border--bottom u-pr+">
-        <px-time-input id="fromTimeInput" class="u-pv+ u-pl+" time="{{fromTimeInput}}"></px-time-input>
-        <span class=u-mh->-</span>
-        <px-time-input id="toTimeInput" class="u-pv+ u-pr+ border--right" time="{{toTimeInput}}"></px-time-input>
-        <div class=rangepicker__box__select>
-          <label class="caps weight--semibold u-mb-">Time Range</label>
-          <select>
-            <option>Select</option>
-            <option>1 minute</option>
-            <option>5 minutes</option>
-            <option>10 minutes</option>
-          </select>
-        </div>
-      </div>
-      <div class="flex flex--right u-p-">
-        <input class="btn btn--primary" type=submit value=Apply on-click="_applyTime">
-        <button class=btn on-click="_cancel">Cancel</button>
-      </div>
+    <div class="flex flex--middle u-p+">
+      <px-time-input id="fromTimeInput" time="{{fromTimeInput}}"></px-time-input>
+      <span class=u-mh->-</span>
+      <px-time-input id="toTimeInput" time="{{toTimeInput}}"></px-time-input>
     </div>
   </template>
 </dom-module>

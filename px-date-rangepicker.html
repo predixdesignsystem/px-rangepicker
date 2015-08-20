@@ -15,55 +15,28 @@ Datepicker element which allows user to select a date.
   <link rel="import" type="css" href="css/px-date-rangepicker.css"/>
   <template>
     <div class=overlay></div>
-    <div id="box" class="rangepicker__box u-pb-">
-      <div class="flex flex--top border--bottom u-ph+">
-        <div class="flex flex--top u-mr+ u-pt+">
-          <button on-click="_jumpBack" class="btn btn--bare u--mr-">
-            <i class="fa fa-angle-left"></i>
-          </button>
-          <px-calendar id="leftCalendar"
-                       display-month-year="{{leftDisplayMonthYear}}"
-                       first-range-date="{{firstDate}}"
-                       second-range-date="{{secondDate}}">
-          </px-calendar>
-        </div>
-        <div class="flex flex--top u-ml+ border--right u-pt+ u-pr+">
-          <px-calendar id="rightCalendar"
-                       display-month-year="{{rightDisplayMonthYear}}"
-                       first-range-date="{{firstDate}}"
-                       second-range-date="{{secondDate}}">
-          </px-calendar>
-          <button id=btnNextMonth on-click="_jumpForward" class="btn btn--bare u--ml-">
-            <i class="fa fa-angle-right"></i>
-          </button>
-        </div>
-        <div class="u-pt+ u-pl+">
-          <h4 class="caps u-mt0 u-mb-">Date Range</h4>
-          <ul class=list-bare>
-            <li class=u-mb->
-              <button class="btn btn--bare">Today</button>
-            </li>
-            <li class=u-mb->
-              <button class="btn btn--bare">Yesterday</button>
-            </li>
-            <li class=u-mb->
-              <button class="btn btn--bare">Last 7 days</button>
-            </li>
-            <li class=u-mb->
-              <button class="btn btn--bare">Last 30 days</button>
-            </li>
-            <li class=u-mb->
-              <button class="btn btn--bare">This Month</button>
-            </li>
-            <li>
-              <button class="btn btn--bare">Last Month</button>
-            </li>
-          </ul>
-        </div>
+    <div id=box class="flex flex--top border--bottom u-ph+">
+      <div class="flex flex--top u-mr+ u-pt+">
+        <button on-click="_jumpBack" class="btn btn--bare u--mr-">
+          <i class="fa fa-angle-left"></i>
+        </button>
+        <px-calendar
+          id="leftCalendar"
+          display-month-year="{{leftDisplayMonthYear}}"
+          first-date="{{firstDate}}"
+          second-date="{{secondDate}}">
+        </px-calendar>
       </div>
-      <div class="flex flex--right u-pt- u-pr-">
-        <input class="btn btn--primary" type=submit value=Apply on-click="_applyDate">
-        <button class=btn on-click="_cancel">Cancel</button>
+      <div class="flex flex--top u-ml+ border--right u-pt+ u-pr+">
+        <px-calendar
+          id="rightCalendar"
+          display-month-year="{{rightDisplayMonthYear}}"
+          first-date="{{firstDate}}"
+          second-date="{{secondDate}}">
+        </px-calendar>
+        <button id=btnNextMonth on-click="_jumpForward" class="btn btn--bare u--ml-">
+          <i class="fa fa-angle-right"></i>
+        </button>
       </div>
     </div>
   </template>

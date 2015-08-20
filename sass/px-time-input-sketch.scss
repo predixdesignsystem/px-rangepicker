@@ -33,7 +33,13 @@ $inuit-enable-text-input--bare  : true;
 @import "px-forms-design/_base.forms.scss";
 
 // Component
-@import "px-rangepicker-sketch.scss";
+.text-input--bare {
+  margin: 0;
+  padding: 0;
+  &:focus {
+    outline: 0;
+  }
+}
 
 .time-input__field {
   @include inuit-font-size(45px);

@@ -11,13 +11,13 @@ Range field component which displays to/from fields and font awesome icon.
 
 -->
 <dom-module id="px-range-field">
-  <link rel="import" type="css" href="css/px-range-field.css"/>
+  <link rel="import" type="css" href="css/px-range-fields.css"/>
   <template>
-    <div class="range-field__field text-input flex flex--middle u-mb">
-      <label class=label--inline on-click="_selectRange">
+    <div class="range-field__field text-input flex flex--middle u-mb" on-click="_selectRange">
+      <label class=label--inline>
         <span class=a11y>{{dateOrTime}}</span>
         <i id=icon class=fa></i>
-        <input type=text class=text-input--bare value="{{dateTimeValue}}" on-click="_selectRange">
+        <input type=text class=text-input--bare value="{{dateTimeValue}}">
       </label>
     </div>
   </template>

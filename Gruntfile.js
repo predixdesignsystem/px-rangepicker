@@ -50,10 +50,10 @@ module.exports = function(grunt) {
                 'css/noprefix/px-time-input.css': 'sass/px-time-input-predix.scss'
             }
         },
-        rangeField: {
+        rangeFields: {
             files: {
-                'css/noprefix/px-range-field-sketch.css': 'sass/px-range-field-sketch.scss',
-                'css/noprefix/px-range-field.css': 'sass/px-range-field-predix.scss'
+                'css/noprefix/px-range-fields-sketch.css': 'sass/px-range-fields-sketch.scss',
+                'css/noprefix/px-range-fields.css': 'sass/px-range-fields-predix.scss'
             }
         },
         dateRangePicker: {

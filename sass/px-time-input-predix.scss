@@ -22,7 +22,9 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 @import 'px-time-input-sketch.scss';
 
 // Component
-@import "px-rangepicker-predix.scss";
+.text-input--bare {
+  background: transparent;
+}
 
 .time-input__field__input::selection {
   background-color: rgb(190,221,232);
