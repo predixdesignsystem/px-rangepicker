@@ -563,6 +563,11 @@ sup {
 sub {
   bottom: -0.25em; }
 
+:host {
+  font-size: 3rem;
+  line-height: 1.3333333333;
+  display: block; }
+
 /**
  * Margin and padding helper classes. Use these to tweak layout on a micro
  * level.
@@ -570,53 +575,27 @@ sub {
  * `.u-(m|p)(t|r|b|l|h|v)(-|+|0) {}` = utility - margin/padding top/right/bottom/left/horizontal/vertical less/more/none
  */
 /**
-     * Add small margins.
+     * Add tiny margins.
      */
-.u-m- {
-  margin: 0.6666666667rem !important; }
+.u-m-- {
+  margin: 0.3333333333rem !important; }
 
-.u-mt- {
-  margin-top: 0.6666666667rem !important; }
+.u-mt-- {
+  margin-top: 0.3333333333rem !important; }
 
-.u-mr- {
-  margin-right: 0.6666666667rem !important; }
+.u-mr-- {
+  margin-right: 0.3333333333rem !important; }
 
-.u-mb- {
-  margin-bottom: 0.6666666667rem !important; }
+.u-mb-- {
+  margin-bottom: 0.3333333333rem !important; }
 
-.u-ml- {
-  margin-left: 0.6666666667rem !important; }
+.u-ml-- {
+  margin-left: 0.3333333333rem !important; }
 
-.u-mh- {
-  margin-right: 0.6666666667rem !important;
-  margin-left: 0.6666666667rem !important; }
+.u-mh-- {
+  margin-right: 0.3333333333rem !important;
+  margin-left: 0.3333333333rem !important; }
 
-.u-mv- {
-  margin-top: 0.6666666667rem !important;
-  margin-bottom: 0.6666666667rem !important; }
-
-/**
-     * Add large paddings.
-     */
-.u-p\00002b {
-  padding: 1.3333333333rem !important; }
-
-.u-pt\00002b {
-  padding-top: 1.3333333333rem !important; }
-
-.u-pr\00002b {
-  padding-right: 1.3333333333rem !important; }
-
-.u-pb\00002b {
-  padding-bottom: 1.3333333333rem !important; }
-
-.u-pl\00002b {
-  padding-left: 1.3333333333rem !important; }
-
-.u-ph\00002b {
-  padding-right: 1.3333333333rem !important;
-  padding-left: 1.3333333333rem !important; }
-
-.u-pv\00002b {
-  padding-top: 1.3333333333rem !important;
-  padding-bottom: 1.3333333333rem !important; }
+.u-mv-- {
+  margin-top: 0.3333333333rem !important;
+  margin-bottom: 0.3333333333rem !important; }

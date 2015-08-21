@@ -14,8 +14,8 @@ Datepicker element which allows user to select a date.
 <dom-module id="px-date-rangepicker">
   <link rel="import" type="css" href="css/px-date-rangepicker.css"/>
   <template>
-    <div id=box class="flex flex--top border--bottom u-ph+">
-      <div class="flex flex--top u-mr+ u-pt+">
+    <div id=box class="flex flex--top">
+      <div class="flex flex--top u-mr+">
         <button on-click="_jumpBack" class="btn btn--bare u--mr-">
           <i class="fa fa-angle-left"></i>
         </button>
@@ -27,7 +27,7 @@ Datepicker element which allows user to select a date.
           allow-future-dates="{{allowFutureDates}}">
         </px-calendar>
       </div>
-      <div class="flex flex--top u-ml+ border--right u-pt+ u-pr+">
+      <div class="flex flex--top u-ml+">
         <px-calendar
           id="rightCalendar"
           display-month-year="{{rightDisplayMonthYear}}"

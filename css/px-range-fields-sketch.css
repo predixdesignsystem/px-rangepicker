@@ -2778,39 +2778,26 @@ button.btn {
   margin-left: 0.6666666667rem; }
 
 /**
-   * Change button colors for tertiary buttons
+   * Change button colors for primary buttons
    */
-.btn--tertiary {
-  border-color: #b1b1bc;
-  box-shadow: none;
-  background-color: white; }
-  .btn--tertiary,
-  .btn--tertiary:link,
-  .btn--tertiary:visited,
-  .btn--tertiary:hover,
-  .btn--tertiary:focus,
-  .btn--tertiary:active {
-    color: #3e87e8; }
-  .btn--tertiary:hover,
-  .btn--tertiary:focus {
-    border-color: #9999a3;
-    box-shadow: none;
-    background-color: #e4e4ea; }
-  .btn--tertiary:active {
-    border-color: #7c7c84;
-    box-shadow: none;
-    background-color: #b1b1bc; }
-
-/**
-   * Round-ended buttons.
-   *
-   * 1. Overly-large value to ensure the radius rounds the whole end of the
-   *    button.
-   */
-.btn--icon {
-  width: 2em;
-  border-radius: 6.6666666667em;
-  padding: 1px 0 0 1px; }
+.btn--primary {
+  border-color: #2b5ea2;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+  background-color: #3e87e8; }
+  .btn--primary,
+  .btn--primary:link,
+  .btn--primary:visited,
+  .btn--primary:hover,
+  .btn--primary:focus,
+  .btn--primary:active {
+    color: white; }
+  .btn--primary:hover,
+  .btn--primary:focus {
+    border-color: transparent;
+    background-color: #3573c5; }
+  .btn--primary:active {
+    border-color: transparent;
+    background-color: #2b5ea2; }
 
 .text-input--bare {
   margin: 0;
@@ -2828,44 +2815,12 @@ button.btn {
 .range-field__field label {
   margin: 0; }
 
-.range {
-  margin: 0 0.6666666667rem 1rem;
-  text-transform: uppercase; }
-
 /**
  * Margin and padding helper classes. Use these to tweak layout on a micro
  * level.
  *
  * `.u-(m|p)(t|r|b|l|h|v)(-|+|0) {}` = utility - margin/padding top/right/bottom/left/horizontal/vertical less/more/none
  */
-/**
-     * Margin helper classes.
-     *
-     * Add margins.
-     */
-.u-m {
-  margin: 1rem !important; }
-
-.u-mt {
-  margin-top: 1rem !important; }
-
-.u-mr {
-  margin-right: 1rem !important; }
-
-.u-mb {
-  margin-bottom: 1rem !important; }
-
-.u-ml {
-  margin-left: 1rem !important; }
-
-.u-mh {
-  margin-right: 1rem !important;
-  margin-left: 1rem !important; }
-
-.u-mv {
-  margin-top: 1rem !important;
-  margin-bottom: 1rem !important; }
-
 /**
      * Add small margins.
      */

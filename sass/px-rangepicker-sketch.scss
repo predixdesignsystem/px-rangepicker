@@ -39,8 +39,17 @@ $inuit-enable-btn--bare           : true;
 // Component
 .rangepicker__box {
   display: inline-block;
+  margin-top: $inuit-base-spacing-unit--small;
   border: 1px solid;
   border-radius: 3px;
+}
+
+.border--top {
+  border-top: 1px solid;
+}
+
+.border--left {
+  border-left: 1px solid;
 }
 
 // Trumps

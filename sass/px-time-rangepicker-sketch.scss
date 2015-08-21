@@ -28,8 +28,13 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 @import "px-viewport-design/_base.viewport.scss";
 @import "px-typography-design/_base.typography.scss";
 
+// Component
+:host {
+  @include inuit-font-size(45px);
+  display: block;
+}
+
 // Trumps
-$inuit-enable-margins--small    : true;
-$inuit-enable-paddings--large   : true;
+$inuit-enable-margins--tiny   : true;
 
 @import "px-spacing-design/_trumps.spacing.scss";

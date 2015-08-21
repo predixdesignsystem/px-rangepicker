@@ -15,7 +15,7 @@ Rangepicker with time element.
 <dom-module id="px-range-fields">
   <link rel="import" type="css" href="css/px-range-fields.css"/>
   <template>
-    <div class="flex flex--middle flex--wrap">
+    <form class="flex flex--middle flex--wrap">
       <span class=a11y>From</span>
       <px-range-field
         id="fromDate"
@@ -28,7 +28,7 @@ Rangepicker with time element.
         date-time-value="{{fromTimeDisplay}}"
         date-or-time="Time">
       </px-range-field>
-      <div class="range">To</div>
+      <span class="caps u-mh-">to</span>
       <px-range-field
         id="toDate"
         date-time-value="{{toDateDisplay}}"
@@ -40,10 +40,8 @@ Rangepicker with time element.
         date-time-value="{{toTimeDisplay}}"
         date-or-time="Time">
       </px-range-field>
-      <button class="btn btn--icon btn--tertiary u-mb u-ml+">
-        <i class="fa fa-check"></i>
-      </button>
-    </div>
+      <input class="btn btn--primary u-ml+" type=submit value=Submit>
+    </form>
   </template>
 </dom-module>
 
