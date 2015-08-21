@@ -84,24 +84,36 @@ Datepicker element which allows user to select a date.
 
     updateSelectedRange: function() {
 
-      // if nothing is displayed on the calendars yet, reset the state
       if (!this.leftDisplayMonthYear && !this.rightDisplayMonthYear) {
-        this._resetState();
+        this._resetVisibleCalendars();
       }
-      // otherwise, leave them as is (don't bother reassigning first/second dates for performance reasons)
+
+      if (!this._selectedRangeIsSame()) {
+        // initialize the first and second selected dates to the to and from dates
+        this.set('firstRangeDate', moment(this.fromDate));
+        this.set('secondRangeDate', moment(this.toDate));
+      }
 
     },
 
-    _resetState: function() {
+    _resetVisibleCalendars: function() {
       // initialize the displayed months to the selected fromDate & fromDate + 1
       this.set('leftDisplayMonthYear', moment(this.fromDate).startOf('month'));
       this.set('rightDisplayMonthYear', moment(this.fromDate).startOf('month').add(1, 'months'));
-
-      // initialize the first and second selected dates to the to and from dates
-      this.set('firstRangeDate', moment(this.fromDate));
-      this.set('secondRangeDate', moment(this.toDate));
-
       this._setJumpButtonStyles();
+    },
+
+    _selectedRangeIsSame: function() {
+
+      if (!this.firstRangeDate || !this.secondRangeDate) {
+        return false;
+      }
+
+      var firstIsFromAndSecondIsTo = this.firstRangeDate.isSame(this.fromDate, 'day') && this.secondRangeDate.isSame(this.toDate, 'day');
+      var secondIsFromAndFirstIsTo = this.secondRangeDate.isSame(this.fromDate, 'day') && this.firstRangeDate.isSame(this.toDate, 'day');
+
+      return firstIsFromAndSecondIsTo || secondIsFromAndFirstIsTo;
+
     },
 
     ready: function() {

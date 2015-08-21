@@ -2,5 +2,32 @@
   "fromTime": "12:00:00 AM",
   "toTime": "03:25:00 PM",
   "fromDate": "07/11/2015",
-  "toDate": "08/14/2015"
+  "toDate": "08/14/2015",
+  "presetRanges": [
+    {
+      "displayText": "Last 5 Minutes",
+      "startDateTime": "08/21/2015 12:57:33 PM",
+      "endDateTime": "08/21/2015 1:02:33 PM"
+    },
+    {
+      "displayText": "Last 12 Hours",
+      "startDateTime": "08/21/2015 1:02:33 AM",
+      "endDateTime": "08/21/2015 1:02:33 PM"
+    },
+    {
+      "displayText": "Yesterday",
+      "startDateTime": "08/20/2015 12:00:00 AM",
+      "endDateTime": "08/20/2015 12:00:00 PM"
+    },
+    {
+      "displayText": "Last Month",
+      "startDateTime": "07/21/2015 12:00:00 AM",
+      "endDateTime": "08/21/2015 12:00:00 AM"
+    },
+    {
+      "displayText": "Last Year",
+      "startDateTime": "08/21/2014 12:00:00 AM",
+      "endDateTime": "08/21/2015 12:00:00 AM"
+    }
+  ]
 }

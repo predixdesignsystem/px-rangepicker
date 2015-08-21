@@ -18,7 +18,7 @@ Rangepicker modal.
   <link rel="import" type="css" href="css/px-rangepicker.css"/>
   <template>
     <div class=overlay></div>
-    <div class="rangepicker__box">
+    <div id="rangepickerModal" class="rangepicker__box">
       <div class=flex>
         <div>
           <px-date-rangepicker
@@ -33,8 +33,10 @@ Rangepicker modal.
             to-time="{{toTimeInput}}">
           </px-time-rangepicker>
         </div>
-        <px-rangepicker-presets class=u-p+>
-        </px-rangepicker-presets>
+        <template is="dom-if" if="{{presetRanges}}">
+          <px-rangepicker-presets id="presets" class=u-p+ preset-ranges="{{presetRanges}}">
+          </px-rangepicker-presets>
+        </template>
       </div>
       <div class="flex flex--right u-p-">
         <input class="btn btn--primary" type=submit value=Apply on-click="_apply">
@@ -51,7 +53,7 @@ Rangepicker modal.
 
     properties: {
 
-     /**
+      /**
        * Moment object start time for time picker
        */
       fromTime: {
@@ -88,14 +90,34 @@ Rangepicker modal.
       },
 
       /**
-       * Set this attribute when you do want to allow future dates in the date range picker.
+       * (optional) Set this attribute when you do want to allow future dates in the date range picker.
        *
        * If not set, then future dates will be disabled and unclickable.
        */
       allowFutureDates: {
         type: Boolean,
         value: false
-      }
+      },
+
+      /**
+       * (optional) The preset date/time ranges to be displayed.  Defaults to none.
+       *
+       *```
+       *   [
+       *    {
+       *      "displayText": "Last 5 Minutes",
+       *      "startDateTime": "08/21/2015 12:57:33 PM",
+       *      "endDateTime": "08/21/2015 1:02:33 PM"
+       *    },
+       *    {
+       *      "displayText": "Last 12 Hours",
+       *      "startDateTime": "08/21/2015 1:02:33 AM",
+       *      "endDateTime": "08/21/2015 1:02:33 PM"
+       *    }
+       *   ]
+       * ```
+       */
+      presetRanges: Object
 
     },
 
@@ -117,12 +139,27 @@ Rangepicker modal.
       this.set('fromDateInput', moment(this.fromDate));
     },
 
+    ready: function() {
+      var self = this;
+
+      this.$.rangepickerModal.addEventListener('px-preset-selected', function(e) {
+        var presetStartDateTime = e.detail.startDateTime;
+        var presetEndDateTime = e.detail.endDateTime;
+
+        self.set('fromTimeInput', moment(presetStartDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+        self.set('toTimeInput', moment(presetEndDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+        self.set('fromDateInput', moment(presetStartDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+        self.set('toDateInput', moment(presetEndDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+      });
+
+    },
+
     _apply: function() {
       this.set('toTime', moment(this.toTimeInput));
       this.set('fromTime', moment(this.fromTimeInput));
       this.set('fromDate', moment(this.fromDateInput));
       this.set('toDate', moment(this.toDateInput));
-      this.$.dateRangePicker._resetState();
+      this.$.dateRangePicker._resetVisibleCalendars();
 
       this.fire('px-range-picking-done');
     },
@@ -132,7 +169,7 @@ Rangepicker modal.
       this.set('fromTimeInput', moment(this.fromTime));
       this.set('toDateInput', moment(this.toDate));
       this.set('fromDateInput', moment(this.fromDate));
-      this.$.dateRangePicker._resetState();
+      this.$.dateRangePicker._resetVisibleCalendars();
 
       this.fire('px-range-picking-done');
     }

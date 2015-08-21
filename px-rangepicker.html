@@ -29,6 +29,7 @@ Rangepicker with time element.
       from-date="{{fromDateMoment}}"
       to-date="{{toDateMoment}}"
       allow-future-dates="{{allowFutureDates}}"
+      preset-ranges="{{presetRanges}}"
       hidden>
     </px-rangepicker-modal>
   </template>
@@ -86,14 +87,34 @@ Rangepicker with time element.
       },
 
       /**
-       * Set this attribute when you do want to allow future dates in the date range picker.
+       * (optional) Set this attribute when you do want to allow future dates in the date range picker.
        *
        * If not set, then future dates will be disabled and unclickable.
        */
       allowFutureDates: {
         type: Boolean,
         value: false
-      }
+      },
+
+      /**
+       * (optional) The preset date/time ranges to be displayed.  Defaults to none.
+       *
+       *```
+       *   [
+       *    {
+       *      "displayText": "Last 5 Minutes",
+       *      "startDateTime": "08/21/2015 12:57:33 PM",
+       *      "endDateTime": "08/21/2015 1:02:33 PM"
+       *    },
+       *    {
+       *      "displayText": "Last 12 Hours",
+       *      "startDateTime": "08/21/2015 1:02:33 AM",
+       *      "endDateTime": "08/21/2015 1:02:33 PM"
+       *    }
+       *   ]
+       * ```
+       */
+      presetRanges: Object
 
     },
 
