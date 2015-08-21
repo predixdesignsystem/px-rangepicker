@@ -24,6 +24,7 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 // Component
 .rangepicker__box {
   border-color: $gray4;
+  background-color: $white;
   span {
     color: $gray5;
   }
@@ -31,4 +32,8 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 
 .border--top, .border--left {
   border-color: $gray4;
+}
+
+.overlay {
+  background-color: rgba($black, .1);
 }

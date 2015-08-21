@@ -832,6 +832,8 @@ button.btn {
   list-style: none; }
 
 .rangepicker__box {
+  position: relative;
+  z-index: 20;
   display: inline-block;
   margin-top: 0.6666666667rem;
   border: 1px solid;
@@ -842,6 +844,14 @@ button.btn {
 
 .border--left {
   border-left: 1px solid; }
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%; }
 
 /**
  * Margin and padding helper classes. Use these to tweak layout on a micro

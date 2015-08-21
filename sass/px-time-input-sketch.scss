@@ -42,22 +42,25 @@ $inuit-enable-text-input--bare  : true;
 }
 
 .time-input__field {
-  @include inuit-font-size(45px);
+  @include inuit-font-size(30px,30px);
   display: flex;
   align-items: center;
-  height: 1.4444444444em;
-  padding: $inuit-base-spacing-unit--tiny $inuit-base-spacing-unit--small 0;
+  height: calculateRem(50px);
 }
 
 .time-input__field__input {
-  @include inuit-font-size(45px);
+  @include inuit-font-size(30px,30px);
   width: 1.0666666667em;
+  height: calculateRem(30px);
   font-family: $predix-font-family;
 }
 
 .time-input__field__ampm {
-  @include inuit-font-size(15px);
-  margin-top: -#{$inuit-base-spacing-unit--tiny};
+  @include inuit-font-size(12px,12px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: calculateRem(30px);
   margin-left: $inuit-base-spacing-unit--small;
   label {
     margin-bottom: 0;

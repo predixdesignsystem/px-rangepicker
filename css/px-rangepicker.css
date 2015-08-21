@@ -845,6 +845,8 @@ button.btn {
   list-style: none; }
 
 .rangepicker__box {
+  position: relative;
+  z-index: 20;
   display: inline-block;
   margin-top: 0.6666666667rem;
   border: 1px solid;
@@ -855,6 +857,14 @@ button.btn {
 
 .border--left {
   border-left: 1px solid; }
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%; }
 
 /**
  * Margin and padding helper classes. Use these to tweak layout on a micro
@@ -967,9 +977,13 @@ button.btn {
   padding-bottom: 1.3333333333rem !important; }
 
 .rangepicker__box {
-  border-color: #d1d0d8; }
+  border-color: #d1d0d8;
+  background-color: white; }
   .rangepicker__box span {
     color: #b1b1bc; }
 
 .border--top, .border--left {
   border-color: #d1d0d8; }
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.1); }

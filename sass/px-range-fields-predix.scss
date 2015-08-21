@@ -26,6 +26,10 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
   &, label {
     color: $gray7;
   }
+  &.is-focused .range-field__field {
+    border-color: $inuit-forms-border--outer--focused;
+    box-shadow: $inuit-forms-border--inner--focused;
+  }
 }
 
 .text-input--bare {

@@ -776,27 +776,36 @@ textarea {
     outline: 0; }
 
 .time-input__field {
-  font-size: 3rem;
-  line-height: 1.3333333333;
+  font-size: 2rem;
+  line-height: 1;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  height: 1.4444444444em;
-  padding: 0.3333333333rem 0.6666666667rem 0; }
+  height: 3.3333333333rem; }
 
 .time-input__field__input {
-  font-size: 3rem;
-  line-height: 1.3333333333;
+  font-size: 2rem;
+  line-height: 1;
   width: 1.0666666667em;
+  height: 2rem;
   font-family: "GE Inspira Sans", sans-serif; }
 
 .time-input__field__ampm {
-  font-size: 1rem;
-  line-height: 1.3333333333;
-  margin-top: -0.3333333333rem;
+  font-size: 0.8rem;
+  line-height: 1;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
+  height: 2rem;
   margin-left: 0.6666666667rem; }
   .time-input__field__ampm label {
     margin-bottom: 0; }

@@ -88,10 +88,12 @@ Range field component which displays to/from fields and font awesome icon.
     },
 
     _handleClick: function() {
+      this.toggleClass('is-focused', true);
       this.fire('px-first-click-range-field');
     },
 
     _validateInput: function() {
+      this.toggleClass('is-focused', false);
       if(moment(this.dateTimeWorkingCopy, this.momentFormat, true).isValid()) {
         this.toggleClass('validation-error', false, this.$$('input'));
       }
