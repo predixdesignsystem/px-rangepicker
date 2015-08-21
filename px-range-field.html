@@ -17,7 +17,7 @@ Range field component which displays to/from fields and font awesome icon.
       <label class=label--inline>
         <span class=a11y>{{dateOrTime}}</span>
         <i id=icon class=fa></i>
-        <input type=text class=text-input--bare value="{{dateTimeValue}}" on-click="_handleClick">
+        <input type=text class=text-input--bare value="{{dateTimeWorkingCopy::input}}" on-click="_handleClick" on-blur="_validateInput">
       </label>
     </div>
   </template>
@@ -36,7 +36,8 @@ Range field component which displays to/from fields and font awesome icon.
        * '08/10/2014' or '10:30:00 AM'
        */
       dateTimeValue: {
-        type: String
+        type: String,
+        observer: '_updateAndValidateWorkingCopy'
       },
 
       /**
@@ -44,26 +45,59 @@ Range field component which displays to/from fields and font awesome icon.
        * (Comes with icon for free)
        *
        * 'Date' or 'Time'
+       *
+       * Can only be configured statically; not data-bindable
        */
       dateOrTime: {
+        type: String
+      },
+
+      /**
+       * Moment format string for the format to display/validate this field against
+       *
+       * defaults to 'MM/DD/YYYY' for date or 'hh:mm:ss A' for time
+       *
+       * see http://momentjs.com/docs/#/parsing/string-format/
+       *
+       * Can only be configured statically; not data-bindable
+       */
+      momentFormat: {
         type: String
       }
 
     },
 
+    _updateAndValidateWorkingCopy: function() {
+      this.set('dateTimeWorkingCopy', this.dateTimeValue);
+      this._validateInput();
+    },
+
     ready: function() {
-      var icon = "";
       if(this.dateOrTime.toLowerCase() == 'date') {
-        icon = "fa-calendar"
+        this.toggleClass("fa-calendar", true, this.$.icon);
+        if(!this.momentFormat) {
+          this.momentFormat = 'MM/DD/YYYY'; // default date format
+        }
       }
       else {
-        icon = "fa-clock-o"
+        this.toggleClass("fa-clock-o", true, this.$.icon);
+        if(!this.momentFormat) {
+          this.momentFormat = 'hh:mm:ss A'; // default time format
+        }
       }
-      this.toggleClass(icon, true, this.$.icon);
     },
 
     _handleClick: function() {
       this.fire('px-first-click-range-field');
+    },
+
+    _validateInput: function() {
+      if(moment(this.dateTimeWorkingCopy, this.momentFormat, true).isValid()) {
+        this.toggleClass('validation-error', false, this.$$('input'));
+      }
+      else {
+        this.toggleClass('validation-error', true, this.$$('input'));
+      }
     }
 
   });
