@@ -87,6 +87,23 @@ Rangepicker with time element.
       }
     },
 
+    ready: function() {
+
+      this.$.fromDate.addEventListener('px-first-click-range-field', function(e) {
+        this.fire('px-selected-range-field', {dateOrTime: 'date'});
+      });
+      this.$.toDate.addEventListener('px-first-click-range-field', function(e) {
+        this.fire('px-selected-range-field', {dateOrTime: 'date'});
+      });
+      this.$.fromTime.addEventListener('px-first-click-range-field', function(e) {
+        this.fire('px-selected-range-field', {dateOrTime: 'time', toOrFrom: 'from'});
+      });
+      this.$.toTime.addEventListener('px-first-click-range-field', function(e) {
+        this.fire('px-selected-range-field', {dateOrTime: 'time', toOrFrom: 'to'});
+      });
+
+    },
+
     _updateFromDate: function() {
       this.set('fromDateDisplay', this.fromDate.format('MM/DD/YYYY'));
     },

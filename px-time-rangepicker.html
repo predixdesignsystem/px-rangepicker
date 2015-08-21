@@ -43,9 +43,24 @@ Timepicker element which allows user to select a start and end time.
       fromTime: {
         type: Object,
         notify: true
+      },
+
+      focusField: {
+        type: String,
+        observer: '_setFocusField'
       }
 
-    }
+    },
+
+    _setFocusField: function() {
+      if (this.focusField === 'to') {
+        this.$.toTimeInput.focus();
+      }
+      else if (this.focusField === 'from') {
+        this.$.fromTimeInput.focus();
+      }
+    },
+
 
   });
 </script>

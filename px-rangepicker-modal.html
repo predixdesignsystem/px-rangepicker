@@ -23,7 +23,8 @@ Rangepicker modal.
           <px-date-rangepicker
             id="dateRangePicker"
             from-date="{{fromDateInput}}"
-            to-date="{{toDateInput}}">
+            to-date="{{toDateInput}}"
+            allow-future-dates="{{allowFutureDates}}">
           </px-date-rangepicker>
           <px-time-rangepicker
             id="timeRangePicker"
@@ -104,6 +105,16 @@ Rangepicker modal.
         type: Object,
         notify: true,
         observer: '_copyToDate'
+      },
+
+      /**
+       * Set this attribute when you do want to allow future dates in the date range picker.
+       *
+       * If not set, then future dates will be disabled and unclickable.
+       */
+      allowFutureDates: {
+        type: Boolean,
+        value: false
       }
 
     },

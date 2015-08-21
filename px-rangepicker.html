@@ -28,6 +28,7 @@ Rangepicker with time element.
       to-time="{{toTimeMoment}}"
       from-date="{{fromDateMoment}}"
       to-date="{{toDateMoment}}"
+      allow-future-dates="{{allowFutureDates}}"
       hidden>
     </px-rangepicker-modal>
   </template>
@@ -82,6 +83,16 @@ Rangepicker with time element.
         type: String,
         notify: true,
         observer: '_updateToDate'
+      },
+
+      /**
+       * Set this attribute when you do want to allow future dates in the date range picker.
+       *
+       * If not set, then future dates will be disabled and unclickable.
+       */
+      allowFutureDates: {
+        type: Boolean,
+        value: false
       }
 
     },
@@ -118,7 +129,17 @@ Rangepicker with time element.
       var self = this;
 
       this.$.rangeFields.addEventListener('px-selected-range-field', function(e) {
+
+        // TODO - wip to focus on correct time field
+//        var dateOrTime = e.detail.dateOrTime;
+//        var toOrFrom = e.detail.toOrFrom;
+
         self.$.rangePickerModal.toggleAttribute('hidden', false);
+
+//        if(dateOrTime === 'time') {
+//          self.$.rangePickerModal.focusField = toOrFrom;
+//        }
+
       });
 
       this.$.rangePickerModal.addEventListener('px-range-picking-done', function(e) {

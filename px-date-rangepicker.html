@@ -23,7 +23,8 @@ Datepicker element which allows user to select a date.
           id="leftCalendar"
           display-month-year="{{leftDisplayMonthYear}}"
           first-range-date="{{firstRangeDate}}"
-          second-range-date="{{secondRangeDate}}">
+          second-range-date="{{secondRangeDate}}"
+          allow-future-dates="{{allowFutureDates}}">
         </px-calendar>
       </div>
       <div class="flex flex--top u-ml+ border--right u-pt+ u-pr+">
@@ -31,7 +32,8 @@ Datepicker element which allows user to select a date.
           id="rightCalendar"
           display-month-year="{{rightDisplayMonthYear}}"
           first-range-date="{{firstRangeDate}}"
-          second-range-date="{{secondRangeDate}}">
+          second-range-date="{{secondRangeDate}}"
+          allow-future-dates="{{allowFutureDates}}">
         </px-calendar>
         <button id=btnNextMonth on-click="_jumpForward" class="btn btn--bare u--ml-">
           <i class="fa fa-angle-right"></i>
@@ -62,6 +64,16 @@ Datepicker element which allows user to select a date.
       toDate: {
         type: Object,
         notify: true
+      },
+
+      /**
+       * Set this attribute when you do want to allow future dates in the date range picker.
+       *
+       * If not set, then future dates will be disabled and unclickable.
+       */
+      allowFutureDates: {
+        type: Boolean,
+        value: false
       }
 
     },
@@ -78,8 +90,6 @@ Datepicker element which allows user to select a date.
       }
       // otherwise, leave them as is (don't bother reassigning first/second dates for performance reasons)
 
-      this._checkCurrentMonth();
-
     },
 
     _resetState: function() {
@@ -90,6 +100,8 @@ Datepicker element which allows user to select a date.
       // initialize the first and second selected dates to the to and from dates
       this.set('firstRangeDate', moment(this.fromDate));
       this.set('secondRangeDate', moment(this.toDate));
+
+      this._setJumpButtonStyles();
     },
 
     ready: function() {
@@ -110,32 +122,35 @@ Datepicker element which allows user to select a date.
       });
     },
 
-    _checkCurrentMonth: function() {
-      if (this._isCurrentMonth()) {
-        this.toggleAttribute('disabled', true, this.$.btnNextMonth);
-        this.toggleClass('btn--disabled', true, this.$.btnNextMonth);
-      }
-      else {
-        this.toggleAttribute('disabled', false, this.$.btnNextMonth);
-        this.toggleClass('btn--disabled', false, this.$.btnNextMonth);
+    _jumpBack: function() {
+      this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear.add(-1, 'months')));
+      this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear.add(-1, 'months')));
+      this._setJumpButtonStyles();
+    },
+
+    _jumpForward: function() {
+      this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear.add(1, 'months')));
+      this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear.add(1, 'months')));
+      this._setJumpButtonStyles();
+    },
+
+    _setJumpButtonStyles: function() {
+      if (!this.allowFutureDates) {
+        // if we don't allow future dates, we want to disable the jump right button
+        if (this._isCurrentMonth()) {
+          this.toggleAttribute('disabled', true, this.$.btnNextMonth);
+          this.toggleClass('btn--disabled', true, this.$.btnNextMonth);
+        }
+        else {
+          this.toggleAttribute('disabled', false, this.$.btnNextMonth);
+          this.toggleClass('btn--disabled', false, this.$.btnNextMonth);
+        }
       }
     },
 
     _isCurrentMonth: function() {
       var now = moment();
       return this.rightDisplayMonthYear.isSame(now, 'month');
-    },
-
-    _jumpBack: function() {
-      this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear.add(-1, 'months')));
-      this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear.add(-1, 'months')));
-      this._checkCurrentMonth();
-    },
-
-    _jumpForward: function() {
-      this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear.add(1, 'months')));
-      this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear.add(1, 'months')));
-      this._checkCurrentMonth();
     }
 
   });

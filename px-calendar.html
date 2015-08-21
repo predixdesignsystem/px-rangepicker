@@ -36,7 +36,8 @@ Element that renders a calendar for the given year and selects the given date.
               <td>
                 <px-calendar-cell display-date="{{date}}"
                                   first-range-date="{{firstRangeDate}}"
-                                  second-range-date="{{secondRangeDate}}">
+                                  second-range-date="{{secondRangeDate}}"
+                                  allow-future-dates="{{allowFutureDates}}">
                 </px-calendar-cell>
               </td>
             </template>
@@ -77,6 +78,16 @@ Element that renders a calendar for the given year and selects the given date.
       secondRangeDate: {
         type: Object,
         notify: true
+      },
+
+      /**
+       * Set this attribute when you do want to allow future dates in the calendar
+       *
+       * If not set, then future dates will be disabled and unclickable.
+       */
+      allowFutureDates: {
+        type: Boolean,
+        value: false
       }
 
     },
