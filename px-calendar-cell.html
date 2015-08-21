@@ -141,7 +141,7 @@ Element that renders a calendar cell for a given date (and for non-date cells in
     },
 
     _isFirstClick: function() {
-      return this.secondRangeDate === null;
+      return this.secondRangeDate === null && this.displayDate.isSame(this.firstRangeDate, 'day');
     },
 
     _isStartOfWeekOrMonth: function() {
