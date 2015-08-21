@@ -80,6 +80,9 @@ Element providing solution to no problem in particular. As a simple, increments 
     _setTime: function(timeObj) {
       var simpleUnformattedTime = this._buildSimpleUnformattedTime(timeObj.hour, timeObj.minute, timeObj.second, timeObj.isAM);
       var formattedTime = moment(simpleUnformattedTime, 'h:m:s A');
+      formattedTime.date(this.time.date()); // keep the existing date/month/year
+      formattedTime.month(this.time.month());
+      formattedTime.year(this.time.year());
       this.set('time', formattedTime);
     },
 

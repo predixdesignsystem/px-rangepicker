@@ -128,6 +128,15 @@ Datepicker element which allows user to select a date.
           fromDate = self.secondRangeDate;
         }
 
+        // set the times back to what they really should be
+        fromDate.hour(self.fromDate.hour());
+        fromDate.minute(self.fromDate.minute());
+        fromDate.second(self.fromDate.second());
+
+        toDate.hour(self.toDate.hour());
+        toDate.minute(self.toDate.minute());
+        toDate.second(self.toDate.second());
+
         self.set('fromDate', fromDate);
         self.set('toDate', toDate);
 

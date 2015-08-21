@@ -102,11 +102,18 @@ Rangepicker with time element.
     },
 
     _updateFrom: function() {
-      this.set('fromMoment', moment(this.from, 'MM/DD/YYYY hh:mm:ss A'));
+      this._updateMomentIfDifferent(this.from, 'fromMoment');
     },
 
     _updateTo: function() {
-      this.set('toMoment', moment(this.to, 'MM/DD/YYYY hh:mm:ss A'));
+      this._updateMomentIfDifferent(this.to, 'toMoment');
+    },
+
+    _updateMomentIfDifferent: function(newTimeString, currentMomentName) {
+      var newMoment = moment(newTimeString, 'MM/DD/YYYY hh:mm:ss A');
+      if(!this[currentMomentName] || !this[currentMomentName].isSame(newMoment, 'second')) { // break unnecessary looping
+        this.set(currentMomentName, newMoment);
+      }
     },
 
     ready: function() {
