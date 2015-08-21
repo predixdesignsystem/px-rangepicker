@@ -71,26 +71,25 @@ Datepicker element which allows user to select a date.
     ],
 
     updateSelectedRange: function() {
-console.log('update selected');
-      // if no display months set (nothing on the calendars), initialize them to the fromDate & fromDate + 1
-      // otherwise, leave them as they are already set
-      if (!this.leftDisplayMonthYear && !this.rightDisplayMonthYear) {
-        console.log('.... month');
-        this.set('leftDisplayMonthYear', moment(this.fromDate).startOf('month'));
-        this.set('rightDisplayMonthYear', moment(this.fromDate).startOf('month').add(1, 'months'));
-      }
 
-      if(!this.firstRangeDate || !this.firstRangeDate.isSame(this.fromDate, 'day')) {
-        console.log('....... date');
-        this.set('firstRangeDate', moment(this.fromDate));
+      // if nothing is displayed on the calendars yet, reset the state
+      if (!this.leftDisplayMonthYear && !this.rightDisplayMonthYear) {
+        this._resetState();
       }
-      if(!this.secondRangeDate || !this.secondRangeDate.isSame(this.toDate, 'day')) {
-        console.log('....... date2');
-        this.set('secondRangeDate', moment(this.toDate));
-      }
+      // otherwise, leave them as is (don't bother reassigning first/second dates for performance reasons)
 
       this._checkCurrentMonth();
 
+    },
+
+    _resetState: function() {
+      // initialize the displayed months to the selected fromDate & fromDate + 1
+      this.set('leftDisplayMonthYear', moment(this.fromDate).startOf('month'));
+      this.set('rightDisplayMonthYear', moment(this.fromDate).startOf('month').add(1, 'months'));
+
+      // initialize the first and second selected dates to the to and from dates
+      this.set('firstRangeDate', moment(this.fromDate));
+      this.set('secondRangeDate', moment(this.toDate));
     },
 
     ready: function() {

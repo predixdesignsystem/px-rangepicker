@@ -131,6 +131,9 @@ Rangepicker modal.
       this.set('fromTime', moment(this.fromTimeInput));
       this.set('fromDate', moment(this.fromDateInput));
       this.set('toDate', moment(this.toDateInput));
+      this.$.dateRangePicker._resetState();
+
+      this.fire('px-range-picking-done');
     },
 
     _cancel: function() {
@@ -138,6 +141,9 @@ Rangepicker modal.
       this.set('fromTimeInput', moment(this.fromTime));
       this.set('toDateInput', moment(this.toDate));
       this.set('fromDateInput', moment(this.fromDate));
+      this.$.dateRangePicker._resetState();
+
+      this.fire('px-range-picking-done');
     }
 
   });

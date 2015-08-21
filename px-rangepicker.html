@@ -118,7 +118,11 @@ Rangepicker with time element.
       var self = this;
 
       this.$.rangeFields.addEventListener('px-selected-range-field', function(e) {
-        self.$.rangePickerModal.toggleAttribute('hidden');
+        self.$.rangePickerModal.toggleAttribute('hidden', false);
+      });
+
+      this.$.rangePickerModal.addEventListener('px-range-picking-done', function(e) {
+        self.$.rangePickerModal.toggleAttribute('hidden', true);
       });
     }
 
