@@ -28,3 +28,7 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
     color: $gray5;
   }
 }
+
+.border--top, .border--left {
+  border-color: $gray4;
+}

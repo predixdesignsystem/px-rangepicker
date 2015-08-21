@@ -22,16 +22,12 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 @import 'px-range-fields-sketch.scss';
 
 // Component
-.text-input--bare {
-  background: transparent;
-}
-
-.range-field__field {
-  label {
+:host {
+  &, label {
     color: $gray7;
   }
 }
 
-.range {
-  color: $gray7;
+.text-input--bare {
+  background: transparent;
 }

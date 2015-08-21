@@ -36,6 +36,11 @@ $inuit-enable-btn--disabled             : true;
 
 @import "px-buttons-design/_objects.buttons.scss";
 
+// Component
+:host {
+  display: block;
+}
+
 // Trumps
 $inuit-enable-margins--large            : true;
 $inuit-enable-margins--negative-small   : true;

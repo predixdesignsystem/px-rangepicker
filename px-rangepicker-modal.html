@@ -23,22 +23,23 @@ Rangepicker modal.
         <div>
           <px-date-rangepicker
             id="dateRangePicker"
+            class=u-p+
             from-date="{{fromDateInput}}"
             to-date="{{toDateInput}}"
             allow-future-dates="{{allowFutureDates}}">
           </px-date-rangepicker>
           <px-time-rangepicker
+            class="border--top u-p+"
             id="timeRangePicker"
             from-time="{{fromTimeInput}}"
             to-time="{{toTimeInput}}">
           </px-time-rangepicker>
         </div>
-        <px-rangepicker-presets class=u-p+>
+        <px-rangepicker-presets class="border--left u-p+">
         </px-rangepicker-presets>
       </div>
-      <div class="flex flex--right u-p-">
-        <input class="btn btn--primary" type=submit value=Apply on-click="_apply">
-        <button class=btn on-click="_cancel">Cancel</button>
+      <div class="flex flex--right border--top u-p-">
+        <button class=btn on-click="_close">Close</button>
       </div>
     </div>
   </template>
@@ -117,7 +118,7 @@ Rangepicker modal.
       this.set('fromDateInput', moment(this.fromDate));
     },
 
-    _apply: function() {
+    _close: function() {
       this.set('toTime', moment(this.toTimeInput));
       this.set('fromTime', moment(this.fromTimeInput));
       this.set('fromDate', moment(this.fromDateInput));
@@ -125,9 +126,10 @@ Rangepicker modal.
       this.$.dateRangePicker._resetState();
 
       this.fire('px-range-picking-done');
-    },
+    }
 
-    _cancel: function() {
+/*
+    _close: function() {
       this.set('toTimeInput', moment(this.toTime));
       this.set('fromTimeInput', moment(this.fromTime));
       this.set('toDateInput', moment(this.toDate));
@@ -136,6 +138,7 @@ Rangepicker modal.
 
       this.fire('px-range-picking-done');
     }
+*/
 
   });
 </script>

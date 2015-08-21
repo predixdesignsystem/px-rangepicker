@@ -36,8 +36,7 @@ $inuit-enable-validation-states : true;
 @import "px-forms-design/_base.forms.scss";
 
 // Objects
-$inuit-enable-btn--icon         : true;
-$inuit-enable-btn--tertiary     : true;
+$inuit-enable-btn--primary      : true;
 
 @import "px-buttons-design/_objects.buttons.scss";
 
@@ -62,13 +61,7 @@ $inuit-enable-btn--tertiary     : true;
   }
 }
 
-.range {
-  margin: 0 $inuit-base-spacing-unit--small $inuit-base-spacing-unit;
-  text-transform: uppercase;
-}
-
 // Trumps
-$inuit-enable-margins           : true;
 $inuit-enable-margins--small    : true;
 $inuit-enable-margins--large    : true;
 
