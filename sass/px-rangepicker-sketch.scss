@@ -38,6 +38,8 @@ $inuit-enable-btn--bare           : true;
 
 // Component
 .rangepicker__box {
+  position: relative;
+  z-index: 20;
   display: inline-block;
   margin-top: $inuit-base-spacing-unit--small;
   border: 1px solid;
@@ -50,6 +52,15 @@ $inuit-enable-btn--bare           : true;
 
 .border--left {
   border-left: 1px solid;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
 }
 
 // Trumps
