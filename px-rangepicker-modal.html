@@ -24,15 +24,15 @@ Rangepicker modal.
           <px-date-rangepicker
             id="dateRangePicker"
             class=u-p+
-            from-date="{{fromInput}}"
-            to-date="{{toInput}}"
+            from-date="{{from}}"
+            to-date="{{to}}"
             allow-future-dates="{{allowFutureDates}}">
           </px-date-rangepicker>
           <px-time-rangepicker
             class="border--top u-p+"
             id="timeRangePicker"
-            from-time="{{fromInput}}"
-            to-time="{{toInput}}">
+            from-time="{{from}}"
+            to-time="{{to}}">
           </px-time-rangepicker>
         </div>
         <template is="dom-if" if="{{presetRanges}}">
@@ -59,8 +59,7 @@ Rangepicker modal.
        */
       from: {
         type: Object,
-        notify: true,
-        observer: '_copyFrom'
+        notify: true
       },
 
       /**
@@ -68,8 +67,7 @@ Rangepicker modal.
        */
       to: {
         type: Object,
-        notify: true,
-        observer: '_copyTo'
+        notify: true
       },
 
       /**
@@ -104,16 +102,6 @@ Rangepicker modal.
 
     },
 
-    // make a local copy of all time/date inputs to make changes until the user hits Apply
-
-    _copyTo: function() {
-      this.set('toInput', moment(this.to));
-    },
-
-    _copyFrom: function() {
-      this.set('fromInput', moment(this.from));
-    },
-
     ready: function() {
       var self = this;
 
@@ -121,17 +109,14 @@ Rangepicker modal.
         var presetStartDateTime = e.detail.startDateTime;
         var presetEndDateTime = e.detail.endDateTime;
 
-        self.set('fromInput', moment(presetStartDateTime, 'MM/DD/YYYY hh:mm:ss A'));
-        self.set('toInput', moment(presetEndDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+        self.set('from', moment(presetStartDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+        self.set('to', moment(presetEndDateTime, 'MM/DD/YYYY hh:mm:ss A'));
       });
 
     },
 
     _close: function() {
-      this.set('toInput', moment(this.to));
-      this.set('fromInput', moment(this.from));
       this.$.dateRangePicker._resetVisibleCalendars();
-
       this.fire('px-range-picking-done');
     }
 

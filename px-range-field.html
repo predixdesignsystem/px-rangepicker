@@ -35,7 +35,8 @@ Range field component which displays to/from fields and font awesome icon.
        */
       moment: {
         type: Object,
-        observer: '_updateAndValidateWorkingCopy'
+        observer: '_updateAndValidateWorkingCopy',
+        notify: true
       },
 
       /**
@@ -94,6 +95,23 @@ Range field component which displays to/from fields and font awesome icon.
       this.toggleClass('is-focused', false);
       if(moment(this.dateTimeWorkingCopy, this.momentFormat, true).isValid()) {
         this.toggleClass('validation-error', false, this.$$('input'));
+
+        var momentCopy = moment(this.dateTimeWorkingCopy, this.momentFormat);
+
+        if(this.dateOrTime.toLowerCase() == 'time') { // if i'm typing in a time field, make sure the date is still right
+          momentCopy.date(this.moment.date());
+          momentCopy.month(this.moment.month());
+          momentCopy.year(this.moment.year());
+        }
+        else {
+          momentCopy.hour(this.moment.hour());
+          momentCopy.minute(this.moment.minute());
+          momentCopy.second(this.moment.second());
+        }
+
+        if(!momentCopy.isSame(this.moment, 'second')) { // avoid infinite loops
+          this.set('moment', momentCopy);
+        }
       }
       else {
         this.toggleClass('validation-error', true, this.$$('input'));

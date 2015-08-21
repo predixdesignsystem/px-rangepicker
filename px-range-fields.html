@@ -55,12 +55,18 @@ Rangepicker with time element.
       /**
        * Moment object start date & time
        */
-      from: Object,
+      from: {
+        type: Object,
+        notify: true
+      },
 
       /**
        * Moment object end date & time
        */
-      to: Object
+      to: {
+        type: Object,
+        notify: true
+      }
     }
 
   });
