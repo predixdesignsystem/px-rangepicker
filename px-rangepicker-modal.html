@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="px-time-rangepicker.html"/>
 <link rel="import" href="px-date-rangepicker.html"/>
+<link rel="import" href="px-rangepicker-presets.html"/>
 
 <script src="../moment/moment.js"></script>
 
@@ -32,29 +33,8 @@ Rangepicker modal.
             to-time="{{toTimeInput}}">
           </px-time-rangepicker>
         </div>
-        <div class=u-p+>
-          <h4 class="caps u-mt0 u-mb-">Presets</h4>
-          <ul class=list-bare>
-            <li class=u-mb->
-              <button class="btn btn--bare">Today</button>
-            </li>
-            <li class=u-mb->
-              <button class="btn btn--bare">Yesterday</button>
-            </li>
-            <li class=u-mb->
-              <button class="btn btn--bare">Last 7 days</button>
-            </li>
-            <li class=u-mb->
-              <button class="btn btn--bare">Last 30 days</button>
-            </li>
-            <li class=u-mb->
-              <button class="btn btn--bare">This Month</button>
-            </li>
-            <li>
-              <button class="btn btn--bare">Last Month</button>
-            </li>
-          </ul>
-        </div>
+        <px-rangepicker-presets class=u-p+>
+        </px-rangepicker-presets>
       </div>
       <div class="flex flex--right u-p-">
         <input class="btn btn--primary" type=submit value=Apply on-click="_apply">
