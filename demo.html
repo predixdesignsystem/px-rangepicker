@@ -38,26 +38,23 @@
       handle-as="json"></iron-ajax>
 
     <div>
-      Time is from <span>{{sampleData.fromTime}}</span> to <span>{{sampleData.toTime}}</span>
-    </div>
-    <div>
-      Date is from <span>{{sampleData.fromDate}}</span> to <span>{{sampleData.toDate}}</span>
+      Date/Time is from <span>{{sampleData.from}}</span> to <span>{{sampleData.to}}</span>
     </div>
 
     <br>
     <br>
 
-    <!--<px-rangepicker from-time="{{sampleData.fromTime}}" to-time="{{sampleData.toTime}}"-->
-                    <!--from-date="{{sampleData.fromDate}}" to-date="{{sampleData.toDate}}">-->
+    <!--<px-rangepicker from="{{sampleData.from}}" to="{{sampleData.to}}">-->
     <!--</px-rangepicker>-->
 
-
-    <px-rangepicker from-time="{{sampleData.fromTime}}" to-time="{{sampleData.toTime}}"
-                    from-date="{{sampleData.fromDate}}" to-date="{{sampleData.toDate}}"
-                    preset-ranges="{{sampleData.presetRanges}}"
-                    <!--allow-future-dates-->
-      >
+    <px-rangepicker from="{{sampleData.from}}" to="{{sampleData.to}}"
+                    preset-ranges="{{sampleData.presetRanges}}">
     </px-rangepicker>
+
+    <!--<px-rangepicker from="{{sampleData.from}}" to="{{sampleData.to}}"-->
+                    <!--preset-ranges="{{sampleData.presetRanges}}"-->
+                    <!--allow-future-dates>-->
+    <!--</px-rangepicker>-->
 
   </template>
 

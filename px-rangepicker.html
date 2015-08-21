@@ -17,17 +17,13 @@ Rangepicker with time element.
   <template>
     <px-range-fields
       id="rangeFields"
-      from-time="{{fromTimeMoment}}"
-      to-time="{{toTimeMoment}}"
-      from-date="{{fromDateMoment}}"
-      to-date="{{toDateMoment}}">
+      from="{{fromMoment}}"
+      to="{{toMoment}}">
     </px-range-fields>
     <px-rangepicker-modal
       id=rangePickerModal
-      from-time="{{fromTimeMoment}}"
-      to-time="{{toTimeMoment}}"
-      from-date="{{fromDateMoment}}"
-      to-date="{{toDateMoment}}"
+      from="{{fromMoment}}"
+      to="{{toMoment}}"
       allow-future-dates="{{allowFutureDates}}"
       preset-ranges="{{presetRanges}}"
       hidden>
@@ -43,47 +39,25 @@ Rangepicker with time element.
     properties: {
 
       /**
-       * Start time for time picker
+       * Start date & time for time picker
        *
-       * Format 'hh:mm:ss A', for example: '10:22:00 AM'
+       * Format 'MM/DD/YYYY hh:mm:ss A', for example: '01/25/2015 10:22:00 AM'
        */
-      fromTime: {
+      from: {
         type: String,
         notify: true,
-        observer: '_updateFromTime'
+        observer: '_updateFrom'
       },
 
       /**
-       * End time for time picker
+       * End date & time for time picker
        *
-       * Format 'hh:mm:ss A', for example: '04:55:00 PM'
+       * Format 'MM/DD/YYYY hh:mm:ss A', for example: '11/03/2015 04:55:00 PM'
        */
-      toTime: {
+      to: {
         type: String,
         notify: true,
-        observer: '_updateToTime'
-      },
-
-      /**
-       * Start date for date picker
-       *
-       * Format 'MM/DD/YYYY', for example: '01/25/2015' is Jan 25 2015
-       */
-      fromDate: {
-        type: String,
-        notify: true,
-        observer: '_updateFromDate'
-      },
-
-      /**
-       * End date for date picker
-       *
-       * Format 'MM/DD/YYYY', for example: '11/03/2015' is Nov 3 2015
-       */
-      toDate: {
-        type: String,
-        notify: true,
-        observer: '_updateToDate'
+        observer: '_updateTo'
       },
 
       /**
@@ -119,30 +93,20 @@ Rangepicker with time element.
     },
 
     observers: [
-      '_updateInputs(fromDateMoment, toDateMoment, fromTimeMoment, toTimeMoment)'
+      '_updateInputs(fromMoment, toMoment)'
     ],
 
     _updateInputs: function() {
-      this.set('fromDate', this.fromDateMoment.format('MM/DD/YYYY'));
-      this.set('toDate', this.toDateMoment.format('MM/DD/YYYY'));
-      this.set('fromTime', this.fromTimeMoment.format('hh:mm:ss A'));
-      this.set('toTime', this.toTimeMoment.format('hh:mm:ss A'));
+      this.set('from', this.fromMoment.format('MM/DD/YYYY hh:mm:ss A'));
+      this.set('to', this.toMoment.format('MM/DD/YYYY hh:mm:ss A'));
     },
 
-    _updateFromDate: function() {
-      this.set('fromDateMoment', moment(this.fromDate, 'MM/DD/YYYY'));
+    _updateFrom: function() {
+      this.set('fromMoment', moment(this.from, 'MM/DD/YYYY hh:mm:ss A'));
     },
 
-    _updateToDate: function() {
-      this.set('toDateMoment', moment(this.toDate, 'MM/DD/YYYY'));
-    },
-
-    _updateFromTime: function() {
-      this.set('fromTimeMoment', moment(this.fromTime, 'hh:mm:ss A'));
-    },
-
-    _updateToTime: function() {
-      this.set('toTimeMoment', moment(this.toTime, 'hh:mm:ss A'));
+    _updateTo: function() {
+      this.set('toMoment', moment(this.to, 'MM/DD/YYYY hh:mm:ss A'));
     },
 
     ready: function() {
@@ -150,17 +114,7 @@ Rangepicker with time element.
       var self = this;
 
       this.$.rangeFields.addEventListener('px-selected-range-field', function(e) {
-
-        // TODO - wip to focus on correct time field
-//        var dateOrTime = e.detail.dateOrTime;
-//        var toOrFrom = e.detail.toOrFrom;
-
         self.$.rangePickerModal.toggleAttribute('hidden', false);
-
-//        if(dateOrTime === 'time') {
-//          self.$.rangePickerModal.focusField = toOrFrom;
-//        }
-
       });
 
       this.$.rangePickerModal.addEventListener('px-range-picking-done', function(e) {

@@ -19,25 +19,25 @@ Rangepicker with time element.
       <span class=a11y>From</span>
       <px-range-field
         id="fromDate"
-        date-time-value="{{fromDateDisplay}}"
+        moment="{{from}}"
         date-or-time="Date"
         class=u-mr->
       </px-range-field>
       <px-range-field
         id="fromTime"
-        date-time-value="{{fromTimeDisplay}}"
+        moment="{{from}}"
         date-or-time="Time">
       </px-range-field>
       <span class="caps u-mh-">to</span>
       <px-range-field
         id="toDate"
-        date-time-value="{{toDateDisplay}}"
+        moment="{{to}}"
         date-or-time="Date"
         class=u-mr->
       </px-range-field>
       <px-range-field
         id="toTime"
-        date-time-value="{{toTimeDisplay}}"
+        moment="{{to}}"
         date-or-time="Time">
       </px-range-field>
       <input class="btn btn--primary u-ml-" type=submit value=Submit>
@@ -53,69 +53,14 @@ Rangepicker with time element.
     properties: {
 
       /**
-       * Moment object start time for time picker
+       * Moment object start date & time
        */
-      fromTime: {
-        type: Object,
-        observer: '_updateFromTime'
-      },
+      from: Object,
 
       /**
-       * Moment object end time for time picker
+       * Moment object end date & time
        */
-      toTime: {
-        type: Object,
-        observer: '_updateToTime'
-      },
-
-      /**
-       * Moment object start date for date picker
-       */
-      fromDate: {
-        type: Object,
-        observer: '_updateFromDate'
-      },
-
-      /**
-       * Moment object end date for date picker
-       */
-      toDate: {
-        type: Object,
-        observer: '_updateToDate'
-      }
-    },
-
-    ready: function() {
-
-      this.$.fromDate.addEventListener('px-first-click-range-field', function(e) {
-        this.fire('px-selected-range-field', {dateOrTime: 'date'});
-      });
-      this.$.toDate.addEventListener('px-first-click-range-field', function(e) {
-        this.fire('px-selected-range-field', {dateOrTime: 'date'});
-      });
-      this.$.fromTime.addEventListener('px-first-click-range-field', function(e) {
-        this.fire('px-selected-range-field', {dateOrTime: 'time', toOrFrom: 'from'});
-      });
-      this.$.toTime.addEventListener('px-first-click-range-field', function(e) {
-        this.fire('px-selected-range-field', {dateOrTime: 'time', toOrFrom: 'to'});
-      });
-
-    },
-
-    _updateFromDate: function() {
-      this.set('fromDateDisplay', this.fromDate.format('MM/DD/YYYY'));
-    },
-
-    _updateToDate: function() {
-      this.set('toDateDisplay', this.toDate.format('MM/DD/YYYY'));
-    },
-
-    _updateFromTime: function() {
-      this.set('fromTimeDisplay', this.fromTime.format('hh:mm:ss A'));
-    },
-
-    _updateToTime: function() {
-      this.set('toTimeDisplay', this.toTime.format('hh:mm:ss A'));
+      to: Object
     }
 
   });

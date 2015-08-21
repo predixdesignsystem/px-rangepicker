@@ -31,12 +31,10 @@ Range field component which displays to/from fields and font awesome icon.
     properties: {
 
       /**
-       * Field text
-       *
-       * '08/10/2014' or '10:30:00 AM'
+       * Moment value with the date or time to display.  Will be parsed according to the moment format.  (see momentFormat property)
        */
-      dateTimeValue: {
-        type: String,
+      moment: {
+        type: Object,
         observer: '_updateAndValidateWorkingCopy'
       },
 
@@ -68,7 +66,7 @@ Range field component which displays to/from fields and font awesome icon.
     },
 
     _updateAndValidateWorkingCopy: function() {
-      this.set('dateTimeWorkingCopy', this.dateTimeValue);
+      this.set('dateTimeWorkingCopy', this.moment.format(this.momentFormat));
       this._validateInput();
     },
 
@@ -89,7 +87,7 @@ Range field component which displays to/from fields and font awesome icon.
 
     _handleClick: function() {
       this.toggleClass('is-focused', true);
-      this.fire('px-first-click-range-field');
+      this.fire('px-selected-range-field');
     },
 
     _validateInput: function() {

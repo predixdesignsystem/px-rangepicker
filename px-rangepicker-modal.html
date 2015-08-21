@@ -24,15 +24,15 @@ Rangepicker modal.
           <px-date-rangepicker
             id="dateRangePicker"
             class=u-p+
-            from-date="{{fromDateInput}}"
-            to-date="{{toDateInput}}"
+            from-date="{{fromInput}}"
+            to-date="{{toInput}}"
             allow-future-dates="{{allowFutureDates}}">
           </px-date-rangepicker>
           <px-time-rangepicker
             class="border--top u-p+"
             id="timeRangePicker"
-            from-time="{{fromTimeInput}}"
-            to-time="{{toTimeInput}}">
+            from-time="{{fromInput}}"
+            to-time="{{toInput}}">
           </px-time-rangepicker>
         </div>
         <template is="dom-if" if="{{presetRanges}}">
@@ -55,39 +55,21 @@ Rangepicker modal.
     properties: {
 
       /**
-       * Moment object start time for time picker
+       * Moment object start date & time for range picker
        */
-      fromTime: {
+      from: {
         type: Object,
         notify: true,
-        observer: '_copyFromTime'
+        observer: '_copyFrom'
       },
 
       /**
-       * Moment object end time for time picker
+       * Moment object end date & time for range picker
        */
-      toTime: {
+      to: {
         type: Object,
         notify: true,
-        observer: '_copyToTime'
-      },
-
-      /**
-       * Moment object start date for date picker
-       */
-      fromDate: {
-        type: Object,
-        notify: true,
-        observer: '_copyFromDate'
-      },
-
-      /**
-       * Moment object end date for date picker
-       */
-      toDate: {
-        type: Object,
-        notify: true,
-        observer: '_copyToDate'
+        observer: '_copyTo'
       },
 
       /**
@@ -124,20 +106,12 @@ Rangepicker modal.
 
     // make a local copy of all time/date inputs to make changes until the user hits Apply
 
-    _copyToTime: function() {
-      this.set('toTimeInput', moment(this.toTime));
+    _copyTo: function() {
+      this.set('toInput', moment(this.to));
     },
 
-    _copyFromTime: function() {
-      this.set('fromTimeInput', moment(this.fromTime));
-    },
-
-    _copyToDate: function() {
-      this.set('toDateInput', moment(this.toDate));
-    },
-
-    _copyFromDate: function() {
-      this.set('fromDateInput', moment(this.fromDate));
+    _copyFrom: function() {
+      this.set('fromInput', moment(this.from));
     },
 
     ready: function() {
@@ -147,19 +121,15 @@ Rangepicker modal.
         var presetStartDateTime = e.detail.startDateTime;
         var presetEndDateTime = e.detail.endDateTime;
 
-        self.set('fromTimeInput', moment(presetStartDateTime, 'MM/DD/YYYY hh:mm:ss A'));
-        self.set('toTimeInput', moment(presetEndDateTime, 'MM/DD/YYYY hh:mm:ss A'));
-        self.set('fromDateInput', moment(presetStartDateTime, 'MM/DD/YYYY hh:mm:ss A'));
-        self.set('toDateInput', moment(presetEndDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+        self.set('fromInput', moment(presetStartDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+        self.set('toInput', moment(presetEndDateTime, 'MM/DD/YYYY hh:mm:ss A'));
       });
 
     },
 
     _close: function() {
-      this.set('toTimeInput', moment(this.toTime));
-      this.set('fromTimeInput', moment(this.fromTime));
-      this.set('toDateInput', moment(this.toDate));
-      this.set('fromDateInput', moment(this.fromDate));
+      this.set('toInput', moment(this.to));
+      this.set('fromInput', moment(this.from));
       this.$.dateRangePicker._resetVisibleCalendars();
 
       this.fire('px-range-picking-done');
