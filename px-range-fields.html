@@ -15,7 +15,7 @@ Rangepicker with time element.
 <dom-module id="px-range-fields">
   <link rel="import" type="css" href="css/px-range-fields.css"/>
   <template>
-    <form class="flex flex--middle flex--wrap">
+    <div class="form flex flex--middle flex--wrap">
       <span class=a11y>From</span>
       <px-range-field
         id="fromDate"
@@ -40,8 +40,8 @@ Rangepicker with time element.
         moment="{{to}}"
         date-or-time="Time">
       </px-range-field>
-      <input class="btn btn--primary u-ml-" type=submit value=Submit>
-    </form>
+      <input class="btn btn--primary u-ml-" type=submit value=Submit on-click="_submit">
+    </div>
   </template>
 </dom-module>
 
@@ -67,6 +67,10 @@ Rangepicker with time element.
         type: Object,
         notify: true
       }
+    },
+
+    _submit: function() {
+      this.fire('px-submit-range');
     }
 
   });

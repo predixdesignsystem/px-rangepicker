@@ -2812,7 +2812,7 @@ button.btn {
     border-color: transparent;
     background-color: #2b5ea2; }
 
-form {
+.form {
   position: relative;
   z-index: 20; }
 

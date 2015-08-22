@@ -93,20 +93,28 @@ Rangepicker with time element.
     },
 
     observers: [
-      '_updateInputs(fromMoment, toMoment)'
+      '_updateWorkingCopies(fromMoment, toMoment)',
+      '_updateMoments(fromWorkingCopy, toWorkingCopy)'
     ],
 
-    _updateInputs: function() {
-      this.set('from', this.fromMoment.format('MM/DD/YYYY hh:mm:ss A'));
-      this.set('to', this.toMoment.format('MM/DD/YYYY hh:mm:ss A'));
-    },
-
     _updateFrom: function() {
-      this._updateMomentIfDifferent(this.from, 'fromMoment');
+      // make a working copy for the state inside the rangepicker
+      this.set('fromWorkingCopy', this.from);
     },
 
     _updateTo: function() {
-      this._updateMomentIfDifferent(this.to, 'toMoment');
+      // make a working copy for the state inside the rangepicker
+      this.set('toWorkingCopy', this.to);
+    },
+
+    _updateWorkingCopies: function() {
+      this.set('fromWorkingCopy', this.fromMoment.format('MM/DD/YYYY hh:mm:ss A'));
+      this.set('toWorkingCopy', this.toMoment.format('MM/DD/YYYY hh:mm:ss A'));
+    },
+
+    _updateMoments: function() {
+      this._updateMomentIfDifferent(this.fromWorkingCopy, 'fromMoment');
+      this._updateMomentIfDifferent(this.toWorkingCopy, 'toMoment');
     },
 
     _updateMomentIfDifferent: function(newTimeString, currentMomentName) {
@@ -127,18 +135,14 @@ Rangepicker with time element.
       this.$.rangePickerModal.addEventListener('px-range-picking-done', function(e) {
         self.$.rangePickerModal.toggleAttribute('hidden', true);
       });
+
+      this.$.rangeFields.addEventListener('px-submit-range', function(e) {
+        // apply changes to outside world
+        self.set('from', self.fromWorkingCopy);
+        self.set('to', self.toWorkingCopy);
+        self.$.rangePickerModal.toggleAttribute('hidden', true);
+      });
     }
-
-//    // make a local copy of all time/date inputs to make changes until the user hits Apply
-//
-//    _copyTo: function() {
-//      this.set('toInput', moment(this.to));
-//    },
-//
-//    _copyFrom: function() {
-//      this.set('fromInput', moment(this.from));
-//    },
-
 
   });
 </script>
