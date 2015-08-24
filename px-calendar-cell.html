@@ -95,6 +95,10 @@ Element that renders a calendar cell for a given date (and for non-date cells in
         if (this._isWithinRange()) {
           cellStyles += ' is-between';
         }
+        
+        if (this._isTodaysDate()) {
+          cellStyles += ' is-today';
+        }
 
         if (!this.allowFutureDates && this._isPastTodaysDate()) {
           btnStyles += ' btn--disabled';
@@ -155,7 +159,13 @@ Element that renders a calendar cell for a given date (and for non-date cells in
     _isPastTodaysDate: function() {
       var todaysDate = moment();
       return this.displayDate.isAfter(todaysDate);
+    },
+    
+    _isTodaysDate: function() {
+      var todaysDate = moment();
+      return this.displayDate.isSame(todaysDate, 'day');
     }
+    
 
   });
 </script>

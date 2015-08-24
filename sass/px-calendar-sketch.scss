@@ -96,12 +96,16 @@ div {
   @include cell-rounded-right($cell-border-radius, $cell-border-radius)
 }
 
+.is-today button {
+  font-weight: bold;
+}
+
 .btn--bare {
   min-width: $cell-border-radius / 2;
-  margin-right: -#{calculateRem(4px)};
-  margin-left: -#{calculateRem(4px)};
-  padding-right: calculateRem(4px);
-  padding-left: calculateRem(4px);
+  margin-right: -#{$cell-border-radius / 9};
+  margin-left: -#{$cell-border-radius / 9};
+  padding-right: #{$cell-border-radius / 9};
+  padding-left: #{$cell-border-radius / 9};
   border-radius: $cell-border-radius;
   line-height: calculateRem(26px);
 }

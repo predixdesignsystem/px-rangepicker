@@ -734,6 +734,9 @@ div {
   border-bottom-right-radius: 2.4rem;
   border-bottom-left-radius: 0; }
 
+.is-today button {
+  font-weight: bold; }
+
 .btn--bare {
   min-width: 1.2rem;
   margin-right: -0.2666666667rem;

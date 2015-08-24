@@ -18,6 +18,13 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 */
 @import 'px-calendar-sketch.scss';
 
+.btn--bare{
+  &:hover, &:focus {
+    background-color: $primary-blue;
+    color: $white;
+  }
+}
+
 .is-selected {
   .btn--bare {
     background-color: $select-blue-default;
