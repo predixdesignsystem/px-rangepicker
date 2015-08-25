@@ -63,6 +63,7 @@ caption {
 }
 
 .table {
+  margin-bottom: 0;
   th, td {
     box-sizing: content-box;
     min-width: calculateRem(24px);
