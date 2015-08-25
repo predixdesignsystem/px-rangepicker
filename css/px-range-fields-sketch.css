@@ -2805,6 +2805,9 @@ button.btn {
   position: relative;
   z-index: 20; }
 
+.text-input {
+  width: auto; }
+
 .text-input--bare {
   margin: 0;
   padding: 0; }

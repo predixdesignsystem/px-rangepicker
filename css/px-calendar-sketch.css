@@ -702,12 +702,14 @@ caption {
   text-align: center;
   text-transform: uppercase; }
 
-.table th, .table td {
-  box-sizing: content-box;
-  min-width: 1.6rem;
-  padding: 0; }
-  .table th:empty, .table td:empty {
-    height: 2rem; }
+.table {
+  margin-bottom: 0; }
+  .table th, .table td {
+    box-sizing: content-box;
+    min-width: 1.6rem;
+    padding: 0; }
+    .table th:empty, .table td:empty {
+      height: 2rem; }
 
 div {
   height: 1.7333333333rem;

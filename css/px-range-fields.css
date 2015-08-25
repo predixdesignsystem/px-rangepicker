@@ -2818,6 +2818,9 @@ button.btn {
   position: relative;
   z-index: 20; }
 
+.text-input {
+  width: auto; }
+
 .text-input--bare {
   margin: 0;
   padding: 0; }
@@ -2866,12 +2869,12 @@ button.btn {
   margin-top: 0.6666666667rem !important;
   margin-bottom: 0.6666666667rem !important; }
 
-:host, :host label {
-  color: #7c7c84; }
-
-:host.is-focused .range-field__field {
+.is-focused {
   border-color: #0a9ec1;
   box-shadow: inset 0 0 0 1px #d1d0d8; }
+
+.text-input, .text-input label {
+  color: #7c7c84; }
 
 .text-input--bare {
   background: transparent; }

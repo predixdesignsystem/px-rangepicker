@@ -824,3 +824,7 @@ textarea {
 
 .time-input__field__ampm input:checked + span {
   color: black; }
+
+:host.is-focused .text-input {
+  border-color: #0a9ec1;
+  box-shadow: inset 0 0 0 1px #d1d0d8; }

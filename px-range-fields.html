@@ -15,31 +15,35 @@ Rangepicker with time element.
 <dom-module id="px-range-fields">
   <link rel="import" type="css" href="css/px-range-fields.css"/>
   <template>
-    <div class="form flex flex--middle flex--wrap">
-      <span class=a11y>From</span>
-      <px-range-field
-        id="fromDate"
-        moment="{{from}}"
-        date-or-time="Date"
-        class=u-mr->
-      </px-range-field>
-      <px-range-field
-        id="fromTime"
-        moment="{{from}}"
-        date-or-time="Time">
-      </px-range-field>
+    <div class="form flex flex--middle">
+      <div class="flex flex--middle text-input">
+        <span class=a11y>From</span>
+        <px-range-field
+          id="fromDate"
+          moment="{{from}}"
+          date-or-time="Date"
+          class=u-mr->
+        </px-range-field>
+        <px-range-field
+          id="fromTime"
+          moment="{{from}}"
+          date-or-time="Time">
+        </px-range-field>
+      </div>
       <span class="caps u-mh-">to</span>
-      <px-range-field
-        id="toDate"
-        moment="{{to}}"
-        date-or-time="Date"
-        class=u-mr->
-      </px-range-field>
-      <px-range-field
-        id="toTime"
-        moment="{{to}}"
-        date-or-time="Time">
-      </px-range-field>
+      <div class="flex flex--middle text-input">
+        <px-range-field
+          id="toDate"
+          moment="{{to}}"
+          date-or-time="Date"
+          class=u-mr->
+        </px-range-field>
+        <px-range-field
+          id="toTime"
+          moment="{{to}}"
+          date-or-time="Time">
+        </px-range-field>
+      </div>
       <input class="btn btn--tertiary u-ml-" type=submit value=Submit on-click="_submit">
     </div>
   </template>
