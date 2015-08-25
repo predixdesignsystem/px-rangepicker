@@ -3,157 +3,263 @@ describe('The calendar', function() {
 
   var calendar;
 
-  function date(date) {
-    return {value: date, styles: 'btn btn--bare', isDisabled: false};
+  function convertToPlainCalendar(calendar) {
+    var plainCalendar = [];
+    calendar.forEach(function(week) {
+      var plainWeek = [];
+      week.forEach(function(day) {
+        if (day !== null) {
+          plainWeek.push(day.format('D'));
+        }
+        else {
+          plainWeek.push(day);
+        }
+      });
+      plainCalendar.push(plainWeek);
+    });
+    return plainCalendar;
   }
 
-  function selectedDate(date) {
-    return {value: date, styles: 'btn btn--bare is-selected', isDisabled: false};
-  }
+  describe('Laying out calendar', function() {
 
-  describe('February 2015', function() {
+    describe('February 2015', function() {
 
-    px.beforeEachWithFixture(function() {
-      $fixture.append('<px-calendar display-month-year="02/2015"></px-calendar>');
-    });
-
-    describe('28 days, starting on Sunday', function() {
-
-      px.beforeEachAsync(function() {
-        calendar = document.querySelector('px-calendar');
+      px.beforeEachWithFixture(function() {
+        $fixture.append('<px-calendar></px-calendar>');
       });
 
-      it('the calendar has the correct dates', function() {
-        expect(calendar.calendar).toEqual([
-          [date(1), date(2), date(3), date(4), date(5), date(6), date(7)],
-          [date(8), date(9), date(10), date(11), date(12), date(13), date(14)],
-          [date(15), date(16), date(17), date(18), date(19), date(20), date(21)],
-          [date(22), date(23), date(24), date(25), date(26), date(27), date(28)]
-        ]);
-      });
+      describe('28 days, starting on Sunday', function() {
 
-    });
+        px.beforeEachAsync(function() {
+          calendar = document.querySelector('px-calendar');
+          var feb2015 = moment("02/2015", 'MM/YYYY');
+          calendar.displayMonthYear = feb2015;
+        });
 
-  });
+        it('the calendar has the correct Month/Year', function() {
+          expect(calendar.month).toBe('February');
+          expect(calendar.year).toBe('2015');
+        });
 
-  describe('March 2013', function() {
+        it('the calendar has the correct dates', function() {
+          var plainCalendar = convertToPlainCalendar(calendar.calendar);
+          expect(plainCalendar).toEqual([
+            ['1', '2', '3', '4', '5', '6', '7'],
+            ['8', '9', '10', '11', '12', '13', '14'],
+            ['15', '16', '17', '18', '19', '20', '21'],
+            ['22', '23', '24', '25', '26', '27', '28'],
+            [null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null]
+          ]);
+        });
 
-    px.beforeEachWithFixture(function() {
-      $fixture.append('<px-calendar display-month-year="03/2013"></px-calendar>');
-    });
-
-    describe('31 days, starting on Friday', function() {
-
-      px.beforeEachAsync(function() {
-        calendar = document.querySelector('px-calendar');
-      });
-
-      it('the calendar has the correct dates', function() {
-        expect(calendar.calendar).toEqual([
-          [date(''), date(''), date(''), date(''), date(''), date(1), date(2)],
-          [date(3), date(4), date(5), date(6), date(7), date(8), date(9)],
-          [date(10), date(11), date(12), date(13), date(14), date(15), date(16)],
-          [date(17), date(18), date(19), date(20), date(21), date(22), date(23)],
-          [date(24), date(25), date(26), date(27), date(28), date(29), date(30)],
-          [date(31), date(''), date(''), date(''), date(''), date(''), date('')]
-        ]);
       });
 
     });
 
-  });
+    describe('March 2013', function() {
 
-  describe('Last clicked date is NOT in this month', function() {
-
-    px.beforeEachWithFixture(function() {
-      $fixture.append('<px-calendar display-month-year="03/2013" last-clicked-date="04/10/2013"></px-calendar>');
-    });
-
-    describe('', function() {
-
-      px.beforeEachAsync(function() {
-        calendar = document.querySelector('px-calendar');
+      px.beforeEachWithFixture(function() {
+        $fixture.append('<px-calendar></px-calendar>');
       });
 
-      it('there is no selected date', function() {
-        expect(calendar.calendar).toEqual([
-          [date(''), date(''), date(''), date(''), date(''), date(1), date(2)],
-          [date(3), date(4), date(5), date(6), date(7), date(8), date(9)],
-          [date(10), date(11), date(12), date(13), date(14), date(15), date(16)],
-          [date(17), date(18), date(19), date(20), date(21), date(22), date(23)],
-          [date(24), date(25), date(26), date(27), date(28), date(29), date(30)],
-          [date(31), date(''), date(''), date(''), date(''), date(''), date('')]
-        ]);
-      });
+      describe('31 days, starting on Friday', function() {
 
+        px.beforeEachAsync(function() {
+          calendar = document.querySelector('px-calendar');
+          var mar13 = moment("03/2013", 'MM/YYYY');
+          calendar.displayMonthYear = mar13;
+          calendar.firstRangeDate = moment("03/15/2013", 'MM/DD/YYYY');
+          calendar.secondRangeDate = moment("03/26/2013", 'MM/DD/YYYY');
+        });
+
+        it('the calendar has the correct Month/Year', function() {
+          expect(calendar.month).toBe('March');
+          expect(calendar.year).toBe('2013');
+        });
+
+        it('the calendar has the correct dates', function() {
+          var plainCalendar = convertToPlainCalendar(calendar.calendar);
+          expect(plainCalendar).toEqual([
+            [null, null, null, null, null, '1', '2'],
+            ['3', '4', '5', '6', '7', '8', '9'],
+            ['10', '11', '12', '13', '14', '15', '16'],
+            ['17', '18', '19', '20', '21', '22', '23'],
+            ['24', '25', '26', '27', '28', '29', '30'],
+            ['31', null, null, null, null, null, null]
+          ]);
+        });
+      });
     });
 
   });
 
-  describe('Last clicked date IS in this month', function() {
+  describe('Styling of dates', function() {
 
-    px.beforeEachWithFixture(function() {
-      $fixture.append('<px-calendar display-month-year="03/2013" last-clicked-date="03/10/2013"></px-calendar>');
-    });
+    describe('Start and end in month, first < second', function() {
 
-    describe('', function() {
+      px.beforeEachWithFixture(function() {
+        $fixture.append('<px-calendar></px-calendar>');
+      });
 
       px.beforeEachAsync(function() {
         calendar = document.querySelector('px-calendar');
+        var mar13 = moment("03/2013", 'MM/YYYY');
+        calendar.displayMonthYear = mar13;
+        calendar.firstRangeDate = moment("03/15/2013", 'MM/DD/YYYY');
+        calendar.secondRangeDate = moment("03/26/2013", 'MM/DD/YYYY');
       });
 
-      it('March 10 is selected', function() {
-        expect(calendar.calendar).toEqual([
-          [date(''), date(''), date(''), date(''), date(''), date(1), date(2)],
-          [date(3), date(4), date(5), date(6), date(7), date(8), date(9)],
-          [selectedDate(10), date(11), date(12), date(13), date(14), date(15), date(16)],
-          [date(17), date(18), date(19), date(20), date(21), date(22), date(23)],
-          [date(24), date(25), date(26), date(27), date(28), date(29), date(30)],
-          [date(31), date(''), date(''), date(''), date(''), date(''), date('')]
-        ]);
+      var calendarCells;
+
+      beforeEach(function() {
+        calendarCells = calendar.querySelectorAll('px-calendar-cell');
       });
 
+      it('if start of range: is-selected & is-start', function() {
+        var mar152013 = calendarCells[19];
+        expect(mar152013.querySelector('div').classList.contains('is-selected')).toBe(true);
+        expect(mar152013.querySelector('div').classList.contains('is-start')).toBe(true);
+      });
+
+      it('if end of range: is-selected & is-end', function() {
+        var mar262013 = calendarCells[30];
+        expect(mar262013.querySelector('div').classList.contains('is-selected')).toBe(true);
+        expect(mar262013.querySelector('div').classList.contains('is-end')).toBe(true);
+      });
+
+      it('if between: is-between', function() {
+        var mar182013 = calendarCells[22];
+        expect(mar182013.querySelector('div').classList.contains('is-between')).toBe(true);
+      });
+
+      it('if end of week: is-end', function() {
+        var mar232013 = calendarCells[27];
+        expect(mar232013.querySelector('div').classList.contains('is-end')).toBe(true);
+      });
+
+      it('if start of week: is-start', function() {
+        var mar172013 = calendarCells[21];
+        expect(mar172013.querySelector('div').classList.contains('is-start')).toBe(true);
+      });
+
+      it('if start of month: is-start', function() {
+        var mar12013 = calendarCells[5];
+        expect(mar12013.querySelector('div').classList.contains('is-start')).toBe(true);
+      });
+
+      it('if end of month: is-end', function() {
+        var mar312013 = calendarCells[35];
+        expect(mar312013.querySelector('div').classList.contains('is-end')).toBe(true);
+      });
+
+      it('when date is clicked: is-selected-only', function() {
+        var mar312013 = calendarCells[35];
+        expect(mar312013.querySelector('div').classList.contains('is-selected-only')).toBe(false);
+        mar312013._selectDate();
+        expect(mar312013.querySelector('div').classList.contains('is-selected-only')).toBe(true);
+      });
+
+      it('when 2nd date is clicked: is-selected-only removed', function() {
+        var mar312013 = calendarCells[35];
+        var mar52013 = calendarCells[9];
+        mar312013._selectDate();
+        mar52013._selectDate();
+        expect(mar312013.querySelector('div').classList.contains('is-selected-only')).toBe(false);
+        expect(mar312013.querySelector('div').classList.contains('is-selected-only')).toBe(false);
+      });
     });
 
-  });
 
-  describe('When date is clicked', function() {
+    describe('Start and end in month, first > second', function() {
 
-    px.beforeEachWithFixture(function() {
-      $fixture.append('<px-calendar display-month-year="03/2013" last-clicked-date="04/10/2013"></px-calendar>');
-    });
-
-    describe('', function() {
+      px.beforeEachWithFixture(function() {
+        $fixture.append('<px-calendar></px-calendar>');
+      });
 
       px.beforeEachAsync(function() {
         calendar = document.querySelector('px-calendar');
+        var mar13 = moment("03/2013", 'MM/YYYY');
+        calendar.displayMonthYear = mar13;
+        calendar.firstRangeDate = moment("03/15/2013", 'MM/DD/YYYY');
+        calendar.secondRangeDate = moment("03/12/2013", 'MM/DD/YYYY');
       });
 
-      it('that date is now selected', function() {
+      var calendarCells;
 
-        calendar._selectDate({target:{value:28}}); // click on the 28th
-
-        expect(calendar.calendar).toEqual([
-          [date(''), date(''), date(''), date(''), date(''), date(1), date(2)],
-          [date(3), date(4), date(5), date(6), date(7), date(8), date(9)],
-          [date(10), date(11), date(12), date(13), date(14), date(15), date(16)],
-          [date(17), date(18), date(19), date(20), date(21), date(22), date(23)],
-          [date(24), date(25), date(26), date(27), selectedDate(28), date(29), date(30)],
-          [date(31), date(''), date(''), date(''), date(''), date(''), date('')]
-        ]);
+      beforeEach(function() {
+        calendarCells = calendar.querySelectorAll('px-calendar-cell');
       });
 
-      it('the lastClickedDate is update', function() {
-
-        calendar._selectDate({target:{value:28}}); // click on the 28th
-
-        expect(calendar.lastClickedDate).toBe('03/28/2013');
-
+      it('if start of range: is-selected & is-start', function() {
+        var mar122013 = calendarCells[16];
+        expect(mar122013.querySelector('div').classList.contains('is-selected')).toBe(true);
+        expect(mar122013.querySelector('div').classList.contains('is-start')).toBe(true);
       });
 
+      it('if end of range: is-selected & is-end', function() {
+        var mar152013 = calendarCells[19];
+        expect(mar152013.querySelector('div').classList.contains('is-selected')).toBe(true);
+        expect(mar152013.querySelector('div').classList.contains('is-end')).toBe(true);
+      });
+    });
+
+    describe('Start and end NOT in month', function() {
+
+      px.beforeEachWithFixture(function() {
+        $fixture.append('<px-calendar></px-calendar>');
+      });
+
+      px.beforeEachAsync(function() {
+        calendar = document.querySelector('px-calendar');
+        var mar13 = moment("03/2013", 'MM/YYYY');
+        calendar.displayMonthYear = mar13;
+        calendar.firstRangeDate = moment("04/12/2013", 'MM/DD/YYYY');
+        calendar.secondRangeDate = moment("02/01/2013", 'MM/DD/YYYY');
+      });
+
+      var calendarCells;
+
+      beforeEach(function() {
+        calendarCells = calendar.querySelectorAll('px-calendar-cell');
+      });
+
+      it('month is is-between', function() {
+        var mar22013 = calendarCells[6];
+        var mar222013 = calendarCells[26];
+        expect(mar22013.querySelector('div').classList.contains('is-between')).toBe(true);
+        expect(mar222013.querySelector('div').classList.contains('is-between')).toBe(true);
+      });
+    });
+
+    describe('Start and End are SAME', function() {
+
+      px.beforeEachWithFixture(function() {
+        $fixture.append('<px-calendar></px-calendar>');
+      });
+
+      px.beforeEachAsync(function() {
+        calendar = document.querySelector('px-calendar');
+        var mar13 = moment("03/2013", 'MM/YYYY');
+        calendar.displayMonthYear = mar13;
+        calendar.firstRangeDate = moment("03/12/2013", 'MM/DD/YYYY');
+        calendar.secondRangeDate = moment("03/12/2013", 'MM/DD/YYYY');
+      });
+
+      var calendarCells;
+
+      beforeEach(function() {
+        calendarCells = calendar.querySelectorAll('px-calendar-cell');
+      });
+
+      it('is selected, end, start', function() {
+        var mar122013 = calendarCells[16];
+        expect(mar122013.querySelector('div').classList.contains('is-start')).toBe(true);
+        expect(mar122013.querySelector('div').classList.contains('is-end')).toBe(true);
+        expect(mar122013.querySelector('div').classList.contains('is-selected')).toBe(true);
+      });
     });
 
   });
 
 });
-

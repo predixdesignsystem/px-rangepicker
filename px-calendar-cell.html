@@ -72,6 +72,7 @@ Element that renders a calendar cell for a given date (and for non-date cells in
       if (this.displayDate === null) {
         // if the cell is a blank cell of calendar (before/after start of month)
         cellStyles += ' is-empty';
+        this.set('day', '');
       }
       else {
         this.set('day', this.displayDate.format('D'));
@@ -95,7 +96,7 @@ Element that renders a calendar cell for a given date (and for non-date cells in
         if (this._isWithinRange()) {
           cellStyles += ' is-between';
         }
-        
+
         if (this._isTodaysDate()) {
           cellStyles += ' is-today';
         }
@@ -160,12 +161,12 @@ Element that renders a calendar cell for a given date (and for non-date cells in
       var todaysDate = moment();
       return this.displayDate.isAfter(todaysDate);
     },
-    
+
     _isTodaysDate: function() {
       var todaysDate = moment();
       return this.displayDate.isSame(todaysDate, 'day');
     }
-    
+
 
   });
 </script>

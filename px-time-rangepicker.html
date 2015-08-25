@@ -8,16 +8,16 @@ Timepicker element which allows user to select a start and end time.
 
 ##### Usage
 
-    <px-timepicker from-time="{{fromTime}}" to-time="{{toTime}}"></px-timepicker>
+    <px-time-rangepicker from-time="{{fromTime}}" to-time="{{toTime}}"></px-timepicker>
 
 -->
 <dom-module id="px-time-rangepicker">
   <link rel="import" type="css" href="css/px-time-rangepicker.css"/>
   <template>
     <div class="flex flex--center flex--middle">
-      <px-time-input time="{{fromTime}}"></px-time-input>
+      <px-time-input id="fromTime" time="{{fromTime}}"></px-time-input>
       <span class=u-mh-->–</span>
-      <px-time-input time="{{toTime}}"></px-time-input>
+      <px-time-input id="toTime" time="{{toTime}}"></px-time-input>
     </div>
   </template>
 </dom-module>
