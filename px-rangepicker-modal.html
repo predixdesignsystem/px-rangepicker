@@ -191,8 +191,14 @@ Rangepicker modal.
         var presetStartDateTime = e.detail.startDateTime;
         var presetEndDateTime = e.detail.endDateTime;
 
-        self.set('from', moment(presetStartDateTime, 'MM/DD/YYYY hh:mm:ss A'));
-        self.set('to', moment(presetEndDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+        self.set('secondRangeDate', null); // first, deselect the second range date so no consequences
+          // of first/second date picked
+
+        self.set('firstRangeDate', moment(presetStartDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+        self.set('fromTime', moment(presetStartDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+
+        self.set('secondRangeDate', moment(presetEndDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+        self.set('toTime', moment(presetEndDateTime, 'MM/DD/YYYY hh:mm:ss A'));
       });
 
     },
