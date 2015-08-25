@@ -10,8 +10,7 @@ Rangepicker modal.
 
 ##### Usage
 
-    <px-rangepicker-modal from-time={{...}} to-time={{...}}
-                          from-date={{...}} to-date={{...}}>
+    <px-rangepicker-modal from={{...}} to={{...}}>
     </px-rangepicker-modal>
 -->
 <dom-module id="px-rangepicker-modal">
@@ -60,7 +59,7 @@ Rangepicker modal.
       from: {
         type: Object,
         notify: true,
-        observer: '_updateFrom'
+        observer: '_updatePickersFrom'
       },
 
       /**
@@ -69,7 +68,7 @@ Rangepicker modal.
       to: {
         type: Object,
         notify: true,
-        observer: '_updateTo'
+        observer: '_updatePickersTo'
       },
 
       /**
@@ -104,68 +103,89 @@ Rangepicker modal.
 
     },
 
-    _updateFrom: function() {
-      this.fromWorkingCopy = moment(this.from);
-      this.set('firstRangeDate', moment(this.from));
+    _updatePickersFrom: function() {
+      // ALWAYS take what comes in (from range fields, initialization)
       this.set('fromTime', moment(this.from));
+
+      // EXCEPT when only 1 field is set, then ignore it
+      if(this.secondRangeDate !== null) {
+        this.set('firstRangeDate', moment(this.from));
+      }
     },
 
-    _updateTo: function() {
-      this.toWorkingCopy = moment(this.to);
-      this.set('secondRangeDate', moment(this.to));
+    _updatePickersTo: function() {
+      // ALWAYS take what comes in (from range fields, initialization)
       this.set('toTime', moment(this.to));
+
+      // EXCEPT when only 1 field is set, then ignore it
+      if(this.secondRangeDate !== null) {
+        this.set('secondRangeDate', moment(this.to));
+      }
     },
 
     observers: [
-      '_updateFromTime(fromTime)',
-      '_updateToTime(toTime)'
+      '_broadcastToTimeChange(toTime)',
+      '_broadcastFromTimeChange(fromTime)',
+      '_broadcastDateRangeChange(firstRangeDate, secondRangeDate)'
     ],
 
-    _updateFromTime: function() {
-      this.fromWorkingCopy.hour(this.fromTime.hour());
-      this.fromWorkingCopy.minute(this.fromTime.minute());
-      this.fromWorkingCopy.second(this.fromTime.second());
+    _broadcastToTimeChange: function() {
+      var newTo = moment(this.to); // don't change the date
+      newTo.hour(this.toTime.hour()); // update just the time
+      newTo.minute(this.toTime.minute());
+      newTo.second(this.toTime.second());
 
-      this.updateOutsideWorldIfPossible();
+      if(!this.to.isSame(newTo, 'second')) {
+        this.set('to', newTo); // only update if different
+      }
     },
 
-    _updateToTime: function() {
-      this.toWorkingCopy.hour(this.toTime.hour());
-      this.toWorkingCopy.minute(this.toTime.minute());
-      this.toWorkingCopy.second(this.toTime.second());
+    _broadcastFromTimeChange: function() {
+      var newFrom = moment(this.from); // don't change the date
+      newFrom.hour(this.fromTime.hour()); // update just the time
+      newFrom.minute(this.fromTime.minute());
+      newFrom.second(this.fromTime.second());
 
-      this.updateOutsideWorldIfPossible();
+      if(!this.from.isSame(newFrom, 'second')) {
+        this.set('from', newFrom); // only update if different
+      }
+    },
+
+    _broadcastDateRangeChange: function() {
+
+      // only when a RANGE is selected (2 fields in the picker) do we broadcast the range
+      if(this.secondRangeDate !== null) {
+
+        var newTo = moment(this.to); // don't change the time
+        var newFrom = moment(this.from);
+
+        var fromDate = this.firstRangeDate;
+        var toDate = this.secondRangeDate;
+        if(this.firstRangeDate.isAfter(this.secondRangeDate, 'day')) {
+          fromDate = this.secondRangeDate;
+          toDate = this.firstRangeDate;
+        }
+
+        newTo.date(toDate.date()); // update just the date
+        newTo.month(toDate.month());
+        newTo.year(toDate.year());
+        newFrom.date(fromDate.date());
+        newFrom.month(fromDate.month());
+        newFrom.year(fromDate.year());
+
+        if(!this.to.isSame(newTo, 'day')) {
+          this.set('to', newTo); // only update if different
+        }
+        if(!this.from.isSame(newFrom, 'day')) {
+          this.set('from', newFrom); // only update if different
+        }
+
+      }
+
     },
 
     ready: function() {
       var self = this;
-
-      this.$.dateRangePicker.addEventListener('range-selected', function() {
-
-        var fromDate = self.firstRangeDate;
-        var toDate = self.secondRangeDate;
-
-        if (self.firstRangeDate.isAfter(self.secondRangeDate)) {
-          toDate = self.firstRangeDate;
-          fromDate = self.secondRangeDate;
-        }
-
-        self.fromWorkingCopy.date(fromDate.date());
-        self.fromWorkingCopy.month(fromDate.month());
-        self.fromWorkingCopy.year(fromDate.year());
-//        self.fromWorkingCopy.hour(self.from.hour());
-//        self.fromWorkingCopy.minute(fromDate.minute());
-//        self.fromWorkingCopy.second(fromDate.second());
-
-        self.toWorkingCopy.date(toDate.date());
-        self.toWorkingCopy.month(toDate.month());
-        self.toWorkingCopy.year(toDate.year());
-//        self.toWorkingCopy.hour(toDate.hour());
-//        self.toWorkingCopy.minute(toDate.minute());
-//        self.toWorkingCopy.second(toDate.second());
-
-        self.updateOutsideWorldIfPossible();
-      });
 
       this.$.rangepickerModal.addEventListener('px-preset-selected', function(e) {
         var presetStartDateTime = e.detail.startDateTime;
@@ -176,193 +196,6 @@ Rangepicker modal.
       });
 
     },
-
-    updateOutsideWorldIfPossible: function() {
-      if (this.secondRangeDate === null) {
-        console.log('SKIP UPDATING - till not null!');
-      }
-      else {
-        if(this.fromWorkingCopy && !this.from.isSame(this.fromWorkingCopy, 'second')) {
-          console.log('change from', this.from.format('MM/DD/YYYY hh:mm:ss A'), '->', this.fromWorkingCopy.format('MM/DD/YYYY hh:mm:ss A'));
-          this.set('from', this.fromWorkingCopy);
-        }
-
-        if(this.toWorkingCopy && !this.to.isSame(this.toWorkingCopy, 'second')) {
-          console.log('change to', this.to.format('MM/DD/YYYY hh:mm:ss A'), '->', this.toWorkingCopy.format('MM/DD/YYYY hh:mm:ss A'));
-          this.set('to', this.toWorkingCopy);
-        }
-      }
-    },
-//
-////    observers: [
-////      '_updateFirstRangeDate(firstRangeDate)',
-//////      'b(secondRangeDate)',
-////      '_updateFromTime(fromTime)'
-//////      'd(toTime)',
-//////      '_updateOutsideWorld(firstRangeDate, secondRangeDate, fromTime, toTime)'
-////    ],
-////    _updateFirstRangeDate: function() {
-////      console.log('a');
-////    },
-////    b: function() {
-////      console.log('b');
-////    },
-////    _updateFromTime: function() {
-////
-////      var newFrom = moment(this.firstRangeDate); // TODO fix all of this... first vs. second
-////      newFrom.hour(this.fromTime.hour());
-////      newFrom.minute(this.fromTime.minute());
-////      newFrom.second(this.fromTime.second());
-////      if (!newFrom.isSame(this.from, 'second')) {
-////        console.log('change from', this.from.format('MM/DD/YYYY hh:mm:ss A'), '->', newFrom.format('MM/DD/YYYY hh:mm:ss A'));
-//////          this.set('from', newFrom);
-////      }
-////
-////
-////    },
-////    d: function() {
-////      console.log('d');
-////    },
-////    _updateOutsideWorld: function() {
-////      console.log('update outside world!');
-////
-////      if (this.secondRangeDate === null) {
-////        console.log('second range is null... so not doing any updates yet.....?');
-////      }
-////
-////      else {
-////
-////        var newFrom = moment(this.firstRangeDate); // TODO fix all of this... first vs. second
-////        newFrom.hour(this.fromTime.hour());
-////        newFrom.minute(this.fromTime.minute());
-////        newFrom.second(this.fromTime.second());
-////        if (!newFrom.isSame(this.from, 'second')) {
-////          console.log('change from', this.from.format('MM/DD/YYYY hh:mm:ss A'), '->', newFrom.format('MM/DD/YYYY hh:mm:ss A'));
-//////          this.set('from', newFrom);
-////        }
-////
-////        var newTo = moment(this.secondRangeDate);
-////        newTo.hour(this.toTime.hour());
-////        newTo.minute(this.toTime.minute());
-////        newTo.second(this.toTime.second());
-////        if (this.secondRangeDate !== null && !newTo.isSame(this.to, 'second')) {
-////          console.log('change to', this.to.format('MM/DD/YYYY hh:mm:ss A'), '->', newTo.format('MM/DD/YYYY hh:mm:ss A'));
-//////          this.set('to', newTo);
-////        }
-////
-////      }
-////    },
-//
-//    _updateFrom: function() {
-//      console.log('FROM');
-////      if(this.fromDate === undefined || !this.fromDate.isSame(this.from, 'second')) {
-//      this.set('firstRangeDate', moment(this.from)); // TODO need to either way
-////      }
-////      if(this.fromTime === undefined || !this.fromTime.isSame(this.from, 'second')) {
-//      this.set('fromTime', moment(this.from));
-////      }
-//    },
-//
-//    _updateTo: function() {
-//      console.log('TO');
-////      if(this.toDate === undefined || !this.toDate.isSame(this.to, 'second')) {
-//      this.set('secondRangeDate', moment(this.to)); // TODO need to either way
-////      }
-////      if(this.toTime === undefined || !this.toTime.isSame(this.to, 'second')) {
-//      this.set('toTime', moment(this.to));
-//      console.log('setting to time');
-////      }
-//    },
-//
-//    ready: function() {
-//      var self = this;
-//
-//      this.$.dateRangePicker.addEventListener('range-selected', function() {
-//
-//        var fromDate = self.firstRangeDate;
-//        var toDate = self.secondRangeDate;
-//
-//        if (self.firstRangeDate.isAfter(self.secondRangeDate)) {
-//          toDate = self.firstRangeDate;
-//          fromDate = self.secondRangeDate;
-//        }
-//
-//        var newFrom = moment(self.from);
-//        var newTo = moment(self.to);
-//
-//        newFrom.date(fromDate.date());
-//        newFrom.month(fromDate.month());
-//        newFrom.year(fromDate.year());
-//
-//        newTo.date(toDate.date());
-//        newTo.month(toDate.month());
-//        newTo.year(toDate.year());
-//
-//        console.log('change from', self.from.format('MM/DD/YYYY hh:mm:ss A'), '->', newFrom.format('MM/DD/YYYY hh:mm:ss A'));
-//        self.set('from', newFrom);
-//
-//        console.log('change to', self.to.format('MM/DD/YYYY hh:mm:ss A'), '->', newTo.format('MM/DD/YYYY hh:mm:ss A'));
-//        self.set('to', newTo);
-//
-//      });
-
-//      _updateFirstRangeDate: function() {
-//        if(this.secondRangeDate === null) {
-//          console.log('IGNORE FOR NOW - 2nd null');
-//        }
-//        else {
-//          var newFrom = moment(this.from);
-//          newFrom.date(this.firstRangeDate.date()); // TODO fix all of this... first vs. second
-//          newFrom.month(this.firstRangeDate.month());
-//          newFrom.year(this.firstRangeDate.year());
-//          if (!newFrom.isSame(this.from, 'second')) {
-//            console.log('frd change from', this.from.format('MM/DD/YYYY hh:mm:ss A'), '->', newFrom.format('MM/DD/YYYY hh:mm:ss A'));
-//            this.set('from', newFrom);
-//          }
-//        }
-//      },
-//      _updateSecondRangeDate: function() {
-//        if(this.secondRangeDate === null) {
-//          console.log('xxIGNORE FOR NOW - 2nd null');
-//        }
-//        else {
-//          this._updateFirstRangeDate();
-//
-//          var newFrom = moment(this.to);
-//          newFrom.date(this.secondRangeDate.date()); // TODO fix all of this... first vs. second
-//          newFrom.month(this.secondRangeDate.month());
-//          newFrom.year(this.secondRangeDate.year());
-//          if (!newFrom.isSame(this.to, 'second')) {
-//            console.log('srd change to', this.to.format('MM/DD/YYYY hh:mm:ss A'), '->', newFrom.format('MM/DD/YYYY hh:mm:ss A'));
-//            this.set('to', newFrom);
-//          }
-//        }
-//      },
-
-
-
-
-//
-//
-//      if (!this._selectedRangeIsSame()) {
-//        // initialize the first and second selected dates to the to and from dates
-//        this.set('firstRangeDate', moment(this.fromDate));
-//        this.set('secondRangeDate', moment(this.toDate));
-//      }
-//
-//      _selectedRangeIsSame: function() {
-//
-//        if (!this.firstRangeDate || !this.secondRangeDate) {
-//          return false;
-//        }
-//
-//        var firstIsFromAndSecondIsTo = this.firstRangeDate.isSame(this.fromDate, 'day') && this.secondRangeDate.isSame(this.toDate, 'day');
-//        var secondIsFromAndFirstIsTo = this.secondRangeDate.isSame(this.fromDate, 'day') && this.firstRangeDate.isSame(this.toDate, 'day');
-//
-//        return firstIsFromAndSecondIsTo || secondIsFromAndFirstIsTo;
-//
-//      },
-//    },
 
     _close: function() {
       this.$.dateRangePicker._resetVisibleCalendars();

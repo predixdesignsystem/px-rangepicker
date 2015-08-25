@@ -83,12 +83,10 @@ Datepicker element which allows user to select a date.
     ],
 
     updateSelectedRange: function() {
-      console.log('maybe update selected range...');
+      // initialize the calendars the first time the range is set
       if (!this.leftDisplayMonthYear && !this.rightDisplayMonthYear) {
-        console.log('..... yep do it');
         this._resetVisibleCalendars();
       }
-
     },
 
     _resetVisibleCalendars: function() {
