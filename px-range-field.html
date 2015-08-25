@@ -13,11 +13,11 @@ Range field component which displays to/from fields and font awesome icon.
 <dom-module id="px-range-field">
   <link rel="import" type="css" href="css/px-range-fields.css"/>
   <template>
-    <div class="range-field__field text-input flex flex--middle">
+    <div class="range-field__field flex flex--middle">
       <label class=label--inline>
         <span class=a11y>{{dateOrTime}}</span>
         <i id=icon class=fa></i>
-        <input type=text class=text-input--bare value="{{dateTimeWorkingCopy::input}}" on-click="_handleClick" on-blur="_validateInput">
+        <input type=text class=text-input--bare value="{{dateTimeWorkingCopy::input}}" on-focus="_handleClick" on-blur="_validateInput">
       </label>
     </div>
   </template>
@@ -87,12 +87,16 @@ Range field component which displays to/from fields and font awesome icon.
     },
 
     _handleClick: function() {
-      this.toggleClass('is-focused', true);
+      var el = this.parentNode.parentNode.querySelector('.is-focused');
+      if (el != null) {
+        el.classList.remove('is-focused');
+      }
+      this.parentNode.classList.add('is-focused');
       this.fire('px-selected-range-field');
     },
 
     _validateInput: function() {
-      this.toggleClass('is-focused', false);
+      this.parentNode.classList.remove('is-focused');
       if(moment(this.dateTimeWorkingCopy, this.momentFormat, true).isValid()) {
         this.toggleClass('validation-error', false, this.$$('input'));
 

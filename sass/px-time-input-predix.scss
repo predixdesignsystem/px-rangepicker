@@ -38,3 +38,8 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
     color: $black;
   }
 }
+
+:host.is-focused .text-input {
+  border-color: $inuit-forms-border--outer--focused;
+  box-shadow: $inuit-forms-border--inner--focused;
+}

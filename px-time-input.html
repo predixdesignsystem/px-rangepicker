@@ -14,17 +14,17 @@ Element providing solution to no problem in particular. As a simple, increments 
   <link rel="import" type="css" href="css/px-time-input.css"/>
   <template>
     <div class="text-input time-input__field">
-      <input id="hoursInput" type=text class="text-input--bare time-input__field__input" value="{{hours::input}}" on-keydown="_changeHours"/>
+      <input id="hoursInput" type=text class="text-input--bare time-input__field__input" value="{{hours::input}}" on-keydown="_changeHours" on-focus="_hasFocus" on-blur="_loseFocus"/>
       <span>:</span>
-      <input type=text class="text-input--bare time-input__field__input" value="{{minutes::input}}" on-keydown="_changeMinutes"/>
+      <input type=text class="text-input--bare time-input__field__input" value="{{minutes::input}}" on-keydown="_changeMinutes" on-focus="_hasFocus" on-blur="_loseFocus"/>
       <span>:</span>
-      <input type=text class="text-input--bare time-input__field__input" value="{{seconds::input}}" on-keydown="_changeSeconds"/>
+      <input type=text class="text-input--bare time-input__field__input" value="{{seconds::input}}" on-keydown="_changeSeconds" on-focus="_hasFocus" on-blur="_loseFocus"/>
       <div class=time-input__field__ampm>
-        <label>
+        <label on-click="_hasFocus" on-blur="_loseFocus">
           <input class=a11y type=radio id=am checked="{{isAM::change}}" on-change="_selectAM">
           <span>AM</span>
         </label>
-        <label>
+        <label on-click="_hasFocus" on-blur="_loseFocus">
           <input class=a11y type=radio id=pm checked="{{!isAM::change}}" on-change="_selectPM">
           <span>PM</span>
         </label>
@@ -149,6 +149,18 @@ Element providing solution to no problem in particular. As a simple, increments 
         // ignore all other key presses
       }
 
+    },
+    
+    _hasFocus: function(){
+      var el = this.parentNode.parentNode.querySelector('.is-focused');
+      if (el != null) {
+        el.classList.remove('is-focused');
+      }
+      this.toggleClass('is-focused', true);
+    },
+    
+    _loseFocus: function(){
+      this.toggleClass('is-focused', false);
     },
 
     _changeHours: function(e) {
