@@ -10,8 +10,7 @@ Rangepicker modal.
 
 ##### Usage
 
-    <px-rangepicker-modal from-time={{...}} to-time={{...}}
-                          from-date={{...}} to-date={{...}}>
+    <px-rangepicker-modal from={{...}} to={{...}}>
     </px-rangepicker-modal>
 -->
 <dom-module id="px-rangepicker-modal">
@@ -24,15 +23,15 @@ Rangepicker modal.
           <px-date-rangepicker
             id="dateRangePicker"
             class=u-p+
-            from-date="{{from}}"
-            to-date="{{to}}"
+            first-range-date="{{firstRangeDate}}"
+            second-range-date="{{secondRangeDate}}"
             allow-future-dates="{{allowFutureDates}}">
           </px-date-rangepicker>
           <px-time-rangepicker
             class="border--top u-p+"
             id="timeRangePicker"
-            from-time="{{from}}"
-            to-time="{{to}}">
+            from-time="{{fromTime}}"
+            to-time="{{toTime}}">
           </px-time-rangepicker>
         </div>
         <template is="dom-if" if="{{presetRanges}}">
@@ -59,7 +58,8 @@ Rangepicker modal.
        */
       from: {
         type: Object,
-        notify: true
+        notify: true,
+        observer: '_updatePickersFrom'
       },
 
       /**
@@ -67,7 +67,8 @@ Rangepicker modal.
        */
       to: {
         type: Object,
-        notify: true
+        notify: true,
+        observer: '_updatePickersTo'
       },
 
       /**
@@ -102,6 +103,87 @@ Rangepicker modal.
 
     },
 
+    _updatePickersFrom: function() {
+      // ALWAYS take what comes in (from range fields, initialization)
+      this.set('fromTime', moment(this.from));
+
+      // EXCEPT when only 1 field is set, then ignore it
+      if(this.secondRangeDate !== null) {
+        this.set('firstRangeDate', moment(this.from));
+      }
+    },
+
+    _updatePickersTo: function() {
+      // ALWAYS take what comes in (from range fields, initialization)
+      this.set('toTime', moment(this.to));
+
+      // EXCEPT when only 1 field is set, then ignore it
+      if(this.secondRangeDate !== null) {
+        this.set('secondRangeDate', moment(this.to));
+      }
+    },
+
+    observers: [
+      '_broadcastToTimeChange(toTime)',
+      '_broadcastFromTimeChange(fromTime)',
+      '_broadcastDateRangeChange(firstRangeDate, secondRangeDate)'
+    ],
+
+    _broadcastToTimeChange: function() {
+      var newTo = moment(this.to); // don't change the date
+      newTo.hour(this.toTime.hour()); // update just the time
+      newTo.minute(this.toTime.minute());
+      newTo.second(this.toTime.second());
+
+      if(!this.to.isSame(newTo, 'second')) {
+        this.set('to', newTo); // only update if different
+      }
+    },
+
+    _broadcastFromTimeChange: function() {
+      var newFrom = moment(this.from); // don't change the date
+      newFrom.hour(this.fromTime.hour()); // update just the time
+      newFrom.minute(this.fromTime.minute());
+      newFrom.second(this.fromTime.second());
+
+      if(!this.from.isSame(newFrom, 'second')) {
+        this.set('from', newFrom); // only update if different
+      }
+    },
+
+    _broadcastDateRangeChange: function() {
+
+      // only when a RANGE is selected (2 fields in the picker) do we broadcast the range
+      if(this.secondRangeDate !== null) {
+
+        var newTo = moment(this.to); // don't change the time
+        var newFrom = moment(this.from);
+
+        var fromDate = this.firstRangeDate;
+        var toDate = this.secondRangeDate;
+        if(this.firstRangeDate.isAfter(this.secondRangeDate, 'day')) {
+          fromDate = this.secondRangeDate;
+          toDate = this.firstRangeDate;
+        }
+
+        newTo.date(toDate.date()); // update just the date
+        newTo.month(toDate.month());
+        newTo.year(toDate.year());
+        newFrom.date(fromDate.date());
+        newFrom.month(fromDate.month());
+        newFrom.year(fromDate.year());
+
+        if(!this.to.isSame(newTo, 'day')) {
+          this.set('to', newTo); // only update if different
+        }
+        if(!this.from.isSame(newFrom, 'day')) {
+          this.set('from', newFrom); // only update if different
+        }
+
+      }
+
+    },
+
     ready: function() {
       var self = this;
 
@@ -109,8 +191,14 @@ Rangepicker modal.
         var presetStartDateTime = e.detail.startDateTime;
         var presetEndDateTime = e.detail.endDateTime;
 
-        self.set('from', moment(presetStartDateTime, 'MM/DD/YYYY hh:mm:ss A'));
-        self.set('to', moment(presetEndDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+        self.set('secondRangeDate', null); // first, deselect the second range date so no consequences
+          // of first/second date picked
+
+        self.set('firstRangeDate', moment(presetStartDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+        self.set('fromTime', moment(presetStartDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+
+        self.set('secondRangeDate', moment(presetEndDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+        self.set('toTime', moment(presetEndDateTime, 'MM/DD/YYYY hh:mm:ss A'));
       });
 
     },

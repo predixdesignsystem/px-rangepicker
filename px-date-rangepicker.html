@@ -51,17 +51,17 @@ Datepicker element which allows user to select a date.
     properties: {
 
       /**
-       * Moment object with range start date
+       * Moment object with one of the range selected dates
        */
-      fromDate: {
+      firstRangeDate: {
         type: Object,
         notify: true
       },
 
       /**
-       * Moment object with range end date
+       * Moment object with the other range selected date (or null if no 2nd date picked)
        */
-      toDate: {
+      secondRangeDate: {
         type: Object,
         notify: true
       },
@@ -79,68 +79,21 @@ Datepicker element which allows user to select a date.
     },
 
     observers: [
-      'updateSelectedRange(fromDate, toDate)'
+      'updateSelectedRange(firstRangeDate, secondRangeDate)'
     ],
 
     updateSelectedRange: function() {
-
+      // initialize the calendars the first time the range is set
       if (!this.leftDisplayMonthYear && !this.rightDisplayMonthYear) {
         this._resetVisibleCalendars();
       }
-
-      if (!this._selectedRangeIsSame()) {
-        // initialize the first and second selected dates to the to and from dates
-        this.set('firstRangeDate', moment(this.fromDate));
-        this.set('secondRangeDate', moment(this.toDate));
-      }
-
     },
 
     _resetVisibleCalendars: function() {
-      // initialize the displayed months to the selected fromDate & fromDate + 1
-      this.set('leftDisplayMonthYear', moment(this.fromDate).startOf('month'));
-      this.set('rightDisplayMonthYear', moment(this.fromDate).startOf('month').add(1, 'months'));
+      // initialize the displayed months to the selected fromDate & fromDate + 1 // TODO fix this!!!
+      this.set('leftDisplayMonthYear', moment(this.firstRangeDate).startOf('month'));
+      this.set('rightDisplayMonthYear', moment(this.firstRangeDate).startOf('month').add(1, 'months'));
       this._setJumpButtonStyles();
-    },
-
-    _selectedRangeIsSame: function() {
-
-      if (!this.firstRangeDate || !this.secondRangeDate) {
-        return false;
-      }
-
-      var firstIsFromAndSecondIsTo = this.firstRangeDate.isSame(this.fromDate, 'day') && this.secondRangeDate.isSame(this.toDate, 'day');
-      var secondIsFromAndFirstIsTo = this.secondRangeDate.isSame(this.fromDate, 'day') && this.firstRangeDate.isSame(this.toDate, 'day');
-
-      return firstIsFromAndSecondIsTo || secondIsFromAndFirstIsTo;
-
-    },
-
-    ready: function() {
-      var self = this;
-      this.$.box.addEventListener('range-selected', function() {
-
-        var fromDate = self.firstRangeDate;
-        var toDate = self.secondRangeDate;
-
-        if (self.firstRangeDate.isAfter(self.secondRangeDate)) {
-          toDate = self.firstRangeDate;
-          fromDate = self.secondRangeDate;
-        }
-
-        // set the times back to what they really should be
-        fromDate.hour(self.fromDate.hour());
-        fromDate.minute(self.fromDate.minute());
-        fromDate.second(self.fromDate.second());
-
-        toDate.hour(self.toDate.hour());
-        toDate.minute(self.toDate.minute());
-        toDate.second(self.toDate.second());
-
-        self.set('fromDate', fromDate);
-        self.set('toDate', toDate);
-
-      });
     },
 
     _jumpBack: function() {

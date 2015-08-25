@@ -2,7 +2,7 @@
 describe('Rangepicker', function() {
 
   var rangePicker, dateFromField, dateToField, timeFromField, timeToField;
-  var leftCalendar, rightCalendar, dateRangePicker, timeFromInput, timeToInput;
+  var leftCalendar, rightCalendar, dateRangePicker, timeRangePicker, timeFromInput, timeToInput;
   var presetsSection, presets;
 
   function date(date) {
@@ -53,7 +53,7 @@ describe('Rangepicker', function() {
 
         var rangepickerModal = document.querySelector('#rangePickerModal');
         dateRangePicker = rangepickerModal.querySelector('#dateRangePicker');
-        var timeRangePicker = rangepickerModal.querySelector('#timeRangePicker');
+        timeRangePicker = rangepickerModal.querySelector('#timeRangePicker');
         leftCalendar = dateRangePicker.querySelector('#leftCalendar');
         rightCalendar = dateRangePicker.querySelector('#rightCalendar');
         timeFromInput = timeRangePicker.querySelector('#fromTime');
@@ -263,31 +263,31 @@ describe('Rangepicker', function() {
 
       });
 
-      describe('when change time in modal', function() {
-
-        var getFakeEvent = function(number, isNumberPad) {
-          var keyCode = number + 48;
-          if (isNumberPad) {
-            keyCode = number + 96;
-          }
-
-          return {
-            preventDefault: function() {
-            },
-            keyCode: keyCode
-          };
-        };
-
-        function changeTime(inputToChange) {
-          inputToChange._changeHours(getFakeEvent(0));
-          inputToChange._changeHours(getFakeEvent(1));
-          inputToChange._changeHours(getFakeEvent(2));
-          inputToChange._changeMinutes(getFakeEvent(5));
-          inputToChange._changeMinutes(getFakeEvent(7));
-          inputToChange._changeSeconds(getFakeEvent(3));
-          inputToChange._changeSeconds(getFakeEvent(9));
-          inputToChange._selectPM();
+      var getFakeEvent = function(number, isNumberPad) {
+        var keyCode = number + 48;
+        if (isNumberPad) {
+          keyCode = number + 96;
         }
+
+        return {
+          preventDefault: function() {
+          },
+          keyCode: keyCode
+        };
+      };
+
+      function changeTime(inputToChange) {
+        inputToChange._changeHours(getFakeEvent(0));
+        inputToChange._changeHours(getFakeEvent(1));
+        inputToChange._changeHours(getFakeEvent(2));
+        inputToChange._changeMinutes(getFakeEvent(5));
+        inputToChange._changeMinutes(getFakeEvent(7));
+        inputToChange._changeSeconds(getFakeEvent(3));
+        inputToChange._changeSeconds(getFakeEvent(9));
+        inputToChange._selectPM();
+      }
+
+      describe('when change time in modal', function() {
 
         it('to changes to field', function() {
           changeTime(timeToInput);
@@ -305,8 +305,50 @@ describe('Rangepicker', function() {
 
       describe('when select 1 date, then change time', function() {
 
-        it('DOESNT BREAK', function() {
-          expect(true).toBe(false);
+        var leftCalendarCells;
+
+        px.beforeEachAsync(function() {
+          leftCalendarCells = leftCalendar.querySelectorAll('px-calendar-cell');
+          var oct3 = leftCalendarCells[5];
+          oct3._selectDate();
+          changeTime(timeFromInput);
+        });
+
+        it('top fields reflect the changed times but the old dates', function() {
+          expect(dateFromField.moment.format('MM/DD/YYYY')).toBe('10/11/2014'); // OLD date range in top fields
+          expect(dateToField.moment.format('MM/DD/YYYY')).toBe('10/25/2014');
+          expect(timeFromField.moment.format('hh:mm:ss A')).toBe('12:57:39 PM');
+          expect(timeToField.moment.format('hh:mm:ss A')).toBe('03:00:00 PM');
+        });
+
+        it('rangepicker modal reflects only 1 date AND new times', function() {
+          expect(dateRangePicker.firstRangeDate.format('MM/DD/YYYY')).toBe('10/03/2014'); // NEW date in modal
+          expect(dateRangePicker.secondRangeDate).toBe(null); // only 1 date is displayed
+          expect(timeRangePicker.fromTime.format('hh:mm:ss A')).toBe('12:57:39 PM');
+          expect(timeRangePicker.toTime.format('hh:mm:ss A')).toBe('03:00:00 PM');
+        });
+
+        describe('when select the second date, reflects the new time with the new dates', function() {
+
+          px.beforeEachAsync(function() {
+            var oct10 = leftCalendarCells[12];
+            oct10._selectDate();
+          });
+
+          it('top fields reflect the new times & new dates', function() {
+            expect(dateFromField.moment.format('MM/DD/YYYY')).toBe('10/03/2014'); // new dates
+            expect(dateToField.moment.format('MM/DD/YYYY')).toBe('10/10/2014'); // new dates
+            expect(timeFromField.moment.format('hh:mm:ss A')).toBe('12:57:39 PM');
+            expect(timeToField.moment.format('hh:mm:ss A')).toBe('03:00:00 PM');
+          });
+
+          it('rangepicker modal reflects the new times & new dates', function() {
+            expect(dateRangePicker.firstRangeDate.format('MM/DD/YYYY')).toBe('10/03/2014'); // new dates
+            expect(dateRangePicker.secondRangeDate.format('MM/DD/YYYY')).toBe('10/10/2014'); // new dates
+            expect(timeRangePicker.fromTime.format('hh:mm:ss A')).toBe('12:57:39 PM');
+            expect(timeRangePicker.toTime.format('hh:mm:ss A')).toBe('03:00:00 PM');
+          });
+
         });
 
       });
@@ -398,6 +440,61 @@ describe('Rangepicker', function() {
         });
 
       });
+
+      describe('when end user developer changes the passed in dates/times', function() {
+
+        describe('set behind this time', function() {
+
+          px.beforeEachAsync(function() {
+            rangePicker.to = null; // at the moment, need to null out old dates so no first/second consequences
+            rangePicker.from = null;
+            rangePicker.from = '11/12/2013 02:00:00 PM';
+            rangePicker.to = '12/16/2013 05:00:00 PM';
+          });
+
+          it('updates the fields', function() {
+            expect(dateFromField.moment.format('MM/DD/YYYY')).toBe('11/12/2013');
+            expect(dateToField.moment.format('MM/DD/YYYY')).toBe('12/16/2013');
+            expect(timeFromField.moment.format('hh:mm:ss A')).toBe('02:00:00 PM');
+            expect(timeToField.moment.format('hh:mm:ss A')).toBe('05:00:00 PM');
+          });
+
+          it('updates the pickers', function() {
+            expect(timeRangePicker.fromTime.format('hh:mm:ss A')).toBe('02:00:00 PM');
+            expect(timeRangePicker.toTime.format('hh:mm:ss A')).toBe('05:00:00 PM');
+            expect(dateRangePicker.firstRangeDate.format('MM/DD/YYYY')).toBe('11/12/2013');
+            expect(dateRangePicker.secondRangeDate.format('MM/DD/YYYY')).toBe('12/16/2013');
+          });
+
+        });
+
+        describe('set ahead of this time', function() {
+
+          px.beforeEachAsync(function() {
+            rangePicker.to = null; // at the moment, need to null out old dates so no first/second consequences
+            rangePicker.from = null;
+            rangePicker.from = '11/12/2014 02:00:00 PM';
+            rangePicker.to = '12/16/2014 05:00:00 PM';
+          });
+
+          it('updates the fields', function() {
+            expect(dateFromField.moment.format('MM/DD/YYYY')).toBe('11/12/2014');
+            expect(dateToField.moment.format('MM/DD/YYYY')).toBe('12/16/2014');
+            expect(timeFromField.moment.format('hh:mm:ss A')).toBe('02:00:00 PM');
+            expect(timeToField.moment.format('hh:mm:ss A')).toBe('05:00:00 PM');
+          });
+
+          it('updates the pickers', function() {
+            expect(timeRangePicker.fromTime.format('hh:mm:ss A')).toBe('02:00:00 PM');
+            expect(timeRangePicker.toTime.format('hh:mm:ss A')).toBe('05:00:00 PM');
+            expect(dateRangePicker.firstRangeDate.format('MM/DD/YYYY')).toBe('11/12/2014');
+            expect(dateRangePicker.secondRangeDate.format('MM/DD/YYYY')).toBe('12/16/2014');
+          });
+
+        });
+
+      });
+
     });
   });
 
@@ -463,9 +560,9 @@ describe('Rangepicker', function() {
         rangePicker = document.querySelector('px-rangepicker');
         rangePicker.presetRanges = [
           {
-            "displayText": "Last 5 Minutes",
+            "displayText": "Some Custom Range",
             "startDateTime": "08/21/2015 12:57:33 PM",
-            "endDateTime": "08/21/2015 1:02:33 PM"
+            "endDateTime": "08/24/2015 01:02:33 PM"
           },
           {
             "displayText": "Last 12 Hours",
@@ -491,10 +588,52 @@ describe('Rangepicker', function() {
       });
 
       it('displays the passed in presets', function() {
+        var rangepickerModal = document.querySelector('#rangePickerModal');
         presetsSection = rangepickerModal.querySelector('px-rangepicker-presets');
         presets = presetsSection.querySelectorAll('button');
         expect(presets.length).toBe(5);
       });
+
+      describe('when a preset is selected', function() {
+
+        px.beforeEachAsync(function() {
+          var rangepickerModal = document.querySelector('#rangePickerModal');
+          presetsSection = rangepickerModal.querySelector('px-rangepicker-presets');
+          presets = presetsSection.querySelectorAll('button');
+
+          var rangePicker = document.querySelector('px-rangepicker');
+          var rangeFields = document.querySelector('#rangeFields');
+          dateFromField = rangeFields.querySelector('#fromDate');
+          dateToField = rangeFields.querySelector('#toDate');
+          timeFromField = rangeFields.querySelector('#fromTime');
+          timeToField = rangeFields.querySelector('#toTime');
+
+          var rangepickerModal = document.querySelector('#rangePickerModal');
+          dateRangePicker = rangepickerModal.querySelector('#dateRangePicker');
+          timeRangePicker = rangepickerModal.querySelector('#timeRangePicker');
+
+          $(presets[0]).click();
+        });
+
+        it('changes the range fields', function() {
+          expect(dateFromField.moment.format('MM/DD/YYYY')).toBe('08/21/2015');
+          expect(dateToField.moment.format('MM/DD/YYYY')).toBe('08/24/2015');
+          expect(timeFromField.moment.format('hh:mm:ss A')).toBe('12:57:33 PM');
+          expect(timeToField.moment.format('hh:mm:ss A')).toBe('01:02:33 PM');
+        });
+
+        it('changes the time picker inputs', function() {
+          expect(timeRangePicker.fromTime.format('hh:mm:ss A')).toBe('12:57:33 PM');
+          expect(timeRangePicker.toTime.format('hh:mm:ss A')).toBe('01:02:33 PM');
+        });
+
+        it('changes the selected range on the calendar', function() {
+          expect(dateRangePicker.firstRangeDate.format('MM/DD/YYYY')).toBe('08/21/2015');
+          expect(dateRangePicker.secondRangeDate.format('MM/DD/YYYY')).toBe('08/24/2015');
+        });
+
+      });
+
     });
   });
 });
