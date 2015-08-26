@@ -16,31 +16,31 @@ Rangepicker with time element.
   <link rel="import" type="css" href="css/px-range-fields.css"/>
   <template>
     <div class="form flex flex--middle">
-      <div class="flex flex--middle text-input">
+      <div id="fromFields" class="flex flex--middle text-input">
         <span class=a11y>From</span>
         <px-range-field
           id="fromDate"
-          moment="{{from}}"
+          moment="{{fromWorkingCopy}}"
           date-or-time="Date"
           class=u-mr->
         </px-range-field>
         <px-range-field
           id="fromTime"
-          moment="{{from}}"
+          moment="{{fromWorkingCopy}}"
           date-or-time="Time">
         </px-range-field>
       </div>
       <span class="caps u-mh-">to</span>
-      <div class="flex flex--middle text-input">
+      <div id="toFields" class="flex flex--middle text-input">
         <px-range-field
           id="toDate"
-          moment="{{to}}"
+          moment="{{toWorkingCopy}}"
           date-or-time="Date"
           class=u-mr->
         </px-range-field>
         <px-range-field
           id="toTime"
-          moment="{{to}}"
+          moment="{{toWorkingCopy}}"
           date-or-time="Time">
         </px-range-field>
       </div>
@@ -61,7 +61,8 @@ Rangepicker with time element.
        */
       from: {
         type: Object,
-        notify: true
+        notify: true,
+        observer: '_updateFromWorkingCopy'
       },
 
       /**
@@ -69,8 +70,44 @@ Rangepicker with time element.
        */
       to: {
         type: Object,
-        notify: true
+        notify: true,
+        observer: '_updateToWorkingCopy'
       }
+    },
+
+    observers: [
+      '_validateRangeAndBroadcastChanges(fromWorkingCopy, toWorkingCopy)'
+    ],
+
+    _updateFromWorkingCopy: function() {
+      this.set('fromWorkingCopy', moment(this.from));
+    },
+
+    _updateToWorkingCopy: function() {
+      this.set('toWorkingCopy', moment(this.to));
+    },
+
+    _validateRangeAndBroadcastChanges: function() {
+
+      if(this.fromWorkingCopy.isBefore(this.toWorkingCopy)) {
+        this._toggleErrorClasses(false);
+
+        if(!this.fromWorkingCopy.isSame(this.from, 'second')) {
+          this.set('from', this.fromWorkingCopy);
+        }
+        if(!this.toWorkingCopy.isSame(this.to, 'second')) {
+          this.set('to', this.toWorkingCopy);
+        }
+      }
+      else {
+        this._toggleErrorClasses(true);
+      }
+
+    },
+
+    _toggleErrorClasses: function(isError) {
+      this.toggleClass('validation-error', isError, this.$$('#fromFields'));
+      this.toggleClass('validation-error', isError, this.$$('#toFields'));
     },
 
     _submit: function() {

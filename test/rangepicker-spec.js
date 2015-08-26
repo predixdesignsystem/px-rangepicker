@@ -462,6 +462,26 @@ describe('Rangepicker', function() {
 
           });
 
+          it('does not make a change if range validation fails', function() {
+            dateToField.dateTimeWorkingCopy = '05/04/2010';
+            dateToField._validateInput();
+
+            expect(timeRangePicker.fromTime.format('hh:mm:ss A')).toBe('01:00:00 PM');
+            expect(timeRangePicker.toTime.format('hh:mm:ss A')).toBe('03:00:00 PM');
+            expect(dateRangePicker.firstRangeDate.format('MM/DD/YYYY')).toBe('10/11/2014');
+            expect(dateRangePicker.secondRangeDate.format('MM/DD/YYYY')).toBe('10/25/2014');
+          });
+
+          it('does not move the visible calendars right away', function() {
+            dateFromField.dateTimeWorkingCopy = '05/04/2013';
+            dateFromField._validateInput();
+
+            expect(leftCalendar.month).toBe('October');
+            expect(leftCalendar.year).toBe('2014');
+            expect(rightCalendar.month).toBe('November');
+            expect(rightCalendar.year).toBe('2014');
+          });
+
           it('does not move the visible calendars right away', function() {
             dateFromField.dateTimeWorkingCopy = '05/04/2013';
             dateFromField._validateInput();
