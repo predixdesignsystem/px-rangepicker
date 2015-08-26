@@ -88,8 +88,9 @@ Datepicker element which allows user to select a date.
         this._resetVisibleCalendars();
       }
 
-      if (!this._selectedRangeIsSame()) {
-        // initialize the first and second selected dates to the to and from dates
+      // initialize the first and second selected dates to the to and from dates
+      // if the range is different & if we are NOT currently picking the date (if currently picking date, ignore it)
+      if (!this._selectedRangeIsSame() && this.secondRangeDate !== null) {
         this.set('firstRangeDate', moment(this.fromDate));
         this.set('secondRangeDate', moment(this.toDate));
       }
