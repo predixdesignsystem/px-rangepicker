@@ -34,6 +34,54 @@ describe('Rangepicker', function() {
     });
   }
 
+  describe('when no dates are passed in', function() {
+
+    px.beforeEachWithFixture(function() {
+      $fixture.append('<px-rangepicker></px-rangepicker>');
+    });
+
+    describe('defaults to the last week', function() {
+
+      var now, fewSecondsAgo, lastWeek, lastWeekFewSecondsAgo;
+
+      px.beforeEachAsync(function() {
+        var rangeFields = document.querySelector('#rangeFields');
+        dateFromField = rangeFields.querySelector('#fromDate');
+        dateToField = rangeFields.querySelector('#toDate');
+        timeFromField = rangeFields.querySelector('#fromTime');
+        timeToField = rangeFields.querySelector('#toTime');
+
+        var rangepickerModal = document.querySelector('#rangePickerModal');
+        dateRangePicker = rangepickerModal.querySelector('#dateRangePicker');
+        timeRangePicker = rangepickerModal.querySelector('#timeRangePicker');
+
+        now = moment();
+        fewSecondsAgo = moment().subtract(3, 'second');
+
+        lastWeek = moment().subtract(7, 'day');
+        lastWeekFewSecondsAgo = moment().subtract(7, 'day').subtract(3, 'second');
+      });
+
+      it('initializes the range fields', function() {
+        expect(dateFromField.moment.isBetween(lastWeekFewSecondsAgo, lastWeek)).toBeTruthy();
+        expect(dateToField.moment.isBetween(fewSecondsAgo, now)).toBeTruthy();
+        expect(timeFromField.moment.isBetween(lastWeekFewSecondsAgo, lastWeek)).toBeTruthy();
+        expect(timeToField.moment.isBetween(fewSecondsAgo, now)).toBeTruthy();
+      });
+
+      it('initializes the time picker inputs', function() {
+        expect(timeRangePicker.fromTime.isBetween(lastWeekFewSecondsAgo, lastWeek)).toBeTruthy();
+        expect(timeRangePicker.toTime.isBetween(fewSecondsAgo, now)).toBeTruthy();
+      });
+
+      it('initializes the selected range on the calendar', function() {
+        expect(dateRangePicker.firstRangeDate.isBetween(lastWeekFewSecondsAgo, lastWeek)).toBeTruthy();
+        expect(dateRangePicker.secondRangeDate.isBetween(fewSecondsAgo, now)).toBeTruthy();
+      });
+
+    });
+  });
+
   describe('when dates passed in are in same month', function() {
 
     px.beforeEachWithFixture(function() {
@@ -330,26 +378,26 @@ describe('Rangepicker', function() {
 
         describe('when select the second date, reflects the new time with the new dates', function() {
 
-          px.beforeEachAsync(function() {
-            var oct10 = leftCalendarCells[12];
-            oct10._selectDate();
-          });
+            px.beforeEachAsync(function() {
+              var oct10 = leftCalendarCells[12];
+              oct10._selectDate();
+            });
 
-          it('top fields reflect the new times & new dates', function() {
-            expect(dateFromField.moment.format('MM/DD/YYYY')).toBe('10/03/2014'); // new dates
-            expect(dateToField.moment.format('MM/DD/YYYY')).toBe('10/10/2014'); // new dates
-            expect(timeFromField.moment.format('hh:mm:ss A')).toBe('12:57:39 PM');
-            expect(timeToField.moment.format('hh:mm:ss A')).toBe('03:00:00 PM');
-          });
+            it('top fields reflect the new times & new dates', function() {
+              expect(dateFromField.moment.format('MM/DD/YYYY')).toBe('10/03/2014'); // new dates
+              expect(dateToField.moment.format('MM/DD/YYYY')).toBe('10/10/2014'); // new dates
+              expect(timeFromField.moment.format('hh:mm:ss A')).toBe('12:57:39 PM');
+              expect(timeToField.moment.format('hh:mm:ss A')).toBe('03:00:00 PM');
+            });
 
-          it('rangepicker modal reflects the new times & new dates', function() {
-            expect(dateRangePicker.firstRangeDate.format('MM/DD/YYYY')).toBe('10/03/2014'); // new dates
-            expect(dateRangePicker.secondRangeDate.format('MM/DD/YYYY')).toBe('10/10/2014'); // new dates
-            expect(timeRangePicker.fromTime.format('hh:mm:ss A')).toBe('12:57:39 PM');
-            expect(timeRangePicker.toTime.format('hh:mm:ss A')).toBe('03:00:00 PM');
-          });
+            it('rangepicker modal reflects the new times & new dates', function() {
+              expect(dateRangePicker.firstRangeDate.format('MM/DD/YYYY')).toBe('10/03/2014'); // new dates
+              expect(dateRangePicker.secondRangeDate.format('MM/DD/YYYY')).toBe('10/10/2014'); // new dates
+              expect(timeRangePicker.fromTime.format('hh:mm:ss A')).toBe('12:57:39 PM');
+              expect(timeRangePicker.toTime.format('hh:mm:ss A')).toBe('03:00:00 PM');
+            });
 
-        }
+          }
         );
       });
 

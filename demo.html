@@ -23,10 +23,6 @@
 
   <h3>Demo</h3>
 
-  <p>
-    Also see the <a href="index.html">documentation</a> and the <a href="test/fixture.html">UI test fixture</a>.
-  </p>
-
   <!-- Wrap elements with auto-binding template to -->
   <!-- allow use of Polymer bindings in main document -->
   <template id="just-for-demo" is="dom-bind">
@@ -40,20 +36,27 @@
     <div>
       Time Series Chart is from <b>{{sampleData.from}}</b> to <b>{{sampleData.to}}</b>
     </div>
-    
+
     <button onclick="change2014()">Change to Nov/Dec 2014</button>
     <button onclick="change2013()">Change to March/April 2013</button>
 
     <br>
     <br>
 
+    <!-- Defaults to last week -->
+    <!--<px-rangepicker>-->
+    <!--</px-rangepicker>-->
+
+    <!-- No presets -->
     <!--<px-rangepicker from="{{sampleData.from}}" to="{{sampleData.to}}">-->
     <!--</px-rangepicker>-->
 
+    <!-- With presets -->
     <px-rangepicker from="{{sampleData.from}}" to="{{sampleData.to}}"
                     preset-ranges="{{sampleData.presetRanges}}">
     </px-rangepicker>
 
+    <!-- Allow future dates -->
     <!--<px-rangepicker from="{{sampleData.from}}" to="{{sampleData.to}}"-->
                     <!--preset-ranges="{{sampleData.presetRanges}}"-->
                     <!--allow-future-dates>-->
