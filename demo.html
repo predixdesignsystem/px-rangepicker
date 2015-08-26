@@ -44,6 +44,9 @@
     <br>
     <br>
 
+    <button onclick="change2014()">Change to Nov/Dec 2014</button>
+    <button onclick="change2013()">Change to March/April 2013</button>
+
     <!--<px-rangepicker from="{{sampleData.from}}" to="{{sampleData.to}}">-->
     <!--</px-rangepicker>-->
 
@@ -57,6 +60,23 @@
     <!--</px-rangepicker>-->
 
   </template>
+
+  <script>
+
+    function change2014() {
+      var rangePicker = document.querySelector('px-rangepicker');
+      rangePicker.from = '11/12/2014 02:00:00 PM';
+      rangePicker.to = '12/16/2014 05:00:00 PM';
+    }
+
+    function change2013() {
+      var rangePicker = document.querySelector('px-rangepicker');
+      rangePicker.from = '3/12/2013 02:00:00 PM';
+      rangePicker.to = '4/16/2013 05:00:00 PM';
+    }
+
+  </script>
+
 
 </body>
 </html>
