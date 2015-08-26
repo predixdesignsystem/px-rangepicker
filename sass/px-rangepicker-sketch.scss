@@ -38,7 +38,7 @@ $inuit-enable-btn--bare           : true;
 
 // Component
 .rangepicker__box {
-  position: relative;
+  position: absolute;
   z-index: 20;
   display: inline-block;
   margin-top: $inuit-base-spacing-unit--small;
@@ -55,7 +55,7 @@ $inuit-enable-btn--bare           : true;
 }
 
 .overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 10;

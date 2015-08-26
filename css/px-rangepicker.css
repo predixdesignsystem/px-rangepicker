@@ -845,7 +845,7 @@ button.btn {
   list-style: none; }
 
 .rangepicker__box {
-  position: relative;
+  position: absolute;
   z-index: 20;
   display: inline-block;
   margin-top: 0.6666666667rem;
@@ -859,7 +859,7 @@ button.btn {
   border-left: 1px solid; }
 
 .overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 10;
