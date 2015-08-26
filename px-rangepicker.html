@@ -138,18 +138,14 @@ Rangepicker with time element.
       var self = this;
 
       this.$.rangeFields.addEventListener('px-selected-range-field', function(e) {
-        self.$.rangePickerModal.toggleAttribute('hidden', false);
-      });
-
-      this.$.rangePickerModal.addEventListener('px-range-picking-done', function(e) {
-        self.$.rangePickerModal.toggleAttribute('hidden', true);
+        self.$.rangePickerModal.open();
       });
 
       this.$.rangeFields.addEventListener('px-submit-range', function(e) {
         // apply changes to outside world
         self.set('from', self.fromWorkingCopy);
         self.set('to', self.toWorkingCopy);
-        self.$.rangePickerModal.toggleAttribute('hidden', true);
+        self.$.rangePickerModal.close();
       });
     }
 

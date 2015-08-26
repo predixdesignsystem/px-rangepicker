@@ -84,10 +84,6 @@ Datepicker element which allows user to select a date.
 
     updateSelectedRange: function() {
 
-      if (!this.leftDisplayMonthYear && !this.rightDisplayMonthYear) {
-        this._resetVisibleCalendars();
-      }
-
       // initialize the first and second selected dates to the to and from dates
       // if the range is different & if we are NOT currently picking the date (if currently picking date, ignore it)
       if (!this._selectedRangeIsSame() && this.secondRangeDate !== null) {

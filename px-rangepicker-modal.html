@@ -41,7 +41,7 @@ Rangepicker modal.
         </template>
       </div>
       <div class="flex flex--right border--top u-p-">
-        <button class=btn on-click="_close">Close</button>
+        <button class=btn on-click="close">Close</button>
       </div>
     </div>
   </template>
@@ -115,9 +115,25 @@ Rangepicker modal.
 
     },
 
-    _close: function() {
-      this.$.dateRangePicker._resetVisibleCalendars();
-      this.fire('px-range-picking-done');
+    /**
+     * Open the modal
+     */
+    open: function() {
+      if(this._isClosed()) {
+        this.$.dateRangePicker._resetVisibleCalendars();
+        this.toggleAttribute('hidden', false);
+      }
+    },
+
+    /**
+     * Close the modal
+     */
+    close: function() {
+      this.toggleAttribute('hidden', true);
+    },
+
+    _isClosed: function() {
+      return this.hidden;
     }
 
   });

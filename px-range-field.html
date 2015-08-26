@@ -17,7 +17,8 @@ Range field component which displays to/from fields and font awesome icon.
       <label class=label--inline>
         <span class=a11y>{{dateOrTime}}</span>
         <i id=icon class=fa></i>
-        <input type=text class=text-input--bare value="{{dateTimeWorkingCopy::input}}" on-focus="_handleClick" on-blur="_validateInput">
+        <input type=text class=text-input--bare value="{{dateTimeWorkingCopy::input}}" on-focus="_focusOnField"
+               on-click="_handleClick" on-blur="_validateInput">
       </label>
     </div>
   </template>
@@ -72,37 +73,40 @@ Range field component which displays to/from fields and font awesome icon.
     },
 
     ready: function() {
-      if(this.dateOrTime.toLowerCase() == 'date') {
+      if (this.dateOrTime.toLowerCase() == 'date') {
         this.toggleClass("fa-calendar", true, this.$.icon);
-        if(!this.momentFormat) {
+        if (!this.momentFormat) {
           this.momentFormat = 'MM/DD/YYYY'; // default date format
         }
       }
       else {
         this.toggleClass("fa-clock-o", true, this.$.icon);
-        if(!this.momentFormat) {
+        if (!this.momentFormat) {
           this.momentFormat = 'hh:mm:ss A'; // default time format
         }
       }
     },
 
     _handleClick: function() {
+      this.fire('px-selected-range-field');
+    },
+
+    _focusOnField: function() {
       var el = this.parentNode.parentNode.querySelector('.is-focused');
       if (el != null) {
         el.classList.remove('is-focused');
       }
       this.parentNode.classList.add('is-focused');
-      this.fire('px-selected-range-field');
     },
 
     _validateInput: function() {
       this.parentNode.classList.remove('is-focused');
-      if(moment(this.dateTimeWorkingCopy, this.momentFormat, true).isValid()) {
+      if (moment(this.dateTimeWorkingCopy, this.momentFormat, true).isValid()) {
         this.toggleClass('validation-error', false, this.$$('input'));
 
         var momentCopy = moment(this.dateTimeWorkingCopy, this.momentFormat);
 
-        if(this.dateOrTime.toLowerCase() == 'time') { // if i'm typing in a time field, make sure the date is still right
+        if (this.dateOrTime.toLowerCase() == 'time') { // if i'm typing in a time field, make sure the date is still right
           momentCopy.date(this.moment.date());
           momentCopy.month(this.moment.month());
           momentCopy.year(this.moment.year());
@@ -113,7 +117,7 @@ Range field component which displays to/from fields and font awesome icon.
           momentCopy.second(this.moment.second());
         }
 
-        if(!momentCopy.isSame(this.moment, 'second')) { // avoid infinite loops
+        if (!momentCopy.isSame(this.moment, 'second')) { // avoid infinite loops
           this.set('moment', momentCopy);
         }
       }
