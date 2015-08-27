@@ -533,6 +533,9 @@ button.btn {
   background-color: white;
   color: #d1d0d8; }
 
+button[hidden] {
+  display: none; }
+
 caption {
   margin-bottom: 1rem;
   font-weight: bold;

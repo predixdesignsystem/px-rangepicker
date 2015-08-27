@@ -151,7 +151,7 @@ Element that renders a calendar for the given year and selects the given date.
         var week = [];
 
         while(daysBeforeMonthStartsCount < dayBeginningOfMonth) {
-          week.push(null); // push empty cells on before the 1st of the month
+          week.push(moment(null)); // push empty cells on before the 1st of the month
           daysBeforeMonthStartsCount++;
         }
 
@@ -161,7 +161,7 @@ Element that renders a calendar for the given year and selects the given date.
             date++;
           }
           else {
-            week.push(null); // push empty cells on after the last day of the month (to fill the week, extra weeks)
+            week.push(moment(null)); // push empty cells on after the last day of the month (to fill the week, extra weeks)
           }
         }
 

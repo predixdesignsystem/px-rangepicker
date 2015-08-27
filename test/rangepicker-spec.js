@@ -17,11 +17,14 @@ describe('Rangepicker', function() {
     expected.forEach(function(expectedWeek, i) {
       expectedWeek.forEach(function(expectedDay, j) {
         var actualDay = calendar[i * 7 + j];
-        if (expectedDay.value === null) {
-          expect(actualDay.querySelector('button') === null || actualDay.querySelector('button').value === '').toBe(true);
+
+        var button = actualDay.querySelector('button');
+        if(expectedDay.value === null) {
+          expect(button.hidden).toBe(true);
         }
         else {
-          expect(actualDay.querySelector('button').value).toBe(expectedDay.value);
+          expect(button.value).toBe(expectedDay.value);
+          expect(button.hidden).toBe(false);
         }
 
         if (expectedDay.isSelected) {

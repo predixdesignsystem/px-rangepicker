@@ -40,6 +40,10 @@ $inuit-enable-btn--disabled     : true;
 // Component
 $cell-border-radius             : $inuit-base-spacing-unit * 2.4;
 
+button[hidden] {
+  display: none;
+}
+
 @mixin cell-rounded-left($top-left, $bottom-left) {
   border-top-left-radius: $top-left;
   border-top-right-radius: 0;

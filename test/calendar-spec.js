@@ -8,11 +8,11 @@ describe('The calendar', function() {
     calendar.forEach(function(week) {
       var plainWeek = [];
       week.forEach(function(day) {
-        if (day !== null) {
+        if (day.isValid()) {
           plainWeek.push(day.format('D'));
         }
         else {
-          plainWeek.push(day);
+          plainWeek.push(null);
         }
       });
       plainCalendar.push(plainWeek);
