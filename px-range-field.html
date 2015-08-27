@@ -17,7 +17,7 @@ Range field component which displays to/from fields and font awesome icon.
       <label class=label--inline>
         <span class=a11y>{{dateOrTime}}</span>
         <i id=icon class=fa></i>
-        <input type=text class=text-input--bare value="{{dateTimeWorkingCopy::input}}" on-focus="_focusOnField"
+        <input type=text class=text-input--bare value="{{dateTimeWorkingCopy::input}}" on-focus="_handleFocus"
                on-click="_handleClick" on-blur="_validateInput">
       </label>
     </div>
@@ -88,15 +88,11 @@ Range field component which displays to/from fields and font awesome icon.
     },
 
     _handleClick: function() {
-      this.fire('px-selected-range-field');
+      this.fire('px-clicked-range-field');
     },
 
-    _focusOnField: function() {
-      var el = this.parentNode.parentNode.querySelector('.is-focused');
-      if (el != null) {
-        el.classList.remove('is-focused');
-      }
-      this.parentNode.classList.add('is-focused');
+    _handleFocus: function() {
+      this.fire('px-focused-range-field');
     },
 
     _validateInput: function() {
@@ -124,6 +120,10 @@ Range field component which displays to/from fields and font awesome icon.
       else {
         this.toggleClass('validation-error', true, this.$$('input'));
       }
+    },
+
+    focus: function() {
+      this.querySelector('input').focus();
     }
 
   });

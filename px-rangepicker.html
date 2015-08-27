@@ -137,7 +137,7 @@ Rangepicker with time element.
 
       var self = this;
 
-      this.$.rangeFields.addEventListener('px-selected-range-field', function(e) {
+      this.$.rangeFields.addEventListener('px-clicked-range-field', function(e) {
         self.$.rangePickerModal.open();
       });
 
@@ -146,6 +146,11 @@ Rangepicker with time element.
         self.set('from', self.fromWorkingCopy);
         self.set('to', self.toWorkingCopy);
         self.$.rangePickerModal.close();
+      });
+
+      this.$.rangePickerModal.addEventListener('px-modal-close-clicked', function(e) {
+        // return focus to range fields when the close button is clicked (probably not with submit)
+        self.$.rangeFields.returnLastFocus();
       });
     }
 

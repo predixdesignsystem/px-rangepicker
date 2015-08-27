@@ -110,6 +110,35 @@ Rangepicker with time element.
       this.toggleClass('validation-error', isError, this.$$('#toFields'));
     },
 
+    ready: function() {
+      var self = this;
+      this.$.fromDate.addEventListener('px-focused-range-field', function(e) {
+        self.lastFocusedElement = self.$.fromDate;
+        self._toggleFocusToFrom(true);
+      });
+      this.$.toDate.addEventListener('px-focused-range-field', function(e) {
+        self.lastFocusedElement = self.$.toDate;
+        self._toggleFocusToFrom(false);
+      });
+      this.$.fromTime.addEventListener('px-focused-range-field', function(e) {
+        self.lastFocusedElement = self.$.fromTime;
+        self._toggleFocusToFrom(true);
+      });
+      this.$.toTime.addEventListener('px-focused-range-field', function(e) {
+        self.lastFocusedElement = self.$.toTime;
+        self._toggleFocusToFrom(false);
+      });
+    },
+
+    returnLastFocus: function() {
+      this.lastFocusedElement.focus();
+    },
+
+    _toggleFocusToFrom: function(isFromFocused) {
+      this.toggleClass('is-focused', isFromFocused, this.$$('#fromFields'));
+      this.toggleClass('is-focused', !isFromFocused, this.$$('#toFields'));
+    },
+
     _submit: function() {
       this.fire('px-submit-range');
     }

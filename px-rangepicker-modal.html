@@ -41,7 +41,7 @@ Rangepicker modal.
         </template>
       </div>
       <div class="flex flex--right border--top u-p-">
-        <button class=btn on-click="close">Close</button>
+        <button class=btn on-click="_closeAndReturnFocus">Close</button>
       </div>
     </div>
   </template>
@@ -130,6 +130,11 @@ Rangepicker modal.
      */
     close: function() {
       this.toggleAttribute('hidden', true);
+    },
+
+    _closeAndReturnFocus: function() {
+      this.close();
+      this.fire('px-modal-close-clicked');
     },
 
     _isClosed: function() {
