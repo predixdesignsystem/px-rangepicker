@@ -19,6 +19,11 @@ THIS FILE SHOULD CONTAIN ONLY ABSTRACT/'SKETCH' THEME RULES, NOT SPECIFIC TO PRE
 Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 */
 
+// Settings
+@import "px-defaults-design/_settings.defaults.scss";
+@import "px-colors-design/_settings.colors.scss";
+@import "px-mixins-design/_tools.mixins.scss";
+
 // Generic
 @import "px-normalize-design/_generic.normalize.scss";
 @import "px-box-sizing-design/_generic.box-sizing.scss";
@@ -26,7 +31,6 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 // Base
 @import "px-flexbox-design/_base.flexbox.scss";
 @import "px-viewport-design/_base.viewport.scss";
-@import "px-typography-design/_base.typography.scss";
 
 // Component
 :host {
