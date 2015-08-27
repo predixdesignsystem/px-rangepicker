@@ -3,11 +3,11 @@
 <script src="../moment/moment.js"></script>
 
 <!--
-Element providing solution to no problem in particular. As a simple, increments a counter when clicked.
+Time input which allows the user to type in hours, minutes, seconds in a controlled way and select AM/PM.
 
 ##### Usage
 
-    <px-time-input time="{{fromTimeInput}}"></px-time-input>
+    <px-time-input time="{{...}}"></px-time-input>
 
 -->
 <dom-module id="px-time-input">
@@ -150,7 +150,7 @@ Element providing solution to no problem in particular. As a simple, increments 
       }
 
     },
-    
+
     _hasFocus: function(){
       var el = this.parentNode.parentNode.querySelector('.is-focused');
       if (el != null) {
@@ -158,7 +158,7 @@ Element providing solution to no problem in particular. As a simple, increments 
       }
       this.toggleClass('is-focused', true);
     },
-    
+
     _loseFocus: function(){
       this.toggleClass('is-focused', false);
     },

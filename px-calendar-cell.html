@@ -7,10 +7,9 @@ Element that renders a calendar cell for a given date (and for non-date cells in
 
 ##### Usage
 
-    <px-calendar-cell
-        display-date="{{...}}"
-        first-range-date="{{...}}"
-        second-range-date="{{...}}>
+    <px-calendar-cell display-date="{{...}}"
+                      first-range-date="{{...}}"
+                      second-range-date="{{...}}">
     </px-calendar-cell>
 
 -->
@@ -41,14 +40,18 @@ Element that renders a calendar cell for a given date (and for non-date cells in
       firstRangeDate: Object,
 
       /**
-       * Moment object with second selected date of the range (start or end of range), used for determining styling of this cell
+       * Moment object with second selected date of the range (start or end of range) or null if only one date is selected, used for determining styling of this cell
        */
       secondRangeDate: Object,
 
       /**
-       * Set this attribute when you do want to allow future dates in the calendar
+       * (optional)
        *
-       * If not set, then future dates will be disabled and unclickable.
+       * Set this attribute when you do want to allow future dates in the date range picker.
+       *
+       * If not set, then future dates will be disabled and unclickable in the date picker.
+       *
+       * Note: this only affects the visual calendar date picker, users can always type in dates/times or choose times that are in the future.
        */
       allowFutureDates: {
         type: Boolean,

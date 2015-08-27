@@ -1,12 +1,11 @@
 <link rel="import" href="../polymer/polymer.html"/>
 
 <!--
-Range field component which displays to/from fields and font awesome icon.
+Range field component which displays a time or date and font awesome icon.
 
 ##### Usage
 
-    <px-range-field icon="fa-calendar"
-                    from="{{fromDate}}" to="{{toDate}}">
+    <px-range-field moment="{{...}}" date-or-time="Date">
     </px-range-field>
 
 -->
@@ -41,10 +40,9 @@ Range field component which displays to/from fields and font awesome icon.
       },
 
       /**
-       * Date or Time?
-       * (Comes with icon for free)
+       * Date or Time icon/text
        *
-       * 'Date' or 'Time'
+       * Format is 'Date' or 'Time'
        *
        * Can only be configured statically; not data-bindable
        */
@@ -53,13 +51,13 @@ Range field component which displays to/from fields and font awesome icon.
       },
 
       /**
-       * Moment format string for the format to display/validate this field against
+       * (optional)
        *
-       * defaults to 'MM/DD/YYYY' for date or 'hh:mm:ss A' for time
-       *
-       * see http://momentjs.com/docs/#/parsing/string-format/
+       * Moment format string for the format to display/validate this field against (see http://momentjs.com/docs/#/parsing/string-format/)
        *
        * Can only be configured statically; not data-bindable
+       *
+       * @default 'MM/DD/YYYY' for date or 'hh:mm:ss A' for time
        */
       momentFormat: {
         type: String
@@ -122,6 +120,9 @@ Range field component which displays to/from fields and font awesome icon.
       }
     },
 
+    /**
+     * Focus on the input in this range field
+     */
     focus: function() {
       this.querySelector('input').focus();
     }

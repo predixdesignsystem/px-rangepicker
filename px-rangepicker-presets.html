@@ -3,11 +3,11 @@
 <script src="../moment/moment.js"></script>
 
 <!--
-Rangepicker Presets.
+The list of preset ranges in the rangepicker modal.
 
 ##### Usage
 
-    <px-rangepicker-presets>
+    <px-rangepicker-presets preset-ranges="{{...}}">
     </px-rangepicker-presets>
 -->
 <dom-module id="px-rangepicker-presets">
@@ -32,7 +32,10 @@ Rangepicker Presets.
     properties: {
 
       /**
-       * The preset date/time ranges to be displayed.
+       * (optional)
+       *
+       * The preset date/time ranges to be displayed.  If not set, will have no presets displayed.
+       *
        *```
        *   [
        *    {
@@ -47,6 +50,8 @@ Rangepicker Presets.
        *    }
        *   ]
        * ```
+       *
+       * @default no presets
        */
       presetRanges: Object
 

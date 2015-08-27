@@ -4,7 +4,9 @@
 <script src="../moment/moment.js"></script>
 
 <!--
-Element that renders a calendar for the given year and selects the given date.
+Element that renders a calendar for the given year and month, and highlights/selects the dates within the range given by the first/second range date.
+
+The first range date may be before, after, or equal to the second range date, depending on the order of the user's clicks.
 
 ##### Usage
 
@@ -81,9 +83,13 @@ Element that renders a calendar for the given year and selects the given date.
       },
 
       /**
-       * Set this attribute when you do want to allow future dates in the calendar
+       * (optional)
        *
-       * If not set, then future dates will be disabled and unclickable.
+       * Set this attribute when you do want to allow future dates in the date range picker.
+       *
+       * If not set, then future dates will be disabled and unclickable in the date picker.
+       *
+       * Note: this only affects the visual calendar date picker, users can always type in dates/times or choose times that are in the future.
        */
       allowFutureDates: {
         type: Boolean,

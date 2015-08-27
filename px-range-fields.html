@@ -4,12 +4,11 @@
 <script src="../moment/moment.js"></script>
 
 <!--
-Rangepicker with time element.
+Component with all the date/time range fields which are displayed in the range picker.
 
 ##### Usage
 
-    <px-range-fields from-time={{...}} to-time={{...}}
-                    from-date={{...}} to-date={{...}}>
+    <px-range-fields from={{...}} to={{...}}>
     </px-range-fields>
 -->
 <dom-module id="px-range-fields">
@@ -130,6 +129,9 @@ Rangepicker with time element.
       });
     },
 
+    /**
+     * Return focus to the range field which was last focused on.
+     */
     returnLastFocus: function() {
       this.lastFocusedElement.focus();
     },

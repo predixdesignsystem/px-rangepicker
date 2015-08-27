@@ -4,11 +4,12 @@
 <script src="../moment/moment.js"></script>
 
 <!--
-Datepicker element which allows user to select a date.
+Date rangepicker element which allows user to select two dates (a range).
 
 ##### Usage
 
-    <px-date-rangepicker from-date="{{...}}" to-date="{{...}}"></px-date-rangepicker>
+    <px-date-rangepicker from-date="{{...}}" to-date="{{...}}">
+    </px-date-rangepicker>
 
 -->
 <dom-module id="px-date-rangepicker">
@@ -67,9 +68,13 @@ Datepicker element which allows user to select a date.
       },
 
       /**
+       * (optional)
+       *
        * Set this attribute when you do want to allow future dates in the date range picker.
        *
-       * If not set, then future dates will be disabled and unclickable.
+       * If not set, then future dates will be disabled and unclickable in the date picker.
+       *
+       * Note: this only affects the visual calendar date picker, users can always type in dates/times or choose times that are in the future.
        */
       allowFutureDates: {
         type: Boolean,
@@ -79,10 +84,10 @@ Datepicker element which allows user to select a date.
     },
 
     observers: [
-      'updateSelectedRange(fromDate, toDate)'
+      '_updateSelectedRange(fromDate, toDate)'
     ],
 
-    updateSelectedRange: function() {
+    _updateSelectedRange: function() {
 
       // initialize the first and second selected dates to the to and from dates
       // if the range is different & if we are NOT currently picking the date (if currently picking date, ignore it)

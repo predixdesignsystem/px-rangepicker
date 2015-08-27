@@ -6,12 +6,11 @@
 <script src="../moment/moment.js"></script>
 
 <!--
-Rangepicker modal.
+Rangepicker modal component.
 
 ##### Usage
 
-    <px-rangepicker-modal from-time={{...}} to-time={{...}}
-                          from-date={{...}} to-date={{...}}>
+    <px-rangepicker-modal from={{...}} to={{...}}>
     </px-rangepicker-modal>
 -->
 <dom-module id="px-rangepicker-modal">
@@ -71,9 +70,13 @@ Rangepicker modal.
       },
 
       /**
-       * (optional) Set this attribute when you do want to allow future dates in the date range picker.
+       * (optional)
        *
-       * If not set, then future dates will be disabled and unclickable.
+       * Set this attribute when you do want to allow future dates in the date range picker.
+       *
+       * If not set, then future dates will be disabled and unclickable in the date picker.
+       *
+       * Note: this only affects the visual calendar date picker, users can always type in dates/times or choose times that are in the future.
        */
       allowFutureDates: {
         type: Boolean,
@@ -81,7 +84,9 @@ Rangepicker modal.
       },
 
       /**
-       * (optional) The preset date/time ranges to be displayed.  Defaults to none.
+       * (optional)
+       *
+       * The preset date/time ranges to be displayed.  If not set, will have no presets displayed.
        *
        *```
        *   [
@@ -97,6 +102,8 @@ Rangepicker modal.
        *    }
        *   ]
        * ```
+       *
+       * @default no presets
        */
       presetRanges: Object
 

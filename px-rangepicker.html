@@ -42,7 +42,9 @@ Rangepicker with time element.
        *
        * Format 'MM/DD/YYYY hh:mm:ss A', for example: '01/25/2015 10:22:00 AM'
        *
-       * Defaults to now - 7 days
+       * This is a 2-way data-bindable field which will be changed when the user Submits their new selected range.
+       *
+       * @default (now - 7 days)
        */
       from: {
         type: String,
@@ -58,7 +60,9 @@ Rangepicker with time element.
        *
        * Format 'MM/DD/YYYY hh:mm:ss A', for example: '11/03/2015 04:55:00 PM'
        *
-       * Defaults to now
+       * This is a 2-way data-bindable field which will be changed when the user Submits their new selected range.
+       *
+       * @default now
        */
       to: {
         type: String,
@@ -70,9 +74,13 @@ Rangepicker with time element.
       },
 
       /**
-       * (optional) Set this attribute when you do want to allow future dates in the date range picker.
+       * (optional)
        *
-       * If not set, then future dates will be disabled and unclickable.
+       * Set this attribute when you do want to allow future dates in the date range picker.
+       *
+       * If not set, then future dates will be disabled and unclickable in the date picker.
+       *
+       * Note: this only affects the visual calendar date picker, users can always type in dates/times or choose times that are in the future.
        */
       allowFutureDates: {
         type: Boolean,
@@ -80,7 +88,9 @@ Rangepicker with time element.
       },
 
       /**
-       * (optional) The preset date/time ranges to be displayed.  Defaults to none.
+       * (optional)
+       *
+       * The preset date/time ranges to be displayed.  If not set, will have no presets displayed.
        *
        *```
        *   [
@@ -96,6 +106,8 @@ Rangepicker with time element.
        *    }
        *   ]
        * ```
+       *
+       * @default no presets
        */
       presetRanges: Object
 
