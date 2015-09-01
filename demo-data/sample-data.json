@@ -1,6 +1,8 @@
 {
-  "from": "07/11/2015 12:00:00 AM",
-  "to": "08/14/2015 03:25:00 PM",
+  "range": {
+    "from": "07/11/2015 12:00:00 AM",
+    "to": "08/14/2015 03:25:00 PM"
+  },
   "presetRanges": [
     {
       "displayText": "Last 5 Minutes",

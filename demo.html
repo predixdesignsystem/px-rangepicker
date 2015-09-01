@@ -49,16 +49,18 @@
     <!--</px-rangepicker>-->
 
     <!-- No presets -->
-    <!--<px-rangepicker from="{{sampleData.from}}" to="{{sampleData.to}}">-->
+    <!--<px-rangepicker range="{{sampleData.range}}">-->
     <!--</px-rangepicker>-->
 
     <!-- With presets -->
-    <px-rangepicker from="{{sampleData.from}}" to="{{sampleData.to}}"
+    <px-rangepicker range="{{sampleData.range}}"
                     preset-ranges="{{sampleData.presetRanges}}">
     </px-rangepicker>
 
+    <!--<px-rangepicker range='{"from":"06/16/2014 01:00:00 PM","to":"06/16/2015 01:00:00 PM"}'></px-rangepicker>-->
+
     <!-- Allow future dates -->
-    <!--<px-rangepicker from="{{sampleData.from}}" to="{{sampleData.to}}"-->
+    <!--<px-rangepicker range="{{sampleData.range}}"-->
                     <!--preset-ranges="{{sampleData.presetRanges}}"-->
                     <!--allow-future-dates>-->
     <!--</px-rangepicker>-->
@@ -69,14 +71,18 @@
 
     function change2014() {
       var rangePicker = document.querySelector('px-rangepicker');
-      rangePicker.from = '11/12/2014 02:00:00 PM';
-      rangePicker.to = '12/16/2014 05:00:00 PM';
+      rangePicker.range = {
+        from:'11/12/2014 02:00:00 PM',
+        to: '12/16/2014 05:00:00 PM'
+      };
     }
 
     function change2013() {
       var rangePicker = document.querySelector('px-rangepicker');
-      rangePicker.from = '3/12/2013 02:00:00 PM';
-      rangePicker.to = '4/16/2013 05:00:00 PM';
+      rangePicker.range = {
+        from: '3/12/2013 02:00:00 PM',
+        to: '4/16/2013 05:00:00 PM'
+      };
     }
 
   </script>

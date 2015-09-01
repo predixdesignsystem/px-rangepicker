@@ -9,7 +9,7 @@ Rangepicker with time element.
 
 ##### Usage
 
-    <px-rangepicker from={{...}} to={{...}}>
+    <px-rangepicker range="{{...}}">
     </px-rangepicker>
 -->
 <dom-module id="px-rangepicker">
@@ -38,38 +38,37 @@ Rangepicker with time element.
     properties: {
 
       /**
-       * Start date & time for time picker
+       * Range selected in the time picker
        *
-       * Format 'MM/DD/YYYY hh:mm:ss A', for example: '01/25/2015 10:22:00 AM'
+       * Format
+       * ```
+       * {
+       *    "start": "MM/DD/YYYY hh:mm:ss A",
+       *    "end" : "MM/DD/YYYY hh:mm:ss A"
+       * }
+       * ```
        *
-       * This is a 2-way data-bindable field which will be changed when the user Submits their new selected range.
+       * Example, Jan 25 2015 to Nov 3 2015
        *
-       * @default (now - 7 days)
+       *    {
+       *       "start": "01/25/2015 10:22:00 AM",
+       *       "end" : "11/03/2015 04:55:00 PM"
+       *    }
+       *
+       *
+       * This is a 2-way data-bindable object which will be changed when the user Submits their new selected range.
+       *
+       * @default the last week
        */
-      from: {
-        type: String,
+      range: {
+        type: Object,
         notify: true,
-        observer: '_updateFrom',
+        observer: '_setRange',
         value: function() {
-          return moment().subtract(7, 'day').format('MM/DD/YYYY hh:mm:ss A');
-        }
-      },
-
-      /**
-       * End date & time for time picker
-       *
-       * Format 'MM/DD/YYYY hh:mm:ss A', for example: '11/03/2015 04:55:00 PM'
-       *
-       * This is a 2-way data-bindable field which will be changed when the user Submits their new selected range.
-       *
-       * @default now
-       */
-      to: {
-        type: String,
-        notify: true,
-        observer: '_updateTo',
-        value: function() {
-          return moment().format('MM/DD/YYYY hh:mm:ss A');
+          return {
+            from: moment().subtract(7, 'day').format('MM/DD/YYYY hh:mm:ss A'),
+            to: moment().format('MM/DD/YYYY hh:mm:ss A')
+          };
         }
       },
 
@@ -118,14 +117,10 @@ Rangepicker with time element.
       '_updateMoments(fromWorkingCopy, toWorkingCopy)'
     ],
 
-    _updateFrom: function() {
+    _setRange: function() {
       // make a working copy for the state inside the rangepicker
-      this.set('fromWorkingCopy', this.from);
-    },
-
-    _updateTo: function() {
-      // make a working copy for the state inside the rangepicker
-      this.set('toWorkingCopy', this.to);
+      this.set('fromWorkingCopy', this.range.from);
+      this.set('toWorkingCopy', this.range.to);
     },
 
     _updateWorkingCopies: function() {
@@ -155,8 +150,12 @@ Rangepicker with time element.
 
       this.$.rangeFields.addEventListener('px-submit-range', function(e) {
         // apply changes to outside world
-        self.set('from', self.fromWorkingCopy);
-        self.set('to', self.toWorkingCopy);
+
+        self.set('range', {
+          from: self.fromWorkingCopy,
+          to: self.toWorkingCopy
+        });
+
         self.$.rangePickerModal.close();
       });
 

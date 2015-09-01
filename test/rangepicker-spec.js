@@ -19,7 +19,7 @@ describe('Rangepicker', function() {
         var actualDay = calendar[i * 7 + j];
 
         var button = actualDay.querySelector('button');
-        if(expectedDay.value === null) {
+        if (expectedDay.value === null) {
           expect(button.hidden).toBe(true);
         }
         else {
@@ -88,7 +88,11 @@ describe('Rangepicker', function() {
   describe('when dates passed in are in same month', function() {
 
     px.beforeEachWithFixture(function() {
-      $fixture.append('<px-rangepicker from="10/11/2014 01:00:00 PM" to="10/25/2014 03:00:00 PM"></px-rangepicker>');
+      var range = {
+        "from": "10/11/2014 01:00:00 PM",
+        "to": "10/25/2014 03:00:00 PM"
+      };
+      $fixture.append('<px-rangepicker range=\'' + JSON.stringify(range) + '\'></px-rangepicker>');
     });
 
     describe('', function() {
@@ -525,14 +529,18 @@ describe('Rangepicker', function() {
           });
 
           it('does not send changes to outside world immediately', function() {
-            expect(rangePicker.from).toBe('10/11/2014 01:00:00 PM');
-            expect(rangePicker.to).toBe('10/25/2014 03:00:00 PM');
+            expect(rangePicker.range).toEqual({
+              from: '10/11/2014 01:00:00 PM',
+              to: '10/25/2014 03:00:00 PM'
+            });
           });
 
           it('updates outside world when submit is clicked', function() {
             rangeFields._submit();
-            expect(rangePicker.from).toBe('10/08/2014 02:22:35 PM');
-            expect(rangePicker.to).toBe('10/12/2014 03:00:00 PM');
+            expect(rangePicker.range).toEqual({
+              from: '10/08/2014 02:22:35 PM',
+              to: '10/12/2014 03:00:00 PM'
+            });
           });
 
         });
@@ -542,10 +550,10 @@ describe('Rangepicker', function() {
           describe('set behind this time', function() {
 
             px.beforeEachAsync(function() {
-              rangePicker.to = null; // at the moment, need to null out old dates so no first/second consequences
-              rangePicker.from = null;
-              rangePicker.from = '11/12/2013 02:00:00 PM';
-              rangePicker.to = '12/16/2013 05:00:00 PM';
+              rangePicker.range = {
+                from: '11/12/2013 02:00:00 PM',
+                to: '12/16/2013 05:00:00 PM'
+              };
             });
 
             it('updates the fields', function() {
@@ -567,10 +575,10 @@ describe('Rangepicker', function() {
           describe('set ahead of this time', function() {
 
             px.beforeEachAsync(function() {
-              rangePicker.to = null; // at the moment, need to null out old dates so no first/second consequences
-              rangePicker.from = null;
-              rangePicker.from = '11/12/2014 02:00:00 PM';
-              rangePicker.to = '12/16/2014 05:00:00 PM';
+              rangePicker.range = {
+                from: '11/12/2014 02:00:00 PM',
+                to: '12/16/2014 05:00:00 PM'
+              };
             });
 
             it('updates the fields', function() {
@@ -600,7 +608,11 @@ describe('Rangepicker', function() {
   describe('when dates passed in are a year apart', function() {
 
     px.beforeEachWithFixture(function() {
-      $fixture.append('<px-rangepicker from="06/16/2014 01:00:00 PM" to="06/16/2015 01:00:00 PM"></px-rangepicker>');
+      var range = {
+        "from": "06/16/2014 01:00:00 PM",
+        "to": "06/16/2015 01:00:00 PM"
+      };
+      $fixture.append('<px-rangepicker range=\'' + JSON.stringify(range) + '\'></px-rangepicker>');
     });
 
     describe('', function() {
@@ -651,7 +663,11 @@ describe('Rangepicker', function() {
   describe('when pass in presets', function() {
 
     px.beforeEachWithFixture(function() {
-      $fixture.append('<px-rangepicker from="10/11/2014 01:00:00 PM" to="10/25/2014 03:00:00 PM"></px-rangepicker>');
+      var range = {
+        "from": "10/11/2014 01:00:00 PM",
+        "to": "10/25/2014 03:00:00 PM"
+      };
+      $fixture.append('<px-rangepicker range=\'' + JSON.stringify(range) + '\'></px-rangepicker>');
     });
 
     describe('', function() {
