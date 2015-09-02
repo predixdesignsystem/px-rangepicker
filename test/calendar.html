@@ -1,0 +1,167 @@
+<!doctype html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <script src="../web-component-tester/browser.js"></script>
+
+  <link rel="import" href="../px-calendar.html"/>
+
+</head>
+
+<body>
+
+  <px-calendar id="feb2015"></px-calendar>
+
+  <px-calendar id="mar2013"></px-calendar>
+
+  <px-calendar id="startLessThanEndInMonth"></px-calendar>
+
+  <script>
+
+    function convertToPlainCalendar(calendar) {
+      var plainCalendar = [];
+      calendar.forEach(function(week) {
+        var plainWeek = [];
+        week.forEach(function(day) {
+          if (day.isValid()) {
+            plainWeek.push(day.format('D'));
+          }
+          else {
+            plainWeek.push(null);
+          }
+        });
+        plainCalendar.push(plainWeek);
+      });
+      return plainCalendar;
+    }
+
+    describe('Laying out calendar', function() {
+
+      describe('February 2015', function() {
+
+        // initialization of February 2015
+        var calendarFeb2015 = document.getElementById('feb2015');
+        var feb2015 = moment("02/2015", 'MM/YYYY');
+        calendarFeb2015.displayMonthYear = feb2015;
+
+        it('has the correct Month/Year', function() {
+          assert.equal(calendarFeb2015.month, 'February');
+          assert.equal(calendarFeb2015.year, '2015');
+        });
+
+        it('has the correct dates', function() {
+          var plainCalendar = convertToPlainCalendar(calendarFeb2015.calendar);
+          assert.deepEqual(plainCalendar, [
+            ['1', '2', '3', '4', '5', '6', '7'],
+            ['8', '9', '10', '11', '12', '13', '14'],
+            ['15', '16', '17', '18', '19', '20', '21'],
+            ['22', '23', '24', '25', '26', '27', '28'],
+            [null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null]
+          ]);
+        });
+      });
+
+      describe('March 2013', function() {
+
+        // initialization of March 2013
+        var calendarMar2013 = document.getElementById('mar2013');
+        var mar2013 = moment("03/2013", 'MM/YYYY');
+        calendarMar2013.displayMonthYear = mar2013;
+        calendarMar2013.firstRangeDate = moment("03/15/2013", 'MM/DD/YYYY');
+        calendarMar2013.secondRangeDate = moment("03/26/2013", 'MM/DD/YYYY');
+
+        it('has the correct Month/Year', function() {
+          assert.equal(calendarMar2013.month, 'March');
+          assert.equal(calendarMar2013.year, '2013');
+        });
+
+        it('has the correct dates', function() {
+          var plainCalendar = convertToPlainCalendar(calendarMar2013.calendar);
+          assert.deepEqual(plainCalendar, [
+            [null, null, null, null, null, '1', '2'],
+            ['3', '4', '5', '6', '7', '8', '9'],
+            ['10', '11', '12', '13', '14', '15', '16'],
+            ['17', '18', '19', '20', '21', '22', '23'],
+            ['24', '25', '26', '27', '28', '29', '30'],
+            ['31', null, null, null, null, null, null]
+          ]);
+        });
+      });
+    });
+
+    describe('Styling of dates', function() {
+
+      describe('Start and end in month, first < second', function() {
+
+        // initialization of February 2015
+        var calendar = document.getElementById('startLessThanEndInMonth');
+        var mar13 = moment("03/2013", 'MM/YYYY');
+        calendar.displayMonthYear = mar13;
+        calendar.firstRangeDate = moment("03/15/2013", 'MM/DD/YYYY');
+        calendar.secondRangeDate = moment("03/26/2013", 'MM/DD/YYYY');
+        var calendarCells = calendar.querySelectorAll('px-calendar-cell');
+
+        it('if start of range: is-selected & is-start', function() {
+          console.log(calendarCells);
+          var mar152013 = calendarCells[19];
+          assert.equal(mar152013, 'this should not be undefined');
+//          expect(mar152013.querySelector('div').classList.contains('is-selected')).toBe(true);
+//          expect(mar152013.querySelector('div').classList.contains('is-start')).toBe(true);
+        });
+//
+//        it('if end of range: is-selected & is-end', function() {
+//          var mar262013 = calendarCells[30];
+//          expect(mar262013.querySelector('div').classList.contains('is-selected')).toBe(true);
+//          expect(mar262013.querySelector('div').classList.contains('is-end')).toBe(true);
+//        });
+//
+//        it('if between: is-between', function() {
+//          var mar182013 = calendarCells[22];
+//          expect(mar182013.querySelector('div').classList.contains('is-between')).toBe(true);
+//        });
+//
+//        it('if end of week: is-end', function() {
+//          var mar232013 = calendarCells[27];
+//          expect(mar232013.querySelector('div').classList.contains('is-end')).toBe(true);
+//        });
+//
+//        it('if start of week: is-start', function() {
+//          var mar172013 = calendarCells[21];
+//          expect(mar172013.querySelector('div').classList.contains('is-start')).toBe(true);
+//        });
+//
+//        it('if start of month: is-start', function() {
+//          var mar12013 = calendarCells[5];
+//          expect(mar12013.querySelector('div').classList.contains('is-start')).toBe(true);
+//        });
+//
+//        it('if end of month: is-end', function() {
+//          var mar312013 = calendarCells[35];
+//          expect(mar312013.querySelector('div').classList.contains('is-end')).toBe(true);
+//        });
+//
+//        it('when date is clicked: is-selected-only', function() {
+//          var mar312013 = calendarCells[35];
+//          expect(mar312013.querySelector('div').classList.contains('is-selected-only')).toBe(false);
+//          mar312013._selectDate();
+//          expect(mar312013.querySelector('div').classList.contains('is-selected-only')).toBe(true);
+//        });
+//
+//        it('when 2nd date is clicked: is-selected-only removed', function() {
+//          var mar312013 = calendarCells[35];
+//          var mar52013 = calendarCells[9];
+//          mar312013._selectDate();
+//          mar52013._selectDate();
+//          expect(mar312013.querySelector('div').classList.contains('is-selected-only')).toBe(false);
+//          expect(mar312013.querySelector('div').classList.contains('is-selected-only')).toBe(false);
+//        });
+      });
+
+    });
+  </script>
+</body>
+</html>
