@@ -19,34 +19,34 @@ The first range date may be before, after, or equal to the second range date, de
 <dom-module id="px-calendar">
   <link rel="import" type="css" href="css/px-calendar.css"/>
   <template>
-    <table class="table table--no-cells text--center" id="calendar">
+    <div class="table table--no-cells text--center" id="calendar" style="height:auto">
       <caption>
         <span>{{month}}</span>
         <span>{{year}}</span>
       </caption>
-      <thead>
-        <tr>
+      <div>
+        <div>
           <template is="dom-repeat" items="{{daysOfTheWeek}}" as="dayOfTheWeek">
-            <th class="caps u-pt0">{{dayOfTheWeek}}</th>
+            <span class="caps u-pt0">{{dayOfTheWeek}}</span>
           </template>
-        </tr>
-      </thead>
-      <tbody>
+        </div>
+      </div>
+      <div style="height:auto">
         <template is="dom-repeat" items="{{calendar}}" as="week">
-          <tr>
+          <div style="height:auto">
             <template is="dom-repeat" items="{{week}}" as="date">
-              <td>
+              <span>
                 <px-calendar-cell display-date="{{date}}"
                                   first-range-date="{{firstRangeDate}}"
                                   second-range-date="{{secondRangeDate}}"
                                   allow-future-dates="{{allowFutureDates}}">
                 </px-calendar-cell>
-              </td>
+              </span>
             </template>
-          </tr>
+          </div>
         </template>
-      </tbody>
-    </table>
+      </div>
+    </div>
 
   </template>
 </dom-module>
