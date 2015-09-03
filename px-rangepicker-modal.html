@@ -92,13 +92,13 @@ Rangepicker modal component.
        *   [
        *    {
        *      "displayText": "Last 5 Minutes",
-       *      "startDateTime": "08/21/2015 12:57:33 PM",
-       *      "endDateTime": "08/21/2015 1:02:33 PM"
+       *      "startDateTime": "2013-02-04T22:44:30.652Z",
+       *      "endDateTime": "2013-02-04T22:49:30.652Z"
        *    },
        *    {
        *      "displayText": "Last 12 Hours",
-       *      "startDateTime": "08/21/2015 1:02:33 AM",
-       *      "endDateTime": "08/21/2015 1:02:33 PM"
+       *      "startDateTime": "2013-02-04T10:44:30.652Z",
+       *      "endDateTime": "2013-02-04T22:49:30.652Z"
        *    }
        *   ]
        * ```
@@ -116,8 +116,8 @@ Rangepicker modal component.
         var presetStartDateTime = e.detail.startDateTime;
         var presetEndDateTime = e.detail.endDateTime;
 
-        self.set('from', moment(presetStartDateTime, 'MM/DD/YYYY hh:mm:ss A'));
-        self.set('to', moment(presetEndDateTime, 'MM/DD/YYYY hh:mm:ss A'));
+        self.set('from', moment(presetStartDateTime));
+        self.set('to', moment(presetEndDateTime));
       });
 
     },

@@ -35,7 +35,7 @@
       handle-as="json"></iron-ajax>
 
     <div>
-      Time Series Chart is from <b>{{sampleData.from}}</b> to <b>{{sampleData.to}}</b>
+      Time Series Chart is from <b>{{sampleData.range.from}}</b> to <b>{{sampleData.range.to}}</b>
     </div>
 
     <button onclick="change2014()">Change to Nov/Dec 2014</button>
@@ -45,19 +45,12 @@
     <br>
 
     <!-- Defaults to last week -->
-    <!--<px-rangepicker>-->
+    <!--<px-rangepicker range="{{x}}">-->
     <!--</px-rangepicker>-->
 
-    <!-- No presets -->
-    <!--<px-rangepicker range="{{sampleData.range}}">-->
-    <!--</px-rangepicker>-->
-
-    <!-- With presets -->
-    <px-rangepicker range="{{sampleData.range}}"
-                    preset-ranges="{{sampleData.presetRanges}}">
+    <!-- with/without presets -->
+    <px-rangepicker range="{{sampleData.range}}">
     </px-rangepicker>
-
-    <!--<px-rangepicker range='{"from":"06/16/2014 01:00:00 PM","to":"06/16/2015 01:00:00 PM"}'></px-rangepicker>-->
 
     <!-- Allow future dates -->
     <!--<px-rangepicker range="{{sampleData.range}}"-->
@@ -69,24 +62,54 @@
 
   <script>
 
+    window.addEventListener('WebComponentsReady', function() {
+
+      var now = moment();
+      var oneDay = moment().subtract(1, 'day');
+      var oneWeek = moment().subtract(1, 'week');
+      var oneYear = moment().subtract(1, 'year');
+
+      var presets = [
+        {
+          "displayText": "Last Day",
+          "startDateTime": oneDay.toISOString(),
+          "endDateTime": now.toISOString()
+        },
+        {
+          "displayText": "Last Week",
+          "startDateTime": oneWeek.toISOString(),
+          "endDateTime": now.toISOString()
+        },
+        {
+          "displayText": "Last Year",
+          "startDateTime": oneYear.toISOString(),
+          "endDateTime": now.toISOString()
+        }
+      ];
+
+      /** add presets **/
+      var rangePicker = document.querySelector('px-rangepicker');
+      rangePicker.presetRanges = presets;
+
+    });
+
     function change2014() {
       var rangePicker = document.querySelector('px-rangepicker');
       rangePicker.range = {
-        from:'11/12/2014 02:00:00 PM',
-        to: '12/16/2014 05:00:00 PM'
+        from: '2014-11-12T02:00:00Z',
+        to: '2014-12-16T17:00:00Z'
       };
     }
 
     function change2013() {
       var rangePicker = document.querySelector('px-rangepicker');
       rangePicker.range = {
-        from: '3/12/2013 02:00:00 PM',
-        to: '4/16/2013 05:00:00 PM'
+        from: '2013-03-12T15:00:00Z',
+        to: '2013-04-16T01:00:00Z'
       };
     }
 
   </script>
-
 
 </body>
 </html>
