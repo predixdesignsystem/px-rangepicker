@@ -407,25 +407,18 @@
       });
 
       it('displays the passed in presets', function() {
-        var presetsSection = rangepickerModal.querySelector('px-rangepicker-presets');
         var presets = presetsSection.querySelectorAll('button');
         assert.equal(presets.length, 5);
       });
 
       describe('when a preset is selected', function() {
 
-        beforeEach(function() {
-          var rangeFields = withPresets.querySelector('#rangeFields');
-          dateFromField = rangeFields.querySelector('#fromDate');
-          dateToField = rangeFields.querySelector('#toDate');
-          timeFromField = rangeFields.querySelector('#fromTime');
-          timeToField = rangeFields.querySelector('#toTime');
-
-          var rangepickerModal = withPresets.querySelector('#rangePickerModal');
-          dateRangePicker = rangepickerModal.querySelector('#dateRangePicker');
-          timeRangePicker = rangepickerModal.querySelector('#timeRangePicker');
-
-          $(presets[0]).click();
+        before(function() {
+          presetsSection._usePreset({
+            model: {
+              preset: presetsSection.presetRanges[0]
+            }
+          });
         });
 
         it('changes the range fields', function() {
@@ -876,8 +869,8 @@
         });
 
         before(function() {
-          dateToField.dateTimeWorkingCopy = '05/04/2013';
-          dateToField._validateInput();
+          dateFromField.dateTimeWorkingCopy = '05/04/2013';
+          dateFromField._validateInput();
         });
 
         it('does not move the visible calendars right away', function() {
