@@ -4,8 +4,9 @@
 <head>
   <meta charset="utf-8">
 
-  <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
-  <script src="../web-component-tester/browser.js"></script>
+  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../moment/moment.js"></script>
 
   <link rel="import" href="../px-time-input.html"/>
 
@@ -18,6 +19,25 @@
   <script>
 
     var timeInput;
+
+    function waitFor(done, fn) {
+      var myInterval, myTimeout;
+
+      myTimeout = setTimeout(function() {
+        clearInterval(myInterval); // worst case, kill interval after 1/2 a second
+        clearTimeout(myTimeout);
+        done();
+      }, 1001);
+
+      // loop until calendar cells have rendered
+      myInterval = setInterval(function() {
+        if (fn()) { // if the function returns true, call done()
+          clearInterval(myInterval);
+          clearTimeout(myTimeout);
+          done();
+        }
+      }, 50);
+    }
 
     var getFakeEvent = function(number, isNumberPad) {
       var keyCode = number + 48;
@@ -59,9 +79,18 @@
 
     describe('Times', function() {
 
-      timeInput = document.querySelector('px-time-input');
-      var time = moment("07:06:05 PM", "hh:mm:ss A");
-      timeInput.time = time;
+      before(function(done) {
+
+        timeInput = document.querySelector('px-time-input');
+        var time = moment("07:06:05 PM", "hh:mm:ss A");
+        timeInput.time = time;
+
+        function isHoursChanged() {
+          return timeInput.hours === '07';
+        }
+
+        waitFor(done, isHoursChanged);
+      });
 
       it('from time is initialized to the time passed in', function() {
         assert.equal(timeInput.hours, '07');

@@ -4,8 +4,9 @@
 <head>
   <meta charset="utf-8">
 
-  <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
-  <script src="../web-component-tester/browser.js"></script>
+  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../moment/moment.js"></script>
 
   <link rel="import" href="../px-rangepicker.html"/>
 
@@ -175,7 +176,7 @@
         clearInterval(myInterval); // worst case, kill interval after 1/2 a second
         clearTimeout(myTimeout);
         done();
-      }, 1001);
+      }, 3001);
 
       // loop until calendar cells have rendered
       myInterval = setInterval(function() {
@@ -204,39 +205,47 @@
     var now, fewSecondsAgo, lastWeek, lastWeekFewSecondsAgo;
     var leftCalendar, rightCalendar, timeFromInput, timeToInput, presetsSection;
 
-    function initializeAllFields(rangepickerInstanceId) {
-      rangepicker = document.getElementById(rangepickerInstanceId);
-
-      rangeFields = rangepicker.querySelector('#rangeFields');
-      dateFromField = rangeFields.querySelector('#fromDate');
-      dateToField = rangeFields.querySelector('#toDate');
-      timeFromField = rangeFields.querySelector('#fromTime');
-      timeToField = rangeFields.querySelector('#toTime');
-
-      rangepickerModal = rangepicker.querySelector('#rangePickerModal');
-      dateRangePicker = rangepickerModal.querySelector('#dateRangePicker');
-      timeRangePicker = rangepickerModal.querySelector('#timeRangePicker');
-
+    function initializeAllFields(rangepickerInstanceId, done) {
       now = moment();
       fewSecondsAgo = moment().subtract(3, 'second');
 
       lastWeek = moment().subtract(7, 'day');
       lastWeekFewSecondsAgo = moment().subtract(7, 'day').subtract(3, 'second');
 
-      timeFromInput = timeRangePicker.querySelector('#fromTime');
-      timeToInput = timeRangePicker.querySelector('#toTime');
-      leftCalendar = dateRangePicker.querySelector('#leftCalendar');
-      rightCalendar = dateRangePicker.querySelector('#rightCalendar');
+      rangepicker = document.getElementById(rangepickerInstanceId);
+      rangeFields = rangepicker.querySelector('#rangeFields');
+      rangepickerModal = rangepicker.querySelector('#rangePickerModal');
 
-      presetsSection = rangepickerModal.querySelector('px-rangepicker-presets');
+      function initializeRangeFieldsAndModal() {
+        dateFromField = rangeFields.querySelector('#fromDate');
+        dateToField = rangeFields.querySelector('#toDate');
+        timeFromField = rangeFields.querySelector('#fromTime');
+        timeToField = rangeFields.querySelector('#toTime');
+
+        dateRangePicker = rangepickerModal.querySelector('#dateRangePicker');
+        timeRangePicker = rangepickerModal.querySelector('#timeRangePicker');
+
+        timeFromInput = timeRangePicker.querySelector('#fromTime');
+        timeToInput = timeRangePicker.querySelector('#toTime');
+        leftCalendar = dateRangePicker.querySelector('#leftCalendar');
+        rightCalendar = dateRangePicker.querySelector('#rightCalendar');
+
+        presetsSection = rangepickerModal.querySelector('px-rangepicker-presets');
+
+        done();
+      }
+
+      waitFor(initializeRangeFieldsAndModal, function() {
+        return rangeFields != null && rangepickerModal != null;
+      });
     }
 
     describe('when no dates are passed in', function() {
 
       describe('defaults to the last week', function() {
 
-        beforeEach(function() {
-          initializeAllFields('noDates');
+        before(function(done) {
+          initializeAllFields('noDates', done);
         });
 
         it('initializes the range fields', function() {
@@ -261,8 +270,8 @@
 
     describe('when dates passed in are in same month', function() {
 
-      beforeEach(function() {
-        initializeAllFields('sameMonth');
+      before(function(done) {
+        initializeAllFields('sameMonth', done);
       });
 
       describe('rangefields are initialized to passed in date/time', function() {
@@ -338,8 +347,8 @@
 
     describe('when dates passed in not in the ISO8601 format', function() {
 
-      beforeEach(function() {
-        initializeAllFields('nonIsoFormat');
+      before(function(done) {
+        initializeAllFields('nonIsoFormat', done);
       });
 
       describe('rangefields are initialized to Invalid Date', function() {
@@ -366,8 +375,8 @@
 
     describe('when dates passed in are a year apart', function() {
 
-      beforeEach(function() {
-        initializeAllFields('yearApart');
+      before(function(done) {
+        initializeAllFields('yearApart', done);
       });
 
       describe('when the modal is opened', function() {
@@ -404,37 +413,46 @@
 
     describe('when pass in presets', function() {
 
-      var withPresets = document.getElementById('withPresets');
-      withPresets.presetRanges = [
-        {
-          "displayText": "Some Custom Range",
-          "startDateTime": "08/21/2015 12:57:33 PM",
-          "endDateTime": "08/24/2015 01:02:33 PM"
-        },
-        {
-          "displayText": "Last 12 Hours",
-          "startDateTime": "08/21/2015 1:02:33 AM",
-          "endDateTime": "08/21/2015 1:02:33 PM"
-        },
-        {
-          "displayText": "Yesterday",
-          "startDateTime": "08/20/2015 12:00:00 AM",
-          "endDateTime": "08/20/2015 12:00:00 PM"
-        },
-        {
-          "displayText": "Last Month",
-          "startDateTime": "07/21/2015 12:00:00 AM",
-          "endDateTime": "08/21/2015 12:00:00 AM"
-        },
-        {
-          "displayText": "Last Year",
-          "startDateTime": "08/21/2014 12:00:00 AM",
-          "endDateTime": "08/21/2015 12:00:00 AM"
-        }
-      ];
+      before(function(done) {
+        initializeAllFields('withPresets', done);
+      });
 
-      beforeEach(function() {
-        initializeAllFields('withPresets');
+      before(function(done) {
+        var withPresets = document.getElementById('withPresets');
+        withPresets.presetRanges = [
+          {
+            "displayText": "Some Custom Range",
+            "startDateTime": "08/21/2015 12:57:33 PM",
+            "endDateTime": "08/24/2015 01:02:33 PM"
+          },
+          {
+            "displayText": "Last 12 Hours",
+            "startDateTime": "08/21/2015 1:02:33 AM",
+            "endDateTime": "08/21/2015 1:02:33 PM"
+          },
+          {
+            "displayText": "Yesterday",
+            "startDateTime": "08/20/2015 12:00:00 AM",
+            "endDateTime": "08/20/2015 12:00:00 PM"
+          },
+          {
+            "displayText": "Last Month",
+            "startDateTime": "07/21/2015 12:00:00 AM",
+            "endDateTime": "08/21/2015 12:00:00 AM"
+          },
+          {
+            "displayText": "Last Year",
+            "startDateTime": "08/21/2014 12:00:00 AM",
+            "endDateTime": "08/21/2015 12:00:00 AM"
+          }
+        ];
+
+        function isPresetsSectionNotNull() {
+          presetsSection = rangepickerModal.querySelector('px-rangepicker-presets');
+          return presetsSection !== null;
+        };
+
+        waitFor(done, isPresetsSectionNotNull);
       });
 
       it('displays the passed in presets', function() {
@@ -480,7 +498,10 @@
       describe('one click', function() {
 
         before(function(done) {
-          initializeAllFields('selectDate1');
+          initializeAllFields('selectDate1', done);
+        });
+
+        before(function(done) {
           openModal(done, dateFromField, leftCalendar, rightCalendar);
         });
 
@@ -498,7 +519,10 @@
       describe('when a 2nd date is selected (range)', function() {
 
         before(function(done) {
-          initializeAllFields('selectDate2');
+          initializeAllFields('selectDate2', done);
+        });
+
+        before(function(done) {
           openModal(done, dateFromField, leftCalendar, rightCalendar);
         });
 
@@ -530,7 +554,10 @@
       describe('when a backwards date is selected (range)', function() {
 
         before(function(done) {
-          initializeAllFields('selectDate2');
+          initializeAllFields('selectDate2', done);
+        });
+
+        before(function(done) {
           openModal(done, dateFromField, leftCalendar, rightCalendar);
         });
 
@@ -559,7 +586,10 @@
     describe('when jump back', function() {
 
       before(function(done) {
-        initializeAllFields('jumpBack');
+        initializeAllFields('jumpBack', done);
+      });
+
+      before(function(done) {
         openModal(done, dateFromField, leftCalendar, rightCalendar);
       });
 
@@ -617,7 +647,10 @@
     describe('when jump forward', function() {
 
       before(function(done) {
-        initializeAllFields('jumpForward');
+        initializeAllFields('jumpForward', done);
+      });
+
+      before(function(done) {
         openModal(done, dateFromField, leftCalendar, rightCalendar);
       });
 
@@ -652,7 +685,10 @@
     describe('when select date, then jump back and select second date', function() {
 
       before(function(done) {
-        initializeAllFields('selectThenJumpAndSelect');
+        initializeAllFields('selectThenJumpAndSelect', done);
+      });
+
+      before(function(done) {
         openModal(done, dateFromField, leftCalendar, rightCalendar);
       });
 
@@ -690,7 +726,10 @@
       describe('to', function() {
 
         before(function(done) {
-          initializeAllFields('changeTime1');
+          initializeAllFields('changeTime1', done);
+        });
+
+        before(function(done) {
           openModal(done, dateFromField, leftCalendar, rightCalendar);
         });
 
@@ -705,7 +744,10 @@
       describe('from', function() {
 
         before(function(done) {
-          initializeAllFields('changeTime2');
+          initializeAllFields('changeTime2', done);
+        });
+
+        before(function(done) {
           openModal(done, dateFromField, leftCalendar, rightCalendar);
         });
 
@@ -722,7 +764,10 @@
     describe('when select 1 date, then change time', function() {
 
       before(function(done) {
-        initializeAllFields('select1ChangeTime');
+        initializeAllFields('select1ChangeTime', done);
+      });
+
+      before(function(done) {
         openModal(done, dateFromField, leftCalendar, rightCalendar);
       });
 
@@ -752,7 +797,10 @@
     describe('when select the second date, reflects the new time with the new dates', function() {
 
       before(function(done) {
-        initializeAllFields('select2ndDate');
+        initializeAllFields('select2ndDate', done);
+      });
+
+      before(function(done) {
         openModal(done, dateFromField, leftCalendar, rightCalendar);
       });
 
@@ -788,7 +836,10 @@
       describe('date field - valid', function() {
 
         before(function(done) {
-          initializeAllFields('typingDateFieldValid');
+          initializeAllFields('typingDateFieldValid', done);
+        });
+
+        before(function(done) {
           openModal(done, dateFromField, leftCalendar, rightCalendar);
         });
 
@@ -812,7 +863,10 @@
       describe('date field - invalid', function() {
 
         before(function(done) {
-          initializeAllFields('typingDateFieldInvalid');
+          initializeAllFields('typingDateFieldInvalid', done);
+        });
+
+        before(function(done) {
           openModal(done, dateFromField, leftCalendar, rightCalendar);
         });
 
@@ -831,7 +885,10 @@
       describe('time field - valid', function() {
 
         before(function(done) {
-          initializeAllFields('typingTimeFieldValid');
+          initializeAllFields('typingTimeFieldValid', done);
+        });
+
+        before(function(done) {
           openModal(done, dateFromField, leftCalendar, rightCalendar);
         });
 
@@ -855,7 +912,10 @@
       describe('time field - invalid', function() {
 
         before(function(done) {
-          initializeAllFields('typingTimeFieldInvalid');
+          initializeAllFields('typingTimeFieldInvalid', done);
+        });
+
+        before(function(done) {
           openModal(done, dateFromField, leftCalendar, rightCalendar);
         });
 
@@ -874,7 +934,10 @@
       describe('range validation', function() {
 
         before(function(done) {
-          initializeAllFields('rangeValidation');
+          initializeAllFields('rangeValidation', done);
+        });
+
+        before(function(done) {
           openModal(done, dateFromField, leftCalendar, rightCalendar);
         });
 
@@ -895,7 +958,10 @@
       describe('calendar movement when typing', function() {
 
         before(function(done) {
-          initializeAllFields('calendarMovement');
+          initializeAllFields('calendarMovement', done);
+        });
+
+        before(function(done) {
           openModal(done, dateFromField, leftCalendar, rightCalendar);
         });
 
@@ -944,7 +1010,10 @@
     describe('when a date/time is picked', function() {
 
       before(function(done) {
-        initializeAllFields('dateTimePicked');
+        initializeAllFields('dateTimePicked', done);
+      });
+
+      before(function(done) {
         openModal(done, dateFromField, leftCalendar, rightCalendar);
       });
 
@@ -981,7 +1050,10 @@
       describe('set behind this time', function() {
 
         before(function(done) {
-          initializeAllFields('developerChangesRange1');
+          initializeAllFields('developerChangesRange1', done);
+        });
+
+        before(function(done) {
           openModal(done, dateFromField, leftCalendar, rightCalendar);
         });
 
@@ -1011,7 +1083,10 @@
       describe('set ahead of this time', function() {
 
         before(function(done) {
-          initializeAllFields('developerChangesRange2');
+          initializeAllFields('developerChangesRange2', done);
+        });
+
+        before(function(done) {
           openModal(done, dateFromField, leftCalendar, rightCalendar);
         });
 

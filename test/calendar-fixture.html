@@ -4,8 +4,9 @@
 <head>
   <meta charset="utf-8">
 
-  <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
-  <script src="../web-component-tester/browser.js"></script>
+  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../moment/moment.js"></script>
 
   <link rel="import" href="../px-calendar.html"/>
 
@@ -26,6 +27,25 @@
   <px-calendar id="same"></px-calendar>
 
   <script>
+
+    function waitFor(done, fn) {
+      var myInterval, myTimeout;
+
+      myTimeout = setTimeout(function() {
+        clearInterval(myInterval); // worst case, kill interval after 1/2 a second
+        clearTimeout(myTimeout);
+        done();
+      }, 1001);
+
+      // loop until calendar cells have rendered
+      myInterval = setInterval(function() {
+        if (fn()) { // if the function returns true, call done()
+          clearInterval(myInterval);
+          clearTimeout(myTimeout);
+          done();
+        }
+      }, 50);
+    }
 
     function convertToPlainCalendar(calendar) {
       var plainCalendar = [];
@@ -48,10 +68,21 @@
 
       describe('February 2015', function() {
 
-        // initialization of February 2015
-        var calendarFeb2015 = document.getElementById('feb2015');
-        var feb2015 = moment("02/2015", 'MM/YYYY');
-        calendarFeb2015.displayMonthYear = feb2015;
+        var calendarFeb2015;
+
+        before(function(done) {
+
+          // initialization of February 2015
+          calendarFeb2015 = document.getElementById('feb2015');
+          var feb2015 = moment("02/2015", 'MM/YYYY');
+          calendarFeb2015.displayMonthYear = feb2015;
+
+          function isFebruary() {
+            return calendarFeb2015.month === 'February';
+          }
+
+          waitFor(done, isFebruary);
+        });
 
         it('has the correct Month/Year', function() {
           assert.equal(calendarFeb2015.month, 'February');
@@ -73,12 +104,23 @@
 
       describe('March 2013', function() {
 
-        // initialization of March 2013
-        var calendarMar2013 = document.getElementById('mar2013');
-        var mar2013 = moment("03/2013", 'MM/YYYY');
-        calendarMar2013.displayMonthYear = mar2013;
-        calendarMar2013.firstRangeDate = moment("03/15/2013", 'MM/DD/YYYY');
-        calendarMar2013.secondRangeDate = moment("03/26/2013", 'MM/DD/YYYY');
+        var calendarMar2013;
+
+        before(function(done) {
+
+          // initialization of March 2013
+          calendarMar2013 = document.getElementById('mar2013');
+          var mar2013 = moment("03/2013", 'MM/YYYY');
+          calendarMar2013.displayMonthYear = mar2013;
+          calendarMar2013.firstRangeDate = moment("03/15/2013", 'MM/DD/YYYY');
+          calendarMar2013.secondRangeDate = moment("03/26/2013", 'MM/DD/YYYY');
+
+          function isMarch() {
+            return calendarMar2013.month === 'March';
+          }
+
+          waitFor(done, isMarch);
+        });
 
         it('has the correct Month/Year', function() {
           assert.equal(calendarMar2013.month, 'March');
@@ -103,14 +145,24 @@
 
       describe('Start and end in month, first < second', function() {
 
-        var calendar = document.getElementById('startLessThanEndInMonth');
-        var mar13 = moment("03/2013", 'MM/YYYY');
-        calendar.displayMonthYear = mar13;
-        calendar.firstRangeDate = moment("03/15/2013", 'MM/DD/YYYY');
-        calendar.secondRangeDate = moment("03/26/2013", 'MM/DD/YYYY');
+        var calendar, calendarCells;
 
-        var calendarCells;
-        beforeEach(function() {
+        before(function(done) {
+
+          calendar = document.getElementById('startLessThanEndInMonth');
+          var mar13 = moment("03/2013", 'MM/YYYY');
+          calendar.displayMonthYear = mar13;
+          calendar.firstRangeDate = moment("03/15/2013", 'MM/DD/YYYY');
+          calendar.secondRangeDate = moment("03/26/2013", 'MM/DD/YYYY');
+
+          function isMarch() {
+            return calendar.month === 'March';
+          }
+
+          waitFor(done, isMarch);
+        });
+
+        before(function() {
           calendarCells = calendar.querySelectorAll('px-calendar-cell');
         });
 
@@ -168,17 +220,26 @@
         });
       });
 
-
       describe('Start and end in month, first > second', function() {
 
-        var calendar = document.getElementById('startGreaterThanEndInMonth');
-        var mar13 = moment("03/2013", 'MM/YYYY');
-        calendar.displayMonthYear = mar13;
-        calendar.firstRangeDate = moment("03/15/2013", 'MM/DD/YYYY');
-        calendar.secondRangeDate = moment("03/12/2013", 'MM/DD/YYYY');
+        var calendar, calendarCells;
 
-        var calendarCells;
-        beforeEach(function() {
+        before(function(done) {
+
+          calendar = document.getElementById('startGreaterThanEndInMonth');
+          var mar13 = moment("03/2013", 'MM/YYYY');
+          calendar.displayMonthYear = mar13;
+          calendar.firstRangeDate = moment("03/15/2013", 'MM/DD/YYYY');
+          calendar.secondRangeDate = moment("03/12/2013", 'MM/DD/YYYY');
+
+          function isMarch() {
+            return calendar.month === 'March';
+          }
+
+          waitFor(done, isMarch);
+        });
+
+        before(function() {
           calendarCells = calendar.querySelectorAll('px-calendar-cell');
         });
 
@@ -197,14 +258,24 @@
 
       describe('Start and end NOT in month', function() {
 
-        var calendar = document.getElementById('notInMonth');
-        var mar13 = moment("03/2013", 'MM/YYYY');
-        calendar.displayMonthYear = mar13;
-        calendar.firstRangeDate = moment("04/12/2013", 'MM/DD/YYYY');
-        calendar.secondRangeDate = moment("02/01/2013", 'MM/DD/YYYY');
+        var calendar, calendarCells;
 
-        var calendarCells;
-        beforeEach(function() {
+        before(function(done) {
+
+          calendar = document.getElementById('notInMonth');
+          var mar13 = moment("03/2013", 'MM/YYYY');
+          calendar.displayMonthYear = mar13;
+          calendar.firstRangeDate = moment("04/12/2013", 'MM/DD/YYYY');
+          calendar.secondRangeDate = moment("02/01/2013", 'MM/DD/YYYY');
+
+          function isMarch() {
+            return calendar.month === 'March';
+          }
+
+          waitFor(done, isMarch);
+        });
+
+        before(function() {
           calendarCells = calendar.querySelectorAll('px-calendar-cell');
         });
 
@@ -218,14 +289,24 @@
 
       describe('Start and End are SAME', function() {
 
-        var calendar = document.getElementById('same');
-        var mar13 = moment("03/2013", 'MM/YYYY');
-        calendar.displayMonthYear = mar13;
-        calendar.firstRangeDate = moment("03/12/2013", 'MM/DD/YYYY');
-        calendar.secondRangeDate = moment("03/12/2013", 'MM/DD/YYYY');
+        var calendar, calendarCells;
 
-        var calendarCells;
-        beforeEach(function() {
+        before(function(done) {
+
+          calendar = document.getElementById('same');
+          var mar13 = moment("03/2013", 'MM/YYYY');
+          calendar.displayMonthYear = mar13;
+          calendar.firstRangeDate = moment("03/12/2013", 'MM/DD/YYYY');
+          calendar.secondRangeDate = moment("03/12/2013", 'MM/DD/YYYY');
+
+          function isMarch() {
+            return calendar.month === 'March';
+          }
+
+          waitFor(done, isMarch);
+        });
+
+        before(function() {
           calendarCells = calendar.querySelectorAll('px-calendar-cell');
         });
 
@@ -236,7 +317,6 @@
           assert.equal(mar122013.querySelector('div').classList.contains('is-selected'), true);
         });
       });
-
 
     });
   </script>
