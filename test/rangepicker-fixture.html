@@ -174,7 +174,6 @@
       myTimeout = setTimeout(function() {
         clearInterval(myInterval); // worst case, kill interval after 1/2 a second
         clearTimeout(myTimeout);
-        assert.equal('had to kill it', 'yuck');
         done();
       }, 1001);
 
