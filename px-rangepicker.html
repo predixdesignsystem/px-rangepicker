@@ -57,6 +57,7 @@ Rangepicker with time element.
       range: {
         type: Object,
         notify: true,
+        reflectToAttribute: true, // need both notify & reflectToAttribute for bind-polymer to work
         observer: '_setRange',
         value: function() {
           return {
