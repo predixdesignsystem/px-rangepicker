@@ -14,4 +14,4 @@ script:
   - npm install
   - bower --allow-root install
   - grunt
-  - grunt test
+  - wct
