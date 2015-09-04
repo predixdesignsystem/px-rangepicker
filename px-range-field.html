@@ -101,9 +101,10 @@ Range field component which displays a time or date and font awesome icon.
         var momentCopy = moment(this.dateTimeWorkingCopy, this.momentFormat);
 
         if (this.dateOrTime.toLowerCase() == 'time') { // if i'm typing in a time field, make sure the date is still right
-          momentCopy.date(this.moment.date());
-          momentCopy.month(this.moment.month());
-          momentCopy.year(this.moment.year());
+          momentCopy.date(1); // first, 'zero' the date back to the first of the month to prevent any rolling effects (if a month doesn't have 30/31 days)
+          momentCopy.year(this.moment.year()); // set the year
+          momentCopy.month(this.moment.month()); // then the month
+          momentCopy.date(this.moment.date()); // and finally the date, to make sure we don't have any rolling effects
         }
         else {
           momentCopy.hour(this.moment.hour());

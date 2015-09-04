@@ -11,6 +11,8 @@ Rangepicker with time element.
 
     <px-rangepicker range="{{...}}">
     </px-rangepicker>
+
+@demo demo.html
 -->
 <dom-module id="px-rangepicker">
   <template>
@@ -38,23 +40,15 @@ Rangepicker with time element.
     properties: {
 
       /**
-       * Range selected in the time picker
+       * Range selected in the time picker - as ISO8601 strings
        *
        * Format
        * ```
        * {
-       *    "start": "MM/DD/YYYY hh:mm:ss A",
-       *    "end" : "MM/DD/YYYY hh:mm:ss A"
+       *    "start": "2013-01-07T22:44:30.652Z",
+       *    "end" : "2013-02-04T22:44:30.652Z"
        * }
        * ```
-       *
-       * Example, Jan 25 2015 to Nov 3 2015
-       *
-       *    {
-       *       "start": "01/25/2015 10:22:00 AM",
-       *       "end" : "11/03/2015 04:55:00 PM"
-       *    }
-       *
        *
        * This is a 2-way data-bindable object which will be changed when the user Submits their new selected range.
        *
@@ -63,11 +57,12 @@ Rangepicker with time element.
       range: {
         type: Object,
         notify: true,
+        reflectToAttribute: true, // need both notify & reflectToAttribute for bind-polymer to work
         observer: '_setRange',
         value: function() {
           return {
-            from: moment().subtract(7, 'day').format('MM/DD/YYYY hh:mm:ss A'),
-            to: moment().format('MM/DD/YYYY hh:mm:ss A')
+            from: moment().subtract(7, 'day').toISOString(),
+            to: moment().toISOString()
           };
         }
       },
@@ -95,13 +90,13 @@ Rangepicker with time element.
        *   [
        *    {
        *      "displayText": "Last 5 Minutes",
-       *      "startDateTime": "08/21/2015 12:57:33 PM",
-       *      "endDateTime": "08/21/2015 1:02:33 PM"
+       *      "startDateTime": "2013-02-04T22:44:30.652Z",
+       *      "endDateTime": "2013-02-04T22:49:30.652Z"
        *    },
        *    {
        *      "displayText": "Last 12 Hours",
-       *      "startDateTime": "08/21/2015 1:02:33 AM",
-       *      "endDateTime": "08/21/2015 1:02:33 PM"
+       *      "startDateTime": "2013-02-04T10:44:30.652Z",
+       *      "endDateTime": "2013-02-04T22:49:30.652Z"
        *    }
        *   ]
        * ```
@@ -124,8 +119,8 @@ Rangepicker with time element.
     },
 
     _updateWorkingCopies: function() {
-      this.set('fromWorkingCopy', this.fromMoment.format('MM/DD/YYYY hh:mm:ss A'));
-      this.set('toWorkingCopy', this.toMoment.format('MM/DD/YYYY hh:mm:ss A'));
+      this.set('fromWorkingCopy', this.fromMoment.toISOString());
+      this.set('toWorkingCopy', this.toMoment.toISOString());
     },
 
     _updateMoments: function() {
@@ -134,7 +129,7 @@ Rangepicker with time element.
     },
 
     _updateMomentIfDifferent: function(newTimeString, currentMomentName) {
-      var newMoment = moment(newTimeString, 'MM/DD/YYYY hh:mm:ss A');
+      var newMoment = moment(newTimeString, moment.ISO_8601);
       if (!this[currentMomentName] || !this[currentMomentName].isSame(newMoment, 'second')) { // break unnecessary looping
         this.set(currentMomentName, newMoment);
       }

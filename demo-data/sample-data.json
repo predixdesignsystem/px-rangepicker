@@ -1,33 +1,18 @@
 {
   "range": {
-    "from": "07/11/2015 12:00:00 AM",
-    "to": "08/14/2015 03:25:00 PM"
+    "from": "2015-08-18T00:14:42.387Z",
+    "to": "2015-09-02T05:06:00.387Z"
   },
   "presetRanges": [
     {
-      "displayText": "Last 5 Minutes",
-      "startDateTime": "08/21/2015 12:57:33 PM",
-      "endDateTime": "08/21/2015 1:02:33 PM"
+      "displayText": "Custom Time 1",
+      "startDateTime": "2014-05-01T01:00:00Z",
+      "endDateTime": "2015-08-12T01:00:00Z"
     },
     {
-      "displayText": "Last 12 Hours",
-      "startDateTime": "08/21/2015 1:02:33 AM",
-      "endDateTime": "08/21/2015 1:02:33 PM"
-    },
-    {
-      "displayText": "Yesterday",
-      "startDateTime": "08/20/2015 12:00:00 AM",
-      "endDateTime": "08/20/2015 12:00:00 PM"
-    },
-    {
-      "displayText": "Last Month",
-      "startDateTime": "07/21/2015 12:00:00 AM",
-      "endDateTime": "08/21/2015 12:00:00 AM"
-    },
-    {
-      "displayText": "Last Year",
-      "startDateTime": "08/21/2014 12:00:00 AM",
-      "endDateTime": "08/21/2015 12:00:00 AM"
+      "displayText": "Custom Time 2",
+      "startDateTime": "2015-05-12T12:32:05Z",
+      "endDateTime": "2015-05-12T12:47:07Z"
     }
   ]
 }
