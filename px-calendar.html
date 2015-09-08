@@ -19,35 +19,30 @@ The first range date may be before, after, or equal to the second range date, de
 <dom-module id="px-calendar">
   <link rel="import" type="css" href="css/px-calendar.css"/>
   <template>
-    <div class="table table--no-cells text--center" id="calendar" style="height:auto">
-      <caption>
+    <div class="table table--no-cells text--center" id="calendar">
+      <div class="caption">
         <span>{{month}}</span>
         <span>{{year}}</span>
-      </caption>
-      <div>
-        <div>
-          <template is="dom-repeat" items="{{daysOfTheWeek}}" as="dayOfTheWeek">
-            <span class="caps u-pt0">{{dayOfTheWeek}}</span>
-          </template>
-        </div>
       </div>
-      <div style="height:auto">
-        <template is="dom-repeat" items="{{calendar}}" as="week">
-          <div style="height:auto">
-            <template is="dom-repeat" items="{{week}}" as="date">
-              <span>
+      <div class="tr">
+        <template is="dom-repeat" items="{{daysOfTheWeek}}" as="dayOfTheWeek">
+          <span class="th caps u-pt0">{{dayOfTheWeek}}</span>
+        </template>
+      </div>
+      <template is="dom-repeat" items="{{calendar}}" as="week">
+        <div class="tr">
+          <template is="dom-repeat" items="{{week}}" as="date">
+              <div class="td">
                 <px-calendar-cell display-date="{{date}}"
                                   first-range-date="{{firstRangeDate}}"
                                   second-range-date="{{secondRangeDate}}"
                                   allow-future-dates="{{allowFutureDates}}">
                 </px-calendar-cell>
-              </span>
-            </template>
-          </div>
-        </template>
-      </div>
+              </div>
+          </template>
+        </div>
+      </template>
     </div>
-
   </template>
 </dom-module>
 
@@ -152,16 +147,16 @@ The first range date may be before, after, or equal to the second range date, de
       var date = 1;
       var month = [];
 
-      for(var weekCount = 0; weekCount < numberOfWeeks; weekCount++) {
+      for (var weekCount = 0; weekCount < numberOfWeeks; weekCount++) {
 
         var week = [];
 
-        while(daysBeforeMonthStartsCount < dayBeginningOfMonth) {
+        while (daysBeforeMonthStartsCount < dayBeginningOfMonth) {
           week.push(moment(null)); // push empty cells on before the 1st of the month
           daysBeforeMonthStartsCount++;
         }
 
-        while(week.length < 7) {
+        while (week.length < 7) {
           if (date <= numberOfDaysInMonth) {
             week.push(moment(this.displayMonthYear.date(date)));
             date++;

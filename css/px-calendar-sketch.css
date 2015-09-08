@@ -116,6 +116,7 @@ ul, ol, dl,
 blockquote, p, address,
 hr,
 table,
+.table,
 fieldset, figure,
 pre {
   margin-bottom: 1rem; }
@@ -366,17 +367,10 @@ html {
   visibility: hidden !important; }
 
 .viewport {
-  width: 98%;
+  width: 100%;
   max-width: 80rem;
   margin-right: auto;
-  margin-left: auto;
-  padding-right: 1%;
-  padding-left: 1%; }
-  @media screen and (min-width: 80rem) {
-    .viewport {
-      width: 100%;
-      padding-right: 0;
-      padding-left: 0; } }
+  margin-left: auto; }
 
 .viewport--full-height {
   min-height: 100vh; }
@@ -424,7 +418,9 @@ html {
   border-collapse: collapse;
   border-spacing: 0; }
   .table th,
-  .table td {
+  .table .th,
+  .table td,
+  .table .td {
     border: 1px solid #d1d0d8;
     padding: 0.6666666667rem; }
 
@@ -432,7 +428,9 @@ html {
    * Remove borders around a `table`.
    */
 .table--no-cells th,
-.table--no-cells td {
+.table--no-cells .th,
+.table--no-cells td,
+.table--no-cells .td {
   border: 0; }
 
 .btn {
@@ -456,11 +454,9 @@ html {
   .btn:link,
   .btn:visited,
   .btn:hover,
-  .btn:focus,
   .btn:active {
     color: black; }
-  .btn:hover,
-  .btn:focus {
+  .btn:hover {
     border-color: #9999a3;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
     background-color: #b1b1bc; }
@@ -468,8 +464,7 @@ html {
     border-color: #7c7c84;
     box-shadow: none;
     background-color: #9999a3; }
-  .btn:active,
-  .btn:focus {
+  .btn:active {
     outline: none; }
 
 button.btn {
@@ -507,13 +502,11 @@ button.btn {
 .btn--disabled:visited,
 .btn--disabled:hover,
 .btn--disabled:active,
-.btn--disabled:focus,
 .btn[disabled],
 .btn[disabled]:link,
 .btn[disabled]:visited,
 .btn[disabled]:hover,
-.btn[disabled]:active,
-.btn[disabled]:focus {
+.btn[disabled]:active {
   border-color: #d1d0d8;
   box-shadow: none;
   cursor: not-allowed;
@@ -521,24 +514,37 @@ button.btn {
   color: #d1d0d8; }
 
 button[hidden] {
-  display: none; }
+  visibility: hidden; }
 
-caption {
+.table {
+  display: table; }
+
+.caption {
   margin-bottom: 1rem;
   font-weight: bold;
   text-align: center;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  display: table-caption; }
+
+.th {
+  display: table-cell;
+  font-weight: bold; }
+
+.tr {
+  display: table-row; }
+
+.td {
+  display: table-cell; }
 
 .table {
   margin-bottom: 0; }
-  .table th, .table td {
+  .table .th, .table .td {
     box-sizing: content-box;
     min-width: 1.6rem;
-    padding: 0; }
-    .table th:empty, .table td:empty {
-      height: 2rem; }
+    padding: 0;
+    vertical-align: middle; }
 
-div {
+.calendar-cell {
   height: 1.7333333333rem;
   margin-top: 2px;
   margin-bottom: 2px;

@@ -16,9 +16,9 @@ Element that renders a calendar cell for a given date (and for non-date cells in
 <dom-module id="px-calendar-cell">
   <link rel="import" type="css" href="css/px-calendar.css"/>
   <template>
-    <span class$="{{cellStyles}}">
+    <div class$="{{cellStyles}}">
       <button class$="{{btnStyles}}" value="{{day}}" on-click="_selectDate" disabled="{{isDisabled}}" hidden$="{{!isValidDate}}">{{day}}</button>
-    </span>
+    </div>
   </template>
 </dom-module>
 
@@ -66,11 +66,13 @@ Element that renders a calendar cell for a given date (and for non-date cells in
 
     _updateDate: function() {
 
-      var cellStyles = '';
+      var cellStyles = 'calendar-cell';
       var btnStyles = 'btn btn--bare';
       var isDisabled = false;
 
-      if (this.displayDate === null) {
+      this.set('isValidDate', this.displayDate.isValid());
+
+      if (!this.isValidDate) {
         // if the cell is a blank cell of calendar (before/after start of month)
         cellStyles += ' is-empty';
         this.set('day', '');
@@ -111,7 +113,6 @@ Element that renders a calendar cell for a given date (and for non-date cells in
       this.set('btnStyles', btnStyles);
       this.set('isDisabled', isDisabled);
       this.set('cellStyles', cellStyles);
-      this.set('isValidDate', this.displayDate.isValid());
 
     },
 
