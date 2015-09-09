@@ -40,6 +40,12 @@ $inuit-enable-btn--bare           : true;
   visibility: hidden;
 }
 
+.btn--bare{
+  &:hover, &:focus {
+    outline: none;
+  }
+}
+
 .rangepicker__box {
   position: absolute;
   z-index: 20;

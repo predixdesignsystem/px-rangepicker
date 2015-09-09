@@ -436,6 +436,9 @@ html {
   .table .td {
     border: 1px solid #d1d0d8;
     padding: 0.6666666667rem; }
+  .table th,
+  .table .th {
+    text-align: left; }
 
 /**
    * Remove borders around a `table`.
@@ -628,7 +631,8 @@ button[hidden] {
 
 .btn--bare:hover, .btn--bare:focus {
   background-color: #3e87e8;
-  color: white; }
+  color: white;
+  outline: none; }
 
 .is-selected .btn--bare {
   background-color: #0a9ec1;

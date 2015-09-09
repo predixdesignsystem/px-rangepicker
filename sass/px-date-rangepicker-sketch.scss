@@ -40,6 +40,12 @@ $inuit-enable-btn--disabled             : true;
   display: block;
 }
 
+.btn--bare{
+  &:hover, &:focus {
+    outline: none;
+  }
+}
+
 // Trumps
 $inuit-enable-margins--large            : true;
 $inuit-enable-margins--negative-small   : true;

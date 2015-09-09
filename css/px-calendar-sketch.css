@@ -423,6 +423,9 @@ html {
   .table .td {
     border: 1px solid #d1d0d8;
     padding: 0.6666666667rem; }
+  .table th,
+  .table .th {
+    text-align: left; }
 
 /**
    * Remove borders around a `table`.
