@@ -36,6 +36,10 @@ $inuit-enable-btn--bare           : true;
 @import "px-list-bare-design/_objects.list-bare.scss";
 
 // Component
+:host[hidden] {
+  visibility: hidden;
+}
+
 .rangepicker__box {
   position: absolute;
   z-index: 20;
