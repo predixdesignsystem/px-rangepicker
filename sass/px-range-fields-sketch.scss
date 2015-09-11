@@ -65,7 +65,7 @@ $inuit-enable-btn--tertiary     : true;
   .text-input--bare {
     @include inuit-font-size(15px);
     width: calculateRem(90px);
-    margin-left: $inuit-base-spacing-unit--small;
+    margin-left: $inuit-base-spacing-unit--tiny;
     font-family: var(--px-font-family);
   }
   label {
@@ -74,6 +74,7 @@ $inuit-enable-btn--tertiary     : true;
 }
 
 // Trumps
+$inuit-enable-margins--tiny    : true;
 $inuit-enable-margins--small    : true;
 
 @import "px-spacing-design/_trumps.spacing.scss";
