@@ -47,7 +47,7 @@ $inuit-enable-btn--bare           : true;
 }
 
 .rangepicker__box {
-  position: absolute;
+  position: relative;
   z-index: 20;
   display: inline-block;
   margin-top: $inuit-base-spacing-unit--small;

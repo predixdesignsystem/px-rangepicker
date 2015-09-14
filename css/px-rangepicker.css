@@ -663,7 +663,7 @@ button.btn {
   outline: none; }
 
 .rangepicker__box {
-  position: absolute;
+  position: relative;
   z-index: 20;
   display: inline-block;
   margin-top: 0.6666666667rem;
