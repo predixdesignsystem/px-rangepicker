@@ -1,8 +1,8 @@
 {
   "name": "px-rangepicker",
   "author": "General Electric",
-  "description": "A Px component",
-  "version": "0.0.1",
+  "description": "rangepicker",
+  "version": "0.0.7",
   "private": true,
   "extName": null,
   "repository": {
