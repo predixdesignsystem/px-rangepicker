@@ -643,6 +643,9 @@ button.btn {
   padding: 0;
   list-style: none; }
 
+:host {
+  text-align: left; }
+
 :host[hidden] {
   visibility: hidden; }
 
@@ -650,7 +653,7 @@ button.btn {
   outline: none; }
 
 .rangepicker__box {
-  position: relative;
+  position: absolute;
   z-index: 20;
   display: inline-block;
   margin-top: 0.6666666667rem;

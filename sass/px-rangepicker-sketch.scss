@@ -36,6 +36,10 @@ $inuit-enable-btn--bare           : true;
 @import "px-list-bare-design/_objects.list-bare.scss";
 
 // Component
+:host {
+  text-align: left;
+}
+
 :host[hidden] {
   visibility: hidden;
 }
@@ -47,7 +51,7 @@ $inuit-enable-btn--bare           : true;
 }
 
 .rangepicker__box {
-  position: relative;
+  position: absolute;
   z-index: 20;
   display: inline-block;
   margin-top: $inuit-base-spacing-unit--small;
