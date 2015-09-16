@@ -45,7 +45,7 @@ Component with all the date/time range fields which are displayed in the range p
           class="flex">
         </px-range-field>
       </div>
-      <input class="btn btn--tertiary u-ml-" type=submit value=Submit on-click="_submit">
+      <input class="btn btn--tertiary u-ml-" type=submit value="{{displayOptions.submitButtonText}}" on-click="_submit">
     </div>
   </template>
 </dom-module>
@@ -73,6 +73,17 @@ Component with all the date/time range fields which are displayed in the range p
         type: Object,
         notify: true,
         observer: '_updateToWorkingCopy'
+      },
+
+      /**
+       * Display options
+       */
+      displayOptions: {
+        type: Object,
+        value: {
+          displayType: 'normal',
+          submitButtonText: 'Submit'
+        }
       }
     },
 
