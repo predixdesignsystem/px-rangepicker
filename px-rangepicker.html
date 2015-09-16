@@ -20,7 +20,8 @@ Rangepicker with time element.
     <px-range-fields
       id="rangeFields"
       from="{{fromMoment}}"
-      to="{{toMoment}}">
+      to="{{toMoment}}"
+      display-options="{{displayOptions}}">
     </px-range-fields>
     <px-rangepicker-modal
       id=rangePickerModal
@@ -28,6 +29,7 @@ Rangepicker with time element.
       to="{{toMoment}}"
       allow-future-dates="{{allowFutureDates}}"
       preset-ranges="{{presetRanges}}"
+      display-options="{{displayOptions}}"
       hidden>
     </px-rangepicker-modal>
   </template>
@@ -104,7 +106,26 @@ Rangepicker with time element.
        *
        * @default no presets
        */
-      presetRanges: Object
+      presetRanges: Object,
+
+      /**
+       * (optional)
+       *
+       * Display configuration that allows optional display patterns
+       *
+       *```
+       * ```
+       *
+       * @default no presets
+       */
+      displayOptions: {
+        type: Object,
+        value: {
+          displayType: 'normal',
+          submitButtonText: 'Submit',
+          submitButtonIcon: ''
+        }
+      }
 
     },
 
