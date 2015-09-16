@@ -573,6 +573,7 @@ html {
 .btn {
   display: inline-block;
   overflow: visible;
+  height: 2em;
   margin: 0;
   border: 1px solid #b1b1bc;
   border-radius: 3px;

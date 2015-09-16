@@ -1,6 +1,6 @@
 {
   "name": "px-rangepicker",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "main": [
     "px-rangepicker.html"
   ],
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#~v1.0.0",
-    "px-buttons-design": "git://github.build.ge.com/PXd/px-buttons-design.git#~0.4.0",
+    "px-buttons-design": "https://github.com/PredixDev/px-buttons-design.git#~0.4.0",
     "px-forms-design": "git://github.build.ge.com/PXd/px-forms-design.git#~0.3.0",
     "px-list-bare-design": "git://github.build.ge.com/PXd/px-list-bare-design.git#~0.2.0",
     "px-starter-kit-design": "git://github.build.ge.com/PXd/px-starter-kit-design.git#~0.4.0",
