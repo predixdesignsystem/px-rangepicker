@@ -14,8 +14,8 @@ Component with all the date/time range fields which are displayed in the range p
 <dom-module id="px-range-fields">
   <link rel="import" type="css" href="css/px-range-fields.css"/>
   <template>
-    <div class="form flex flex--middle">
-      <div id="fromFields" class="flex flex--middle text-input">
+    <div class="form flex flex--middle flex--wrap">
+      <div id="fromFields" class="flex flex--middle text-input u-mb-">
         <span class=a11y>From</span>
         <px-range-field
           id="fromDate"
@@ -30,8 +30,8 @@ Component with all the date/time range fields which are displayed in the range p
           class="flex">
         </px-range-field>
       </div>
-      <span class="caps u-mh-">to</span>
-      <div id="toFields" class="flex flex--middle text-input">
+      <span class="caps u-mh- u-mb-">to</span>
+      <div id="toFields" class="flex flex--middle text-input u-mr- u-mb-">
         <px-range-field
           id="toDate"
           moment="{{toWorkingCopy}}"
@@ -45,7 +45,7 @@ Component with all the date/time range fields which are displayed in the range p
           class="flex">
         </px-range-field>
       </div>
-      <button class="btn btn--tertiary u-ml-" type=submit on-click="_submit"><i class$="{{displayOptions.submitButtonIcon}}"></i>{{displayOptions.submitButtonText}}</button>
+      <button class="btn btn--tertiary u-mb- u-ml0 " type=submit on-click="_submit"><i class$="{{displayOptions.submitButtonIcon}}"></i>{{displayOptions.submitButtonText}}</button>
     </div>
   </template>
 </dom-module>

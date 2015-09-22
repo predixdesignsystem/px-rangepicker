@@ -902,6 +902,32 @@ button.btn {
   margin-top: 0.6666666667rem !important;
   margin-bottom: 0.6666666667rem !important; }
 
+/**
+     * Remove margins.
+     */
+.u-m0 {
+  margin: 0 !important; }
+
+.u-mt0 {
+  margin-top: 0 !important; }
+
+.u-mr0 {
+  margin-right: 0 !important; }
+
+.u-mb0 {
+  margin-bottom: 0 !important; }
+
+.u-ml0 {
+  margin-left: 0 !important; }
+
+.u-mh0 {
+  margin-right: 0 !important;
+  margin-left: 0 !important; }
+
+.u-mv0 {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important; }
+
 .is-focused {
   border-color: #0a9ec1;
   box-shadow: inset 0 0 0 1px #d1d0d8; }

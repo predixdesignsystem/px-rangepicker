@@ -73,7 +73,8 @@ $inuit-enable-btn--tertiary     : true;
 }
 
 // Trumps
-$inuit-enable-margins--tiny    : true;
+$inuit-enable-margins--tiny     : true;
 $inuit-enable-margins--small    : true;
+$inuit-enable-margins--none     : true;
 
 @import "px-spacing-design/_trumps.spacing.scss";

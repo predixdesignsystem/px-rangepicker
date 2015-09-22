@@ -15,8 +15,8 @@ Date rangepicker element which allows user to select two dates (a range).
 <dom-module id="px-date-rangepicker">
   <link rel="import" type="css" href="css/px-date-rangepicker.css"/>
   <template>
-    <div id=box class="flex flex--top">
-      <div class="flex flex--top u-mr+">
+    <div id=box class="flex flex--top flex--center flex--wrap">
+      <div class="flex flex--top u-mh+ u-mb+">
         <button on-click="_jumpBack" class="btn btn--bare u--mr-">
           <i class="fa fa-angle-left"></i>
         </button>
@@ -28,7 +28,7 @@ Date rangepicker element which allows user to select two dates (a range).
           allow-future-dates="{{allowFutureDates}}">
         </px-calendar>
       </div>
-      <div class="flex flex--top u-ml+">
+      <div class="flex flex--top u-mh+">
         <px-calendar
           id="rightCalendar"
           display-month-year="{{rightDisplayMonthYear}}"
