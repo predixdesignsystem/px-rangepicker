@@ -22,6 +22,10 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 @import 'px-range-fields-sketch.scss';
 
 // Component
+span {
+  color: $gray6;
+}
+
 .is-focused {
   border-color: $inuit-forms-border--outer--focused;
   box-shadow: $inuit-forms-border--inner--focused;

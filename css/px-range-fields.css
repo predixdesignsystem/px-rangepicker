@@ -838,7 +838,6 @@ button.btn {
   font-size: 1rem;
   line-height: 1.3333333333;
   width: 6rem;
-  margin-left: 0.3333333333rem;
   font-family: var(--px-font-family); }
 
 .range-field__field label {
@@ -927,6 +926,9 @@ button.btn {
 .u-mv0 {
   margin-top: 0 !important;
   margin-bottom: 0 !important; }
+
+span {
+  color: #9999a3; }
 
 .is-focused {
   border-color: #0a9ec1;

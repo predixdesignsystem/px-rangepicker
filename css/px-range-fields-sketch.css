@@ -825,7 +825,6 @@ button.btn {
   font-size: 1rem;
   line-height: 1.3333333333;
   width: 6rem;
-  margin-left: 0.3333333333rem;
   font-family: var(--px-font-family); }
 
 .range-field__field label {
