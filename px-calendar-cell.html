@@ -1,0 +1,175 @@
+<link rel="import" href="../polymer/polymer.html"/>
+
+<script src="../moment/moment.js"></script>
+
+<!--
+Element that renders a calendar cell for a given date (and for non-date cells in the calendar).
+
+##### Usage
+
+    <px-calendar-cell display-date="{{...}}"
+                      first-range-date="{{...}}"
+                      second-range-date="{{...}}">
+    </px-calendar-cell>
+
+-->
+<dom-module id="px-calendar-cell">
+  <link rel="import" type="css" href="css/px-calendar.css"/>
+  <template>
+    <div class$="{{cellStyles}}">
+      <button class$="{{btnStyles}}" value="{{day}}" on-click="_selectDate" disabled="{{isDisabled}}" hidden$="{{!isValidDate}}">{{day}}</button>
+    </div>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'px-calendar-cell',
+
+    properties: {
+
+      /**
+       * Moment object with date to display in this cell
+       */
+      displayDate: Object,
+
+      /**
+       * Moment object with first selected date of the range (start or end of range), used for determining styling of this cell
+       */
+      firstRangeDate: Object,
+
+      /**
+       * Moment object with second selected date of the range (start or end of range) or null if only one date is selected, used for determining styling of this cell
+       */
+      secondRangeDate: Object,
+
+      /**
+       * (optional)
+       *
+       * Set this attribute when you do want to allow future dates in the date range picker.
+       *
+       * If not set, then future dates will be disabled and unclickable in the date picker.
+       *
+       * Note: this only affects the visual calendar date picker, users can always type in dates/times or choose times that are in the future.
+       */
+      allowFutureDates: {
+        type: Boolean,
+        value: false
+      }
+
+    },
+
+    observers: [
+      '_updateDate(displayDate, firstRangeDate, secondRangeDate)'
+    ],
+
+    _updateDate: function() {
+
+      var cellStyles = 'calendar-cell';
+      var btnStyles = 'btn btn--bare';
+      var isDisabled = false;
+
+      this.set('isValidDate', this.displayDate.isValid());
+
+      if (!this.isValidDate) {
+        // if the cell is a blank cell of calendar (before/after start of month)
+        cellStyles += ' is-empty';
+        this.set('day', '');
+      }
+      else {
+        this.set('day', this.displayDate.format('D'));
+
+        if (this._isStartOfRange() || this._isEndOfRange()) {
+          cellStyles += ' is-selected';
+        }
+
+        if (this._isFirstClick()) {
+          cellStyles += ' is-selected-only';
+        }
+
+        if (this._isStartOfWeekOrMonth() || this._isStartOfRange()) {
+          cellStyles += ' is-start';
+        }
+
+        if (this._isEndOfWeekOrMonth() || this._isEndOfRange()) {
+          cellStyles += ' is-end';
+        }
+
+        if (this._isWithinRange()) {
+          cellStyles += ' is-between';
+        }
+
+        if (this._isTodaysDate()) {
+          cellStyles += ' is-today';
+        }
+
+        if (!this.allowFutureDates && this._isPastTodaysDate()) {
+          btnStyles += ' btn--disabled';
+          isDisabled = true;
+        }
+      }
+
+      this.set('btnStyles', btnStyles);
+      this.set('isDisabled', isDisabled);
+      this.set('cellStyles', cellStyles);
+
+    },
+
+    _selectDate: function(e) {
+      this.fire('px-date-selected', this.day);
+    },
+
+    _isStartOfRange: function() {
+      return this.displayDate.isSame(this._getStartDate(), 'day');
+    },
+
+    _isEndOfRange: function() {
+      return this.displayDate.isSame(this._getEndDate(), 'day');
+    },
+
+    _isWithinRange: function() {
+      return this.displayDate.isBetween(this._getStartDate(), this._getEndDate(), 'day');
+    },
+
+    _getStartDate: function() {
+      var startDate = this.firstRangeDate;
+      if (this.firstRangeDate.isAfter(this.secondRangeDate, 'day')) {
+        startDate = this.secondRangeDate;
+      }
+      return startDate;
+    },
+
+    _getEndDate: function() {
+      var endDate = this.secondRangeDate;
+      if (this.firstRangeDate.isAfter(this.secondRangeDate, 'day')) {
+        endDate = this.firstRangeDate;
+      }
+      return endDate;
+    },
+
+    _isFirstClick: function() {
+      return this.secondRangeDate === null && this.displayDate.isSame(this.firstRangeDate, 'day');
+    },
+
+    _isStartOfWeekOrMonth: function() {
+      return this.day == 1 || this.displayDate.weekday() == 0;
+    },
+
+    _isEndOfWeekOrMonth: function() {
+      return this.day == this.displayDate.daysInMonth() || this.displayDate.weekday() == 6;
+    },
+
+    _isPastTodaysDate: function() {
+      var todaysDate = moment();
+      return this.displayDate.isAfter(todaysDate);
+    },
+
+    _isTodaysDate: function() {
+      var todaysDate = moment();
+      return this.displayDate.isSame(todaysDate, 'day');
+    }
+
+
+  });
+</script>

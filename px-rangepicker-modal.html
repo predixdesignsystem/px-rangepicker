@@ -1,0 +1,158 @@
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="px-time-rangepicker.html"/>
+<link rel="import" href="px-date-rangepicker.html"/>
+<link rel="import" href="px-rangepicker-presets.html"/>
+
+<script src="../moment/moment.js"></script>
+
+<!--
+Rangepicker modal component.
+
+##### Usage
+
+    <px-rangepicker-modal from={{...}} to={{...}}>
+    </px-rangepicker-modal>
+-->
+<dom-module id="px-rangepicker-modal">
+  <link rel="import" type="css" href="css/px-rangepicker.css"/>
+  <template>
+    <div class=overlay></div>
+    <div id="rangepickerModal" class="rangepicker__box">
+      <div class="flex flex--wrap">
+        <div>
+          <px-date-rangepicker
+            id="dateRangePicker"
+            class="u-pt+"
+            from-date="{{from}}"
+            to-date="{{to}}"
+            allow-future-dates="{{allowFutureDates}}">
+          </px-date-rangepicker>
+          <px-time-rangepicker
+            class="border--top u-p+"
+            id="timeRangePicker"
+            from-time="{{from}}"
+            to-time="{{to}}">
+          </px-time-rangepicker>
+        </div>
+        <template is="dom-if" if="{{presetRanges}}">
+          <px-rangepicker-presets id="presets" class="flex flex--col border--left u-p+" preset-ranges="{{presetRanges}}">
+          </px-rangepicker-presets>
+        </template>
+      </div>
+      <div class="flex flex--right border--top u-p-">
+        <button class=btn on-click="_closeAndReturnFocus">Close</button>
+      </div>
+    </div>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'px-rangepicker-modal',
+
+    properties: {
+
+      /**
+       * Moment object start date & time for range picker
+       */
+      from: {
+        type: Object,
+        notify: true
+      },
+
+      /**
+       * Moment object end date & time for range picker
+       */
+      to: {
+        type: Object,
+        notify: true
+      },
+
+      /**
+       * (optional)
+       *
+       * Set this attribute when you do want to allow future dates in the date range picker.
+       *
+       * If not set, then future dates will be disabled and unclickable in the date picker.
+       *
+       * Note: this only affects the visual calendar date picker, users can always type in dates/times or choose times that are in the future.
+       */
+      allowFutureDates: {
+        type: Boolean,
+        value: false
+      },
+
+      /**
+       * (optional)
+       *
+       * The preset date/time ranges to be displayed.  If not set, will have no presets displayed.
+       *
+       *```
+       *   [
+       *    {
+       *      "displayText": "Last 5 Minutes",
+       *      "startDateTime": "2013-02-04T22:44:30.652Z",
+       *      "endDateTime": "2013-02-04T22:49:30.652Z"
+       *    },
+       *    {
+       *      "displayText": "Last 12 Hours",
+       *      "startDateTime": "2013-02-04T10:44:30.652Z",
+       *      "endDateTime": "2013-02-04T22:49:30.652Z"
+       *    }
+       *   ]
+       * ```
+       *
+       * @default no presets
+       */
+      presetRanges: Object,
+
+      /**
+       * True if the modal is hidden.  Must be declared as a property to reference (below) in IE 10.
+       * @private
+       */
+      hidden: Boolean
+
+    },
+
+    ready: function() {
+      var self = this;
+
+      this.$.rangepickerModal.addEventListener('px-preset-selected', function(e) {
+        var presetStartDateTime = e.detail.startDateTime;
+        var presetEndDateTime = e.detail.endDateTime;
+
+        self.set('from', moment(presetStartDateTime));
+        self.set('to', moment(presetEndDateTime));
+      });
+
+    },
+
+    /**
+     * Open the modal
+     */
+    open: function() {
+      if(this._isClosed()) {
+        this.$.dateRangePicker._resetVisibleCalendars();
+        this.toggleAttribute('hidden', false);
+      }
+    },
+
+    /**
+     * Close the modal
+     */
+    close: function() {
+      this.toggleAttribute('hidden', true);
+    },
+
+    _closeAndReturnFocus: function() {
+      this.close();
+      this.fire('px-modal-close-clicked');
+    },
+
+    _isClosed: function() {
+      return this.hidden;
+    }
+
+  });
+</script>

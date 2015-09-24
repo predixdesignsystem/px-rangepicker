@@ -1,0 +1,115 @@
+<!doctype html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>px-rangepicker Demo</title>
+  <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+  <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+  <link rel="import" href="../px-theme/px-theme.html"/>
+  <link rel="import" href="px-rangepicker.html"/>
+
+  <link rel="import" href="../iron-ajax/iron-ajax.html"/>
+
+  <style>
+    html {
+      font-size: 0.9375rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h3>Demo</h3>
+
+  <!-- Wrap elements with auto-binding template to -->
+  <!-- allow use of Polymer bindings in main document -->
+  <template id="just-for-demo" is="dom-bind">
+
+    <iron-ajax
+      auto
+      url="demo-data/sample-data.json"
+      last-response="{{sampleData}}"
+      handle-as="json"></iron-ajax>
+
+    <div>
+      Time Series Chart is from <b>{{sampleData.range.from}}</b> to <b>{{sampleData.range.to}}</b>
+    </div>
+
+    <button onclick="change2014()">Change to Nov/Dec 2014</button>
+    <button onclick="change2013()">Change to March/April 2013</button>
+
+    <br>
+    <br>
+
+    <!-- Defaults to last week -->
+    <!--<px-rangepicker range="{{x}}">-->
+    <!--</px-rangepicker>-->
+
+    <!-- with/without presets -->
+    <px-rangepicker range="{{sampleData.range}}">
+    </px-rangepicker>
+
+    <!-- Allow future dates -->
+    <!--<px-rangepicker range="{{sampleData.range}}"-->
+                    <!--preset-ranges="{{sampleData.presetRanges}}"-->
+                    <!--allow-future-dates>-->
+    <!--</px-rangepicker>-->
+
+  </template>
+
+  <script>
+
+    window.addEventListener('WebComponentsReady', function() {
+
+      var now = moment();
+      var oneDay = moment().subtract(1, 'day');
+      var oneWeek = moment().subtract(1, 'week');
+      var oneYear = moment().subtract(1, 'year');
+
+      var presets = [
+        {
+          "displayText": "Last Day",
+          "startDateTime": oneDay.toISOString(),
+          "endDateTime": now.toISOString()
+        },
+        {
+          "displayText": "Last Week",
+          "startDateTime": oneWeek.toISOString(),
+          "endDateTime": now.toISOString()
+        },
+        {
+          "displayText": "Last Year",
+          "startDateTime": oneYear.toISOString(),
+          "endDateTime": now.toISOString()
+        }
+      ];
+
+      /** add presets **/
+      var rangePicker = document.querySelector('px-rangepicker');
+      rangePicker.presetRanges = presets;
+
+    });
+
+    function change2014() {
+      var rangePicker = document.querySelector('px-rangepicker');
+      rangePicker.range = {
+        from: '2014-11-12T02:00:00Z',
+        to: '2014-12-16T17:00:00Z'
+      };
+    }
+
+    function change2013() {
+      var rangePicker = document.querySelector('px-rangepicker');
+      rangePicker.range = {
+        from: '2013-03-12T15:00:00Z',
+        to: '2013-04-16T01:00:00Z'
+      };
+    }
+
+  </script>
+
+</body>
+</html>

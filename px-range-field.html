@@ -1,0 +1,132 @@
+<link rel="import" href="../polymer/polymer.html"/>
+
+<!--
+Range field component which displays a time or date and font awesome icon.
+
+##### Usage
+
+    <px-range-field moment="{{...}}" date-or-time="Date">
+    </px-range-field>
+
+-->
+<dom-module id="px-range-field">
+  <link rel="import" type="css" href="css/px-range-fields.css"/>
+  <template>
+    <div class="range-field__field flex flex--middle">
+      <label class=label--inline>
+        <span class=a11y>{{dateOrTime}}</span>
+        <i id=icon class="fa fa-fw"></i>
+        <input type=text class=text-input--bare value="{{dateTimeWorkingCopy::input}}" on-focus="_handleFocus"
+               on-click="_handleClick" on-blur="_validateInput">
+      </label>
+    </div>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'px-range-field',
+
+    properties: {
+
+      /**
+       * Moment value with the date or time to display.  Will be parsed according to the moment format.  (see momentFormat property)
+       */
+      moment: {
+        type: Object,
+        observer: '_updateAndValidateWorkingCopy',
+        notify: true
+      },
+
+      /**
+       * Date or Time icon/text
+       *
+       * Format is 'Date' or 'Time'
+       *
+       * Can only be configured statically; not data-bindable
+       */
+      dateOrTime: {
+        type: String
+      },
+
+      /**
+       * (optional)
+       *
+       * Moment format string for the format to display/validate this field against (see http://momentjs.com/docs/#/parsing/string-format/)
+       *
+       * Can only be configured statically; not data-bindable
+       *
+       * @default 'MM/DD/YYYY' for date or 'hh:mm:ss A' for time
+       */
+      momentFormat: {
+        type: String
+      }
+
+    },
+
+    _updateAndValidateWorkingCopy: function() {
+      this.set('dateTimeWorkingCopy', this.moment.format(this.momentFormat));
+      this._validateInput();
+    },
+
+    ready: function() {
+      if (this.dateOrTime.toLowerCase() == 'date') {
+        this.toggleClass("fa-calendar", true, this.$.icon);
+        if (!this.momentFormat) {
+          this.momentFormat = 'MM/DD/YYYY'; // default date format
+        }
+      }
+      else {
+        this.toggleClass("fa-clock-o", true, this.$.icon);
+        if (!this.momentFormat) {
+          this.momentFormat = 'hh:mm:ss A'; // default time format
+        }
+      }
+    },
+
+    _handleClick: function() {
+      this.fire('px-clicked-range-field');
+    },
+
+    _handleFocus: function() {
+      this.fire('px-focused-range-field');
+    },
+
+    _validateInput: function() {
+      this.parentNode.classList.remove('is-focused');
+      if (moment(this.dateTimeWorkingCopy, this.momentFormat, true).isValid()) {
+        this.toggleClass('validation-error', false, this.$$('input'));
+
+        var momentCopy = moment(this.dateTimeWorkingCopy, this.momentFormat);
+
+        if (this.dateOrTime.toLowerCase() == 'time') { // if i'm typing in a time field, make sure the date is still right
+          momentCopy.date(1); // first, 'zero' the date back to the first of the month to prevent any rolling effects (if a month doesn't have 30/31 days)
+          momentCopy.year(this.moment.year()); // set the year
+          momentCopy.month(this.moment.month()); // then the month
+          momentCopy.date(this.moment.date()); // and finally the date, to make sure we don't have any rolling effects
+        }
+        else {
+          momentCopy.hour(this.moment.hour());
+          momentCopy.minute(this.moment.minute());
+          momentCopy.second(this.moment.second());
+        }
+
+        if (!momentCopy.isSame(this.moment, 'second')) { // avoid infinite loops
+          this.set('moment', momentCopy);
+        }
+      }
+      else {
+        this.toggleClass('validation-error', true, this.$$('input'));
+      }
+    },
+
+    /**
+     * Focus on the input in this range field
+     */
+    focus: function() {
+      this.querySelector('input').focus();
+    }
+
+  });
+</script>

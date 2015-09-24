@@ -1,0 +1,615 @@
+@charset "UTF-8";
+/*
+ * Copyright (c) 2014 GE Global Research. All rights reserved.
+ *
+ * The copyright to the computer software herein is the property of
+ * GE Global Research. The software may be used and/or copied only
+ * with the written permission of GE Global Research or in accordance
+ * with the terms and conditions stipulated in the agreement/contract
+ * under which the software has been supplied.
+ */
+/*
+THIS FILE SHOULD CONTAIN ONLY ABSTRACT/'SKETCH' THEME RULES, NOT SPECIFIC TO PREDIX BRANDING
+Predix branding rules go in px-rangepicker-predix.scss, not in this file.
+*/
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+/**
+ *
+ * 1. Set the default `font-size` and `line-height` for the entire project,
+ *    sourced from our default variables. The `font-size` is calculated to exist
+ *    in ems, the `line-height` is calculated to exist unitlessly.
+ * 2. Force scrollbars to always be visible to prevent awkward ‘jumps’ when
+ *    navigating between pages that do/do not have enough content to produce
+ *    scrollbars naturally.
+ * 3. Ensure the page always fills at least the entire height of the viewport.
+ * 4. Prevent certain mobile browsers from automatically zooming fonts.
+ * 5. Fonts on OSX will look more consistent with other systems that do not
+ *    render text using sub-pixel anti-aliasing.
+ */
+html {
+  font-size: 0.9375em;
+  /* [1] */
+  line-height: 1.3333333333;
+  /* [1] */
+  background-color: white;
+  color: black;
+  overflow-y: scroll;
+  /* [2] */
+  min-height: 100%;
+  /* [3] */
+  -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+          text-size-adjust: 100%;
+  /* [4] */
+  -moz-osx-font-smoothing: grayscale;
+  /* [5] */
+  -webkit-font-smoothing: antialiased;
+  /* [5] */ }
+
+/**
+ * Remove default margin.
+ */
+body {
+  margin: 0; }
+
+/* HTML5 display definitions
+   ========================================================================== */
+/**
+ * Correct `block` display not defined for any HTML5 element in IE 8/9.
+ * Correct `block` display not defined for `details` or `summary` in IE 10/11
+ * and Firefox.
+ * Correct `block` display not defined for `main` in IE 11.
+ */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block; }
+
+/**
+ * 1. Correct `inline-block` display not defined in IE 8/9.
+ * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
+ */
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+  /* 1 */
+  vertical-align: baseline;
+  /* 2 */ }
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+audio:not([controls]) {
+  display: none;
+  height: 0; }
+
+/**
+ * Address `[hidden]` styling not present in IE 8/9/10.
+ * Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
+ */
+[hidden],
+template {
+  display: none; }
+
+/* Margins
+   ========================================================================== */
+/**
+ * Where `margin-bottom` is concerned,this value will be the same as the
+ * base line-height. This allows us to keep a consistent vertical rhythm.
+ * As per: csswizardry.com/2012/06/single-direction-margin-declarations
+ */
+h1, h2, h3, h4, h5, h6,
+ul, ol, dl,
+blockquote, p, address,
+hr,
+table,
+fieldset, figure,
+pre {
+  margin-bottom: 1rem; }
+
+/**
+ * Remove extra vertical spacing when nesting lists.
+ */
+li > ul,
+li > ol {
+  margin-bottom: 0; }
+
+/**
+ * Where `margin-left` is concerned we want to try and indent certain elements
+ * by a consistent amount. Define that amount once,here.
+ */
+ul, ol, dd {
+  margin-left: 2rem; }
+
+/* Embedded content
+   ========================================================================== */
+/**
+ * Remove border when inside `a` element in IE 8/9/10. Make images shrink from their largest size.
+ */
+img {
+  max-width: 100%;
+  border: 0; }
+
+/**
+ * Correct overflow not hidden in IE 9/10/11.
+ */
+svg:not(:root) {
+  overflow: hidden; }
+
+/* Grouping content
+   ========================================================================== */
+/**
+ * Zero margins for figure.
+ */
+figure {
+  margin: 0; }
+
+/**
+ * Address differences between Firefox and other browsers.
+ */
+hr {
+  box-sizing: content-box;
+  height: 0; }
+
+/**
+ * Contain overflow in all browsers.
+ */
+pre {
+  overflow: auto; }
+
+/**
+ * Set the global `box-sizing` state to `border-box`.
+ *
+ * css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice
+ * paulirish.com/2012/box-sizing-border-box-ftw
+ */
+html {
+  box-sizing: border-box; }
+
+:host {
+  /*! Comment to prevent cssmin munging this rule with html above and borking Safari */
+  box-sizing: border-box; }
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit; }
+
+/**
+ * A series of helper classes to use arbitrarily. Only use a helper class if an
+ * element/component doesn’t already have a class to which you could apply this
+ * styling, e.g. if you need to float `.main-nav` left then add `float:left;` to
+ * that ruleset as opposed to adding the `.float--left` class to the markup.
+ *
+ * A lot of these classes carry `!important` as you will always want them to win
+ * out over other selectors.
+ */
+/**
+ * Add/remove floats
+ */
+.float--right {
+  float: right !important; }
+
+.float--left {
+  float: left !important; }
+
+.float--none {
+  float: none !important; }
+
+/**
+ * Text alignment
+ */
+.text--left {
+  text-align: left !important; }
+
+.text--center {
+  text-align: center !important; }
+
+.text--right {
+  text-align: right !important; }
+
+/**
+ * Full height element
+ */
+.full-height {
+  height: 100% !important; }
+
+/**
+ * Add a help cursor to any element that gives the user extra information on
+ * `:hover`.
+ */
+.informative {
+  cursor: help !important; }
+
+/**
+ * Mute an object by reducing its opacity.
+ */
+.muted {
+  opacity: 0.5 !important; }
+
+/**
+ * Align items to the right where they imply progression/movement forward, e.g.:
+ *
+   <p class=proceed><a href=#>Read more...</a></p>
+ *
+ */
+.proceed {
+  text-align: right !important; }
+
+/**
+ * Apply capital case to an element (usually a `strong`).
+ */
+.caps {
+  text-transform: uppercase !important; }
+
+/**
+ * Hide visually and from screen readers:
+ * http://juicystudio.com/article/screen-readers-display-none.php
+ */
+.hidden {
+  display: none !important;
+  visibility: hidden; }
+
+/**
+ * Hide content off-screen without resorting to `display:none;`
+ */
+.a11y,
+.visuallyhidden {
+  position: absolute !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  clip: rect(0 0 0 0) !important; }
+
+.a11y.focusable:active,
+.a11y.focusable:focus,
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus {
+  position: static;
+  overflow: visible;
+  width: auto;
+  height: auto;
+  margin: 0;
+  clip: auto; }
+
+@media screen and (max-width: 44.9375em) {
+  .a11y-palm,
+  .visuallyhidden-palm {
+    position: absolute !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    clip: rect(0 0 0 0) !important; } }
+
+@media screen and (min-width: 45em) and (max-width: 63.9375em) {
+  .a11y-lap,
+  .visuallyhidden-lap {
+    position: absolute !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    clip: rect(0 0 0 0) !important; } }
+
+@media screen and (min-width: 45em) {
+  .a11y-lap-and-up,
+  .visuallyhidden-lap-and-up {
+    position: absolute !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    clip: rect(0 0 0 0) !important; } }
+
+@media screen and (max-width: 63.9375em) {
+  .a11y-portable,
+  .visuallyhidden-portable {
+    position: absolute !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    clip: rect(0 0 0 0) !important; } }
+
+@media screen and (min-width: 64em) {
+  .a11y-desk,
+  .visuallyhidden-desk {
+    position: absolute !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    clip: rect(0 0 0 0) !important; } }
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+  .a11y-retina,
+  .visuallyhidden-retina {
+    position: absolute !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    clip: rect(0 0 0 0) !important; } }
+
+/**
+ * Hide visually and from screen readers, but maintain layout
+ */
+.invisible {
+  visibility: hidden !important; }
+
+.viewport {
+  width: 100%;
+  max-width: 80rem;
+  margin-right: auto;
+  margin-left: auto; }
+
+.viewport--full-height {
+  min-height: 100vh; }
+
+/*------------------------------------*    #PX-COLORS-DESIGN
+\*------------------------------------*/
+/**
+ * Brand Colors
+ */
+/**
+     * Primary
+     */
+/**
+     * Light
+     */
+/**
+     * Dark
+     */
+/**
+ * Monochromatic (gray10 is darkest, gray1 is lightest)
+ */
+/**
+ * Buttons
+ */
+/**
+ * Selection
+ */
+/**
+ * Alerts
+ */
+/**
+ * Data Visualization
+ */
+/**
+     * Basic
+     */
+/**
+     * Light
+     */
+/**
+     * Dark
+     */
+fieldset {
+  margin: 0; }
+  fieldset, fieldset legend {
+    border: 0;
+    padding: 0; }
+
+legend {
+  margin-bottom: 1.3333333333rem;
+  font-weight: bold; }
+
+.form-field {
+  margin-bottom: 1.3333333333rem; }
+  .form-field:last-child {
+    margin-bottom: 2.6666666667rem; }
+
+label {
+  display: block;
+  margin-bottom: 0.3333333333rem;
+  cursor: pointer; }
+
+.label--inline {
+  display: inline-block;
+  margin-bottom: 0;
+  line-height: 1; }
+  .label--inline + .text-input {
+    margin-left: 0.6666666667rem; }
+
+.text-input,
+textarea, select {
+  margin: 0;
+  border: 1px solid #b1b1bc;
+  font: inherit;
+  outline: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none; }
+  .text-input:disabled,
+  textarea:disabled, select:disabled {
+    cursor: not-allowed; }
+
+.text-input,
+textarea {
+  width: 100%;
+  padding: 0 0.6666666667rem;
+  box-shadow: inset 0 0 0 1px #e4e4ea;
+  background-color: #efeff4;
+  color: black; }
+  .text-input[readonly],
+  .text-input[disabled],
+  textarea[readonly], textarea[disabled] {
+    box-shadow: none; }
+  .text-input[readonly],
+  textarea[readonly] {
+    border: 1px solid #e4e4ea;
+    background-color: white;
+    color: #b1b1bc; }
+  .text-input:disabled,
+  textarea:disabled {
+    border: 1px solid #e4e4ea;
+    box-shadow: none;
+    background-color: #f7f7fc;
+    color: #b1b1bc; }
+  .text-input:focus,
+  textarea:focus {
+    border-color: #0a9ec1;
+    box-shadow: inset 0 0 0 1px #d1d0d8; }
+  .text-input::-webkit-input-placeholder,
+  textarea::-webkit-input-placeholder {
+    color: #b1b1bc; }
+  .text-input:-moz-placeholder,
+  textarea:-moz-placeholder {
+    color: #b1b1bc; }
+
+select {
+  border-radius: 3px;
+  padding: 0 3em 0 1em;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+  line-height: calc(2em - 2px);
+  cursor: pointer;
+  background-color: #e4e4ea;
+  background-image: url("data:image/svg+xml;utf8,%3csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 viewBox=%220 0 658 1024%22%3e%3cpath fill=%22#3b3b3f%22 d=%22M614.286 420.571q0 7.429-5.714 13.143l-266.286 266.286q-5.714 5.714-13.143 5.714t-13.143-5.714l-266.286-266.286q-5.714-5.714-5.714-13.143t5.714-13.143l28.571-28.571q5.714-5.714 13.143-5.714t13.143 5.714l224.571 224.571 224.571-224.571q5.714-5.714 13.143-5.714t13.143 5.714l28.571 28.571q5.714 5.714 5.714 13.143z%22/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 0.6666666667rem) 37.5%;
+  color: #3b3b3f; }
+  select:hover, select:focus {
+    border: 1px solid #9999a3;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    background-color: #b1b1bc; }
+  select:active {
+    border: 1px solid #7c7c84;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    background-color: #9999a3; }
+  select:disabled {
+    border: 1px solid #d1d0d8;
+    box-shadow: none;
+    background-color: white;
+    background-image: url("data:image/svg+xml;utf8,%3csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 viewBox=%220 0 658 1024%22%3e%3cpath fill=%22#d1d0d8%22 d=%22M614.286 420.571q0 7.429-5.714 13.143l-266.286 266.286q-5.714 5.714-13.143 5.714t-13.143-5.714l-266.286-266.286q-5.714-5.714-5.714-13.143t5.714-13.143l28.571-28.571q5.714-5.714 13.143-5.714t13.143 5.714l224.571 224.571 224.571-224.571q5.714-5.714 13.143-5.714t13.143 5.714l28.571 28.571q5.714 5.714 5.714 13.143z%22/%3e%3c/svg%3e");
+    color: #d1d0d8; }
+  select[multiple] {
+    border: 1px solid #b1b1bc;
+    padding: 0.3333333333rem;
+    cursor: pointer;
+    background: #f7f7fc; }
+
+.text-input {
+  height: 2em;
+  line-height: 1; }
+  .text-input + [type=checkbox],
+  .text-input + [type=radio] {
+    margin-left: 1.3333333333rem; }
+  .text-input + .label--inline {
+    margin-left: 0.6666666667rem; }
+  .text-input[type=search] {
+    -webkit-appearance: none;
+    padding: 0; }
+  .text-input::-webkit-input-placeholder {
+    padding-top: 1px; }
+  .text-input:-moz-placeholder {
+    padding-top: 1px; }
+
+.text-input + [type=submit],
+.text-input [type=cancel],
+.label--inline + [type=submit],
+.label--inline [type=cancel] {
+  margin-left: 1.3333333333rem; }
+
+textarea {
+  overflow: auto;
+  min-height: calc(120px + 0.6666666667rem);
+  padding: 0.3333333333rem 0.6666666667rem;
+  resize: vertical; }
+
+[type=checkbox], [type=radio] {
+  margin: 0;
+  padding: 0;
+  font-size: 1.05em;
+  cursor: pointer; }
+  [type=checkbox][disabled], [type=radio][disabled] {
+    cursor: not-allowed; }
+    [type=checkbox][disabled] + .label--inline,
+    [type=radio][disabled] + .label--inline {
+      cursor: not-allowed; }
+
+[type=checkbox] + .label--inline {
+  padding-left: 5px; }
+
+[type=radio] + .label--inline {
+  padding-left: 3px; }
+
+.form-field__help {
+  display: inline-block;
+  margin-top: 0.3333333333rem;
+  font-size: 1rem;
+  line-height: inherit;
+  color: #7c7c84; }
+
+/**
+   * Text inputs with no styles.
+   */
+.text-input--bare {
+  border: 0 !important; }
+
+.text-input--bare {
+  margin: 0;
+  padding: 0; }
+  .text-input--bare:focus {
+    outline: 0; }
+
+.time-input__field {
+  font-size: 2rem;
+  line-height: 1;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 3.3333333333rem; }
+
+.time-input__field__input {
+  font-size: 2rem;
+  line-height: 1;
+  width: 1.0666666667em;
+  height: 2rem;
+  font-family: var(--px-font-family); }
+
+.time-input__field__ampm {
+  font-size: 0.8rem;
+  line-height: 1;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
+  height: 2rem;
+  margin-left: 0.6666666667rem; }
+  .time-input__field__ampm label {
+    margin-bottom: 0; }

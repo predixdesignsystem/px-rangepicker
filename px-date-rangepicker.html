@@ -1,0 +1,180 @@
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="px-calendar.html"/>
+
+<script src="../moment/moment.js"></script>
+
+<!--
+Date rangepicker element which allows user to select two dates (a range).
+
+##### Usage
+
+    <px-date-rangepicker from-date="{{...}}" to-date="{{...}}">
+    </px-date-rangepicker>
+
+-->
+<dom-module id="px-date-rangepicker">
+  <link rel="import" type="css" href="css/px-date-rangepicker.css"/>
+  <template>
+    <div id=box class="flex flex--top flex--center flex--wrap">
+      <div class="flex flex--top u-mh+ u-mb+">
+        <button on-click="_jumpBack" class="btn btn--bare u--mr-">
+          <i class="fa fa-angle-left"></i>
+        </button>
+        <px-calendar
+          id="leftCalendar"
+          display-month-year="{{leftDisplayMonthYear}}"
+          first-range-date="{{firstRangeDate}}"
+          second-range-date="{{secondRangeDate}}"
+          allow-future-dates="{{allowFutureDates}}">
+        </px-calendar>
+      </div>
+      <div class="flex flex--top u-mh+">
+        <px-calendar
+          id="rightCalendar"
+          display-month-year="{{rightDisplayMonthYear}}"
+          first-range-date="{{firstRangeDate}}"
+          second-range-date="{{secondRangeDate}}"
+          allow-future-dates="{{allowFutureDates}}">
+        </px-calendar>
+        <button id=btnNextMonth on-click="_jumpForward" class="btn btn--bare u--ml-">
+          <i class="fa fa-angle-right"></i>
+        </button>
+      </div>
+    </div>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'px-date-rangepicker',
+
+    properties: {
+
+      /**
+       * Moment object with range start date
+       */
+      fromDate: {
+        type: Object,
+        notify: true
+      },
+
+      /**
+       * Moment object with range end date
+       */
+      toDate: {
+        type: Object,
+        notify: true
+      },
+
+      /**
+       * (optional)
+       *
+       * Set this attribute when you do want to allow future dates in the date range picker.
+       *
+       * If not set, then future dates will be disabled and unclickable in the date picker.
+       *
+       * Note: this only affects the visual calendar date picker, users can always type in dates/times or choose times that are in the future.
+       */
+      allowFutureDates: {
+        type: Boolean,
+        value: false
+      }
+
+    },
+
+    observers: [
+      '_updateSelectedRange(fromDate, toDate)'
+    ],
+
+    _updateSelectedRange: function() {
+
+      // initialize the first and second selected dates to the to and from dates
+      // if the range is different & if we are NOT currently picking the date (if currently picking date, ignore it)
+      if (!this._selectedRangeIsSame() && this.secondRangeDate !== null) {
+        this.set('firstRangeDate', moment(this.fromDate));
+        this.set('secondRangeDate', moment(this.toDate));
+      }
+
+    },
+
+    _resetVisibleCalendars: function() {
+      // initialize the displayed months to the selected fromDate & fromDate + 1
+      this.set('leftDisplayMonthYear', moment(this.fromDate).startOf('month'));
+      this.set('rightDisplayMonthYear', moment(this.fromDate).startOf('month').add(1, 'months'));
+      this._setJumpButtonStyles();
+    },
+
+    _selectedRangeIsSame: function() {
+
+      if (!this.firstRangeDate || !this.secondRangeDate) {
+        return false;
+      }
+
+      var firstIsFromAndSecondIsTo = this.firstRangeDate.isSame(this.fromDate, 'day') && this.secondRangeDate.isSame(this.toDate, 'day');
+      var secondIsFromAndFirstIsTo = this.secondRangeDate.isSame(this.fromDate, 'day') && this.firstRangeDate.isSame(this.toDate, 'day');
+
+      return firstIsFromAndSecondIsTo || secondIsFromAndFirstIsTo;
+
+    },
+
+    ready: function() {
+      var self = this;
+      this.$.box.addEventListener('range-selected', function() {
+
+        var fromDate = self.firstRangeDate;
+        var toDate = self.secondRangeDate;
+
+        if (self.firstRangeDate.isAfter(self.secondRangeDate)) {
+          toDate = self.firstRangeDate;
+          fromDate = self.secondRangeDate;
+        }
+
+        // set the times back to what they really should be
+        fromDate.hour(self.fromDate.hour());
+        fromDate.minute(self.fromDate.minute());
+        fromDate.second(self.fromDate.second());
+
+        toDate.hour(self.toDate.hour());
+        toDate.minute(self.toDate.minute());
+        toDate.second(self.toDate.second());
+
+        self.set('fromDate', fromDate);
+        self.set('toDate', toDate);
+
+      });
+    },
+
+    _jumpBack: function() {
+      this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear.add(-1, 'months')));
+      this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear.add(-1, 'months')));
+      this._setJumpButtonStyles();
+    },
+
+    _jumpForward: function() {
+      this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear.add(1, 'months')));
+      this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear.add(1, 'months')));
+      this._setJumpButtonStyles();
+    },
+
+    _setJumpButtonStyles: function() {
+      if (!this.allowFutureDates) {
+        // if we don't allow future dates, we want to disable the jump right button
+        if (this._isCurrentMonth()) {
+          this.toggleAttribute('disabled', true, this.$.btnNextMonth);
+          this.toggleClass('btn--disabled', true, this.$.btnNextMonth);
+        }
+        else {
+          this.toggleAttribute('disabled', false, this.$.btnNextMonth);
+          this.toggleClass('btn--disabled', false, this.$.btnNextMonth);
+        }
+      }
+    },
+
+    _isCurrentMonth: function() {
+      var now = moment();
+      return this.rightDisplayMonthYear.isSame(now, 'month');
+    }
+
+  });
+</script>
