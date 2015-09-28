@@ -197,6 +197,68 @@ html {
  * A lot of these classes carry `!important` as you will always want them to win
  * out over other selectors.
  */
+/*------------------------------------*    #PX-COLORS-DESIGN
+\*------------------------------------*/
+/**
+ * Brand Colors
+ */
+/**
+     * Primary
+     */
+/**
+     * Light
+     */
+/**
+     * Dark
+     */
+/**
+ * Monochromatic (gray10 is darkest, gray1 is lightest)
+ */
+/**
+ * Buttons
+ */
+/**
+ * Selection
+ */
+/**
+ * Alerts
+ */
+/**
+ * Data Visualization
+ */
+/**
+     * Basic
+     */
+/**
+     * Light
+     */
+/**
+     * Dark
+     */
+/* Links
+   ========================================================================== */
+/**
+ * Remove the gray background color from active links in IE 10.
+ */
+a {
+  background-color: transparent;
+  /**
+ * Default link colors
+ */
+  /**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */ }
+  a:link,
+  a:visited {
+    color: #3e87e8; }
+  a:hover {
+    color: #3573c5; }
+  a:active {
+    color: #2b5ea2; }
+  a:active,
+  a:hover {
+    outline: 0; }
+
 /**
  * Add/remove floats
  */
@@ -519,44 +581,6 @@ html {
 .viewport--full-height {
   min-height: 100vh; }
 
-/*------------------------------------*    #PX-COLORS-DESIGN
-\*------------------------------------*/
-/**
- * Brand Colors
- */
-/**
-     * Primary
-     */
-/**
-     * Light
-     */
-/**
-     * Dark
-     */
-/**
- * Monochromatic (gray10 is darkest, gray1 is lightest)
- */
-/**
- * Buttons
- */
-/**
- * Selection
- */
-/**
- * Alerts
- */
-/**
- * Data Visualization
- */
-/**
-     * Basic
-     */
-/**
-     * Light
-     */
-/**
-     * Dark
-     */
 .btn {
   display: inline-block;
   overflow: visible;
@@ -655,11 +679,19 @@ button.btn {
   outline: none; }
 
 .rangepicker__box {
-  position: absolute;
-  z-index: 20;
+  position: fixed;
+  top: 4rem;
+  left: 3.6666666667rem;
   display: inline-block;
+  z-index: 1;
   border: 1px solid;
   border-radius: 3px; }
+  @media screen and (min-width: 48rem) {
+    .rangepicker__box {
+      position: absolute;
+      top: 2.6666666667rem;
+      left: 0;
+      z-index: auto; } }
 
 .border--top {
   border-top: 1px solid; }
@@ -671,7 +703,6 @@ button.btn {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 10;
   width: 100%;
   height: 100%; }
 

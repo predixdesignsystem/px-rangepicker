@@ -17,12 +17,6 @@ Rangepicker with time element.
 <dom-module id="px-rangepicker">
   <link rel="import" type="css" href="css/px-rangepicker.css"/>
   <template>
-    <px-range-fields
-      id="rangeFields"
-      from="{{fromMoment}}"
-      to="{{toMoment}}"
-      display-options="{{displayOptions}}">
-    </px-range-fields>
     <px-rangepicker-modal
       id=rangePickerModal
       from="{{fromMoment}}"
@@ -32,6 +26,12 @@ Rangepicker with time element.
       display-options="{{displayOptions}}"
       hidden>
     </px-rangepicker-modal>
+    <px-range-fields
+      id="rangeFields"
+      from="{{fromMoment}}"
+      to="{{toMoment}}"
+      display-options="{{displayOptions}}">
+    </px-range-fields>
   </template>
 </dom-module>
 
