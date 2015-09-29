@@ -17,6 +17,7 @@
     html {
       font-size: 0.9375rem;
     }
+
   </style>
 </head>
 
@@ -33,30 +34,31 @@
       url="demo-data/sample-data.json"
       last-response="{{sampleData}}"
       handle-as="json"></iron-ajax>
+      <div>
+        Time Series Chart is from <b>{{sampleData.range.from}}</b> to <b>{{sampleData.range.to}}</b>
+      </div>
 
-    <div>
-      Time Series Chart is from <b>{{sampleData.range.from}}</b> to <b>{{sampleData.range.to}}</b>
-    </div>
+      <button onclick="change2014()">Change to Nov/Dec 2014</button>
+      <button onclick="change2013()">Change to March/April 2013</button>
 
-    <button onclick="change2014()">Change to Nov/Dec 2014</button>
-    <button onclick="change2013()">Change to March/April 2013</button>
+      <br>
+      <br>
 
-    <br>
-    <br>
+      <!-- Defaults to last week -->
+      <!--<px-rangepicker range="{{x}}">-->
+      <!--</px-rangepicker>-->
 
-    <!-- Defaults to last week -->
-    <!--<px-rangepicker range="{{x}}">-->
-    <!--</px-rangepicker>-->
+      <!-- with/without presets -->
+      <div style="position: relative;">
+        <px-rangepicker range="{{sampleData.range}}">
+        </px-rangepicker>
+      </div>
+      <!-- Allow future dates -->
+      <!--<px-rangepicker range="{{sampleData.range}}"-->
+                      <!--preset-ranges="{{sampleData.presetRanges}}"-->
+                      <!--allow-future-dates>-->
+      <!--</px-rangepicker>-->
 
-    <!-- with/without presets -->
-    <px-rangepicker range="{{sampleData.range}}">
-    </px-rangepicker>
-
-    <!-- Allow future dates -->
-    <!--<px-rangepicker range="{{sampleData.range}}"-->
-                    <!--preset-ranges="{{sampleData.presetRanges}}"-->
-                    <!--allow-future-dates>-->
-    <!--</px-rangepicker>-->
 
   </template>
 
