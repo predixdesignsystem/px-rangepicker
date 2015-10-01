@@ -765,6 +765,32 @@ button.btn {
   margin-bottom: 0 !important; }
 
 /**
+     * Small negative margins.
+     */
+.u--m- {
+  margin: -0.6666666667rem !important; }
+
+.u--mt- {
+  margin-top: -0.6666666667rem !important; }
+
+.u--mr- {
+  margin-right: -0.6666666667rem !important; }
+
+.u--mb- {
+  margin-bottom: -0.6666666667rem !important; }
+
+.u--ml- {
+  margin-left: -0.6666666667rem !important; }
+
+.u--mh- {
+  margin-right: -0.6666666667rem !important;
+  margin-left: -0.6666666667rem !important; }
+
+.u--mv- {
+  margin-top: -0.6666666667rem !important;
+  margin-bottom: -0.6666666667rem !important; }
+
+/**
      * Add small paddings.
      */
 .u-p- {

@@ -37,3 +37,22 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 .overlay {
   background-color: rgba($black, .1);
 }
+
+.btn--preset{
+  &:hover{
+    color: $primary-blue;
+  }
+  &:active{
+    color: $primary-blue-pressed;
+  }
+}
+
+.btn--preset__selected{
+  color: $select-blue-default;
+  &:hover{
+    color: $select-blue-hover;
+  }
+  &:active{
+    color: $select-blue-pressed;
+  }
+}

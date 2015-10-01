@@ -22,5 +22,12 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 @import 'px-date-rangepicker-sketch.scss';
 
 .btn--bare {
-  color: $select-blue-default;
+  color: $primary-blue;
+
+  &:hover{
+    color: $primary-blue-hover;
+  }
+  &:active{
+    color: $primary-blue-pressed;
+  }
 }

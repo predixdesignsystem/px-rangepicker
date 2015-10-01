@@ -778,6 +778,32 @@ button.btn {
   margin-bottom: 0 !important; }
 
 /**
+     * Small negative margins.
+     */
+.u--m- {
+  margin: -0.6666666667rem !important; }
+
+.u--mt- {
+  margin-top: -0.6666666667rem !important; }
+
+.u--mr- {
+  margin-right: -0.6666666667rem !important; }
+
+.u--mb- {
+  margin-bottom: -0.6666666667rem !important; }
+
+.u--ml- {
+  margin-left: -0.6666666667rem !important; }
+
+.u--mh- {
+  margin-right: -0.6666666667rem !important;
+  margin-left: -0.6666666667rem !important; }
+
+.u--mv- {
+  margin-top: -0.6666666667rem !important;
+  margin-bottom: -0.6666666667rem !important; }
+
+/**
      * Add small paddings.
      */
 .u-p- {
@@ -840,3 +866,16 @@ button.btn {
 
 .overlay {
   background-color: rgba(0, 0, 0, 0.1); }
+
+.btn--preset:hover {
+  color: #3e87e8; }
+
+.btn--preset:active {
+  color: #2b5ea2; }
+
+.btn--preset__selected {
+  color: #0a9ec1; }
+  .btn--preset__selected:hover {
+    color: #0986a4; }
+  .btn--preset__selected:active {
+    color: #086e87; }

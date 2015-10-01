@@ -586,4 +586,8 @@ button.btn {
   padding-bottom: 1.3333333333rem !important; }
 
 .btn--bare {
-  color: #0a9ec1; }
+  color: #3e87e8; }
+  .btn--bare:hover {
+    color: #3573c5; }
+  .btn--bare:active {
+    color: #2b5ea2; }
