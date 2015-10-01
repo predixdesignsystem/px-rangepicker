@@ -27,13 +27,13 @@ bower install https://github.com/PredixDev/px-rangepicker.git --save
 
 Second, import the component to your application with the following tag in your head.
 
-```
+```html
 <link rel="import" href="/bower_components/px-rangepicker/px-rangepicker.html" ></link>
 ```
 
 Finally, use the component in your application:
 
-```
+```html
 <px-rangepicker></px-rangepicker>
 ```
 
@@ -48,7 +48,7 @@ Finally, use the component in your application:
 
 The `range` attribute is 2-way data-bindable object with two properties: "from" and "to". The value of these must be set to valid [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date-time strings.
 
-```
+```html
 <px-rangepicker
 	...
 	range='{
@@ -64,7 +64,7 @@ The `range` attribute is 2-way data-bindable object with two properties: "from" 
 
 By default future dates are disabled in the date picker. Set the `allow-future-dates` attribute to "true" to enable future dates in the date range picker.
 
-```
+```html
 <px-rangepicker
 	...
 	allow-future-dates="true">
@@ -81,7 +81,7 @@ The `displayText` attribute assigns a label to the preset link which will appear
 
 The `startDateTime` and `endDateTime` attributes set the beginning and end of the range, defined as [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date-time strings.
 
-```
+```html
 <px-rangepicker
 	...
 	preset-ranges='[
@@ -105,7 +105,7 @@ The `startDateTime` and `endDateTime` attributes set the beginning and end of th
 
 Display configuration that enables customization of the `displayType`, `submitButtonText`, and `submitButtonIcon`.
 
-```
+```html
 <px-rangepicker
 	...
 	display-options="{
@@ -122,24 +122,27 @@ Display configuration that enables customization of the `displayType`, `submitBu
 ##Events
 ### `range-changed`
 
-Event fired on change to `range` value. *Note: The value will be automatically updated if you are using 2-way data-binding.*
+Event fired on change to `range` value. *Note: The value will be automatically updated if you are using 2-way data-binding, making event listeners unnecessary.*
 
 ```html
 <px-rangepicker on-range-changed="rangeChangedHandler"></px-rangepicker>
 ```
+```javascript
+var rangeChangedHandler = function(e) {
+	// do something on range-changed
+};
+```
 
-or
+or:
 
 ```html
 <px-rangepicker id="my-range-picker"></px-rangepicker>
 ```
 ```javascript
-<script>
 	var el = document.querySelector("#my-range-picker");
-	el.addEventListener("range-changed", function() {
+	el.addEventListener("range-changed", function(e) {
 		// do something on range-changed
 	});
-</script>
 ```
 
 ## Using Events
@@ -149,8 +152,8 @@ Events follow the [Polymer data-binding standards](https://www.polymer-project.o
 You can can attach listeners by using one of the methods below:
 
 1. Polymer Event listener
-2. on- annotated event listener
-3. addEventListener vanila Javascript method
+2. "on-x" annotated event listener
+3. addEventListener vanilla Javascript method
 <br />
 <hr />
 
