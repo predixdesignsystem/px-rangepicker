@@ -17,7 +17,7 @@ The list of preset ranges in the rangepicker modal.
     <ul class=list-bare>
       <template is="dom-repeat" items="{{presetRanges}}" as="preset">
         <li class=u-mb->
-          <button class="btn btn--bare" on-click="_usePreset">{{preset.displayText}}</button>
+          <span class$="{{_getButtonClass(selectedItem, preset)}}" on-click="_usePreset">{{preset.displayText}}</span>
         </li>
       </template>
     </ul>
@@ -53,12 +53,35 @@ The list of preset ranges in the rangepicker modal.
        *
        * @default no presets
        */
-      presetRanges: Object
-
+      presetRanges: {
+        type: Object,
+        value: function(){
+          return {};
+        }
+      },
+      selectedItem: {
+        type: Object,
+        value: function(){
+          return {};
+        }
+      }
     },
 
     _usePreset: function(e) {
+      this.set('selectedItem', e.model.preset);
       this.fire('px-preset-selected', e.model.preset);
+    },
+
+    _getButtonClass: function(selectedItem, presetObject){
+      var classlist = ['btn', 'btn--bare'];
+
+      if(selectedItem === presetObject){
+        classlist.push('btn--preset__selected');
+      }
+      else{
+        classlist.push('btn--preset');
+      }
+      return classlist.join(' ');
     }
 
   });
