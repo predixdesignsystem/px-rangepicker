@@ -15,7 +15,7 @@ Use the Px-Rangepicker to add a web component to your application enabling users
 3. bower
 4. [webcomponents-lite.js polyfill](https://github.com/webcomponents/webcomponentsjs)
 
-Node, npm and bower are necessary to install the component and dependencies. webcomponentsjs adds support for web components and custom elements to your application.
+Node, npm and bower are necessary to install the component and dependencies. webcomponents.js adds support for web components and custom elements to your application.
 
 ### Getting Started
 
@@ -62,7 +62,7 @@ The `range` attribute is 2-way data-bindable object with two properties: "from" 
 
 *Type:* **Boolean** - (*Optional*) - *Default:* false
 
-By default future dates are disabled in the date picker. Set the `allow-future-dates` attribute to "true" to enable future dates in the date range picker.
+By default future dates are disabled in the date picker. Set the `allow-future-dates` attribute to "true" to enable future dates in the date range picker. *Note: No validation of dates is performed so users are able to enter manually any date without restriction. This attribute merely disables choosing future dates via the calendar UI.*
 
 ```html
 <px-rangepicker
