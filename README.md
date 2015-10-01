@@ -1,6 +1,6 @@
 # Px-Rangepicker
 
-Px-Rangepicker is a UI web component for setting a range of time.
+Px-Rangepicker enables setting a range of time using a calendar-based UI.
 
 ## Overview
 
