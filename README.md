@@ -122,7 +122,9 @@ Display configuration that enables customization of the `displayType`, `submitBu
 ##Events
 ### `range-changed`
 
-Event fired on change to `range` value. *Note: The value will be automatically updated if you are using 2-way data-binding, making event listeners unnecessary.*
+Event fired on change to `range` value. Listeners will receive an event object whose `e.detail.value` attribute has the changing property’s new value. *Note: The value will be automatically updated if you are using 2-way data-binding, making event listeners unnecessary.*
+
+Add a listener using the `on-range-changed` annotated event listener syntax as follows:
 
 ```html
 <px-rangepicker on-range-changed="rangeChangedHandler"></px-rangepicker>
@@ -133,7 +135,7 @@ var rangeChangedHandler = function(e) {
 };
 ```
 
-or:
+Attach an event listener using `addEventListener` like this:
 
 ```html
 <px-rangepicker id="my-range-picker"></px-rangepicker>
