@@ -119,6 +119,41 @@ Display configuration that enables customization of the `displayType`, `submitBu
 <br />
 <hr />
 
+##Events
+### `range-changed`
+
+Event fired on change to `range` value. *Note: The value will be automatically updated if you are using 2-way data-binding.*
+
+```html
+<px-rangepicker on-range-changed="rangeChangedHandler"></px-rangepicker>
+```
+
+or
+
+```html
+<px-rangepicker id="my-range-picker"></px-rangepicker>
+```
+```javascript
+<script>
+	var el = document.querySelector("#my-range-picker");
+	el.addEventListener("range-changed", function() {
+		// do something on range-changed
+	});
+</script>
+```
+
+## Using Events
+
+Events follow the [Polymer data-binding standards](https://www.polymer-project.org/1.0/docs/devguide/data-binding.html).
+
+You can can attach listeners by using one of the methods below:
+
+1. Polymer Event listener
+2. on- annotated event listener
+3. addEventListener vanila Javascript method
+<br />
+<hr />
+
 ## Local Development
 
 From the component's directory...
