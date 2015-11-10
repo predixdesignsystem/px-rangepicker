@@ -28,7 +28,7 @@ bower install https://github.com/PredixDev/px-rangepicker.git --save
 Second, import the component to your application with the following tag in your head.
 
 ```html
-<link rel="import" href="/bower_components/px-rangepicker/px-rangepicker.html" ></link>
+<link rel="import" href="/bower_components/px-rangepicker/px-rangepicker.html"/>
 ```
 
 Finally, use the component in your application:
