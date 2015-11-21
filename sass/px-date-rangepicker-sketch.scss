@@ -39,7 +39,8 @@ $inuit-enable-btn--disabled             : true;
   display: block;
 }
 
-.btn--bare{
+.btn--bare {
+  z-index: 1; // make sure it is above the px-calendar
   &:hover, &:focus {
     outline: none;
   }
