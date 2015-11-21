@@ -479,8 +479,10 @@ button.btn {
 :host {
   display: block; }
 
-.btn--bare:hover, .btn--bare:focus {
-  outline: none; }
+.btn--bare {
+  z-index: 1; }
+  .btn--bare:hover, .btn--bare:focus {
+    outline: none; }
 
 /**
  * Margin and padding helper classes. Use these to tweak layout on a micro
