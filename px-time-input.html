@@ -20,11 +20,11 @@ Time input which allows the user to type in hours, minutes, seconds in a control
       <span>:</span>
       <input type=text class="text-input--bare time-input__field__input" value="{{seconds::input}}" on-keydown="_changeSeconds" on-focus="_hasFocus" on-blur="_loseFocus"/>
       <div class=time-input__field__ampm>
-        <label on-click="_hasFocus" on-blur="_loseFocus">
+        <label on-click="_hasFocus" on-blur="_loseFocus"  on-keydown="_preventKeyDown">
           <input class=a11y type=radio id=am checked="{{isAM::change}}" on-change="_selectAM">
           <span>AM</span>
         </label>
-        <label on-click="_hasFocus" on-blur="_loseFocus">
+        <label on-click="_hasFocus" on-blur="_loseFocus" on-keydown="_preventKeyDown">
           <input class=a11y type=radio id=pm checked="{{!isAM::change}}" on-change="_selectPM">
           <span>PM</span>
         </label>
@@ -57,29 +57,33 @@ Time input which allows the user to type in hours, minutes, seconds in a control
       this.set('seconds', this.time.format("ss"));
       if(this.time.format('A') === 'AM') {
         this.set('isAM', true);
-      }
-      else {
+      } else {
         this.set('isAM', false);
       }
     },
-
+    _preventKeyDown: function(e) {
+      var code = (e.keyCode ? e.keyCode : e.which);
+      if (code !== 9) {
+        e.preventDefault();
+      }
+    },
     /**
      * builds a simple, unformatted time string by concatenating Hours : Minutes : Seconds AM/PM (not formatting pretty)
      */
     _buildSimpleUnformattedTime: function(hours, minutes, seconds, isAM) {
       var simpleTimeString = hours + ':' + minutes + ':' + seconds + ' ';
-      if(isAM) {
+      if (isAM) {
         simpleTimeString += 'AM';
-      }
-      else {
+      } else {
         simpleTimeString += 'PM';
       }
       return simpleTimeString;
     },
 
     _setTime: function(timeObj) {
-      var simpleUnformattedTime = this._buildSimpleUnformattedTime(timeObj.hour, timeObj.minute, timeObj.second, timeObj.isAM);
-      var formattedTime = moment(simpleUnformattedTime, 'h:m:s A');
+      var simpleUnformattedTime = this._buildSimpleUnformattedTime(timeObj.hour, timeObj.minute, timeObj.second, timeObj.isAM),
+          formattedTime = moment(simpleUnformattedTime, 'h:m:s A');
+
       formattedTime.date(this.time.date()); // keep the existing date/month/year
       formattedTime.month(this.time.month());
       formattedTime.year(this.time.year());
@@ -108,9 +112,7 @@ Time input which allows the user to type in hours, minutes, seconds in a control
       time[fieldChanged] = this._getContinuedInput(time[fieldChanged], newCharacter);
       if (this._isValidTime(time)) {
         this._setTime(time);
-      }
-
-      else {
+      } else {
         // otherwise, try just using that new character as a new number
         time[fieldChanged] = newCharacter;
 
@@ -125,27 +127,21 @@ Time input which allows the user to type in hours, minutes, seconds in a control
     },
 
     _changeField: function(e, field) {
-
       // if key is anything but a tab, prevent the default behavior
-      if(e.keyCode !== 9) {
+      if (e.keyCode !== 9) {
         e.preventDefault();
       }
 
       var keyValue = e.keyCode - 48;
-
       // normal number keys
       if (keyValue >= 0 && keyValue <= 9) {
         this._changeTimeIfValid(field, keyValue);
-      }
-
-      else {
-
+      } else {
         // number pad number keys
         var numPadKeyValue = e.keyCode - 96;
         if (numPadKeyValue >= 0 && numPadKeyValue <= 9) {
           this._changeTimeIfValid(field, numPadKeyValue);
         }
-
         // ignore all other key presses
       }
 
@@ -194,6 +190,5 @@ Time input which allows the user to type in hours, minutes, seconds in a control
         isAM: this.isAM
       });
     }
-
   });
 </script>
