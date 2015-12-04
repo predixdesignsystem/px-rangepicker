@@ -165,9 +165,8 @@ Rangepicker with time element.
         self.$.rangePickerModal.open();
       });
 
-      this.$.rangeFields.addEventListener('px-submit-range', function(e) {
+      this.$.rangePickerModal.addEventListener('px-submit-range', function(e) {
         // apply changes to outside world
-
         self.set('range', {
           from: self.fromWorkingCopy,
           to: self.toWorkingCopy

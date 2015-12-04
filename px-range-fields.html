@@ -49,7 +49,6 @@ Component with all the date/time range fields which are displayed in the range p
           class="flex">
         </px-range-field>
       </div>
-      <button class="btn btn--tertiary u-mb- u-ml0 " type=submit on-click="_submit"><i class$="{{displayOptions.submitButtonIcon}}"></i>{{displayOptions.submitButtonText}}</button>
     </div>
   </template>
 </dom-module>
@@ -156,18 +155,28 @@ Component with all the date/time range fields which are displayed in the range p
       this.$.fromDate.addEventListener('px-focused-range-field', function(e) {
         self.lastFocusedElement = self.$.fromDate;
         self._toggleFocusToFrom(true);
+        range= self.$.fromDate.getElementsByClassName("px-range-field validation-error");
+        range[0].value = "";
+
       });
       this.$.toDate.addEventListener('px-focused-range-field', function(e) {
         self.lastFocusedElement = self.$.toDate;
         self._toggleFocusToFrom(false);
+        range= self.$.toDate.getElementsByClassName("px-range-field validation-error");
+        range[0].value = "";
+
       });
       this.$.fromTime.addEventListener('px-focused-range-field', function(e) {
         self.lastFocusedElement = self.$.fromTime;
         self._toggleFocusToFrom(true);
+        range= self.$.fromTime.getElementsByClassName("px-range-field validation-error");
+        range[0].value = "";
       });
       this.$.toTime.addEventListener('px-focused-range-field', function(e) {
         self.lastFocusedElement = self.$.toTime;
         self._toggleFocusToFrom(false);
+        range= self.$.toTime.getElementsByClassName("px-range-field validation-error");
+        range[0].value = "";
       });
     },
 
@@ -181,10 +190,6 @@ Component with all the date/time range fields which are displayed in the range p
     _toggleFocusToFrom: function(isFromFocused) {
       this.toggleClass('is-focused', isFromFocused, this.$$('#fromFields'));
       this.toggleClass('is-focused', !isFromFocused, this.$$('#toFields'));
-    },
-
-    _submit: function() {
-      this.fire('px-submit-range');
     }
 
   });

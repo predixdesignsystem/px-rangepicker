@@ -40,7 +40,8 @@ Rangepicker modal component.
         </template>
       </div>
       <div class="flex flex--right border--top u-p-">
-        <button class=btn on-click="_closeAndReturnFocus">Close</button>
+        <button class="btn" on-click="_closeAndReturnFocus">Close</button>
+        <button class="btn btn--primary" type=submit on-click="_submit"><i class$="{{displayOptions.submitButtonIcon}}"></i>{{displayOptions.submitButtonText}}</button>
       </div>
     </div>
   </template>
@@ -111,7 +112,18 @@ Rangepicker modal component.
        * True if the modal is hidden.  Must be declared as a property to reference (below) in IE 10.
        * @private
        */
-      hidden: Boolean
+      hidden: Boolean,
+      /**
+       * Display options
+       */
+      displayOptions: {
+        type: Object,
+        value: {
+          displayType: 'normal',
+          submitButtonText: 'Submit',
+          submitButtonIcon: ''
+        }
+      }
 
     },
 
@@ -152,6 +164,10 @@ Rangepicker modal component.
 
     _isClosed: function() {
       return this.hidden;
+    },
+
+    _submit: function() {
+      this.fire('px-submit-range');
     }
 
   });

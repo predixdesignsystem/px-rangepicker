@@ -95,6 +95,7 @@ Range field component which displays a time or date and font awesome icon.
 
     _handleFocus: function() {
       this.fire('px-focused-range-field');
+      this.toggleClass('validation-error', false, this.$$('input'));
     },
 
     _validateInput: function() {
@@ -119,10 +120,15 @@ Range field component which displays a time or date and font awesome icon.
         if (!momentCopy.isSame(this.moment, 'second')) { // avoid infinite loops
           this.set('moment', momentCopy);
         }
-
       this.set('isValid', true);
 
       } else {
+        if (this.momentFormat === "MM/DD/YYYY") {
+          this.$$('input').placeholder = this.momentFormat;
+        } else {
+          this.$$('input').placeholder = "HH:MM:SS ?M";
+        }
+
         this.toggleClass('validation-error', true, this.$$('input'));
         this.set('isValid', false);
       }
