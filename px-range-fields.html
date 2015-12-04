@@ -95,7 +95,7 @@ Component with all the date/time range fields which are displayed in the range p
       },
       isSubmitButtonValid : {
         type: Boolean,
-        value: false,
+        value: true,
         notify: true
       }
     },
@@ -151,32 +151,40 @@ Component with all the date/time range fields which are displayed in the range p
     },
 
     ready: function() {
-      var self = this;
+      var self = this,
+          range = [];
       this.$.fromDate.addEventListener('px-focused-range-field', function(e) {
         self.lastFocusedElement = self.$.fromDate;
         self._toggleFocusToFrom(true);
-        range= self.$.fromDate.getElementsByClassName("px-range-field validation-error");
-        range[0].value = "";
+        range = self.$.fromDate.getElementsByClassName("px-range-field validation-error");
 
+        if (range.length) {
+            range[0].value = "";
+        }
       });
       this.$.toDate.addEventListener('px-focused-range-field', function(e) {
         self.lastFocusedElement = self.$.toDate;
         self._toggleFocusToFrom(false);
         range= self.$.toDate.getElementsByClassName("px-range-field validation-error");
-        range[0].value = "";
-
+        if (range.length) {
+            range[0].value = "";
+        }
       });
       this.$.fromTime.addEventListener('px-focused-range-field', function(e) {
         self.lastFocusedElement = self.$.fromTime;
         self._toggleFocusToFrom(true);
         range= self.$.fromTime.getElementsByClassName("px-range-field validation-error");
-        range[0].value = "";
+        if (range.length) {
+            range[0].value = "";
+        }
       });
       this.$.toTime.addEventListener('px-focused-range-field', function(e) {
         self.lastFocusedElement = self.$.toTime;
         self._toggleFocusToFrom(false);
         range= self.$.toTime.getElementsByClassName("px-range-field validation-error");
-        range[0].value = "";
+        if (range.length) {
+            range[0].value = "";
+        }
       });
     },
 

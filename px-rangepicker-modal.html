@@ -41,7 +41,7 @@ Rangepicker modal component.
       </div>
       <div class="flex flex--right border--top u-p-">
         <button class="btn" on-click="_closeAndReturnFocus">Close</button>
-        <button class="btn btn--primary" type=submit on-click="_submit"><i class$="{{displayOptions.submitButtonIcon}}"></i>{{displayOptions.submitButtonText}}</button>
+        <button class="btn btn--primary" type=submit on-click="_submit" id="submitButton"><i class$="{{displayOptions.submitButtonIcon}}"></i>{{displayOptions.submitButtonText}}</button>
       </div>
     </div>
   </template>
@@ -123,10 +123,15 @@ Rangepicker modal component.
           submitButtonText: 'Submit',
           submitButtonIcon: ''
         }
+      },
+      showSubmitButton: {
+        type: Boolean,
+        value: true
       }
-
     },
-
+    observers: [
+      '_submitButtonState(showSubmitButton)'
+    ],
     ready: function() {
       var self = this;
 
@@ -137,7 +142,23 @@ Rangepicker modal component.
         self.set('from', moment(presetStartDateTime));
         self.set('to', moment(presetEndDateTime));
       });
+    },
 
+    _submitButtonState: function(enabled) {
+        console.log('inside _submitButtonState');
+      var modal = this.$,
+      submitButton;
+
+      console.log(modal);
+      submitButton = modal.submitButton;
+      console.log(submitButton);
+      if (submitButton) {
+          submitButton.disabled = !enabled;
+          this.toggleClass('btn--disabled', !enabled, submitButton);
+          console.log('changed sumbit button');
+      } else {
+        console.log('no button');
+      }
     },
 
     /**

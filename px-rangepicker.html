@@ -22,6 +22,7 @@ Rangepicker with time element.
       from="{{fromMoment}}"
       to="{{toMoment}}"
       allow-future-dates="{{allowFutureDates}}"
+      show-submit-button="{{isSubmitButtonValid}}"
       preset-ranges="{{presetRanges}}"
       display-options="{{displayOptions}}"
       hidden>
@@ -30,6 +31,7 @@ Rangepicker with time element.
       id="rangeFields"
       from="{{fromMoment}}"
       to="{{toMoment}}"
+      is-submit-button-valid = "{{isSubmitButtonValid}}"
       display-options="{{displayOptions}}">
     </px-range-fields>
   </template>
@@ -125,15 +127,26 @@ Rangepicker with time element.
           submitButtonText: 'Submit',
           submitButtonIcon: ''
         }
+      },
+      isSubmitButtonValid: {
+        type: Boolean,
+        value: true,
+        notify: true
       }
 
     },
 
     observers: [
       '_updateWorkingCopies(fromMoment, toMoment)',
-      '_updateMoments(fromWorkingCopy, toWorkingCopy)'
+      '_updateMoments(fromWorkingCopy, toWorkingCopy)',
+      '_isSubmitButtonValid(isSubmitButtonValid)'
     ],
 
+    _isSubmitButtonValid: function(isSubmitButtonValid) {
+      console.log('in rangepicker, _isSubmitButtonValid');
+      this.set('isSubmitButtonValid', isSubmitButtonValid);
+      console.log(this.isSubmitButtonValid);
+    },
     _setRange: function() {
       // make a working copy for the state inside the rangepicker
       this.set('fromWorkingCopy', this.range.from);
