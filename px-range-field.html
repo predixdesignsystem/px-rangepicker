@@ -38,7 +38,11 @@ Range field component which displays a time or date and font awesome icon.
         observer: '_updateAndValidateWorkingCopy',
         notify: true
       },
-
+      isValid: {
+        type: Boolean,
+        value: true,
+        notify: true
+      },
       /**
        * Date or Time icon/text
        *
@@ -71,7 +75,7 @@ Range field component which displays a time or date and font awesome icon.
     },
 
     ready: function() {
-      if (this.dateOrTime.toLowerCase() == 'date') {
+      if (this.dateOrTime.toLowerCase() === 'date') {
         this.toggleClass("fa-calendar", true, this.$.icon);
         if (!this.momentFormat) {
           this.momentFormat = 'MM/DD/YYYY'; // default date format
@@ -115,9 +119,12 @@ Range field component which displays a time or date and font awesome icon.
         if (!momentCopy.isSame(this.moment, 'second')) { // avoid infinite loops
           this.set('moment', momentCopy);
         }
-      }
-      else {
+
+      this.set('isValid', true);
+
+      } else {
         this.toggleClass('validation-error', true, this.$$('input'));
+        this.set('isValid', false);
       }
     },
 
