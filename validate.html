@@ -1,0 +1,43 @@
+<script>
+validate = {
+  _validateInput: function() {
+    this.parentNode.classList.remove('is-focused');
+    if (moment(this.dateTimeWorkingCopy, this.momentFormat, true).isValid()) {
+      this.toggleClass('validation-error', false, this.$$('input'));
+
+      var momentCopy = moment(this.dateTimeWorkingCopy, this.momentFormat);
+
+      console.log('this.momentCopy = ', this.dateTimeWorkingCopy);
+      if (this.dateOrTime.toLowerCase() === 'time') { // if i'm typing in a time field, make sure the date is still right
+        momentCopy.date(1); // first, 'zero' the date back to the first of the month to prevent any rolling effects (if a month doesn't have 30/31 days)
+        momentCopy.year(this.moment.year()); // set the year
+        momentCopy.month(this.moment.month()); // then the month
+        momentCopy.date(this.moment.date()); // and finally the date, to make sure we don't have any rolling effects
+      }
+      else {
+        momentCopy.hour(this.moment.hour());
+        momentCopy.minute(this.moment.minute());
+        momentCopy.second(this.moment.second());
+      }
+
+      if (!momentCopy.isSame(this.moment, 'second')) { // avoid infinite loops
+        this.set('moment', momentCopy);
+      }
+    this.set('isValid', true);
+
+    } else {
+      console.log('not valid, bitches');
+      if (this.momentFormat === "MM/DD/YYYY") {
+        this.$$('input').placeholder = this.momentFormat;
+      } else {
+        this.$$('input').placeholder = "HH:MM:SS ?M";
+      }
+
+      this.toggleClass('validation-error', true, this.$$('input'));
+      this.set('isValid', false);
+    }
+  }
+};
+
+
+</script>

@@ -126,6 +126,23 @@ Rangepicker with time element.
           displayType: 'normal',
           submitButtonText: 'Submit',
           submitButtonIcon: ''
+        },
+        /**
+         * Moment object start date & time
+         */
+        from: {
+          type: Object,
+          notify: true,
+          observer: '_updateFromWorkingCopy'
+        },
+
+        /**
+         * Moment object end date & time
+         */
+        to: {
+          type: Object,
+          notify: true,
+          observer: '_updateToWorkingCopy'
         }
       },
       isSubmitButtonValid: {
@@ -143,9 +160,7 @@ Rangepicker with time element.
     ],
 
     _isSubmitButtonValid: function(isSubmitButtonValid) {
-      console.log('in rangepicker, _isSubmitButtonValid');
       this.set('isSubmitButtonValid', isSubmitButtonValid);
-      console.log(this.isSubmitButtonValid);
     },
     _setRange: function() {
       // make a working copy for the state inside the rangepicker

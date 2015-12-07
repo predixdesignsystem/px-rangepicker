@@ -132,15 +132,12 @@ Component with all the date/time range fields which are displayed in the range p
 
         if (this.allFieldsValid) {
           this.set('isSubmitButtonValid', true);
-          console.log('isSubmitButtonValid, true other 4 valid');
         } else {
           this.set('isSubmitButtonValid', false);
-          console.log('isSubmitButtonValid, false other 4 invalid');
         }
       } else {
         this._toggleErrorClasses(true);
         this.set('isSubmitButtonValid', false);
-        console.log('isSubmitButtonValid, false order invalid');
       }
 
     },

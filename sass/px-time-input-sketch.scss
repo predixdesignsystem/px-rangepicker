@@ -32,6 +32,7 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 @import "px-viewport-design/_base.viewport.scss";
 
 $inuit-enable-text-input--bare  : true;
+$inuit-enable-validation-states : true;
 
 @import "px-forms-design/_base.forms.scss";
 

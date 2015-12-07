@@ -145,19 +145,12 @@ Rangepicker modal component.
     },
 
     _submitButtonState: function(enabled) {
-        console.log('inside _submitButtonState');
       var modal = this.$,
-      submitButton;
-
-      console.log(modal);
       submitButton = modal.submitButton;
-      console.log(submitButton);
+
       if (submitButton) {
           submitButton.disabled = !enabled;
           this.toggleClass('btn--disabled', !enabled, submitButton);
-          console.log('changed sumbit button');
-      } else {
-        console.log('no button');
       }
     },
 
