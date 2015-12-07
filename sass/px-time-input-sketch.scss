@@ -53,7 +53,7 @@ $inuit-enable-text-input--bare  : true;
 
 .time-input__field__input {
   @include inuit-font-size(30px,30px);
-  width: 1.0666666667em;
+  width: 5.2em;
   height: calculateRem(30px);
   font-family: var(--px-font-family);
 }
