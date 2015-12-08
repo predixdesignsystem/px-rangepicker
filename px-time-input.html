@@ -53,7 +53,8 @@ Time input which allows the user to type in hours, minutes, seconds in a control
         value: "time"
       },
       momentFormat: {
-        type: String
+        type: String,
+        value: 'hh:mm:ss A'
       }
 
     },
@@ -68,12 +69,12 @@ Time input which allows the user to type in hours, minutes, seconds in a control
           ampm;
 
           ampm = (this.time.format('A') === 'AM') ? 'AM' : 'PM';
-
+          console.log('ampm = ', ampm);
       this.set('timeString', hours + ":" + minutes + ":" + seconds + " " + ampm);
     },
     _userTimeChanged: function(e) {
 
-      var newTime = e.target.value.substr(0,8),
+      var newTime = e.target.value,
           thisMoment = moment(newTime, this.momentFormat),
           initialTimeObj = this.dateTimeWorkingCopy;
 
@@ -81,6 +82,7 @@ Time input which allows the user to type in hours, minutes, seconds in a control
       thisMoment.date(this.time.date()); // keep the existing date/month/year
       thisMoment.month(this.time.month());
       thisMoment.year(this.time.year());
+
       this.set('moment', thisMoment);
       this.set('dateTimeWorkingCopy', thisMoment.format(this.momentFormat));
 
