@@ -31,7 +31,8 @@ Rangepicker modal component.
             class="border--top u-p+"
             id="timeRangePicker"
             from-time="{{from}}"
-            to-time="{{to}}">
+            to-time="{{to}}"
+            is-submit-button-valid="{{isSubmitButtonValid}}">
           </px-time-rangepicker>
         </div>
         <template is="dom-if" if="{{presetRanges}}">
@@ -41,7 +42,7 @@ Rangepicker modal component.
       </div>
       <div class="flex flex--right border--top u-p-">
         <button class="btn" on-click="_closeAndReturnFocus">Close</button>
-        <button class="btn btn--primary" type=submit on-click="_submit" id="submitButton"><i class$="{{displayOptions.submitButtonIcon}}"></i>{{displayOptions.submitButtonText}}</button>
+        <button class$="{{submitBtnClasses('btn btn--primary', isSubmitButtonValid)}}" type=submit on-click="_submit" id="submitButton" disabled="{{!isSubmitButtonValid}}"><i class$="{{displayOptions.submitButtonIcon}}"></i>{{displayOptions.submitButtonText}}</button>
       </div>
     </div>
   </template>
@@ -124,14 +125,16 @@ Rangepicker modal component.
           submitButtonIcon: ''
         }
       },
-      showSubmitButton: {
+      isSubmitButtonValid: {
         type: Boolean,
-        value: true
+        value: true,
+        notify: true
       }
     },
     observers: [
-      '_submitButtonState(showSubmitButton)'
+      '_submitButtonState(isSubmitButtonValid)'
     ],
+    behaviors: [validate],
     ready: function() {
       var self = this;
 
@@ -143,17 +146,9 @@ Rangepicker modal component.
         self.set('to', moment(presetEndDateTime));
       });
     },
-
-    _submitButtonState: function(enabled) {
-      var modal = this.$,
-      submitButton = modal.submitButton;
-
-      if (submitButton) {
-          submitButton.disabled = !enabled;
-          this.toggleClass('btn--disabled', !enabled, submitButton);
-      }
+    submitBtnClasses: function(base, submitButtonValid) {
+      return (submitButtonValid) ? base : base + ' btn--disabled';
     },
-
     /**
      * Open the modal
      */

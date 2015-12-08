@@ -1,5 +1,12 @@
 <script>
 validate = {
+  properties: {
+    disabled: {
+      type: Boolean,
+      value: false,
+      reflectToAttribute: true
+    }
+  },
   _validateInput: function() {
     this.parentNode.classList.remove('is-focused');
     if (moment(this.dateTimeWorkingCopy, this.momentFormat, true).isValid()) {
@@ -7,7 +14,6 @@ validate = {
 
       var momentCopy = moment(this.dateTimeWorkingCopy, this.momentFormat);
 
-      console.log('this.momentCopy = ', this.dateTimeWorkingCopy);
       if (this.dateOrTime.toLowerCase() === 'time') { // if i'm typing in a time field, make sure the date is still right
         momentCopy.date(1); // first, 'zero' the date back to the first of the month to prevent any rolling effects (if a month doesn't have 30/31 days)
         momentCopy.year(this.moment.year()); // set the year
@@ -24,9 +30,10 @@ validate = {
         this.set('moment', momentCopy);
       }
     this.set('isValid', true);
+    this._submitButtonState(true);
+    return true;
 
     } else {
-      console.log('not valid, bitches');
       if (this.momentFormat === "MM/DD/YYYY") {
         this.$$('input').placeholder = this.momentFormat;
       } else {
@@ -35,7 +42,12 @@ validate = {
 
       this.toggleClass('validation-error', true, this.$$('input'));
       this.set('isValid', false);
+      this._submitButtonState(false);
+      return false;
     }
+  },
+  _submitButtonState: function(state) {
+      this.set('isSubmitButtonValid', state);
   }
 };
 

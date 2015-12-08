@@ -25,7 +25,8 @@ Rangepicker with time element.
       show-submit-button="{{isSubmitButtonValid}}"
       preset-ranges="{{presetRanges}}"
       display-options="{{displayOptions}}"
-      hidden>
+      hidden
+      is-submit-button-valid = "{{isSubmitButtonValid}}">
     </px-rangepicker-modal>
     <px-range-fields
       id="rangeFields"
@@ -149,6 +150,10 @@ Rangepicker with time element.
         type: Boolean,
         value: true,
         notify: true
+      },
+      submitDisabled: {
+        type: Boolean,
+        value: false
       }
 
     },

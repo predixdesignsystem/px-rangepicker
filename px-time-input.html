@@ -55,6 +55,11 @@ Time input which allows the user to type in hours, minutes, seconds in a control
       momentFormat: {
         type: String,
         value: 'hh:mm:ss A'
+      },
+      isSubmitButtonValid: {
+        type: Boolean,
+        value: true,
+        notify: true
       }
 
     },
@@ -74,24 +79,25 @@ Time input which allows the user to type in hours, minutes, seconds in a control
     _userTimeChanged: function(e) {
 
       var newTime = e.target.value,
-          thisMoment = moment(newTime, this.momentFormat),
-          initialTimeObj = this.dateTimeWorkingCopy;
+          thisMoment,
+          initialTimeObj = this.dateTimeWorkingCopy,
+          returnVal = false;
 
-      //keep the old date
-      thisMoment.date(this.time.date()); // keep the existing date/month/year
-      thisMoment.month(this.time.month());
-      thisMoment.year(this.time.year());
+      this.set('dateTimeWorkingCopy', newTime);
+      returnVal = this._validateInput();
 
-      this.set('moment', thisMoment);
-      this.set('dateTimeWorkingCopy', thisMoment.format(this.momentFormat));
+      if (returnVal) {
+        thisMoment = moment(newTime, this.momentFormat);
+        thisMoment.date(this.time.date()); // keep the existing date/month/year
+        thisMoment.month(this.time.month());
+        thisMoment.year(this.time.year());
 
-      this._validateInput();
-      if (!this.isValid) {
+        this.set('moment', thisMoment);
+        this.set('time', thisMoment);
+      } else {
         this.set('dateTimeWorkingCopy', initialTimeObj);
         return false;
       }
-      //and set new time.
-      this.set('time', thisMoment);
     }
   });
 </script>

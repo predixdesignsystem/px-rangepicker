@@ -22,14 +22,16 @@ Component with all the date/time range fields which are displayed in the range p
           is-valid="{{validStartDate}}"
           moment="{{fromWorkingCopy}}"
           date-or-time="Date"
-          class="flex u-mr-">
+          class="flex u-mr-"
+          submitDisabled={{submitDisabled}}>
         </px-range-field>
         <px-range-field
           id="fromTime"
           is-valid="{{validStartTime}}"
           moment="{{fromWorkingCopy}}"
           date-or-time="Time"
-          class="flex">
+          class="flex"
+          submitDisabled={{submitDisabled}}>
         </px-range-field>
       </div>
       <span class="caps u-mh- u-mb-">to</span>
@@ -39,14 +41,16 @@ Component with all the date/time range fields which are displayed in the range p
           is-valid="{{validEndDate}}"
           moment="{{toWorkingCopy}}"
           date-or-time="Date"
-          class="flex u-mr-">
+          class="flex u-mr-"
+          submitDisabled={{submitDisabled}}>
         </px-range-field>
         <px-range-field
           id="toTime"
           is-valid="{{validEndTime}}"
           moment="{{toWorkingCopy}}"
           date-or-time="Time"
-          class="flex">
+          class="flex"
+          submitDisabled={{submitDisabled}}>
         </px-range-field>
       </div>
     </div>

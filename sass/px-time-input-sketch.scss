@@ -55,7 +55,6 @@ $inuit-enable-validation-states : true;
 .time-input__field__input {
   @include inuit-font-size(30px,30px);
   width: 5.2em;
-  //height: calculateRem(30px);
   font-family: var(--px-font-family);
 }
 
