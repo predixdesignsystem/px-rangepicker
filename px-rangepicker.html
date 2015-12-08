@@ -146,16 +146,15 @@ Rangepicker with time element.
           observer: '_updateToWorkingCopy'
         }
       },
+      /**
+       * A flag that tells us whether the Submit/Apply button is valid, and should be active.
+       * @private
+       */
       isSubmitButtonValid: {
         type: Boolean,
         value: true,
         notify: true
-      },
-      submitDisabled: {
-        type: Boolean,
-        value: false
       }
-
     },
 
     observers: [

@@ -16,8 +16,7 @@ Range field component which displays a time or date and font awesome icon.
       <label class=label--inline>
         <span class=a11y>{{dateOrTime}}</span>
         <i id=icon class="fa fa-fw"></i>
-        <input type=text class=text-input--bare value="{{dateTimeWorkingCopy::input}}" on-focus="_handleFocus"
-               on-click="_handleClick" on-blur="_validateInput">
+        <input type=text class=text-input--bare value="{{dateTimeWorkingCopy::input}}" on-focus="_handleFocus" on-click="_handleClick" on-blur="_validateInput">
       </label>
     </div>
   </template>
@@ -38,11 +37,7 @@ Range field component which displays a time or date and font awesome icon.
         observer: '_updateAndValidateWorkingCopy',
         notify: true
       },
-      isValid: {
-        type: Boolean,
-        value: true,
-        notify: true
-      },
+
       /**
        * Date or Time icon/text
        *
@@ -66,12 +61,15 @@ Range field component which displays a time or date and font awesome icon.
       momentFormat: {
         type: String
       },
+      /**
+       * A flag that tells us whether the Submit/Apply button is valid, and should be active.
+       * @private
+       */
       isSubmitButtonValid: {
         type: Boolean,
         value: true,
         notify: true
       }
-
     },
     behaviors: [validate],
     _updateAndValidateWorkingCopy: function() {

@@ -27,7 +27,6 @@ Time rangepicker element which allows user to select a start and end time.
   Polymer({
 
     is: 'px-time-rangepicker',
-
     properties: {
 
       /**
@@ -45,12 +44,15 @@ Time rangepicker element which allows user to select a start and end time.
         type: Object,
         notify: true
       },
+      /**
+       * A flag that tells us whether the Submit/Apply button is valid, and should be active.
+       * @private
+       */
       isSubmitButtonValid: {
         type: Boolean,
         value: true,
         notify: true
       }
-
     }
   });
 </script>

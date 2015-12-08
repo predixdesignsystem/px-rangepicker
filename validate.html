@@ -48,6 +48,28 @@ validate = {
   },
   _submitButtonState: function(state) {
       this.set('isSubmitButtonValid', state);
+  },
+  _validateRangeAndBroadcastChanges: function() {
+
+    if(this.fromWorkingCopy.isBefore(this.toWorkingCopy)) {
+      this._toggleErrorClasses(false);
+
+      if(!this.fromWorkingCopy.isSame(this.from, 'second')) {
+        this.set('from', this.fromWorkingCopy);
+      }
+      if(!this.toWorkingCopy.isSame(this.to, 'second')) {
+        this.set('to', this.toWorkingCopy);
+      }
+
+      if (this.allFieldsValid) {
+        this.set('isSubmitButtonValid', true);
+      } else {
+        this.set('isSubmitButtonValid', false);
+      }
+    } else {
+      this._toggleErrorClasses(true);
+      this.set('isSubmitButtonValid', false);
+    }
   }
 };
 

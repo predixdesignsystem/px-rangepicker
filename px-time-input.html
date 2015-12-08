@@ -23,9 +23,7 @@ Time input which allows the user to type in hours, minutes, seconds in a control
   Polymer({
 
     is: 'px-time-input',
-
     properties : {
-
       /**
        * Moment object of the time in the input fields
        */
@@ -56,6 +54,10 @@ Time input which allows the user to type in hours, minutes, seconds in a control
         type: String,
         value: 'hh:mm:ss A'
       },
+      /**
+       * A flag that tells us whether the Submit/Apply button is valid, and should be active.
+       * @private
+       */
       isSubmitButtonValid: {
         type: Boolean,
         value: true,
@@ -76,8 +78,8 @@ Time input which allows the user to type in hours, minutes, seconds in a control
           ampm = (this.time.format('A') === 'AM') ? 'AM' : 'PM';
       this.set('timeString', hours + ":" + minutes + ":" + seconds + " " + ampm);
     },
+    //when the user changes the time, we validate it, and if it validates, set it as the new time for top and bottom.
     _userTimeChanged: function(e) {
-
       var newTime = e.target.value,
           thisMoment,
           initialTimeObj = this.dateTimeWorkingCopy,
@@ -91,7 +93,6 @@ Time input which allows the user to type in hours, minutes, seconds in a control
         thisMoment.date(this.time.date()); // keep the existing date/month/year
         thisMoment.month(this.time.month());
         thisMoment.year(this.time.year());
-
         this.set('moment', thisMoment);
         this.set('time', thisMoment);
       } else {

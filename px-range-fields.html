@@ -22,16 +22,14 @@ Component with all the date/time range fields which are displayed in the range p
           is-valid="{{validStartDate}}"
           moment="{{fromWorkingCopy}}"
           date-or-time="Date"
-          class="flex u-mr-"
-          submitDisabled={{submitDisabled}}>
+          class="flex u-mr-">
         </px-range-field>
         <px-range-field
           id="fromTime"
           is-valid="{{validStartTime}}"
           moment="{{fromWorkingCopy}}"
           date-or-time="Time"
-          class="flex"
-          submitDisabled={{submitDisabled}}>
+          class="flex">
         </px-range-field>
       </div>
       <span class="caps u-mh- u-mb-">to</span>
@@ -41,16 +39,14 @@ Component with all the date/time range fields which are displayed in the range p
           is-valid="{{validEndDate}}"
           moment="{{toWorkingCopy}}"
           date-or-time="Date"
-          class="flex u-mr-"
-          submitDisabled={{submitDisabled}}>
+          class="flex u-mr-">
         </px-range-field>
         <px-range-field
           id="toTime"
           is-valid="{{validEndTime}}"
           moment="{{toWorkingCopy}}"
           date-or-time="Time"
-          class="flex"
-          submitDisabled={{submitDisabled}}>
+          class="flex">
         </px-range-field>
       </div>
     </div>
@@ -97,6 +93,10 @@ Component with all the date/time range fields which are displayed in the range p
           submitButtonIcon: ''
         }
       },
+      /**
+       * A flag that tells us whether the Submit/Apply button is valid, and should be active.
+       * @private
+       */
       isSubmitButtonValid : {
         type: Boolean,
         value: true,
@@ -108,7 +108,7 @@ Component with all the date/time range fields which are displayed in the range p
       '_validateRangeAndBroadcastChanges(fromWorkingCopy, toWorkingCopy, allFieldsValid)',
       '_allFieldsValid( validStartDate, validStartTime, validEndDate, validEndTime )'
     ],
-
+    behaviors: [validate],
     _allFieldsValid: function (vsd, vst, ved, vet) {
       //this checks that all fields are valid
       this.set('allFieldsValid', (vsd && vst && ved && vet) );
@@ -120,30 +120,6 @@ Component with all the date/time range fields which are displayed in the range p
 
     _updateToWorkingCopy: function() {
       this.set('toWorkingCopy', moment(this.to));
-    },
-
-    _validateRangeAndBroadcastChanges: function() {
-
-      if(this.fromWorkingCopy.isBefore(this.toWorkingCopy)) {
-        this._toggleErrorClasses(false);
-
-        if(!this.fromWorkingCopy.isSame(this.from, 'second')) {
-          this.set('from', this.fromWorkingCopy);
-        }
-        if(!this.toWorkingCopy.isSame(this.to, 'second')) {
-          this.set('to', this.toWorkingCopy);
-        }
-
-        if (this.allFieldsValid) {
-          this.set('isSubmitButtonValid', true);
-        } else {
-          this.set('isSubmitButtonValid', false);
-        }
-      } else {
-        this._toggleErrorClasses(true);
-        this.set('isSubmitButtonValid', false);
-      }
-
     },
 
     _toggleErrorClasses: function(isError) {
