@@ -67,7 +67,7 @@ Time input which allows the user to type in hours, minutes, seconds in a control
           seconds = this.time.format("ss"),
           ampm;
 
-          ampm = (this.time.format('A')) ? 'AM' : 'PM';
+          ampm = (this.time.format('A') === 'AM') ? 'AM' : 'PM';
 
       this.set('timeString', hours + ":" + minutes + ":" + seconds + " " + ampm);
     },
@@ -91,7 +91,6 @@ Time input which allows the user to type in hours, minutes, seconds in a control
       }
       //and set new time.
       this.set('time', thisMoment);
-
     }
   });
 </script>
