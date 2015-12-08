@@ -651,7 +651,6 @@ textarea {
   font-size: 2rem;
   line-height: 1;
   width: 5.2em;
-  height: 2rem;
   font-family: var(--px-font-family); }
 
 .time-input__field__ampm {

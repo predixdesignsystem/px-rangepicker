@@ -69,7 +69,6 @@ Time input which allows the user to type in hours, minutes, seconds in a control
           ampm;
 
           ampm = (this.time.format('A') === 'AM') ? 'AM' : 'PM';
-          console.log('ampm = ', ampm);
       this.set('timeString', hours + ":" + minutes + ":" + seconds + " " + ampm);
     },
     _userTimeChanged: function(e) {
