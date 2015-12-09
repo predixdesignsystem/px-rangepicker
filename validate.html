@@ -29,9 +29,18 @@ validate = {
       if (!momentCopy.isSame(this.moment, 'second')) { // avoid infinite loops
         this.set('moment', momentCopy);
       }
-    this.set('isValid', true);
-    this._submitButtonState(true);
-    return true;
+
+      if (this._validateRangeAndBroadcastChanges) {
+        this.set('isValid', true);
+        //this._submitButtonState(true);
+        return true;
+      } else {
+        this.toggleClass('validation-error', true, this.$$('input'));
+        this.set('isValid', false);
+        this._submitButtonState(false);
+        return false;
+      }
+
 
     } else {
       if (this.momentFormat === "MM/DD/YYYY") {
@@ -61,14 +70,12 @@ validate = {
         this.set('to', this.toWorkingCopy);
       }
 
-      if (this.allFieldsValid) {
-        this.set('isSubmitButtonValid', true);
-      } else {
-        this.set('isSubmitButtonValid', false);
-      }
+      this.set('isSubmitButtonValid', this.allFieldsValid);
+      return true;
     } else {
       this._toggleErrorClasses(true);
       this.set('isSubmitButtonValid', false);
+      return false;
     }
   }
 };
