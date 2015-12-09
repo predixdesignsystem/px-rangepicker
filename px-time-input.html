@@ -35,7 +35,8 @@ Time input which allows the user to type in hours, minutes, seconds in a control
       timeString: {
         type: String,
         value: '',
-        notify: true
+        notify: true,
+        observer: '_timeStringChanged'
       },
       moment :{
         type: Object,
@@ -78,6 +79,9 @@ Time input which allows the user to type in hours, minutes, seconds in a control
           ampm = (this.time.format('A') === 'AM') ? 'AM' : 'PM';
       this.set('timeString', hours + ":" + minutes + ":" + seconds + " " + ampm);
     },
+    _timeStringChanged: function() {
+        this.toggleClass('validation-error', false, this.$$('input'));
+    },
     //when the user changes the time, we validate it, and if it validates, set it as the new time for top and bottom.
     _userTimeChanged: function(e) {
       var newTime = e.target.value,
@@ -96,6 +100,8 @@ Time input which allows the user to type in hours, minutes, seconds in a control
 
         this.set('moment', thisMoment);
         this.set('time', thisMoment);
+
+
       } else {
         this.set('dateTimeWorkingCopy', initialTimeObj);
         return false;

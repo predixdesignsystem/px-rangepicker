@@ -29,7 +29,6 @@ validate = {
       if (!momentCopy.isSame(this.moment, 'second')) { // avoid infinite loops
         this.set('moment', momentCopy);
       }
-
       if (this._validateRangeAndBroadcastChanges) {
         this.set('isValid', true);
         //this._submitButtonState(true);
@@ -40,8 +39,6 @@ validate = {
         this._submitButtonState(false);
         return false;
       }
-
-
     } else {
       if (this.momentFormat === "MM/DD/YYYY") {
         this.$$('input').placeholder = this.momentFormat;
