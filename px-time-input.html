@@ -14,7 +14,7 @@ Time input which allows the user to type in hours, minutes, seconds in a control
   <link rel="import" type="css" href="css/px-time-input.css"/>
   <template>
     <div class="text-input time-input__field">
-      <input id="timeInput" type=text value={{timeString}} class="text-input--bare time-input__field__input" on-change="_userTimeChanged"/>
+      <input id="timeInput" type=text value="{{timeString::input}}" class="text-input--bare time-input__field__input" on-change="_userTimeChanged"/>
     </div>
   </template>
 </dom-module>
@@ -70,12 +70,12 @@ Time input which allows the user to type in hours, minutes, seconds in a control
     ready: function() {
       this.momentFormat = 'hh:mm:ss A';
     },
+
     _timeChanged: function() {
       var hours = this.time.format("hh"),
           minutes = this.time.format("mm"),
           seconds = this.time.format("ss"),
           ampm;
-
           ampm = (this.time.format('A') === 'AM') ? 'AM' : 'PM';
       this.set('timeString', hours + ":" + minutes + ":" + seconds + " " + ampm);
     },
@@ -86,12 +86,11 @@ Time input which allows the user to type in hours, minutes, seconds in a control
     _userTimeChanged: function(e) {
       var newTime = e.target.value,
           thisMoment,
-          initialTimeObj = this.dateTimeWorkingCopy,
+          initialTimeObj = this.timeString,
           returnVal = false;
 
       this.set('dateTimeWorkingCopy', newTime);
       returnVal = this._validateInput();
-
       if (returnVal) {
         thisMoment = moment(newTime, this.momentFormat);
         thisMoment.date(this.time.date()); // keep the existing date/month/year
@@ -103,8 +102,7 @@ Time input which allows the user to type in hours, minutes, seconds in a control
 
 
       } else {
-        this.set('dateTimeWorkingCopy', initialTimeObj);
-        return false;
+        this.set('timeString', initialTimeObj);
       }
     }
   });
