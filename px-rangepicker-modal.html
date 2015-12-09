@@ -149,9 +149,9 @@ Rangepicker modal component.
       this.$.rangepickerModal.addEventListener('px-preset-selected', function(e) {
         var presetStartDateTime = e.detail.startDateTime;
         var presetEndDateTime = e.detail.endDateTime;
-
         self.set('from', moment(presetStartDateTime));
         self.set('to', moment(presetEndDateTime));
+        self.$.dateRangePicker._resetVisibleCalendars();
       });
     },
     submitBtnClasses: function(base, submitButtonValid) {
