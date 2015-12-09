@@ -22,14 +22,19 @@ Rangepicker with time element.
       from="{{fromMoment}}"
       to="{{toMoment}}"
       allow-future-dates="{{allowFutureDates}}"
+      show-submit-button="{{isSubmitButtonValid}}"
       preset-ranges="{{presetRanges}}"
       display-options="{{displayOptions}}"
-      hidden>
+      first-range-date="{{firstRangeDate}}"
+      second-range-date="{{secondRangeDate}}"
+      hidden
+      is-submit-button-valid = "{{isSubmitButtonValid}}">
     </px-rangepicker-modal>
     <px-range-fields
       id="rangeFields"
       from="{{fromMoment}}"
       to="{{toMoment}}"
+      is-submit-button-valid = "{{isSubmitButtonValid}}"
       display-options="{{displayOptions}}">
     </px-range-fields>
   </template>
@@ -122,18 +127,58 @@ Rangepicker with time element.
         type: Object,
         value: {
           displayType: 'normal',
-          submitButtonText: 'Submit',
+          submitButtonText: 'Apply',
           submitButtonIcon: ''
-        }
-      }
+        },
+        /**
+         * Moment object start date & time
+         */
+        from: {
+          type: Object,
+          notify: true,
+          observer: '_updateFromWorkingCopy'
+        },
 
+        /**
+         * Moment object end date & time
+         */
+        to: {
+          type: Object,
+          notify: true,
+          observer: '_updateToWorkingCopy'
+        },
+        firstRangeDate: {
+          type: Object,
+          notify: true
+        },
+        /**
+         * Moment object end date & time
+         */
+        secondRangeDate: {
+          type: Object,
+          notify: true
+        }
+      },
+      /**
+       * A flag that tells us whether the Submit/Apply button is valid, and should be active.
+       * @private
+       */
+      isSubmitButtonValid: {
+        type: Boolean,
+        value: true,
+        notify: true
+      }
     },
 
     observers: [
       '_updateWorkingCopies(fromMoment, toMoment)',
-      '_updateMoments(fromWorkingCopy, toWorkingCopy)'
+      '_updateMoments(fromWorkingCopy, toWorkingCopy)',
+      '_isSubmitButtonValid(isSubmitButtonValid)'
     ],
 
+    _isSubmitButtonValid: function(isSubmitButtonValid) {
+      this.set('isSubmitButtonValid', isSubmitButtonValid);
+    },
     _setRange: function() {
       // make a working copy for the state inside the rangepicker
       this.set('fromWorkingCopy', this.range.from);
@@ -165,9 +210,8 @@ Rangepicker with time element.
         self.$.rangePickerModal.open();
       });
 
-      this.$.rangeFields.addEventListener('px-submit-range', function(e) {
+      this.$.rangePickerModal.addEventListener('px-submit-range', function(e) {
         // apply changes to outside world
-
         self.set('range', {
           from: self.fromWorkingCopy,
           to: self.toWorkingCopy
@@ -179,6 +223,14 @@ Rangepicker with time element.
       this.$.rangePickerModal.addEventListener('px-modal-close-clicked', function(e) {
         // return focus to range fields when the close button is clicked (probably not with submit)
         self.$.rangeFields.returnLastFocus();
+        self._setRange();
+        self._updateMoments();
+        this.set('from', moment(self.range.from));
+        this.set('to', moment(self.range.to));
+        // self.$.rangeFields._updateFromWorkingCopy();
+        // self.$.rangeFields._updateToWorkingCopy();
+        this.set("firstRangeDate", moment(self.range.from));
+        this.set("secondRangeDate", moment(self.range.to));
       });
     }
 

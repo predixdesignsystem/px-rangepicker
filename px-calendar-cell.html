@@ -37,12 +37,18 @@ Element that renders a calendar cell for a given date (and for non-date cells in
       /**
        * Moment object with first selected date of the range (start or end of range), used for determining styling of this cell
        */
-      firstRangeDate: Object,
+      firstRangeDate: {
+        type: Object,
+        notify: true
+      },
 
       /**
        * Moment object with second selected date of the range (start or end of range) or null if only one date is selected, used for determining styling of this cell
        */
-      secondRangeDate: Object,
+      secondRangeDate: {
+        type: Object,
+        notify: true
+      },
 
       /**
        * (optional)

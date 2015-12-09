@@ -1,5 +1,5 @@
 <link rel="import" href="../polymer/polymer.html"/>
-
+<link rel="import" href="validate.html">
 <script src="../moment/moment.js"></script>
 
 <!--
@@ -14,21 +14,7 @@ Time input which allows the user to type in hours, minutes, seconds in a control
   <link rel="import" type="css" href="css/px-time-input.css"/>
   <template>
     <div class="text-input time-input__field">
-      <input id="hoursInput" type=text class="text-input--bare time-input__field__input" value="{{hours::input}}" on-keydown="_changeHours" on-focus="_hasFocus" on-blur="_loseFocus"/>
-      <span>:</span>
-      <input type=text class="text-input--bare time-input__field__input" value="{{minutes::input}}" on-keydown="_changeMinutes" on-focus="_hasFocus" on-blur="_loseFocus"/>
-      <span>:</span>
-      <input type=text class="text-input--bare time-input__field__input" value="{{seconds::input}}" on-keydown="_changeSeconds" on-focus="_hasFocus" on-blur="_loseFocus"/>
-      <div class=time-input__field__ampm>
-        <label on-click="_hasFocus" on-blur="_loseFocus"  on-keydown="_preventKeyDown">
-          <input class=a11y type=radio id=am checked="{{isAM::change}}" on-change="_selectAM">
-          <span>AM</span>
-        </label>
-        <label on-click="_hasFocus" on-blur="_loseFocus" on-keydown="_preventKeyDown">
-          <input class=a11y type=radio id=pm checked="{{!isAM::change}}" on-change="_selectPM">
-          <span>PM</span>
-        </label>
-      </div>
+      <input id="timeInput" type=text value="{{timeString::input}}" class="text-input--bare time-input__field__input" on-change="_userTimeChanged"/>
     </div>
   </template>
 </dom-module>
@@ -37,9 +23,7 @@ Time input which allows the user to type in hours, minutes, seconds in a control
   Polymer({
 
     is: 'px-time-input',
-
     properties : {
-
       /**
        * Moment object of the time in the input fields
        */
@@ -47,148 +31,79 @@ Time input which allows the user to type in hours, minutes, seconds in a control
         type: Object,
         observer: '_timeChanged',
         notify: true
+      },
+      timeString: {
+        type: String,
+        value: '',
+        notify: true,
+        observer: '_timeStringChanged'
+      },
+      moment :{
+        type: Object,
+        value: function() {return {};}
+      },
+      dateTimeWorkingCopy : {
+        type: String,
+        value: '',
+        notify: true
+      },
+      dateOrTime : {
+        type: String,
+        value: "time"
+      },
+      momentFormat: {
+        type: String,
+        value: 'hh:mm:ss A'
+      },
+      /**
+       * A flag that tells us whether the Submit/Apply button is valid, and should be active.
+       * @private
+       */
+      isSubmitButtonValid: {
+        type: Boolean,
+        value: true,
+        notify: true
       }
 
+    },
+    behaviors: [validate],
+    ready: function() {
+      this.momentFormat = 'hh:mm:ss A';
     },
 
     _timeChanged: function() {
-      this.set('hours', this.time.format("hh"));
-      this.set('minutes', this.time.format("mm"));
-      this.set('seconds', this.time.format("ss"));
-      if(this.time.format('A') === 'AM') {
-        this.set('isAM', true);
+      var hours = this.time.format("hh"),
+          minutes = this.time.format("mm"),
+          seconds = this.time.format("ss"),
+          ampm;
+          ampm = (this.time.format('A') === 'AM') ? 'AM' : 'PM';
+      this.set('timeString', hours + ":" + minutes + ":" + seconds + " " + ampm);
+    },
+    _timeStringChanged: function() {
+        this.toggleClass('validation-error', false, this.$$('input'));
+    },
+    //when the user changes the time, we validate it, and if it validates, set it as the new time for top and bottom.
+    _userTimeChanged: function(e) {
+      var newTime = e.target.value,
+          thisMoment,
+          initialTimeObj = this.timeString,
+          returnVal = false;
+
+      this.set('dateTimeWorkingCopy', newTime);
+      returnVal = this._validateInput();
+      if (returnVal) {
+        thisMoment = moment(newTime, this.momentFormat);
+        thisMoment.date(this.time.date()); // keep the existing date/month/year
+        thisMoment.month(this.time.month());
+        thisMoment.year(this.time.year());
+
+        this.set('moment', thisMoment);
+        this.set('time', thisMoment);
+
+
       } else {
-        this.set('isAM', false);
+        this.set('timeString', initialTimeObj);
       }
-    },
-    _preventKeyDown: function(e) {
-      var code = (e.keyCode ? e.keyCode : e.which);
-      if (code !== 9) {
-        e.preventDefault();
-      }
-    },
-    /**
-     * builds a simple, unformatted time string by concatenating Hours : Minutes : Seconds AM/PM (not formatting pretty)
-     */
-    _buildSimpleUnformattedTime: function(hours, minutes, seconds, isAM) {
-      var simpleTimeString = hours + ':' + minutes + ':' + seconds + ' ';
-      if (isAM) {
-        simpleTimeString += 'AM';
-      } else {
-        simpleTimeString += 'PM';
-      }
-      return simpleTimeString;
-    },
-
-    _setTime: function(timeObj) {
-      var simpleUnformattedTime = this._buildSimpleUnformattedTime(timeObj.hour, timeObj.minute, timeObj.second, timeObj.isAM),
-          formattedTime = moment(simpleUnformattedTime, 'h:m:s A');
-
-      formattedTime.date(this.time.date()); // keep the existing date/month/year
-      formattedTime.month(this.time.month());
-      formattedTime.year(this.time.year());
-      this.set('time', formattedTime);
-    },
-
-    _isValidTime: function(time) {
-      // check that it fits the hour:minute:second am/pm format and is a valid date (but don't worry about formatting pretty)
-      var simpleUnformattedTime = this._buildSimpleUnformattedTime(time.hour, time.minute, time.second, time.isAM);
-      return moment(simpleUnformattedTime, 'h:m:s A', true).isValid();
-    },
-
-    _getContinuedInput: function(currentInput, newCharacter) {
-       return currentInput.substr(currentInput.length - 1) + newCharacter;
-    },
-
-    _changeTimeIfValid: function(fieldChanged, newCharacter) {
-      var time = {
-        hour: this.hours,
-        minute: this.minutes,
-        second: this.seconds,
-        isAM: this.isAM
-      };
-
-      // first, try appending the new character as if the user is continuing their current number
-      time[fieldChanged] = this._getContinuedInput(time[fieldChanged], newCharacter);
-      if (this._isValidTime(time)) {
-        this._setTime(time);
-      } else {
-        // otherwise, try just using that new character as a new number
-        time[fieldChanged] = newCharacter;
-
-        if (this._isValidTime(time)) {
-          this._setTime(time);
-        }
-
-        // if that doesn't work, ignore all other keys
-
-      }
-
-    },
-
-    _changeField: function(e, field) {
-      // if key is anything but a tab, prevent the default behavior
-      if (e.keyCode !== 9) {
-        e.preventDefault();
-      }
-
-      var keyValue = e.keyCode - 48;
-      // normal number keys
-      if (keyValue >= 0 && keyValue <= 9) {
-        this._changeTimeIfValid(field, keyValue);
-      } else {
-        // number pad number keys
-        var numPadKeyValue = e.keyCode - 96;
-        if (numPadKeyValue >= 0 && numPadKeyValue <= 9) {
-          this._changeTimeIfValid(field, numPadKeyValue);
-        }
-        // ignore all other key presses
-      }
-
-    },
-
-    _hasFocus: function(){
-      var el = this.parentNode.parentNode.querySelector('.is-focused');
-      if (el != null) {
-        el.classList.remove('is-focused');
-      }
-      this.toggleClass('is-focused', true);
-    },
-
-    _loseFocus: function(){
-      this.toggleClass('is-focused', false);
-    },
-
-    _changeHours: function(e) {
-      this._changeField(e, 'hour');
-    },
-
-    _changeMinutes: function(e) {
-      this._changeField(e, 'minute');
-    },
-
-    _changeSeconds: function(e) {
-      this._changeField(e, 'second');
-    },
-
-    _selectAM: function(e) {
-      this.set('isAM', true);
-      this._setTime({
-        hour: this.hours,
-        minute: this.minutes,
-        second: this.seconds,
-        isAM: this.isAM
-      });
-    },
-
-    _selectPM: function(e) {
-      this.set('isAM', false);
-      this._setTime({
-        hour: this.hours,
-        minute: this.minutes,
-        second: this.seconds,
-        isAM: this.isAM
-      });
     }
   });
 </script>

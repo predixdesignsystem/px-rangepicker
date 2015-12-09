@@ -32,6 +32,7 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 @import "px-viewport-design/_base.viewport.scss";
 
 $inuit-enable-text-input--bare  : true;
+$inuit-enable-validation-states : true;
 
 @import "px-forms-design/_base.forms.scss";
 
@@ -53,8 +54,7 @@ $inuit-enable-text-input--bare  : true;
 
 .time-input__field__input {
   @include inuit-font-size(30px,30px);
-  width: 1.0666666667em;
-  height: calculateRem(30px);
+  width: 5.2em;
   font-family: var(--px-font-family);
 }
 

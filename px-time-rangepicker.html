@@ -16,9 +16,9 @@ Time rangepicker element which allows user to select a start and end time.
   <link rel="import" type="css" href="css/px-time-rangepicker.css"/>
   <template>
     <div class="flex flex--center flex--middle">
-      <px-time-input id="fromTime" time="{{fromTime}}" class="flex"></px-time-input>
+      <px-time-input id="fromTime" time="{{fromTime}}" moment="{{fromTime}}" class="flex" is-submit-button-valid="{{isSubmitButtonValid}}"></px-time-input>
       <span class="flex u-mh--">–</span>
-      <px-time-input id="toTime" time="{{toTime}}" class="flex"></px-time-input>
+      <px-time-input id="toTime" time="{{toTime}}" moment="{{toTime}}" class="flex" is-submit-button-valid="{{isSubmitButtonValid}}"></px-time-input>
     </div>
   </template>
 </dom-module>
@@ -27,11 +27,10 @@ Time rangepicker element which allows user to select a start and end time.
   Polymer({
 
     is: 'px-time-rangepicker',
-
     properties: {
 
       /**
-       * Moment object with start time for time picker
+       * Moment object with end time for time picker
        */
       toTime: {
         type: Object,
@@ -44,9 +43,16 @@ Time rangepicker element which allows user to select a start and end time.
       fromTime: {
         type: Object,
         notify: true
+      },
+      /**
+       * A flag that tells us whether the Submit/Apply button is valid, and should be active.
+       * @private
+       */
+      isSubmitButtonValid: {
+        type: Boolean,
+        value: true,
+        notify: true
       }
-
     }
-
   });
 </script>

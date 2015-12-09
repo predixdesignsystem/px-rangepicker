@@ -30,6 +30,7 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 
 // Object
 $inuit-enable-btn--primary        : true;
+$inuit-enable-btn--disabled        : true;
 $inuit-enable-btn--bare           : true;
 
 @import "px-buttons-design/_objects.buttons.scss";

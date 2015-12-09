@@ -25,13 +25,18 @@ Rangepicker modal component.
             class="u-pt+"
             from-date="{{from}}"
             to-date="{{to}}"
+            first-range-date="{{firstRangeDate}}"
+            second-range-date="{{secondRangeDate}}"
             allow-future-dates="{{allowFutureDates}}">
           </px-date-rangepicker>
           <px-time-rangepicker
             class="border--top u-p+"
             id="timeRangePicker"
             from-time="{{from}}"
-            to-time="{{to}}">
+            to-time="{{to}}"
+            first-range-date="{{firstRangeDate}}"
+            second-range-date="{{secondRangeDate}}"
+            is-submit-button-valid="{{isSubmitButtonValid}}">
           </px-time-rangepicker>
         </div>
         <template is="dom-if" if="{{presetRanges}}">
@@ -40,7 +45,8 @@ Rangepicker modal component.
         </template>
       </div>
       <div class="flex flex--right border--top u-p-">
-        <button class=btn on-click="_closeAndReturnFocus">Close</button>
+        <button class="btn" on-click="_closeAndReturnFocus">Cancel</button>
+        <button class$="{{submitBtnClasses('btn btn--primary', isSubmitButtonValid)}}" type=submit on-click="_submit" id="submitButton" disabled="{{!isSubmitButtonValid}}"><i class$="{{displayOptions.submitButtonIcon}}"></i>{{displayOptions.submitButtonText}}</button>
       </div>
     </div>
   </template>
@@ -111,23 +117,46 @@ Rangepicker modal component.
        * True if the modal is hidden.  Must be declared as a property to reference (below) in IE 10.
        * @private
        */
-      hidden: Boolean
-
+      hidden: Boolean,
+      /**
+       * A flag that tells us whether the Submit/Apply button is valid, and should be active.
+       * @private
+       */
+      isSubmitButtonValid: {
+        type: Boolean,
+        value: true,
+        notify: true
+      },
+      firstRangeDate: {
+        type: Object,
+        notify: true
+      },
+      /**
+       * Moment object end date & time
+       */
+      secondRangeDate: {
+        type: Object,
+        notify: true
+      }
     },
-
+    observers: [
+      '_submitButtonState(isSubmitButtonValid)'
+    ],
+    behaviors: [validate],
     ready: function() {
       var self = this;
 
       this.$.rangepickerModal.addEventListener('px-preset-selected', function(e) {
         var presetStartDateTime = e.detail.startDateTime;
         var presetEndDateTime = e.detail.endDateTime;
-
         self.set('from', moment(presetStartDateTime));
         self.set('to', moment(presetEndDateTime));
+        self.$.dateRangePicker._resetVisibleCalendars();
       });
-
     },
-
+    submitBtnClasses: function(base, submitButtonValid) {
+      return (submitButtonValid) ? base : base + ' btn--disabled';
+    },
     /**
      * Open the modal
      */
@@ -152,6 +181,10 @@ Rangepicker modal component.
 
     _isClosed: function() {
       return this.hidden;
+    },
+
+    _submit: function() {
+      this.fire('px-submit-range');
     }
 
   });

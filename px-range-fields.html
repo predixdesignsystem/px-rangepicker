@@ -19,33 +19,44 @@ Component with all the date/time range fields which are displayed in the range p
         <span class=a11y>From</span>
         <px-range-field
           id="fromDate"
+          is-valid="{{validStartDate}}"
+          is-submit-button-valid="{{isSubmitButtonValid}}"
           moment="{{fromWorkingCopy}}"
           date-or-time="Date"
-          class="flex u-mr-">
+          class="flex u-mr-"
+          is-submit-button-valid="{{isSubmitButtonValid}}">
         </px-range-field>
         <px-range-field
           id="fromTime"
+          is-valid="{{validStartTime}}"
+          is-submit-button-valid="{{isSubmitButtonValid}}"
           moment="{{fromWorkingCopy}}"
           date-or-time="Time"
-          class="flex">
+          class="flex"
+          is-submit-button-valid="{{isSubmitButtonValid}}">
         </px-range-field>
       </div>
       <span class="caps u-mh- u-mb-">to</span>
       <div id="toFields" class="flex flex--middle text-input u-mr- u-mb-">
         <px-range-field
           id="toDate"
+          is-valid="{{validEndDate}}"
+          is-submit-button-valid="{{isSubmitButtonValid}}"
           moment="{{toWorkingCopy}}"
           date-or-time="Date"
-          class="flex u-mr-">
+          class="flex u-mr-"
+          is-submit-button-valid="{{isSubmitButtonValid}}">
         </px-range-field>
         <px-range-field
           id="toTime"
+          is-valid="{{validEndTime}}"
+          is-submit-button-valid="{{isSubmitButtonValid}}"
           moment="{{toWorkingCopy}}"
           date-or-time="Time"
-          class="flex">
+          class="flex"
+          is-submit-button-valid="{{isSubmitButtonValid}}">
         </px-range-field>
       </div>
-      <button class="btn btn--tertiary u-mb- u-ml0 " type=submit on-click="_submit"><i class$="{{displayOptions.submitButtonIcon}}"></i>{{displayOptions.submitButtonText}}</button>
     </div>
   </template>
 </dom-module>
@@ -75,6 +86,10 @@ Component with all the date/time range fields which are displayed in the range p
         observer: '_updateToWorkingCopy'
       },
 
+      allFieldsValid: {
+        type: Boolean,
+        value: true
+      },
       /**
        * Display options
        */
@@ -85,12 +100,28 @@ Component with all the date/time range fields which are displayed in the range p
           submitButtonText: 'Submit',
           submitButtonIcon: ''
         }
+      },
+      /**
+       * A flag that tells us whether the Submit/Apply button is valid, and should be active.
+       * @private
+       */
+      isSubmitButtonValid : {
+        type: Boolean,
+        value: true,
+        notify: true
       }
     },
 
     observers: [
-      '_validateRangeAndBroadcastChanges(fromWorkingCopy, toWorkingCopy)'
+      '_validateRangeAndBroadcastChanges(fromWorkingCopy, toWorkingCopy, allFieldsValid)',
+      '_allFieldsValid( validStartDate, validStartTime, validEndDate, validEndTime )'
     ],
+    behaviors: [validate],
+    _allFieldsValid: function (vsd, vst, ved, vet) {
+      //this checks that all fields are valid
+      console.log('kick off allfieldsvalid');
+      this.set('allFieldsValid', (vsd && vst && ved && vet) );
+    },
 
     _updateFromWorkingCopy: function() {
       this.set('fromWorkingCopy', moment(this.from));
@@ -100,46 +131,46 @@ Component with all the date/time range fields which are displayed in the range p
       this.set('toWorkingCopy', moment(this.to));
     },
 
-    _validateRangeAndBroadcastChanges: function() {
-
-      if(this.fromWorkingCopy.isBefore(this.toWorkingCopy)) {
-        this._toggleErrorClasses(false);
-
-        if(!this.fromWorkingCopy.isSame(this.from, 'second')) {
-          this.set('from', this.fromWorkingCopy);
-        }
-        if(!this.toWorkingCopy.isSame(this.to, 'second')) {
-          this.set('to', this.toWorkingCopy);
-        }
-      }
-      else {
-        this._toggleErrorClasses(true);
-      }
-
-    },
-
     _toggleErrorClasses: function(isError) {
       this.toggleClass('validation-error', isError, this.$$('#fromFields'));
       this.toggleClass('validation-error', isError, this.$$('#toFields'));
     },
 
     ready: function() {
-      var self = this;
+      var self = this,
+          range = [];
       this.$.fromDate.addEventListener('px-focused-range-field', function(e) {
         self.lastFocusedElement = self.$.fromDate;
         self._toggleFocusToFrom(true);
+        range = self.$.fromDate.getElementsByClassName("px-range-field validation-error");
+
+        if (range.length) {
+            range[0].value = "";
+        }
       });
       this.$.toDate.addEventListener('px-focused-range-field', function(e) {
         self.lastFocusedElement = self.$.toDate;
         self._toggleFocusToFrom(false);
+        range= self.$.toDate.getElementsByClassName("px-range-field validation-error");
+        if (range.length) {
+            range[0].value = "";
+        }
       });
       this.$.fromTime.addEventListener('px-focused-range-field', function(e) {
         self.lastFocusedElement = self.$.fromTime;
         self._toggleFocusToFrom(true);
+        range= self.$.fromTime.getElementsByClassName("px-range-field validation-error");
+        if (range.length) {
+            range[0].value = "";
+        }
       });
       this.$.toTime.addEventListener('px-focused-range-field', function(e) {
         self.lastFocusedElement = self.$.toTime;
         self._toggleFocusToFrom(false);
+        range= self.$.toTime.getElementsByClassName("px-range-field validation-error");
+        if (range.length) {
+            range[0].value = "";
+        }
       });
     },
 
@@ -153,10 +184,6 @@ Component with all the date/time range fields which are displayed in the range p
     _toggleFocusToFrom: function(isFromFocused) {
       this.toggleClass('is-focused', isFromFocused, this.$$('#fromFields'));
       this.toggleClass('is-focused', !isFromFocused, this.$$('#toFields'));
-    },
-
-    _submit: function() {
-      this.fire('px-submit-range');
     }
 
   });
