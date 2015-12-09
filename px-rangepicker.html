@@ -25,6 +25,8 @@ Rangepicker with time element.
       show-submit-button="{{isSubmitButtonValid}}"
       preset-ranges="{{presetRanges}}"
       display-options="{{displayOptions}}"
+      first-range-date="{{firstRangeDate}}"
+      second-range-date="{{secondRangeDate}}"
       hidden
       is-submit-button-valid = "{{isSubmitButtonValid}}">
     </px-rangepicker-modal>
@@ -144,6 +146,17 @@ Rangepicker with time element.
           type: Object,
           notify: true,
           observer: '_updateToWorkingCopy'
+        },
+        firstRangeDate: {
+          type: Object,
+          notify: true
+        },
+        /**
+         * Moment object end date & time
+         */
+        secondRangeDate: {
+          type: Object,
+          notify: true
         }
       },
       /**
@@ -210,6 +223,12 @@ Rangepicker with time element.
       this.$.rangePickerModal.addEventListener('px-modal-close-clicked', function(e) {
         // return focus to range fields when the close button is clicked (probably not with submit)
         self.$.rangeFields.returnLastFocus();
+        self._setRange();
+        self._updateMoments();
+        self.$.rangeFields._updateFromWorkingCopy();
+        self.$.rangeFields._updateToWorkingCopy();
+        this.set("firstRangeDate", moment(self.range.from));
+        this.set("secondRangeDate", moment(self.range.to));
       });
     }
 

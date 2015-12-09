@@ -20,6 +20,7 @@ Component with all the date/time range fields which are displayed in the range p
         <px-range-field
           id="fromDate"
           is-valid="{{validStartDate}}"
+          is-submit-button-valid="{{isSubmitButtonValid}}"
           moment="{{fromWorkingCopy}}"
           date-or-time="Date"
           class="flex u-mr-">
@@ -27,6 +28,7 @@ Component with all the date/time range fields which are displayed in the range p
         <px-range-field
           id="fromTime"
           is-valid="{{validStartTime}}"
+          is-submit-button-valid="{{isSubmitButtonValid}}"
           moment="{{fromWorkingCopy}}"
           date-or-time="Time"
           class="flex">
@@ -37,6 +39,7 @@ Component with all the date/time range fields which are displayed in the range p
         <px-range-field
           id="toDate"
           is-valid="{{validEndDate}}"
+          is-submit-button-valid="{{isSubmitButtonValid}}"
           moment="{{toWorkingCopy}}"
           date-or-time="Date"
           class="flex u-mr-">
@@ -44,6 +47,7 @@ Component with all the date/time range fields which are displayed in the range p
         <px-range-field
           id="toTime"
           is-valid="{{validEndTime}}"
+          is-submit-button-valid="{{isSubmitButtonValid}}"
           moment="{{toWorkingCopy}}"
           date-or-time="Time"
           class="flex">

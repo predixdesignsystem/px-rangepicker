@@ -25,6 +25,8 @@ Rangepicker modal component.
             class="u-pt+"
             from-date="{{from}}"
             to-date="{{to}}"
+            first-range-date="{{firstRangeDate}}"
+            second-range-date="{{secondRangeDate}}"
             allow-future-dates="{{allowFutureDates}}">
           </px-date-rangepicker>
           <px-time-rangepicker
@@ -32,6 +34,8 @@ Rangepicker modal component.
             id="timeRangePicker"
             from-time="{{from}}"
             to-time="{{to}}"
+            first-range-date="{{firstRangeDate}}"
+            second-range-date="{{secondRangeDate}}"
             is-submit-button-valid="{{isSubmitButtonValid}}">
           </px-time-rangepicker>
         </div>
@@ -41,7 +45,7 @@ Rangepicker modal component.
         </template>
       </div>
       <div class="flex flex--right border--top u-p-">
-        <button class="btn" on-click="_closeAndReturnFocus">Close</button>
+        <button class="btn" on-click="_closeAndReturnFocus">Cancel</button>
         <button class$="{{submitBtnClasses('btn btn--primary', isSubmitButtonValid)}}" type=submit on-click="_submit" id="submitButton" disabled="{{!isSubmitButtonValid}}"><i class$="{{displayOptions.submitButtonIcon}}"></i>{{displayOptions.submitButtonText}}</button>
       </div>
     </div>
@@ -121,6 +125,17 @@ Rangepicker modal component.
       isSubmitButtonValid: {
         type: Boolean,
         value: true,
+        notify: true
+      },
+      firstRangeDate: {
+        type: Object,
+        notify: true
+      },
+      /**
+       * Moment object end date & time
+       */
+      secondRangeDate: {
+        type: Object,
         notify: true
       }
     },
