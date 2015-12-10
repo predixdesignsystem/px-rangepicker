@@ -913,6 +913,32 @@ button.btn {
   margin-bottom: 0.6666666667rem !important; }
 
 /**
+     * Add large margins.
+     */
+.u-m\00002b {
+  margin: 1.3333333333rem !important; }
+
+.u-mt\00002b {
+  margin-top: 1.3333333333rem !important; }
+
+.u-mr\00002b {
+  margin-right: 1.3333333333rem !important; }
+
+.u-mb\00002b {
+  margin-bottom: 1.3333333333rem !important; }
+
+.u-ml\00002b {
+  margin-left: 1.3333333333rem !important; }
+
+.u-mh\00002b {
+  margin-right: 1.3333333333rem !important;
+  margin-left: 1.3333333333rem !important; }
+
+.u-mv\00002b {
+  margin-top: 1.3333333333rem !important;
+  margin-bottom: 1.3333333333rem !important; }
+
+/**
      * Remove margins.
      */
 .u-m0 {
