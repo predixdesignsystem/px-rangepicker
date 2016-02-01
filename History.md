@@ -1,3 +1,3 @@
-v0.0.1
+v0.1.4
 ==================
-* Initial release
+* Fixed spacing issue in Firefox which expanded the div beyond the expected size, and wrapped the presets div down.

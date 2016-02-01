@@ -471,6 +471,9 @@ button.btn {
   .btn--bare:hover, .btn--bare:focus {
     outline: none; }
 
+.btn-arrow {
+  width: 5px !important; }
+
 /**
  * Margin and padding helper classes. Use these to tweak layout on a micro
  * level.
