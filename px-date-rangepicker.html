@@ -96,14 +96,13 @@ Date rangepicker element which allows user to select two dates (a range).
     ],
 
     _updateSelectedRange: function() {
-
       // initialize the first and second selected dates to the to and from dates
       // if the range is different & if we are NOT currently picking the date (if currently picking date, ignore it)
+      // this.secondRangeDate !== null checks if the user clicked a first day and then goes to adjust first day time
       if (!this._selectedRangeIsSame() && this.secondRangeDate !== null) {
         this.set('firstRangeDate', moment(this.fromDate));
         this.set('secondRangeDate', moment(this.toDate));
       }
-
     },
 
     _resetVisibleCalendars: function() {
@@ -121,13 +120,13 @@ Date rangepicker element which allows user to select two dates (a range).
 
       var firstIsFromAndSecondIsTo = this.firstRangeDate.isSame(this.fromDate, 'day') && this.secondRangeDate.isSame(this.toDate, 'day');
       var secondIsFromAndFirstIsTo = this.secondRangeDate.isSame(this.fromDate, 'day') && this.firstRangeDate.isSame(this.toDate, 'day');
-
       return firstIsFromAndSecondIsTo || secondIsFromAndFirstIsTo;
 
     },
 
     ready: function() {
       var self = this;
+
       this.$.box.addEventListener('range-selected', function() {
 
         var fromDate = self.firstRangeDate;

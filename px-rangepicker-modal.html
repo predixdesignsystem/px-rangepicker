@@ -147,8 +147,19 @@ Rangepicker modal component.
       var self = this;
 
       this.$.rangepickerModal.addEventListener('px-preset-selected', function(e) {
+        console.log('modal');
         var presetStartDateTime = e.detail.startDateTime;
         var presetEndDateTime = e.detail.endDateTime;
+
+        /* px-date-rangepicker observer function _updateSelectedRange looks to see if the user has
+         * clicked on a new toRangeDate but not the secondRangeDate. When this is the case, it doesnt
+         * update values. In order to fire off the preset, we have to set the secondRangeDate to some
+         * valid date.
+        */
+        if(!self.$.dateRangePicker.secondRangeDate){
+          self.$.dateRangePicker.secondRangeDate = moment(presetEndDateTime);
+        }
+
         self.set('from', moment(presetStartDateTime));
         self.set('to', moment(presetEndDateTime));
         self.$.dateRangePicker._resetVisibleCalendars();

@@ -65,13 +65,16 @@ Element that renders a calendar cell for a given date (and for non-date cells in
       }
 
     },
-
     observers: [
       '_updateDate(displayDate, firstRangeDate, secondRangeDate)'
     ],
-
+    /**
+     *
+     * Go through each cell and decide if it has a day in that month, is it selected, inbetween selected, etc.
+     *
+     */
     _updateDate: function() {
-
+      
       var cellStyles = 'calendar-cell';
       var btnStyles = 'btn btn--bare';
       var isDisabled = false;
