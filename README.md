@@ -71,6 +71,19 @@ By default future dates are disabled in the date picker. Set the `allow-future-d
 </px-rangepicker>
 ```
 
+#### is-utc
+
+*Type:* **Boolean** - (*Optional*) - *Default:* false
+
+By default time is displayed as local time. Set the `is-utc` attribute to "true" to enable UTC display.
+
+```html
+<px-rangepicker
+	...
+	is-utc="true">
+</px-rangepicker>
+```
+
 #### preset-ranges
 
 *Type:* **Array** - (*Optional*) - *Default:* Last Day, Last Week, Last Year
