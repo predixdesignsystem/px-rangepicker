@@ -23,7 +23,8 @@ Date rangepicker element which allows user to select two dates (a range).
           display-month-year="{{leftDisplayMonthYear}}"
           first-range-date="{{firstRangeDate}}"
           second-range-date="{{secondRangeDate}}"
-          allow-future-dates="{{allowFutureDates}}">
+          allow-future-dates="{{allowFutureDates}}"
+          is-utc="{{isUtc}}">
         </px-calendar>
       </div>
       <div class="flex flex--top u-mh+">
@@ -32,7 +33,8 @@ Date rangepicker element which allows user to select two dates (a range).
           display-month-year="{{rightDisplayMonthYear}}"
           first-range-date="{{firstRangeDate}}"
           second-range-date="{{secondRangeDate}}"
-          allow-future-dates="{{allowFutureDates}}">
+          allow-future-dates="{{allowFutureDates}}"
+          is-utc="{{isUtc}}">
         </px-calendar>
         <button id=btnNextMonth on-click="_jumpForward" class="btn btn--bare u--ml- btn-arrow">
           <i class="fa fa-angle-right"></i>
@@ -87,6 +89,18 @@ Date rangepicker element which allows user to select two dates (a range).
       allowFutureDates: {
         type: Boolean,
         value: false
+      },
+      /**
+       * (optional)
+       *
+       * By default, the rangepicker will display the time in your browser's timezone.  If you add
+       * the is-utc attribute on px-rangepicker, it will display the time as a UTC (GMT timezone) time.
+       *
+       * @default false
+       */
+      isUtc: {
+        type: Boolean,
+        value: false
       }
 
     },
@@ -100,15 +114,15 @@ Date rangepicker element which allows user to select two dates (a range).
       // if the range is different & if we are NOT currently picking the date (if currently picking date, ignore it)
       // this.secondRangeDate !== null checks if the user clicked a first day and then goes to adjust first day time
       if (!this._selectedRangeIsSame() && this.secondRangeDate !== null) {
-        this.set('firstRangeDate', moment(this.fromDate));
-        this.set('secondRangeDate', moment(this.toDate));
+        this.set('firstRangeDate', this.fromDate.clone());
+        this.set('secondRangeDate', this.toDate.clone());
       }
     },
 
     _resetVisibleCalendars: function() {
       // initialize the displayed months to the selected fromDate & fromDate + 1
-      this.set('leftDisplayMonthYear', moment(this.fromDate).startOf('month'));
-      this.set('rightDisplayMonthYear', moment(this.fromDate).startOf('month').add(1, 'months'));
+      this.set('leftDisplayMonthYear', this.fromDate.clone().startOf('month'));
+      this.set('rightDisplayMonthYear', this.fromDate.clone().startOf('month').add(1, 'months'));
       this._setJumpButtonStyles();
     },
 
@@ -153,14 +167,14 @@ Date rangepicker element which allows user to select two dates (a range).
     },
 
     _jumpBack: function() {
-      this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear.add(-1, 'months')));
-      this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear.add(-1, 'months')));
+      this.set('leftDisplayMonthYear', this.leftDisplayMonthYear.clone().add(-1, 'months'));
+      this.set('rightDisplayMonthYear', this.rightDisplayMonthYear.clone().add(-1, 'months'));
       this._setJumpButtonStyles();
     },
 
     _jumpForward: function() {
-      this.set('leftDisplayMonthYear', moment(this.leftDisplayMonthYear.add(1, 'months')));
-      this.set('rightDisplayMonthYear', moment(this.rightDisplayMonthYear.add(1, 'months')));
+      this.set('leftDisplayMonthYear', this.leftDisplayMonthYear.clone().add(1, 'months'));
+      this.set('rightDisplayMonthYear', this.rightDisplayMonthYear.clone().add(1, 'months'));
       this._setJumpButtonStyles();
     },
 
@@ -179,7 +193,12 @@ Date rangepicker element which allows user to select two dates (a range).
     },
 
     _isCurrentMonth: function() {
-      var now = moment();
+      if(this.isUtc) {
+        now = moment.utc();
+      }
+      else {
+        now = moment();
+      }
       return this.rightDisplayMonthYear.isSame(now, 'month');
     }
 
