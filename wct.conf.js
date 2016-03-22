@@ -3,6 +3,9 @@ module.exports = {
   plugins: {
     local: {
       browsers: ['chrome', 'firefox']
+    },
+    sauce: {
+      disabled: true
     }
   }
 };
