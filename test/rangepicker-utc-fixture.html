@@ -1,0 +1,1115 @@
+<!doctype html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../moment/moment.js"></script>
+
+  <link rel="import" href="../px-rangepicker.html"/>
+
+</head>
+
+<body>
+
+  <px-rangepicker is-utc id="noDates"></px-rangepicker>
+
+  <px-rangepicker is-utc id="sameMonth"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker is-utc id="nonIsoFormat"
+                  range='{"from":"10/11/2014 01:00:00 PM", "to":"10/25/2014 03:00:00 PM"}'>
+  </px-rangepicker>
+
+  <px-rangepicker is-utc id="yearApart"
+                  range='{"from":"2014-06-16T20:00:00Z", "to":"2015-06-16T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker is-utc id="withPresets"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker is-utc id="selectDate1"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker is-utc id="selectDate2"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker is-utc id="selectDate3"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker is-utc id="selectDate4"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker is-utc id="jumpBack"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker is-utc id="jumpForward"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker is-utc id="selectThenJumpAndSelect"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker is-utc id="changeTime1"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker is-utc id="changeTime2"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker id="select1ChangeTime"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker id="select2ndDate"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker id="typingDateFieldValid"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker id="typingDateFieldInvalid"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker id="typingTimeFieldValid"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker id="typingTimeFieldInvalid"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker id="rangeValidation"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker id="calendarMovement"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker id="dateTimePicked"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker id="developerChangesRange1"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <px-rangepicker id="developerChangesRange2"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+  <script>
+
+    function date(date) {
+      return {value: date, isSelected: false};
+    }
+
+    function selectedDate(date) {
+      return {value: date, isSelected: true};
+    }
+
+    function calendarMatches(calendar, expected) {
+      expected.forEach(function(expectedWeek, i) {
+        expectedWeek.forEach(function(expectedDay, j) {
+          var actualDay = calendar[i * 7 + j];
+          var button = actualDay.querySelector('button');
+          if (expectedDay.value === null) {
+            assert.equal(button.hidden, true);
+          }
+          else {
+            assert.equal(button.value, expectedDay.value);
+            assert.equal(button.hidden, false);
+          }
+
+          if (expectedDay.isSelected) {
+            assert.equal(actualDay.querySelector('div').classList.contains('is-selected'), true);
+          }
+          else {
+            assert.equal(actualDay.querySelector('div').classList.contains('is-selected'), false);
+          }
+        });
+      });
+    }
+
+    var getFakeEvent = function(number, isNumberPad) {
+      var keyCode = number + 48;
+      if (isNumberPad) {
+        keyCode = number + 96;
+      }
+
+      return {
+        preventDefault: function() {
+        },
+        keyCode: keyCode
+      };
+    };
+
+    function changeTime(inputToChange) {
+      inputToChange.querySelector('#timeInput').value = "10:57:39 PM";
+      var ev = new Event("change");
+      inputToChange.querySelector('#timeInput').dispatchEvent(ev);
+    }
+
+    function waitFor(done, fn) {
+      var myInterval, myTimeout;
+
+      myTimeout = setTimeout(function() {
+        clearInterval(myInterval); // worst case, kill interval after 1/2 a second
+        clearTimeout(myTimeout);
+        done();
+      }, 3001);
+
+      // loop until calendar cells have rendered
+      myInterval = setInterval(function() {
+        if (fn()) { // if the function returns true, call done()
+          clearInterval(myInterval);
+          clearTimeout(myTimeout);
+          done();
+        }
+      }, 50);
+    }
+
+    function openModal(done, dateFromField, leftCalendar, rightCalendar) {
+      dateFromField._handleClick();
+
+      function areCalendarCellsDisplayed() {
+        var leftCalendarCells = leftCalendar.querySelectorAll('px-calendar-cell');
+        var rightCalendarCells = rightCalendar.querySelectorAll('px-calendar-cell');
+        return (leftCalendarCells.length > 0 && rightCalendarCells.length > 0);
+      }
+
+      waitFor(done, areCalendarCellsDisplayed);
+    }
+
+    var rangeFields, dateFromField, dateToField, timeFromField, timeToField;
+    var rangepicker, dateRangePicker, timeRangePicker, rangepickerModal;
+    var now, fewSecondsAgo, lastWeek, lastWeekFewSecondsAgo;
+    var leftCalendar, rightCalendar, timeFromInput, timeToInput, presetsSection;
+
+    function initializeAllFields(rangepickerInstanceId, done) {
+      now = moment.utc();
+      fewSecondsAgo = moment.utc().subtract(3, 'second');
+
+      lastWeek = moment.utc().subtract(7, 'day');
+      lastWeekFewSecondsAgo = moment.utc().subtract(7, 'day').subtract(3, 'second');
+
+      rangepicker = document.getElementById(rangepickerInstanceId);
+      rangeFields = rangepicker.querySelector('#rangeFields');
+      rangepickerModal = rangepicker.querySelector('#rangePickerModal');
+
+      function initializeRangeFieldsAndModal() {
+        dateFromField = rangeFields.querySelector('#fromDate');
+        dateToField = rangeFields.querySelector('#toDate');
+        timeFromField = rangeFields.querySelector('#fromTime');
+        timeToField = rangeFields.querySelector('#toTime');
+
+        dateRangePicker = rangepickerModal.querySelector('#dateRangePicker');
+        timeRangePicker = rangepickerModal.querySelector('#timeRangePicker');
+
+        timeFromInput = timeRangePicker.querySelector('#fromTime');
+        timeToInput = timeRangePicker.querySelector('#toTime');
+        leftCalendar = dateRangePicker.querySelector('#leftCalendar');
+        rightCalendar = dateRangePicker.querySelector('#rightCalendar');
+
+        presetsSection = rangepickerModal.querySelector('px-rangepicker-presets');
+        console.warn('timefield = ' + timeToField.$$('input').value);
+        done();
+      }
+
+      waitFor(initializeRangeFieldsAndModal, function() {
+        return rangeFields != null && rangepickerModal != null;
+      });
+    }
+
+    describe('when no dates are passed in', function() {
+
+      describe('defaults to the last week', function() {
+
+        before(function(done) {
+          initializeAllFields('noDates', done);
+        });
+
+        it('initializes the range fields', function() {
+          assert.equal(dateFromField.moment.isBetween(lastWeekFewSecondsAgo, lastWeek), true);
+          assert.equal(dateToField.moment.isBetween(fewSecondsAgo, now), true);
+          assert.equal(timeFromField.moment.isBetween(lastWeekFewSecondsAgo, lastWeek), true);
+          assert.equal(timeToField.moment.isBetween(fewSecondsAgo, now), true);
+        });
+
+        it('initializes the time picker inputs', function() {
+          assert.equal(timeRangePicker.fromTime.isBetween(lastWeekFewSecondsAgo, lastWeek), true);
+          assert.equal(timeRangePicker.toTime.isBetween(fewSecondsAgo, now), true);
+        });
+
+        it('initializes the selected range on the calendar', function() {
+          assert.equal(dateRangePicker.firstRangeDate.isBetween(lastWeekFewSecondsAgo, lastWeek), true);
+          assert.equal(dateRangePicker.secondRangeDate.isBetween(fewSecondsAgo, now), true);
+        });
+
+      });
+    });
+
+    describe('when dates passed in are in same month', function() {
+
+      before(function(done) {
+        initializeAllFields('sameMonth', done);
+      });
+
+      describe('rangefields are initialized to passed in date/time', function() {
+
+        it('from date', function() {
+          assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '10/11/2014');
+        });
+
+        it('to date', function() {
+          assert.equal(dateToField.moment.format('MM/DD/YYYY'), '10/25/2014');
+        });
+
+        it('from time', function() {
+          assert.equal(timeFromField.moment.format('hh:mm:ss A'), '01:00:00 PM');
+        });
+
+        it('to time', function() {
+          assert.equal(timeToField.moment.format('hh:mm:ss A'), '03:00:00 PM');
+        });
+
+      });
+
+      describe('when the modal is opened', function() {
+
+        beforeEach(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        describe('initialization', function() {
+
+          it('opens the left calendar with both selected dates', function() {
+            assert.equal(leftCalendar.month, 'October');
+            assert.equal(leftCalendar.year, '2014');
+
+            var leftCalendarCells = leftCalendar.querySelectorAll('px-calendar-cell');
+            calendarMatches(leftCalendarCells, [ // october 2014
+              [date(null), date(null), date(null), date('1'), date('2'), date('3'), date('4')],
+              [date('5'), date('6'), date('7'), date('8'), date('9'), date('10'), selectedDate('11')],
+              [date('12'), date('13'), date('14'), date('15'), date('16'), date('17'), date('18')],
+              [date('19'), date('20'), date('21'), date('22'), date('23'), date('24'), selectedDate('25')],
+              [date('26'), date('27'), date('28'), date('29'), date('30'), date('31'), date(null)],
+              [date(null), date(null), date(null), date(null), date(null), date(null), date(null)]
+            ]);
+          });
+
+          it('opens the right calendar with the next month', function() {
+            assert.equal(rightCalendar.month, 'November');
+            assert.equal(rightCalendar.year, '2014');
+
+            var rightCalendarCells = rightCalendar.querySelectorAll('px-calendar-cell');
+            calendarMatches(rightCalendarCells, [ // november 2014
+              [date(null), date(null), date(null), date(null), date(null), date(null), date('1')],
+              [date('2'), date('3'), date('4'), date('5'), date('6'), date('7'), date('8')],
+              [date('9'), date('10'), date('11'), date('12'), date('13'), date('14'), date('15')],
+              [date('16'), date('17'), date('18'), date('19'), date('20'), date('21'), date('22')],
+              [date('23'), date('24'), date('25'), date('26'), date('27'), date('28'), date('29')],
+              [date('30'), date(null), date(null), date(null), date(null), date(null), date(null)]
+            ]);
+          });
+
+          it('initializes the to time & from time input fields', function() {
+            assert.equal(timeFromInput.time.format('hh:mm:ss A'), '01:00:00 PM');
+            assert.equal(timeToInput.time.format('hh:mm:ss A'), '03:00:00 PM');
+          });
+
+          it('displays no presets since none were passed in', function() {
+            assert.equal(presetsSection, null);
+          });
+
+        });
+      });
+    });
+
+    describe('when dates passed in not in the ISO8601 format', function() {
+
+      before(function(done) {
+        initializeAllFields('nonIsoFormat', done);
+      });
+
+      describe('rangefields are initialized to Invalid Date', function() {
+
+        it('from date', function() {
+          assert.equal(dateFromField.moment.format('MM/DD/YYYY'), 'Invalid date');
+        });
+
+        it('to date', function() {
+          assert.equal(dateToField.moment.format('MM/DD/YYYY'), 'Invalid date');
+        });
+
+        it('from time', function() {
+          assert.equal(timeFromField.moment.format('hh:mm:ss A'), 'Invalid date');
+        });
+
+        it('to time', function() {
+          assert.equal(timeToField.moment.format('hh:mm:ss A'), 'Invalid date');
+        });
+
+      });
+
+    });
+
+    describe('when dates passed in are a year apart', function() {
+
+      before(function(done) {
+        initializeAllFields('yearApart', done);
+      });
+
+      describe('when the modal is opened', function() {
+
+        beforeEach(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        it('opens the left calendar with the from date', function() {
+          var leftCalendarCells = leftCalendar.querySelectorAll('px-calendar-cell');
+          calendarMatches(leftCalendarCells, [
+            [date('1'), date('2'), date('3'), date('4'), date('5'), date('6'), date('7')],
+            [date('8'), date('9'), date('10'), date('11'), date('12'), date('13'), date('14')],
+            [date('15'), selectedDate('16'), date('17'), date('18'), date('19'), date('20'), date('21')],
+            [date('22'), date('23'), date('24'), date('25'), date('26'), date('27'), date('28')],
+            [date('29'), date('30'), date(null), date(null), date(null), date(null), date(null)],
+            [date(null), date(null), date(null), date(null), date(null), date(null), date(null)]
+          ]);
+        });
+
+        it('opens the right calendar with the next month (cant see to date)', function() {
+          var rightCalendarCells = rightCalendar.querySelectorAll('px-calendar-cell');
+          calendarMatches(rightCalendarCells, [
+            [date(null), date(null), date('1'), date('2'), date('3'), date('4'), date('5')],
+            [date('6'), date('7'), date('8'), date('9'), date('10'), date('11'), date('12')],
+            [date('13'), date('14'), date('15'), date('16'), date('17'), date('18'), date('19')],
+            [date('20'), date('21'), date('22'), date('23'), date('24'), date('25'), date('26')],
+            [date('27'), date('28'), date('29'), date('30'), date('31'), date(null), date(null)],
+            [date(null), date(null), date(null), date(null), date(null), date(null), date(null)]
+          ]);
+        });
+      });
+    });
+
+    describe('when pass in presets', function() {
+
+      before(function(done) {
+        initializeAllFields('withPresets', done);
+      });
+
+      before(function(done) {
+        var withPresets = document.getElementById('withPresets');
+        withPresets.presetRanges = [
+          {
+            "displayText": "Some Custom Range",
+            "startDateTime": "08/21/2015 12:57:33 PM",
+            "endDateTime": "08/24/2015 01:02:33 PM"
+          },
+          {
+            "displayText": "Last 12 Hours",
+            "startDateTime": "08/21/2015 1:02:33 AM",
+            "endDateTime": "08/21/2015 1:02:33 PM"
+          },
+          {
+            "displayText": "Yesterday",
+            "startDateTime": "08/20/2015 12:00:00 AM",
+            "endDateTime": "08/20/2015 12:00:00 PM"
+          },
+          {
+            "displayText": "Last Month",
+            "startDateTime": "07/21/2015 12:00:00 AM",
+            "endDateTime": "08/21/2015 12:00:00 AM"
+          },
+          {
+            "displayText": "Last Year",
+            "startDateTime": "08/21/2014 12:00:00 AM",
+            "endDateTime": "08/21/2015 12:00:00 AM"
+          }
+        ];
+
+        function isPresetsSectionNotNull() {
+          presetsSection = rangepickerModal.querySelector('px-rangepicker-presets');
+          return presetsSection !== null;
+        };
+
+        waitFor(done, isPresetsSectionNotNull);
+      });
+
+      it('displays the passed in presets', function() {
+        var presets = presetsSection.querySelectorAll('li.px-rangepicker-presets');
+        assert.equal(presets.length, 5);
+      });
+
+      describe('when a preset is selected', function() {
+
+        before(function() {
+          presetsSection._usePreset({
+            model: {
+              preset: presetsSection.presetRanges[0]
+            }
+          });
+        });
+
+        it('changes the range fields', function() {
+          assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '08/21/2015');
+          assert.equal(dateToField.moment.format('MM/DD/YYYY'), '08/24/2015');
+          assert.equal(timeFromField.moment.format('hh:mm:ss A'), '12:57:33 PM');
+          assert.equal(timeToField.moment.format('hh:mm:ss A'), '01:02:33 PM');
+        });
+
+        it('changes the time picker inputs', function() {
+          assert.equal(timeRangePicker.fromTime.format('hh:mm:ss A'), '12:57:33 PM');
+          assert.equal(timeRangePicker.toTime.format('hh:mm:ss A'), '01:02:33 PM');
+        });
+
+        it('changes the selected range on the calendar', function() {
+          assert.equal(dateRangePicker.firstRangeDate.format('MM/DD/YYYY'), '08/21/2015');
+          assert.equal(dateRangePicker.secondRangeDate.format('MM/DD/YYYY'), '08/24/2015');
+        });
+
+      });
+
+    });
+
+    describe('when select date in calendar', function() {
+
+      var leftCalendarCells;
+
+      describe('one click', function() {
+
+        before(function(done) {
+          initializeAllFields('selectDate1', done);
+        });
+
+        before(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        it('does not change the range field yet', function() {
+          leftCalendarCells = leftCalendar.querySelectorAll('px-calendar-cell');
+          var oct8 = leftCalendarCells[10];
+          oct8._selectDate();
+
+          assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '10/11/2014');
+          assert.equal(dateToField.moment.format('MM/DD/YYYY'), '10/25/2014');
+        });
+
+      });
+
+      describe('when a 2nd date is selected (range)', function() {
+
+        before(function(done) {
+          initializeAllFields('selectDate2', done);
+        });
+
+        before(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        describe('', function() {
+
+          before(function() {
+            leftCalendarCells = leftCalendar.querySelectorAll('px-calendar-cell');
+            var oct8 = leftCalendarCells[10];
+            oct8._selectDate();
+
+            var oct12 = leftCalendarCells[14];
+            oct12._selectDate();
+          });
+
+          it('does change the dates fields', function() {
+            assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '10/08/2014');
+            assert.equal(dateToField.moment.format('MM/DD/YYYY'), '10/12/2014');
+          });
+
+          it('leaves the times the same', function() {
+            assert.equal(timeFromField.moment.format('hh:mm:ss A'), '01:00:00 PM');
+            assert.equal(timeToField.moment.format('hh:mm:ss A'), '03:00:00 PM');
+          });
+
+        });
+
+      });
+
+      describe('when a backwards date is selected (range)', function() {
+
+        before(function(done) {
+          initializeAllFields('selectDate2', done);
+        });
+
+        before(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        describe('', function() {
+
+          before(function() {
+            leftCalendarCells = leftCalendar.querySelectorAll('px-calendar-cell');
+            var oct8 = leftCalendarCells[10];
+            oct8._selectDate();
+
+            var oct5 = leftCalendarCells[7];
+            oct5._selectDate();
+          });
+
+          it('changes the range field correctly', function() {
+            assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '10/05/2014');
+            assert.equal(dateToField.moment.format('MM/DD/YYYY'), '10/08/2014');
+          });
+
+        });
+
+      });
+
+    });
+
+    describe('when jump back', function() {
+
+      before(function(done) {
+        initializeAllFields('jumpBack', done);
+      });
+
+      before(function(done) {
+        openModal(done, dateFromField, leftCalendar, rightCalendar);
+      });
+
+      describe('', function() {
+
+        before(function(done) {
+          dateRangePicker._jumpBack();
+
+          function isLeftMonthSeptember() {
+            return leftCalendar.month === 'September';
+          }
+
+          waitFor(done, isLeftMonthSeptember); // wait for the month to change (calendars to shift)
+        });
+
+        it('does not change the range field yet', function() {
+          assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '10/11/2014');
+          assert.equal(dateToField.moment.format('MM/DD/YYYY'), '10/25/2014');
+        });
+
+        it('opens the left calendar back one month', function() {
+          assert.equal(leftCalendar.month, 'September');
+          assert.equal(leftCalendar.year, '2014');
+
+          var leftCalendarCells = leftCalendar.querySelectorAll('px-calendar-cell');
+          calendarMatches(leftCalendarCells, [ // september 2014
+            [date(null), date('1'), date('2'), date('3'), date('4'), date('5'), date('6')],
+            [date('7'), date('8'), date('9'), date('10'), date('11'), date('12'), date('13')],
+            [date('14'), date('15'), date('16'), date('17'), date('18'), date('19'), date('20')],
+            [date('21'), date('22'), date('23'), date('24'), date('25'), date('26'), date('27')],
+            [date('28'), date('29'), date('30'), date(null), date(null), date(null), date(null)],
+            [date(null), date(null), date(null), date(null), date(null), date(null), date(null)]
+          ]);
+        });
+
+        it('opens the right calendar back one month too', function() {
+          assert.equal(rightCalendar.month, 'October');
+          assert.equal(rightCalendar.year, '2014');
+
+          var rightCalendarCells = rightCalendar.querySelectorAll('px-calendar-cell');
+          calendarMatches(rightCalendarCells, [ // october 2014
+            [date(null), date(null), date(null), date('1'), date('2'), date('3'), date('4')],
+            [date('5'), date('6'), date('7'), date('8'), date('9'), date('10'), selectedDate('11')],
+            [date('12'), date('13'), date('14'), date('15'), date('16'), date('17'), date('18')],
+            [date('19'), date('20'), date('21'), date('22'), date('23'), date('24'), selectedDate('25')],
+            [date('26'), date('27'), date('28'), date('29'), date('30'), date('31'), date(null)],
+            [date(null), date(null), date(null), date(null), date(null), date(null), date(null)]
+          ]);
+        });
+
+      });
+
+    });
+
+    describe('when jump forward', function() {
+
+      before(function(done) {
+        initializeAllFields('jumpForward', done);
+      });
+
+      before(function(done) {
+        openModal(done, dateFromField, leftCalendar, rightCalendar);
+      });
+
+      describe('', function() {
+
+        before(function() {
+          dateRangePicker._jumpForward();
+          dateRangePicker._jumpForward();
+          dateRangePicker._jumpForward();
+          dateRangePicker._jumpForward();
+        });
+
+        it('does not change the range field yet', function() {
+          assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '10/11/2014');
+          assert.equal(dateToField.moment.format('MM/DD/YYYY'), '10/25/2014');
+        });
+
+        it('opens the left calendar to February 2015', function() {
+          assert.equal(leftCalendar.month, 'February');
+          assert.equal(leftCalendar.year, '2015');
+        });
+
+        it('opens the right calendar to March 2015', function() {
+          assert.equal(rightCalendar.month, 'March');
+          assert.equal(rightCalendar.year, '2015');
+        });
+
+      });
+
+    });
+
+    describe('when select date, then jump back and select second date', function() {
+
+      before(function(done) {
+        initializeAllFields('selectThenJumpAndSelect', done);
+      });
+
+      before(function(done) {
+        openModal(done, dateFromField, leftCalendar, rightCalendar);
+      });
+
+      before(function(done) {
+        var leftCalendarCells = leftCalendar.querySelectorAll('px-calendar-cell');
+        var oct3 = leftCalendarCells[5];
+        oct3._selectDate();
+
+        dateRangePicker._jumpBack();
+        dateRangePicker._jumpBack();
+        dateRangePicker._jumpBack();
+
+        function isLeftMonthJuly() {
+          return leftCalendar.month === 'July';
+        }
+
+        waitFor(done, isLeftMonthJuly); // wait for the month to change (calendars to shift)
+      });
+
+      before(function() {
+        var leftCalendarCells = leftCalendar.querySelectorAll('px-calendar-cell');
+        var july9 = leftCalendarCells[10];
+        july9._selectDate();
+      });
+
+      it('sets the range', function() {
+        assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '07/09/2014');
+        assert.equal(dateToField.moment.format('MM/DD/YYYY'), '10/03/2014');
+      });
+
+    });
+
+    describe('when change time in modal', function() {
+
+      describe('to', function() {
+
+        before(function(done) {
+          initializeAllFields('changeTime1', done);
+        });
+
+        before(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        it('changes to range field immediately', function() {
+          changeTime(timeToInput);
+          assert.equal(timeFromField.moment.format('hh:mm:ss A'), '01:00:00 PM');
+          assert.equal(timeToField.moment.format('hh:mm:ss A'), '12:57:39 PM');
+        });
+
+      });
+
+      describe('from', function() {
+
+        before(function(done) {
+          initializeAllFields('changeTime2', done);
+        });
+
+        before(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        it('changes from range field immediately', function() {
+          changeTime(timeFromInput);
+          assert.equal(timeFromField.moment.format('hh:mm:ss A'), '12:57:39 PM');
+          assert.equal(timeToField.moment.format('hh:mm:ss A'), '03:00:00 PM');
+        });
+
+      });
+
+    });
+
+    describe('when select 1 date, then change time', function() {
+
+      before(function(done) {
+        initializeAllFields('select1ChangeTime', done);
+      });
+
+      before(function(done) {
+        openModal(done, dateFromField, leftCalendar, rightCalendar);
+      });
+
+      before(function() {
+        var leftCalendarCells = leftCalendar.querySelectorAll('px-calendar-cell');
+        var oct3 = leftCalendarCells[5];
+        oct3._selectDate();
+
+        changeTime(timeFromInput);
+      });
+
+      it('top fields reflect the changed times but the old dates', function() {
+        assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '10/11/2014'); // OLD date range in top fields
+        assert.equal(dateToField.moment.format('MM/DD/YYYY'), '10/25/2014');
+        assert.equal(timeFromField.moment.format('hh:mm:ss A'), '12:57:39 PM');
+        assert.equal(timeToField.moment.format('hh:mm:ss A'), '03:00:00 PM');
+      });
+
+      it('rangepicker modal reflects only 1 date AND new times', function() {
+        assert.equal(dateRangePicker.firstRangeDate.format('MM/DD/YYYY'), '10/03/2014'); // NEW date in modal
+        assert.equal(dateRangePicker.secondRangeDate, null); // only 1 date is displayed
+        assert.equal(timeRangePicker.fromTime.format('hh:mm:ss A'), '12:57:39 PM');
+        assert.equal(timeRangePicker.toTime.format('hh:mm:ss A'), '03:00:00 PM');
+      });
+    });
+
+    describe('when select the second date, reflects the new time with the new dates', function() {
+
+      before(function(done) {
+        initializeAllFields('select2ndDate', done);
+      });
+
+      before(function(done) {
+        openModal(done, dateFromField, leftCalendar, rightCalendar);
+      });
+
+      before(function() {
+        var leftCalendarCells = leftCalendar.querySelectorAll('px-calendar-cell');
+        var oct3 = leftCalendarCells[5];
+        oct3._selectDate();
+
+        changeTime(timeFromInput);
+
+        var oct10 = leftCalendarCells[12];
+        oct10._selectDate();
+      });
+
+      it('top fields reflect the new times & new dates', function() {
+        assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '10/03/2014'); // new dates
+        assert.equal(dateToField.moment.format('MM/DD/YYYY'), '10/10/2014'); // new dates
+        assert.equal(timeFromField.moment.format('hh:mm:ss A'), '12:57:39 PM');
+        assert.equal(timeToField.moment.format('hh:mm:ss A'), '03:00:00 PM');
+      });
+
+      it('rangepicker modal reflects the new times & new dates', function() {
+        assert.equal(dateRangePicker.firstRangeDate.format('MM/DD/YYYY'), '10/03/2014'); // new dates
+        assert.equal(dateRangePicker.secondRangeDate.format('MM/DD/YYYY'), '10/10/2014'); // new dates
+        assert.equal(timeRangePicker.fromTime.format('hh:mm:ss A'), '12:57:39 PM');
+        assert.equal(timeRangePicker.toTime.format('hh:mm:ss A'), '03:00:00 PM');
+      });
+
+    });
+
+    describe('when typing in range fields', function() {
+
+      describe('date field - valid', function() {
+
+        before(function(done) {
+          initializeAllFields('typingDateFieldValid', done);
+        });
+
+        before(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        before(function() {
+          dateFromField.dateTimeWorkingCopy = '05/04/2013';
+          dateFromField._validateInput();
+        });
+
+        it('updates date if type in date', function() {
+          assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '05/04/2013');
+          assert.equal(dateToField.moment.format('MM/DD/YYYY'), '10/25/2014');
+        });
+
+        it('does not affect time', function() {
+          assert.equal(timeFromField.moment.format('hh:mm:ss A'), '01:00:00 PM');
+          assert.equal(timeToField.moment.format('hh:mm:ss A'), '03:00:00 PM');
+        });
+
+      });
+
+      describe('date field - invalid', function() {
+
+        before(function(done) {
+          initializeAllFields('typingDateFieldInvalid', done);
+        });
+
+        before(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        before(function() {
+          dateFromField.dateTimeWorkingCopy = '05/04/x2013';
+          dateFromField._validateInput();
+        });
+
+        it('does not make a change if validation fails', function() {
+          assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '10/11/2014');
+          assert.equal(dateToField.moment.format('MM/DD/YYYY'), '10/25/2014');
+        });
+
+      });
+
+      describe('time field - valid', function() {
+
+        before(function(done) {
+          initializeAllFields('typingTimeFieldValid', done);
+        });
+
+        before(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        before(function() {
+          timeFromField.dateTimeWorkingCopy = '02:22:35 PM';
+          timeFromField._validateInput();
+        });
+
+        it('updates time if type in time', function() {
+          assert.equal(timeFromField.moment.format('hh:mm:ss A'), '02:22:35 PM');
+          assert.equal(timeToField.moment.format('hh:mm:ss A'), '03:00:00 PM');
+        });
+
+        it('does not affect date', function() {
+          assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '10/11/2014');
+          assert.equal(dateToField.moment.format('MM/DD/YYYY'), '10/25/2014');
+        });
+
+      });
+
+      describe('time field - invalid', function() {
+
+        before(function(done) {
+          initializeAllFields('typingTimeFieldInvalid', done);
+        });
+
+        before(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        before(function() {
+          timeFromField.dateTimeWorkingCopy = '02:22:3ab5 PM';
+          timeFromField._validateInput();
+        });
+
+        it('does not make a change if validation fails', function() {
+          assert.equal(timeFromField.moment.format('hh:mm:ss A'), '01:00:00 PM');
+          assert.equal(timeToField.moment.format('hh:mm:ss A'), '03:00:00 PM');
+        });
+
+      });
+
+      describe('range validation', function() {
+
+        before(function(done) {
+          initializeAllFields('rangeValidation', done);
+        });
+
+        before(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        before(function() {
+          dateToField.dateTimeWorkingCopy = '05/04/2010';
+          dateToField._validateInput();
+        });
+
+        it('does not make a change if range validation fails', function() {
+          assert.equal(timeRangePicker.fromTime.format('hh:mm:ss A'), '01:00:00 PM');
+          assert.equal(timeRangePicker.toTime.format('hh:mm:ss A'), '03:00:00 PM');
+          assert.equal(dateRangePicker.firstRangeDate.format('MM/DD/YYYY'), '10/11/2014');
+          assert.equal(dateRangePicker.secondRangeDate.format('MM/DD/YYYY'), '10/25/2014');
+        });
+
+      });
+
+      describe('calendar movement when typing', function() {
+
+        before(function(done) {
+          initializeAllFields('calendarMovement', done);
+        });
+
+        before(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        before(function() {
+          dateFromField.dateTimeWorkingCopy = '05/04/2013';
+          dateFromField._validateInput();
+        });
+
+        it('does not move the visible calendars right away', function() {
+          assert.equal(leftCalendar.month, 'October');
+          assert.equal(leftCalendar.year, '2014');
+          assert.equal(rightCalendar.month, 'November');
+          assert.equal(rightCalendar.year, '2014');
+        });
+
+        describe('when close/open modal', function() {
+
+          before(function(done) {
+            rangepickerModal.close();
+            setTimeout(function() { // wait just a sec for the modal to close
+              openModal(done, dateFromField, leftCalendar, rightCalendar);
+            }, 1000);
+          });
+
+          before(function(done) {
+            function isLeftMonthMay() {
+              return leftCalendar.month === 'May';
+            }
+
+            waitFor(done, isLeftMonthMay); // wait for the month to change
+          });
+
+          it('makes the from date in the left calendar', function() {
+            assert.equal(leftCalendar.month, 'May');
+            assert.equal(leftCalendar.year, '2013');
+            assert.equal(rightCalendar.month, 'June');
+            assert.equal(rightCalendar.year, '2013');
+          });
+
+        });
+
+      });
+
+    });
+
+    describe('when a date/time is picked', function() {
+
+      before(function(done) {
+        initializeAllFields('dateTimePicked', done);
+      });
+
+      before(function(done) {
+        openModal(done, dateFromField, leftCalendar, rightCalendar);
+      });
+
+      before(function() {
+        var leftCalendarCells = leftCalendar.querySelectorAll('px-calendar-cell');
+        var oct8 = leftCalendarCells[10];
+        oct8._selectDate();
+        var oct12 = leftCalendarCells[14];
+        oct12._selectDate();
+
+        timeFromField.dateTimeWorkingCopy = '02:22:35 PM';
+        timeFromField._validateInput();
+      });
+
+      it('does not send changes to outside world immediately', function() {
+        assert.deepEqual(rangepicker.range, {
+          from: "2014-10-11T20:00:00Z",
+          to: "2014-10-25T22:00:00Z"
+        });
+      });
+
+      it('updates outside world when submit is clicked', function() {
+        rangepickerModal._submit();
+        assert.deepEqual(rangepicker.range, {
+          from: "2014-10-08T21:22:35.000Z",
+          to: "2014-10-12T22:00:00.000Z"
+        });
+      });
+
+    });
+
+    describe('when end user developer changes the passed in dates/times', function() {
+
+      describe('set behind this time', function() {
+
+        before(function(done) {
+          initializeAllFields('developerChangesRange1', done);
+        });
+
+        before(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        before(function() {
+          rangepicker.range = {
+            from: "2013-08-12T21:00:00Z",
+            to: "2013-09-17T24:00:00Z"
+          };
+        });
+
+        it('updates the fields', function() {
+          assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '08/12/2013');
+          assert.equal(dateToField.moment.format('MM/DD/YYYY'), '09/17/2013');
+          assert.equal(timeFromField.moment.format('hh:mm:ss A'), '02:00:00 PM');
+          assert.equal(timeToField.moment.format('hh:mm:ss A'), '05:00:00 PM');
+        });
+
+        it('updates the pickers', function() {
+          assert.equal(timeRangePicker.fromTime.format('hh:mm:ss A'), '02:00:00 PM');
+          assert.equal(timeRangePicker.toTime.format('hh:mm:ss A'), '05:00:00 PM');
+          assert.equal(dateRangePicker.firstRangeDate.format('MM/DD/YYYY'), '08/12/2013');
+          assert.equal(dateRangePicker.secondRangeDate.format('MM/DD/YYYY'), '09/17/2013');
+        });
+
+      });
+
+      describe('set ahead of this time', function() {
+
+        before(function(done) {
+          initializeAllFields('developerChangesRange2', done);
+        });
+
+        before(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        before(function() {
+          rangepicker.range = {
+            from: "2014-08-12T21:00:00Z",
+            to: "2014-09-17T24:00:00Z"
+          };
+        });
+
+        it('updates the fields', function() {
+          assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '08/12/2014');
+          assert.equal(dateToField.moment.format('MM/DD/YYYY'), '09/17/2014');
+          assert.equal(timeFromField.moment.format('hh:mm:ss A'), '02:00:00 PM');
+          assert.equal(timeToField.moment.format('hh:mm:ss A'), '05:00:00 PM');
+        });
+
+        it('updates the pickers', function() {
+          assert.equal(timeRangePicker.fromTime.format('hh:mm:ss A'), '02:00:00 PM');
+          assert.equal(timeRangePicker.toTime.format('hh:mm:ss A'), '05:00:00 PM');
+          assert.equal(dateRangePicker.firstRangeDate.format('MM/DD/YYYY'), '08/12/2014');
+          assert.equal(dateRangePicker.secondRangeDate.format('MM/DD/YYYY'), '09/17/2014');
+        });
+
+      });
+
+    });
+
+  </script>
+</body>
+</html>
