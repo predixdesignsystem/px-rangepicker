@@ -159,14 +159,9 @@
     };
 
     function changeTime(inputToChange) {
-      inputToChange._changeHours(getFakeEvent(0));
-      inputToChange._changeHours(getFakeEvent(1));
-      inputToChange._changeHours(getFakeEvent(2));
-      inputToChange._changeMinutes(getFakeEvent(5));
-      inputToChange._changeMinutes(getFakeEvent(7));
-      inputToChange._changeSeconds(getFakeEvent(3));
-      inputToChange._changeSeconds(getFakeEvent(9));
-      inputToChange._selectPM();
+      inputToChange.querySelector('#timeInput').value = "12:57:39 PM";
+      var ev = new Event("change");
+      inputToChange.querySelector('#timeInput').dispatchEvent(ev);
     }
 
     function waitFor(done, fn) {
@@ -231,7 +226,7 @@
         rightCalendar = dateRangePicker.querySelector('#rightCalendar');
 
         presetsSection = rangepickerModal.querySelector('px-rangepicker-presets');
-
+        console.warn('timefield = ' + timeToField.$$('input').value);
         done();
       }
 
@@ -456,7 +451,7 @@
       });
 
       it('displays the passed in presets', function() {
-        var presets = presetsSection.querySelectorAll('button');
+        var presets = presetsSection.querySelectorAll('li.px-rangepicker-presets');
         assert.equal(presets.length, 5);
       });
 
@@ -1036,7 +1031,7 @@
       });
 
       it('updates outside world when submit is clicked', function() {
-        rangeFields._submit();
+        rangepickerModal._submit();
         assert.deepEqual(rangepicker.range, {
           from: "2014-10-08T21:22:35.000Z",
           to: "2014-10-12T22:00:00.000Z"

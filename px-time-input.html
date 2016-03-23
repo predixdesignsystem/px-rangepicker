@@ -92,6 +92,7 @@ Time input which allows the user to type in hours, minutes, seconds in a control
       this.set('dateTimeWorkingCopy', newTime);
       returnVal = this._validateInput();
       if (returnVal) {
+
         thisMoment = moment(newTime, this.momentFormat);
         thisMoment.date(this.time.date()); // keep the existing date/month/year
         thisMoment.month(this.time.month());
