@@ -245,12 +245,23 @@ Rangepicker with time element.
         self.$.rangeFields.returnLastFocus();
         self._setRange();
         self._updateMoments();
-        this.set('from', moment(self.range.from));
-        this.set('to', moment(self.range.to));
-        // self.$.rangeFields._updateFromWorkingCopy();
-        // self.$.rangeFields._updateToWorkingCopy();
-        this.set("firstRangeDate", moment(self.range.from));
-        this.set("secondRangeDate", moment(self.range.to));
+        if(this.isUtc){
+          console.warn('event listener IF')
+          this.set('from', moment.utc(self.range.from));
+          this.set('to', moment.utc(self.range.to));
+          // self.$.rangeFields._updateFromWorkingCopy();
+          // self.$.rangeFields._updateToWorkingCopy();
+          this.set("firstRangeDate", moment.utc(self.range.from));
+          this.set("secondRangeDate", moment.utc(self.range.to));
+        } else {
+          console.warn('event listener Cancel')
+          this.set('from', moment(self.range.from));
+          this.set('to', moment(self.range.to));
+          // self.$.rangeFields._updateFromWorkingCopy();
+          // self.$.rangeFields._updateToWorkingCopy();
+          this.set("firstRangeDate", moment(self.range.from));
+          this.set("secondRangeDate", moment(self.range.to));
+        }
       });
     }
 

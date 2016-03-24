@@ -112,6 +112,11 @@
                   range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
   </px-rangepicker>
 
+  <px-rangepicker id="cancelChange"
+                  range='{"from":"2014-10-11T20:00:00Z", "to":"2014-10-25T22:00:00Z"}'>
+  </px-rangepicker>
+
+
   <script>
 
     function date(date) {
@@ -1108,6 +1113,32 @@
           assert.equal(timeRangePicker.toTime.format('hh:mm:ss A'), '05:00:00 PM');
           assert.equal(dateRangePicker.firstRangeDate.format('MM/DD/YYYY'), '08/12/2014');
           assert.equal(dateRangePicker.secondRangeDate.format('MM/DD/YYYY'), '09/17/2014');
+        });
+
+      });
+
+      describe('when open modal and click cancel', function() {
+
+        before(function(done) {
+          initializeAllFields('cancelChange', done);
+        });
+
+        before(function(done) {
+          openModal(done, dateFromField, leftCalendar, rightCalendar);
+        });
+
+        before(function(done) {
+          rangeFields.lastFocusedElement = rangeFields.querySelector('#fromDate');
+          rangepickerModal._closeAndReturnFocus();
+          done();
+        });
+
+        it('changes to range field immediately and date remains the same', function() {
+          console.warn(timeFromField.moment.format('hh:mm:ss A'));
+          assert.equal(timeFromField.moment.format('hh:mm:ss A'), '01:00:00 PM');
+          assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '10/11/2014');
+          assert.equal(timeToField.moment.format('hh:mm:ss A'), '03:00:00 PM');
+          assert.equal(dateToField.moment.format('MM/DD/YYYY'), '10/25/2014');
         });
 
       });
