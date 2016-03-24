@@ -105,9 +105,34 @@ module.exports = function(grunt) {
       options: {
         open: '<%= depserveOpenUrl %>'
       }
+    },
+    webdriver: {
+        options: {
+            specFiles: ['test/*spec.js']
+        },
+        local: {
+            webdrivers: ['chrome']
+        }
+    },
+    concurrent: {
+        devmode: {
+            tasks: ['watch', 'depserve'],
+            options: {
+                logConcurrentOutput: true
+            }
+        }
     }
 
   });
+
+  grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-dep-serve');
+  grunt.loadNpmTasks('grunt-autoprefixer');
+  grunt.loadNpmTasks('grunt-concurrent');
 
   require('load-grunt-tasks')(grunt);
 

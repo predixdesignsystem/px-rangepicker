@@ -63,6 +63,18 @@ Time input which allows the user to type in hours, minutes, seconds in a control
         type: Boolean,
         value: true,
         notify: true
+      },
+      /**
+       * (optional)
+       *
+       * By default, the rangepicker will display the time in your browser's timezone.  If you add
+       * the is-utc attribute on px-rangepicker, it will display the time as a UTC (GMT timezone) time.
+       *
+       * @default false
+       */
+      isUtc: {
+        type: Boolean,
+        value: false
       }
 
     },
@@ -75,8 +87,7 @@ Time input which allows the user to type in hours, minutes, seconds in a control
       var hours = this.time.format("hh"),
           minutes = this.time.format("mm"),
           seconds = this.time.format("ss"),
-          ampm;
-          ampm = (this.time.format('A') === 'AM') ? 'AM' : 'PM';
+          ampm = this.time.format('A');
       this.set('timeString', hours + ":" + minutes + ":" + seconds + " " + ampm);
     },
     _timeStringChanged: function() {
@@ -88,15 +99,17 @@ Time input which allows the user to type in hours, minutes, seconds in a control
           thisMoment,
           initialTimeObj = this.timeString,
           returnVal = false;
-
       this.set('dateTimeWorkingCopy', newTime);
       returnVal = this._validateInput();
       if (returnVal) {
-        thisMoment = moment(newTime, this.momentFormat);
+        if (this.isUtc) {
+          thisMoment = moment.utc(newTime, this.momentFormat);
+        }else {
+          thisMoment = moment(newTime, this.momentFormat);
+        }
         thisMoment.date(this.time.date()); // keep the existing date/month/year
         thisMoment.month(this.time.month());
         thisMoment.year(this.time.year());
-
         this.set('moment', thisMoment);
         this.set('time', thisMoment);
 
