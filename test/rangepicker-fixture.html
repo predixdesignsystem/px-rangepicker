@@ -231,7 +231,6 @@
         rightCalendar = dateRangePicker.querySelector('#rightCalendar');
 
         presetsSection = rangepickerModal.querySelector('px-rangepicker-presets');
-        console.warn('timefield = ' + timeToField.$$('input').value);
         done();
       }
 
@@ -1134,7 +1133,6 @@
         });
 
         it('changes to range field immediately and date remains the same', function() {
-          console.warn(timeFromField.moment.format('hh:mm:ss A'));
           assert.equal(timeFromField.moment.format('hh:mm:ss A'), '01:00:00 PM');
           assert.equal(dateFromField.moment.format('MM/DD/YYYY'), '10/11/2014');
           assert.equal(timeToField.moment.format('hh:mm:ss A'), '03:00:00 PM');

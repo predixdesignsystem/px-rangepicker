@@ -32,7 +32,6 @@ validate = {
         }
       if (this._validateRangeAndBroadcastChanges) {
         this.set('isValid', true);
-        //this._submitButtonState(true);
         return true;
       } else {
         this.toggleClass('validation-error', true, this.$$('input'));
