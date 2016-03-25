@@ -1,4 +1,8 @@
-v0.1.6 
+v0.2.0
+==================
+* add is-utc attribute
+
+v0.1.6
 ==================
 * Updated License
 

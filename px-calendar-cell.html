@@ -62,9 +62,22 @@ Element that renders a calendar cell for a given date (and for non-date cells in
       allowFutureDates: {
         type: Boolean,
         value: false
-      }
+      },
 
+      /**
+      * (optional)
+      *
+      * By default, the rangepicker will display the time in your browser's timezone.  If you add
+      * the is-utc attribute on px-rangepicker, it will display the time as a UTC (GMT timezone) time.
+      *
+      * @default false
+      */
+      isUtc: {
+        type: Boolean,
+        value: false
+      }
     },
+
     observers: [
       '_updateDate(displayDate, firstRangeDate, secondRangeDate)'
     ],
@@ -74,7 +87,7 @@ Element that renders a calendar cell for a given date (and for non-date cells in
      *
      */
     _updateDate: function() {
-      
+
       var cellStyles = 'calendar-cell';
       var btnStyles = 'btn btn--bare';
       var isDisabled = false;
@@ -170,15 +183,25 @@ Element that renders a calendar cell for a given date (and for non-date cells in
     },
 
     _isPastTodaysDate: function() {
-      var todaysDate = moment();
+      var todaysDate;
+      if(this.isUtc) {
+        todaysDate = moment.utc();
+      }
+      else {
+        todaysDate = moment();
+      }
       return this.displayDate.isAfter(todaysDate);
     },
 
     _isTodaysDate: function() {
-      var todaysDate = moment();
+      var todaysDate;
+      if(this.isUtc) {
+        todaysDate = moment.utc();
+      }
+      else {
+        todaysDate = moment();
+      }
       return this.displayDate.isSame(todaysDate, 'day');
     }
-
-
   });
 </script>
