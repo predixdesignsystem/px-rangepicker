@@ -27,11 +27,13 @@ Rangepicker modal component.
             to-date="{{to}}"
             first-range-date="{{firstRangeDate}}"
             second-range-date="{{secondRangeDate}}"
+            is-utc="{{isUtc}}"
             allow-future-dates="{{allowFutureDates}}">
           </px-date-rangepicker>
           <px-time-rangepicker
             class="border--top u-p+"
             id="timeRangePicker"
+            is-utc="{{isUtc}}"
             from-time="{{from}}"
             to-time="{{to}}"
             first-range-date="{{firstRangeDate}}"
@@ -137,6 +139,18 @@ Rangepicker modal component.
       secondRangeDate: {
         type: Object,
         notify: true
+      },
+      /**
+       * (optional)
+       *
+       * By default, the rangepicker will display the time in your browser's timezone.  If you add
+       * the is-utc attribute on px-rangepicker, it will display the time as a UTC (GMT timezone) time.
+       *
+       * @default false
+       */
+      isUtc: {
+        type: Boolean,
+        value: false
       }
     },
     observers: [
@@ -147,7 +161,6 @@ Rangepicker modal component.
       var self = this;
 
       this.$.rangepickerModal.addEventListener('px-preset-selected', function(e) {
-        console.log('modal');
         var presetStartDateTime = e.detail.startDateTime;
         var presetEndDateTime = e.detail.endDateTime;
 
@@ -156,12 +169,21 @@ Rangepicker modal component.
          * update values. In order to fire off the preset, we have to set the secondRangeDate to some
          * valid date.
         */
-        if(!self.$.dateRangePicker.secondRangeDate){
-          self.$.dateRangePicker.secondRangeDate = moment(presetEndDateTime);
-        }
 
-        self.set('from', moment(presetStartDateTime));
-        self.set('to', moment(presetEndDateTime));
+        if(self.isUtc) {
+          if(!self.$.dateRangePicker.secondRangeDate){
+            self.$.dateRangePicker.secondRangeDate = moment.utc(presetEndDateTime);
+          }
+          self.set('from', moment.utc(presetStartDateTime));
+          self.set('to', moment.utc(presetEndDateTime));
+        }
+        else {
+          if(!self.$.dateRangePicker.secondRangeDate){
+            self.$.dateRangePicker.secondRangeDate = moment(presetEndDateTime);
+          }
+          self.set('from', moment(presetStartDateTime));
+          self.set('to', moment(presetEndDateTime));
+        }
         self.$.dateRangePicker._resetVisibleCalendars();
       });
     },

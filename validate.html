@@ -12,26 +12,26 @@ validate = {
     if (moment(this.dateTimeWorkingCopy, this.momentFormat, true).isValid()) {
       this.toggleClass('validation-error', false, this.$$('input'));
 
-      var momentCopy = moment(this.dateTimeWorkingCopy, this.momentFormat);
+      var newMoment = this.moment.clone(); // clone the new moment, so it says in utc or local time
+      var typedInMoment = moment(this.dateTimeWorkingCopy, this.momentFormat); // just use the relevant fields, so ok if not in utc timemoment
 
-      if (this.dateOrTime.toLowerCase() === 'time') { // if i'm typing in a time field, make sure the date is still right
-        momentCopy.date(1); // first, 'zero' the date back to the first of the month to prevent any rolling effects (if a month doesn't have 30/31 days)
-        momentCopy.year(this.moment.year()); // set the year
-        momentCopy.month(this.moment.month()); // then the month
-        momentCopy.date(this.moment.date()); // and finally the date, to make sure we don't have any rolling effects
+      if (this.dateOrTime.toLowerCase() == 'date') { // if i'm typing in a date field, set the new date
+        newMoment.date(1); // first, 'zero' the date back to the first of the month to prevent any rolling effects (if a month doesn't have 30/31 days)
+        newMoment.year(typedInMoment.year()); // set the year
+        newMoment.month(typedInMoment.month()); // then the month
+        newMoment.date(typedInMoment.date()); // and finally the date, to make sure we don't have any rolling effects
       }
       else {
-        momentCopy.hour(this.moment.hour());
-        momentCopy.minute(this.moment.minute());
-        momentCopy.second(this.moment.second());
+        newMoment.hour(typedInMoment.hour());
+        newMoment.minute(typedInMoment.minute());
+        newMoment.second(typedInMoment.second());
       }
 
-      if (!momentCopy.isSame(this.moment, 'second')) { // avoid infinite loops
-        this.set('moment', momentCopy);
-      }
+      if (!newMoment.isSame(this.moment, 'second')) { // avoid infinite loops
+          this.set('moment', newMoment);
+        }
       if (this._validateRangeAndBroadcastChanges) {
         this.set('isValid', true);
-        //this._submitButtonState(true);
         return true;
       } else {
         this.toggleClass('validation-error', true, this.$$('input'));

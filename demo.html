@@ -51,8 +51,8 @@
 
       <!-- with/without presets -->
       <div style="position: relative;">
-        <px-rangepicker range="{{sampleData.range}}">
-        </px-rangepicker>
+        <px-rangepicker is-utc range="{{sampleData.range}}"></px-rangepicker>
+        <!-- <px-rangepicker range="{{sampleData.range}}"></px-rangepicker> -->
       </div>
       <!-- Allow future dates -->
       <!--<px-rangepicker range="{{sampleData.range}}"-->
@@ -67,14 +67,14 @@
 
     window.addEventListener('WebComponentsReady', function() {
 
-      var now = moment();
-      var oneDay = moment().subtract(1, 'day');
-      var oneWeek = moment().subtract(1, 'week');
-      var oneYear = moment().subtract(1, 'year');
+      var now = moment.utc();
+      var oneDay = moment.utc().subtract(1, 'day');
+      var oneWeek = moment.utc().subtract(1, 'week');
+      var oneYear = moment.utc().subtract(1, 'year');
 
       var presets = [
         {
-          "displayText": "Last Day",
+          "displayText": "Yesterday",
           "startDateTime": oneDay.toISOString(),
           "endDateTime": now.toISOString()
         },
