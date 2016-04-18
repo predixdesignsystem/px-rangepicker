@@ -68,7 +68,7 @@ Rangepicker with time element.
         notify: true,
         reflectToAttribute: true, // need both notify & reflectToAttribute for bind-polymer to work
         observer: '_setRange',
-        value: function() {
+        value: function() { //defaults to the last 7 days
           return {
             from: moment().subtract(7, 'day').toISOString(),
             to: moment().toISOString()
