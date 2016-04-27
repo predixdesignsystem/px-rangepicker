@@ -18,6 +18,8 @@ before_script:
 - npm install bower
 - export PATH=$PWD/node_modules/.bin:$PATH
 - bower install
+- echo 'Canada/Pacific' | sudo tee /etc/timezone
+- sudo dpkg-reconfigure --frontend noninteractive tzdata
 script:
 - xvfb-run wct --skip-plugin sauce
 - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then wct --plugin sauce --skip-plugin
