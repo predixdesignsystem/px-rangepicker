@@ -6,6 +6,7 @@ module.exports = {
     },
     sauce: {
       disabled: true,
+      "timeZone": "Los Angeles",
       "browsers": [{
           "browserName": "microsoftedge",
           "platform": "Windows 10",
@@ -22,7 +23,8 @@ module.exports = {
           "platform": "OS X 10.11",
           "version": "9",
           "timeZone": "Los Angeles"
-        }, {
+        },
+        {
           "browserName": "safari",
           "platform": "OS X 10.10",
           "version": "8",
