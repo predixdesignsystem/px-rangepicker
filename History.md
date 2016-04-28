@@ -1,3 +1,7 @@
+v0.3.0
+==================
+* Upgrade to Polymer 1.4.0
+
 v0.2.1
 ==================
 * Fixed a bug in px-time-rangepicker where the to px-date-time-input was not receiving isUTC
