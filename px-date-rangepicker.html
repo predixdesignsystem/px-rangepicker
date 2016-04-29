@@ -1,7 +1,8 @@
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="px-calendar.html"/>
+<link rel="import" href="px-moment.html"/>
 
-<script src="../moment/moment.js"></script>
+<!-- <script src="../moment/moment.js"></script> -->
 
 <!--
 Date rangepicker element which allows user to select two dates (a range).
@@ -43,7 +44,6 @@ Date rangepicker element which allows user to select two dates (a range).
     </div>
   </template>
 </dom-module>
-
 <script>
   Polymer({
 
@@ -193,6 +193,7 @@ Date rangepicker element which allows user to select two dates (a range).
     },
 
     _isCurrentMonth: function() {
+      console.log("isCurrentMonth");
       if(this.isUtc) {
         now = moment.utc();
       }
