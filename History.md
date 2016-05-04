@@ -1,3 +1,7 @@
+v0.3.1
+==================
+* moved moment import into its own html import
+
 v0.3.0
 ==================
 * Upgrade to Polymer 1.4.0
