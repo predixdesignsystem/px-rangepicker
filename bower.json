@@ -1,6 +1,6 @@
 {
   "name": "px-rangepicker",
-  "version": "0.2.1",
+  "version": "0.3.2",
   "main": [
     "px-rangepicker.html"
   ],
@@ -15,8 +15,8 @@
   ],
   "dependencies": {
     "moment": "~2.10.6",
-    "polymer": "~1.2.3",
-    "px-theme": "https://github.com/PredixDev/px-theme.git#~0.4.0"
+    "polymer": "~1.4.0",
+    "px-theme": "https://github.com/PredixDev/px-theme.git#~0.7.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#~v1.1.0",
