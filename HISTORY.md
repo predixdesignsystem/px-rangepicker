@@ -1,3 +1,7 @@
+v0.3.2
+==================
+* added auto github pages functionality
+
 v0.3.1
 ==================
 * moved moment import into its own html import
