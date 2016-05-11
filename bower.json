@@ -1,6 +1,6 @@
 {
   "name": "px-rangepicker",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "main": [
     "px-rangepicker.html"
   ],
@@ -11,7 +11,8 @@
     "sass",
     "bower_components",
     "node_modules",
-    "test"
+    "test",
+    "OSS_Notice.pdf"
   ],
   "dependencies": {
     "moment": "~2.10.6",
