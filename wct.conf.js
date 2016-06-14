@@ -6,31 +6,28 @@ module.exports = {
     },
     sauce: {
       disabled: true,
-      "timeZone": "Los Angeles",
       "browsers": [{
           "browserName": "microsoftedge",
           "platform": "Windows 10",
-          "version": "",
-          "timeZone": "Los Angeles"
+          "version": ""
         }, {
           "browserName": "internet explorer",
           "platform": "Windows 8.1",
-          "version": "11",
-          "timeZone": "Los Angeles"
+          "version": "11"
         },
         {
           "browserName": "safari",
           "platform": "OS X 10.11",
-          "version": "9",
-          "timeZone": "Los Angeles"
-        },
-        {
+          "version": "9"
+        }, {
           "browserName": "safari",
           "platform": "OS X 10.10",
-          "version": "8",
-          "timeZone": "Los Angeles"
+          "version": "8"
         }
       ]
     }
-  }
+  },
+  suites: [
+    'test/px-rangepicker-test-fixture.html'
+  ]
 };

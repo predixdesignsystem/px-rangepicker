@@ -1,6 +1,6 @@
 {
   "name": "px-rangepicker",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "main": [
     "px-rangepicker.html"
   ],
@@ -15,16 +15,17 @@
     "OSS_Notice.pdf"
   ],
   "dependencies": {
-    "moment": "~2.10.6",
     "polymer": "^1.5.0",
-    "px-theme": "https://github.com/PredixDev/px-theme.git#~0.8.0"
+    "px-theme": "https://github.com/PredixDev/px-theme.git#~0.7.1",
+    "px-datetime-common": "~0.3.0",
+    "px-datetime-range-field": "~0.1.0",
+    "px-datetime-range-panel": "~0.0.1"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#~v1.1.0",
-    "px-buttons-design": "https://github.com/PredixDev/px-buttons-design.git#~0.4.20",
-    "px-forms-design": "https://github.com/PredixDev/px-forms-design.git#~0.3.0",
-    "px-list-bare-design": "https://github.com/PredixDev/px-list-bare-design.git#~0.2.0",
-    "px-starter-kit-design": "https://github.com/PredixDev/px-starter-kit-design.git#~0.4.0",
-    "px-tables-design": "https://github.com/PredixDev/px-tables-design.git#~0.3.0"
+    "iron-component-page": "PolymerElements/iron-component-page#~v1.1.6",
+    "px-starter-kit-design": "https://github.com/PredixDev/px-starter-kit-design.git#~0.5.5"
+  },
+  "resolutions": {
+    "polymer": "^1.5.0"
   }
 }

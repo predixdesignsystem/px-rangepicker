@@ -18,41 +18,11 @@
 THIS FILE SHOULD CONTAIN ONLY RULES SPECIFIC TO PREDIX BRANDING
 common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 */
+// Settings
+@import "px-colors-design/_settings.colors.scss";
 
 @import 'px-rangepicker-sketch.scss';
 
-// Component
-.rangepicker__box {
-  border-color: $gray4;
-  background-color: $white;
-  span {
-    color: $gray5;
-  }
-}
-
-.border--top, .border--left {
-  border-color: $gray4;
-}
-
 .overlay {
-  background-color: rgba($black, .1);
-}
-
-.btn--preset{
-  &:hover{
-    color: $primary-blue;
-  }
-  &:active{
-    color: $primary-blue-pressed;
-  }
-}
-
-.btn--preset__selected{
-  color: $select-blue-default;
-  &:hover{
-    color: $select-blue-hover;
-  }
-  &:active{
-    color: $select-blue-pressed;
-  }
+  background-color: rgba($black, 0.1);
 }

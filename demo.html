@@ -1,118 +1,91 @@
 <!doctype html>
 
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>px-rangepicker Demo</title>
-  <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
-  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
-  <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
-  <link rel="import" href="../px-theme/px-theme.html"/>
-  <link rel="import" href="px-rangepicker.html"/>
 
-  <link rel="import" href="../iron-ajax/iron-ajax.html"/>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      px-range-picker Demo</title>
+    <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+    <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
 
-  <style>
-    html {
-      font-size: 0.9375rem;
-    }
+    <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+<link rel="import" href="polymer/polymer.html" />
+    <link rel="import" href="px-rangepicker.html" />
+    <link rel="import" href="px-theme/px-theme.html" />
 
-  </style>
-</head>
 
-<body>
+  </head>
 
-  <h3>Demo</h3>
+  <body>
 
   <!-- Wrap elements with auto-binding template to -->
   <!-- allow use of Polymer bindings in main document -->
   <template id="just-for-demo" is="dom-bind">
+    <h4>Range picker with options</h4>
+    <p>This counter represents when the px-datetime-range-submitted event/range property of the
+    range picker are being fired/updated. The behavior depends on whether the rangepicker uses
+    buttons in the panel. It is defined as followed:<br>
+    - If the panel is opened and the rangepicker has buttons then it is fired when the
+      user clicks the apply button AND the date/time is valid<br>
+    - If the panel is opened and the rangepicker does not have buttons then it is fired when the
+      user clicks outside the p[anel (closing it) AND the date/time is valid<br>
+    - If the panel is not opened then it is fired
+      every time a change is made to the date/time AND the date/time is valid
+    </p>
+    <span id="counter"><strong>px-datetime-range-submitted</strong> fired <strong>0</strong> time<</span>
 
-    <iron-ajax
-      auto
-      url="demo-data/sample-data.json"
-      last-response="{{sampleData}}"
-      handle-as="json"></iron-ajax>
-
-      <div>
-        Time Series Chart is from <b>{{sampleData.range.from}}</b> to <b>{{sampleData.range.to}}</b>
-      </div>
-
-      <button onclick="change2014()">Change to Nov/Dec 2014</button>
-      <button onclick="change2013()">Change to March/April 2013</button>
-
-      <br />
-      <br />
-
-      <!-- Defaults to last week -->
-      <!--<px-rangepicker range="{{x}}">-->
-      <!--</px-rangepicker>-->
-
-      <!-- with/without presets -->
-      <div style="position: relative;">
-        <px-rangepicker is-utc range="{{sampleData.range}}"></px-rangepicker>
-        <!-- <px-rangepicker range="{{sampleData.range}}"></px-rangepicker> -->
-      </div>
-      <!-- Allow future dates -->
-      <!--<px-rangepicker range="{{sampleData.range}}"-->
-                      <!--preset-ranges="{{sampleData.presetRanges}}"-->
-                      <!--allow-future-dates>-->
-      <!--</px-rangepicker>-->
-
-
+    <div><strong>Current range object:</strong> From: <strong>{{range.from}}</strong> To: <strong>{{range.to}}</strong></div>
+    <br><br>
+    <px-rangepicker
+      id="picker"
+      hide-time="{{hideTime}}"
+      hide-presets="{{hidePresets}}"
+      show-buttons="{{showButtons}}"
+      date-format="{{dateFormat}}"
+      time-format="{{timeFormat}}"
+      block-future-dates="{{blockFutureDates}}"
+      range="{{range}}">
+    </px-rangepicker>
+    <div>Hide time: <input type="checkbox" checked="{{hideTime::change}}"></input></div>
+    <div>Hide presets: <input type="checkbox" checked="{{hidePresets::change}}"></input></div>
+    <div>Show buttons: <input id="showButtons" type="checkbox" checked="{{showButtons::change}}"></input></div>
+    <div>Block future dates<input type="checkbox" checked="{{blockFutureDates::change}}"></input></div>
+    <div>Date format: <input id="dateFormat" type="text" value="{{dateFormat::input}}"></input></div>
+    <div>Time format: <input id="timeFormat" type="text" value="{{timeFormat::input}}"></input></div>
+    <div>presets: <textarea id="textArea" value="{{presetRanges::input}}" style="width:350px; height:360px"></textarea></div>
   </template>
 
-  <script>
+<script>
 
-    window.addEventListener('WebComponentsReady', function() {
 
-      var now = moment.utc();
-      var oneDay = moment.utc().subtract(1, 'day');
-      var oneWeek = moment.utc().subtract(1, 'week');
-      var oneYear = moment.utc().subtract(1, 'year');
+document.addEventListener('WebComponentsReady', function() {
+  var counter = 0,
+      span = document.getElementById('counter'),
+      picker = document.getElementById('picker'),
+      textArea = document.getElementById('textArea'),
+      dateFormat = document.getElementById('dateFormat'),
+      timeFormat = document.getElementById('timeFormat');
 
-      var presets = [
-        {
-          "displayText": "Yesterday",
-          "startDateTime": oneDay.toISOString(),
-          "endDateTime": now.toISOString()
-        },
-        {
-          "displayText": "Last Week",
-          "startDateTime": oneWeek.toISOString(),
-          "endDateTime": now.toISOString()
-        },
-        {
-          "displayText": "Last Year",
-          "startDateTime": oneYear.toISOString(),
-          "endDateTime": now.toISOString()
-        }
-      ];
+      picker.addEventListener('px-datetime-range-submitted', function(evt) {
+        counter++;
+        span.innerHTML = '<strong>px-datetime-range-submitted fired ' +
+         counter + ' time, last: from: ' + evt.detail.range.from + ', to: ' +
+          evt.detail.range.to + '<strong>';
+      });
 
-      /** add presets **/
-      var rangePicker = document.querySelector('px-rangepicker');
-      rangePicker.presetRanges = presets;
+      textArea.addEventListener('input', function() {
+        picker.presetRanges = JSON.parse(textArea.value);
+      });
+
+      textArea.value = JSON.stringify(picker.presetRanges, null, 4);
+      showButtons.checked = picker.showButtons;
+      dateFormat.value = picker.dateFormat;
+      timeFormat.value = picker.timeFormat;
 
     });
 
-    function change2014() {
-      var rangePicker = document.querySelector('px-rangepicker');
-      rangePicker.range = {
-        from: '2014-11-12T02:00:00Z',
-        to: '2014-12-16T17:00:00Z'
-      };
-    }
-
-    function change2013() {
-      var rangePicker = document.querySelector('px-rangepicker');
-      rangePicker.range = {
-        from: '2013-03-12T15:00:00Z',
-        to: '2013-04-16T01:00:00Z'
-      };
-    }
-
-  </script>
-
-</body>
+</script>
+  </body>
 </html>

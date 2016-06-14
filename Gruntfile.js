@@ -26,42 +26,12 @@ module.exports = function(grunt) {
                 'css/noprefix/px-rangepicker-sketch.css': 'sass/px-rangepicker-sketch.scss',
                 'css/noprefix/px-rangepicker.css': 'sass/px-rangepicker-predix.scss'
             }
-        },
-        timeInput: {
-            files: {
-                'css/noprefix/px-time-input-sketch.css': 'sass/px-time-input-sketch.scss',
-                'css/noprefix/px-time-input.css': 'sass/px-time-input-predix.scss'
-            }
-        },
-        rangeFields: {
-            files: {
-                'css/noprefix/px-range-fields-sketch.css': 'sass/px-range-fields-sketch.scss',
-                'css/noprefix/px-range-fields.css': 'sass/px-range-fields-predix.scss'
-            }
-        },
-        dateRangePicker: {
-            files: {
-                'css/noprefix/px-date-rangepicker-sketch.css': 'sass/px-date-rangepicker-sketch.scss',
-                'css/noprefix/px-date-rangepicker.css': 'sass/px-date-rangepicker-predix.scss'
-            }
-        },
-        timeRangePicker: {
-            files: {
-                'css/noprefix/px-time-rangepicker-sketch.css': 'sass/px-time-rangepicker-sketch.scss',
-                'css/noprefix/px-time-rangepicker.css': 'sass/px-time-rangepicker-predix.scss'
-            }
-        },
-        calendar: {
-            files: {
-                'css/noprefix/px-calendar-sketch.css': 'sass/px-calendar-sketch.scss',
-                'css/noprefix/px-calendar.css': 'sass/px-calendar-predix.scss'
-            }
         }
     },
 
     autoprefixer: {
       options: {
-        browsers: ['last 3 version']
+        browsers: ['last 2 version']
       },
       multiple_files: {
         expand: true,
@@ -147,6 +117,10 @@ module.exports = function(grunt) {
   grunt.registerTask('default', 'Basic build', [
     'sass',
     'autoprefixer'
+  ]);
+
+  grunt.registerTask('devmode', 'Development Mode', [
+    'concurrent:devmode'
   ]);
 
   // First run task.

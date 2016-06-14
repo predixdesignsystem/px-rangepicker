@@ -4,7 +4,7 @@ Px-Rangepicker enables setting a range of time using a calendar-based UI.
 
 ## Overview
 
-Use the Px-Rangepicker to add a web component to your application enabling users to choose a start date-time and an end date-time. A graphical calendar UI with two calendars is presented, as well as a time range selector below the calendars. A column of preset date-time ranges is available on the right hand side of the selection modal enabling the choice between the presets: "Last Day", "Last Week" and "Last Year".
+Use the Px-Rangepicker to add a web component to your application enabling users to choose a start date-time and an end date-time. A graphical calendar UI with two calendars is presented, as well as a time range selector below the calendars. A column of preset date-time ranges is available on the right hand side of the selection modal enabling the choice between configurable presets.
 
 ## Usage
 

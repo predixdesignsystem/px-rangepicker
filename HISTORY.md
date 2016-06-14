@@ -1,3 +1,7 @@
+v1.0.0
+==================
+* major rework of the component to use multiple sub components
+
 v0.4.0
 ==================
 * Upgrade to Polymer 1.5.0

@@ -1,43 +1,59 @@
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
+    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs.
+-->
 <link rel="import" href="../polymer/polymer.html"/>
-<link rel="import" href="px-range-fields.html"/>
-<link rel="import" href="px-rangepicker-modal.html"/>
+<link rel="import" href="../px-datetime-common/px-datetime-imports.html"/>
+<link rel="import" href="../px-datetime-common/px-datetime-range-behavior.html"/>
+<link rel="import" href="../px-datetime-common/px-datetime-button-behavior.html"/>
+<link rel="import" href="../px-datetime-range-field/px-datetime-range-field.html"/>
+<link rel="import" href="../px-datetime-range-panel/px-datetime-range-panel.html"/>
+<link rel="import" href="../iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 
-<link rel="import" href="px-moment.html"/>
 
 <!--
-Rangepicker with time element.
+
 
 ##### Usage
 
-    <px-rangepicker range="{{...}}">
-    </px-rangepicker>
+    <px-rangepicker></px-rangepicker>
 
+@element px-rangepicker
+@blurb Element allowing to choose a date (and time) range
+@homepage index.html
 @demo demo.html
 -->
 <dom-module id="px-rangepicker">
   <link rel="import" type="css" href="css/px-rangepicker.css"/>
   <template>
-    <px-rangepicker-modal
-      id=rangePickerModal
-      from="{{fromMoment}}"
-      to="{{toMoment}}"
-      allow-future-dates="{{allowFutureDates}}"
-      show-submit-button="{{isSubmitButtonValid}}"
-      preset-ranges="{{presetRanges}}"
-      display-options="{{displayOptions}}"
-      first-range-date="{{firstRangeDate}}"
-      second-range-date="{{secondRangeDate}}"
-      hidden
-      is-submit-button-valid = "{{isSubmitButtonValid}}"
-      is-utc="{{isUtc}}">
-    </px-rangepicker-modal>
-    <px-range-fields
-      id="rangeFields"
-      from="{{fromMoment}}"
-      to="{{toMoment}}"
-      is-submit-button-valid = "{{isSubmitButtonValid}}"
-      display-options="{{displayOptions}}">
-    </px-range-fields>
+    <div id="overlay" class="overlay visuallyhidden" on-tap="_processClose"></div>
+    <px-datetime-range-field
+      id="field"
+      class="relative"
+      from-moment="{{fromMoment}}"
+      to-moment="{{toMoment}}"
+      time-zone="{{timeZone}}"
+      date-format="{{dateFormat}}"
+      time-format="{{timeFormat}}"
+      hide-time="{{hideTime}}"
+      block-future-dates="{{blockFutureDates}}"
+      isValid="{{isValid}}"
+      prevent-notification-on-change>
+    </px-datetime-range-field>
+    <px-datetime-range-panel
+      id="panel"
+      class="visuallyhidden relative"
+      from-moment="{{fromMoment}}"
+      to-moment="{{toMoment}}"
+      time-zone="{{timeZone}}"
+      time-format="{{timeFormat}}"
+      hide-time="{{hideTime}}"
+      hide-presets="{{hidePresets}}"
+      show-buttons="{{showButtons}}"
+      block-future-dates="{{blockFutureDates}}"
+      preset-ranges="{{presetRanges}}">
+    </px-datetime-range-panel>
   </template>
 </dom-module>
 
@@ -45,55 +61,69 @@ Rangepicker with time element.
   Polymer({
 
     is: 'px-rangepicker',
+    behaviors: [
+      pxDatetimeRangeBehavior,
+      pxDatetimeButtonBehavior,
+      Polymer.IronA11yKeysBehavior],
 
     properties: {
-
       /**
-       * Range selected in the time picker - as ISO8601 strings
-       *
-       * Format
-       * ```
-       * {
-       *    "from": "2013-01-07T22:44:30.652Z",
-       *    "to" : "2013-02-04T22:44:30.652Z"
-       * }
-       * ```
-       *
-       * This is a 2-way data-bindable object which will be changed when the user Submits their new selected range.
-       *
-       * @default the last week
+       * Whether the panel is opened
        */
-      range: {
-        type: Object,
-        notify: true,
-        reflectToAttribute: true, // need both notify & reflectToAttribute for bind-polymer to work
-        observer: '_setRange',
-        value: function() { //defaults to the last 7 days
-          return {
-            from: moment().subtract(7, 'day').toISOString(),
-            to: moment().toISOString()
-          };
-        }
-      },
-
-      /**
-       * (optional)
-       *
-       * Set this attribute when you do want to allow future dates in the date range picker.
-       *
-       * If not set, then future dates will be disabled and unclickable in the date picker.
-       *
-       * Note: this only affects the visual calendar date picker, users can always type in dates/times or choose times that are in the future.
-       */
-      allowFutureDates: {
+      _opened: {
         type: Boolean,
         value: false
       },
-
+      /**
+       * Moment format used for the date
+       *
+       */
+      dateFormat: {
+        type: String,
+        value: 'MM/DD/YYYY'
+      },
+      /**
+       * Moment format used for the time
+       *
+       */
+       timeFormat: {
+        type: String,
+        value: 'HH:mm A'
+      },
+      /**
+       * Whether this date picker should allow to pick time as well.
+       *
+       */
+      hideTime: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * Whether this date picker should allow to pick time as well.
+       *
+       */
+      hidePresets: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * Whether to show apply and cancel buttons
+       */
+      showButtons: {
+        type: Boolean,
+        value: true
+      },
+      /**
+       * Whether the date currently shown is valid
+       */
+      isValid: {
+        type: Boolean,
+        value: true
+      },
       /**
        * (optional)
        *
-       * The preset date/time ranges to be displayed.  Defaults to: Last Day, Last Week, Last Year
+       * The preset date/time ranges to be displayed.
        *
        *```
        *   [
@@ -110,154 +140,106 @@ Rangepicker with time element.
        *   ]
        * ```
        *
-       * @default no presets
+       * @default Last 7 Days + This Month + Last Month
        */
-      presetRanges: Object,
-
-      /**
-       * (optional)
-       *
-       * Display configuration that allows optional display patterns
-       *
-       *```
-       * ```
-       *
-       * @default no presets
-       */
-      displayOptions: {
+      presetRanges: {
         type: Object,
-        value: {
-          displayType: 'normal',
-          submitButtonText: 'Apply',
-          submitButtonIcon: ''
-        },
-        /**
-         * Moment object start date & time
-         */
-        from: {
-          type: Object,
-          notify: true,
-          observer: '_updateFromWorkingCopy'
-        },
-
-        /**
-         * Moment object end date & time
-         */
-        to: {
-          type: Object,
-          notify: true,
-          observer: '_updateToWorkingCopy'
-        },
-        firstRangeDate: {
-          type: Object,
-          notify: true
-        },
-        /**
-         * Moment object end date & time
-         */
-        secondRangeDate: {
-          type: Object,
-          notify: true
+        value: function() {
+          var now = moment();
+          return [
+            {
+              "displayText": "Last 7 Days",
+              "startDateTime": now.clone().subtract(7, 'days'),
+              "endDateTime": now
+            },
+            {
+              "displayText": "This Month",
+              "startDateTime": now.clone().startOf('month'),
+              "endDateTime": now.clone().endOf('month')
+            },
+            {
+              "displayText": "Last Month",
+              "startDateTime": now.clone().subtract(1, 'months').startOf('month'),
+              "endDateTime": now.clone().subtract(1, 'months').endOf('month')
+            }
+          ]
         }
-      },
-      /**
-       * A flag that tells us whether the Submit/Apply button is valid, and should be active.
-       * @private
-       */
-      isSubmitButtonValid: {
-        type: Boolean,
-        value: true,
-        notify: true
-      },
-
-      /**
-       * (optional)
-       *
-       * By default, the rangepicker will display the time in your browser's timezone.  If you add
-       * the is-utc attribute on px-rangepicker, it will display the time as a UTC (GMT timezone) time.
-       *
-       * @default false
-       */
-      isUtc: {
-        type: Boolean,
-        value: false
       }
     },
-
+    listeners: {
+      'px-datetime-entry-icon-clicked':'_toggleBoxOpen',
+      'px-datetime-button-clicked': '_buttonClicked'
+    },
     observers: [
-      '_updateWorkingCopies(fromMoment, toMoment)',
-      '_updateMoments(fromWorkingCopy, toWorkingCopy)',
-      '_isSubmitButtonValid(isSubmitButtonValid)'
+      '_momentChanged(fromMoment, toMoment)'
     ],
-
-    _isSubmitButtonValid: function(isSubmitButtonValid) {
-      this.set('isSubmitButtonValid', isSubmitButtonValid);
-    },
-    _setRange: function() {
-      // make a working copy for the state inside the rangepicker
-      this.set('fromWorkingCopy', this.range.from);
-      this.set('toWorkingCopy', this.range.to);
+    /**
+     * Key bindings for iron-a11y-keys-behavior
+     */
+    keyBindings: {
+      'esc' : '_onEsc',
+      'enter': '_onEnter'
     },
 
-    _updateWorkingCopies: function() {
-      this.set('fromWorkingCopy', this.fromMoment.toISOString());
-      this.set('toWorkingCopy', this.toMoment.toISOString());
-    },
-
-    _updateMoments: function() {
-      this._updateMomentIfDifferent(this.fromWorkingCopy, 'fromMoment');
-      this._updateMomentIfDifferent(this.toWorkingCopy, 'toMoment');
-    },
-
-    _updateMomentIfDifferent: function(newTimeString, currentMomentName) {
-      var newMoment;
-      if(this.isUtc) {
-        newMoment = moment.utc(newTimeString, moment.ISO_8601);
-      }
-      else {
-        newMoment = moment(newTimeString, moment.ISO_8601);
-      }
-      if (!this[currentMomentName] || !this[currentMomentName].isSame(newMoment, 'second')) { // break unnecessary looping
-        this.set(currentMomentName, newMoment);
+    _onEsc: function(evt) {
+      if(this._opened) {
+        this._close();
       }
     },
+    _onEnter: function(evt) {
+      if(this._opened) {
+        this._applyCurrentValues(this.$.field.isValid);
+        this._close();
+      }
+    },
+    /**
+     * Opens the calendar
+     */
+    _open: function() {
+      this.toggleClass('visuallyhidden', false, this.$.panel);
+      this.toggleClass('visuallyhidden', false, this.$.overlay);
+      this.toggleClass('aboveOverlay', true, this.$.field);
 
-    ready: function() {
+      this.set('_opened', true);
+    },
+    /**
+     * Closes the calendar
+     */
+    _close: function() {
+      this.toggleClass('visuallyhidden', true, this.$.panel);
+      this.toggleClass('visuallyhidden', true, this.$.overlay);
+      this.toggleClass('aboveOverlay', false, this.$.field);
 
-      var self = this;
+      this.set('_opened', false);
+    },
+    /**
+     * Opens the calendar if closed, closes it if opened
+     */
+    _toggleBoxOpen: function() {
+      if(this._opened) {
+        this._close();
+      } else {
+        this._open();
+      }
+    },
+    _processClose: function() {
+      //If we show time make sure it is valid on closing. If we show buttons don't validate
+      var canApplyValues = !this.showButtons && this.$.panel.timeIsValid && this.$.field.isValid;
+      this._applyCurrentValues(canApplyValues);
+      this._close();
+    },
 
-      this.$.rangeFields.addEventListener('px-clicked-range-field', function(e) {
-        self.$.rangePickerModal.open();
-      });
+    _momentChanged: function(momentObj) {
 
-      this.$.rangePickerModal.addEventListener('px-submit-range', function(e) {
-        // apply changes to outside world
-        self.set('range', {
-          from: self.fromWorkingCopy,
-          to: self.toWorkingCopy
-        });
+      //we're closed, moment has changed by user changing the input fields.
+      if(!this._opened && this.$.field.isValid && this.$.panel.timeIsValid) {
+        this._applyCurrentValues(true);
+      }
+    },
 
-        self.$.rangePickerModal.close();
-      });
-
-      this.$.rangePickerModal.addEventListener('px-modal-close-clicked', function(e) {
-        // return focus to range fields when the close button is clicked (probably not with submit)
-        self.$.rangeFields.returnLastFocus();
-        self._setRange();
-        self._updateMoments();
-        if(this.isUtc){
-          this.set('from', moment.utc(self.range.from));
-          this.set('to', moment.utc(self.range.to));
-          this.set("firstRangeDate", moment.utc(self.range.from));
-          this.set("secondRangeDate", moment.utc(self.range.to));
-        } else {
-          this.set('from', moment(self.range.from));
-          this.set('to', moment(self.range.to));
-          this.set("firstRangeDate", moment(self.range.from));
-          this.set("secondRangeDate", moment(self.range.to));
-        }
-      });
+    _buttonClicked: function(evt) {
+      this._applyCurrentValues(evt.detail.action && this.$.field.isValid && this.$.panel.timeIsValid);
+      this._close();
     }
-
   });
 </script>
