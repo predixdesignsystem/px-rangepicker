@@ -1,4 +1,4 @@
-# Px-Rangepicker
+# Px-Rangepicker [![Build Status](https://travis-ci.org/PredixDev/px-rangepicker.svg?branch=master)](https://travis-ci.org/PredixDev/px-rangepicker)
 
 Px-Rangepicker enables setting a range of time using a calendar-based UI.
 
@@ -58,35 +58,9 @@ The `range` attribute is 2-way data-bindable object with two properties: "from" 
 </px-rangepicker>
 ```
 
-#### allow-future-dates
+#### preset
 
-*Type:* **Boolean** - (*Optional*) - *Default:* false
-
-By default future dates are disabled in the date picker. Set the `allow-future-dates` attribute to "true" to enable future dates in the date range picker. *Note: No validation of dates is performed so users are able to enter manually any date without restriction. This attribute merely disables choosing future dates via the calendar UI.*
-
-```html
-<px-rangepicker
-	...
-	allow-future-dates="true">
-</px-rangepicker>
-```
-
-#### is-utc
-
-*Type:* **Boolean** - (*Optional*) - *Default:* false
-
-By default time is displayed as local time. Set the `is-utc` attribute to "true" to enable UTC display.
-
-```html
-<px-rangepicker
-	...
-	is-utc="true">
-</px-rangepicker>
-```
-
-#### preset-ranges
-
-*Type:* **Array** - (*Optional*) - *Default:* Last Day, Last Week, Last Year
+*Type:* **Array** - (*Optional*) - *Default:* Last Month, This Month, Last 7 Days
 
 The preset date/time ranges to be displayed defined as an array of one or more objects with three properties each: `displayText`, `startDateTime`, `endDateTime`.
 
@@ -112,53 +86,9 @@ The `startDateTime` and `endDateTime` attributes set the beginning and end of th
 </px-rangepicker>
 ```
 
-#### display-options
-
-*Type:* **Object** - (*Optional*) - *Default:* { "displayType": "normal", "submitButtonText": "Submit", "submitButtonIcon": "" }
-
-Display configuration that enables customization of the `displayType`, `submitButtonText`, and `submitButtonIcon`.
-
-```html
-<px-rangepicker
-	...
-	display-options="{
-        "displayType": "normal",
-        "submitButtonText": "Submit",
-        "submitButtonIcon": ""
-    }">
-</px-rangepicker>
-```
-
-<br />
-<hr />
 
 ##Events
-### `range-changed`
 
-Event fired on change to `range` value. Listeners will receive an event object whose `e.detail.value` attribute has the changing property's new value. *Note: The value will be automatically updated if you are using 2-way data-binding, making event listeners unnecessary.*
-
-Add a listener using the `on-range-changed` annotated event listener syntax as follows:
-
-```html
-<px-rangepicker on-range-changed="rangeChangedHandler"></px-rangepicker>
-```
-```javascript
-var rangeChangedHandler = function(e) {
-	// do something on range-changed
-};
-```
-
-Attach an event listener using `addEventListener` like this:
-
-```html
-<px-rangepicker id="my-range-picker"></px-rangepicker>
-```
-```javascript
-	var el = document.querySelector("#my-range-picker");
-	el.addEventListener("range-changed", function(e) {
-		// do something on range-changed
-	});
-```
 
 ## Using Events
 
