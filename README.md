@@ -37,70 +37,9 @@ Finally, use the component in your application:
 <px-rangepicker></px-rangepicker>
 ```
 
-<br />
-<hr />
+### API and examples
 
-## Attributes
-
-#### range
-
-*Type:* **Object** - (*Optional*) - *Default:* The previous week
-
-The `range` attribute is 2-way data-bindable object with two properties: "from" and "to". The value of these must be set to valid [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date-time strings.
-
-```html
-<px-rangepicker
-	...
-	range='{
-      "from": "2015-08-18T00:14:42.387Z",
-      "to": "2015-09-02T05:06:00.387Z"
-    }'>
-</px-rangepicker>
-```
-
-#### preset
-
-*Type:* **Array** - (*Optional*) - *Default:* Last Month, This Month, Last 7 Days
-
-The preset date/time ranges to be displayed defined as an array of one or more objects with three properties each: `displayText`, `startDateTime`, `endDateTime`.
-
-The `displayText` attribute assigns a label to the preset link which will appear in the modal.
-
-The `startDateTime` and `endDateTime` attributes set the beginning and end of the range, defined as [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date-time strings.
-
-```html
-<px-rangepicker
-	...
-	preset-ranges='[
-      {
-        "displayText": "Custom Time 1",
-        "startDateTime": "2014-05-01T01:00:00Z",
-        "endDateTime": "2015-08-12T01:00:00Z"
-      },
-      {
-        "displayText": "Custom Time 2",
-        "startDateTime": "2015-05-12T12:32:05Z",
-        "endDateTime": "2015-05-12T12:47:07Z"
-      }
-    ]'>
-</px-rangepicker>
-```
-
-
-##Events
-
-
-## Using Events
-
-Events follow the [Polymer data-binding standards](https://www.polymer-project.org/1.0/docs/devguide/data-binding.html).
-
-You can can attach listeners by using one of the methods below:
-
-1. Polymer Event listener
-2. "on-x" annotated event listener
-3. addEventListener vanilla Javascript method
-<br />
-<hr />
+Read the full API and view the demo [here](https://predixdev.github.io/px-rangepicker).
 
 ## Local Development
 
