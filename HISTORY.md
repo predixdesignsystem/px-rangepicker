@@ -1,3 +1,7 @@
+v1.0.2
+==================
+* Use local copy of moment.js
+
 v1.0.0
 ==================
 * major rework of the component to use multiple sub components
