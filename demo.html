@@ -44,6 +44,7 @@
       date-format="{{dateFormat}}"
       time-format="{{timeFormat}}"
       block-future-dates="{{blockFutureDates}}"
+      block-past-dates="{{blockPastDates}}"
       range="{{range}}"
       is-valid="{{isValidd}}"
       time-zone="{{timeZone}}"
@@ -56,6 +57,7 @@
     <div>Hide presets: <input type="checkbox" checked="{{hidePresets::change}}"></input></div>
     <div>Show buttons: <input id="showButtons" type="checkbox" checked="{{showButtons::change}}"></input></div>
     <div>Block future dates<input type="checkbox" checked="{{blockFutureDates::change}}"></input></div>
+    <div>Block past dates<input type="checkbox" checked="{{blockPastDates::change}}"></input></div>
     <div>Date format: <input id="dateFormat" type="text" value="{{dateFormat::input}}"></input></div>
     <div>Time format: <input id="timeFormat" type="text" value="{{timeFormat::input}}"></input></div>
     <div>Time zone: <input id="timeZone" type="text" value="{{timeZone::input}}"></input></div>
