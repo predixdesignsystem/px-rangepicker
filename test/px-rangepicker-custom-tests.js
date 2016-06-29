@@ -240,4 +240,31 @@ function runCustomTests() {
       field._fromValid = true;
     });
   })
+
+  suite('test past dates', function() {
+
+    test('start date in past should be set to present date', function() {
+      picker.setAttribute('block-past-dates',true);
+
+      var prevRange = picker.range,
+          prevFrom = picker.fromMoment,
+          prevTo = picker.toMoment;
+
+      picker._open();
+
+      //change a date
+      panel.fromMoment = panel.fromMoment.clone();
+      panel.toMoment = panel.toMoment.clone();
+      
+      //make sure time is invalid
+      panel._toTimeIsValid = false;
+      overlay.click();
+
+      //see what dates are
+      assert.equal(panel.fromMoment.toISOString(),picker.range.from);
+      assert.equal(panel.toMoment.toISOString(),picker.range.to);
+
+      panel._toTimeIsValid = true;
+    });
+  });
 };
