@@ -25,6 +25,7 @@ module.exports = function(grunt) {
             files: {
                 'css/noprefix/px-rangepicker-sketch.css': 'sass/px-rangepicker-sketch.scss',
                 'css/noprefix/px-rangepicker.css': 'sass/px-rangepicker-predix.scss'
+                'css/noprefix/px-rangepicker-demo.css': 'sass/px-rangepicker-demo.scss'
             }
         }
     },
