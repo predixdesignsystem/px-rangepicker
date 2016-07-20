@@ -29,10 +29,14 @@
     <!-- discription -->
     <div class="hero u-p++ text--shadow">
   		<h1 class="delta">px-rangepicker</h1>
-  		<p>
+  		<p >
   			The	<code>px-rangepicker</code> component includes various elements used for structuring responsive layouts.
   		</p>
-      <p class="description-text">This counter represents when the px-rangepicker event/range property of the
+      <p >This component allows the user to select a date and time range precisely to the second or millisecond.
+        The main use case for the Range Picker so far is for plotting of time series data, where the user needs
+        to be able to select exactly what timeframe they would like to see.
+      </p>
+      <p >This counter represents when the px-rangepicker event/range property of the
       range field are being fired/updated. The behavior depends on whether the range field uses
       buttons. It is defined as followed:
       <br>
@@ -62,17 +66,12 @@
           <section class="tab-page flex flex--right flex--wrap">
             <div class="mega-demo flex u-pb++">
             <!-- Properties -->
-            <div class="properties u-ph+ u-pb+  u-m++">
+            <div class="properties u-ph+ u-pb+ u-mt++ u-mh++">
               <p class="epsilon">Properties</p>
               <div class="flex u-mb-">
                 <input id="toggleTime{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.hideTime::change}}">
                 <label for$="toggleTime{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
                 <div class="u-ml-">Hide time</div>
-              </div>
-              <div class="flex u-mb-">
-                <input id="toggleDate{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.hideDate::change}}">
-                <label for$="toggleDate{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
-                <div class="u-ml-">Hide date</div>
               </div>
               <div class="flex u-mb-">
                 <input id="togglePresets{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.hidePresets::change}}">
@@ -133,7 +132,6 @@
                     block-past-dates="{{item.blockPastDates}}"
                     block-future-dates="{{item.blockFutureDates}}"
                     hide-time="{{item.hideTime}}"
-                    hide-date="{{item.hideDate}}"
                     hide-presets="{{item.hidePresets}}"
                     show-time-zone="{{item.showTimeZone}}"
                     is-valid="{{item.isValid}}"
@@ -164,11 +162,11 @@
 <script>
 window.addEventListener('WebComponentsReady', function() {
   var template = document.querySelector('template[is=dom-bind]'),
-      range = {"from": "2016-01-01T0:00:00.000Z", "to": "2016-07-01T12:00:00.000Z"},
+      range = {"from": "2016-01-01T01:00:00.000Z", "to": "2016-07-01T11:00:00.000Z"},
       dateFormat = ["YYYY/MM/DD","MM/DD/YY","DD/MM/YY"],
       timeFormat = ["hh:mm:ss A","HH:mm:ss.SSS"],
-      showTimeZone = ["text","dropdown"],
-      timeZone =["UTC","America/Los_Angeles"];
+      showTimeZone = ["text","abbreviatedText","dropdown"],
+      timeZone =["UTC","America/Los_Angeles","America/New_York"];
 
   var optionsArray = [
     {
@@ -179,7 +177,6 @@ window.addEventListener('WebComponentsReady', function() {
       "blockFutureDates":false,
       "blockPastDates":false,
       "hideTime":false,
-      "hideDate":false,
       "hidePresets":false,
       "showTimeZone":showTimeZone[0],
       "timeZone":timeZone[0]
@@ -187,11 +184,12 @@ window.addEventListener('WebComponentsReady', function() {
     {
       "range":range,
       "dateFormat":dateFormat[1],
-      "timeFormat":timeFormat[1],
+      "timeFormat":timeFormat[0],
       "showButtons":false,
+      "blockPastDates":false,
       "blockFutureDates":false,
-      "hideTime":false,
-      "hideDate":true,
+      "hidePresets":true,
+      "hideTime":true,
       "showTimeZone":showTimeZone[1],
       "timeZone":timeZone[1]
     },
@@ -201,10 +199,11 @@ window.addEventListener('WebComponentsReady', function() {
       "timeFormat":timeFormat[1],
       "showButtons":false,
       "blockFutureDates":true,
+      "blockPastDates":false,
+      "hidePresets":true,
       "hideTime":false,
-      "hideDate":false,
-      "showTimeZone":showTimeZone[0],
-      "timeZone":timeZone[0]
+      "showTimeZone":showTimeZone[2],
+      "timeZone":timeZone[1]
     }
   ];
 
