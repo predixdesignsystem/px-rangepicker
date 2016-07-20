@@ -66,7 +66,7 @@
           <section class="tab-page flex flex--right flex--wrap">
             <div class="mega-demo flex u-pb++">
             <!-- Properties -->
-            <div class="properties u-ph+ u-pb+ u-mt++ u-mh++">
+            <div class="properties u-ph+ u-pb+ u-mt++ u-mh++" id="properties">
               <p class="epsilon">Properties</p>
               <div class="flex u-mb-">
                 <input id="toggleTime{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.hideTime::change}}">
@@ -98,7 +98,7 @@
               <div class="u-mb-">Time zone: <input id="timeZone" class="text-input" type="text" placeholder="UTC" value="{{item.timeZone::input}}" /></div>
               <div class="u-mb-">Show time zone:
                 <div style="width: 100%;">
-                  <px-dropdown id="showTimeZone" value="{{item.showTimeZone}}" display-value="text">
+                  <px-dropdown id="showTimeZone" value="{{item.showTimeZone}}" display-value="{{item.showTimeZone}}" bound-target="properties">
                     <px-dropdown-content
                       items='[
                         {"key":"one", "val": "none"},
