@@ -24,7 +24,7 @@ module.exports = function(grunt) {
         rangepicker: {
             files: {
                 'css/noprefix/px-rangepicker-sketch.css': 'sass/px-rangepicker-sketch.scss',
-                'css/noprefix/px-rangepicker.css': 'sass/px-rangepicker-predix.scss'
+                'css/noprefix/px-rangepicker.css': 'sass/px-rangepicker-predix.scss',
                 'css/noprefix/px-rangepicker-demo.css': 'sass/px-rangepicker-demo.scss'
             }
         }
@@ -104,6 +104,7 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-bump');
+  grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -111,8 +112,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-dep-serve');
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-concurrent');
-
-  require('load-grunt-tasks')(grunt);
 
   // Default task.
   grunt.registerTask('default', 'Basic build', [
