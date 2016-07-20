@@ -1,13 +1,220 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>px-rangepicker API</title>
-        <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
-        <link rel="import" href="../iron-component-page/iron-component-page.html"/>
-    </head>
-    <body>
-        <iron-component-page src="px-rangepicker.html" active="px-rangepicker"></iron-component-page>
-    </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>px-rangepicker Demo</title>
+  <link rel="stylesheet" type="text/css" href="css/px-rangepicker-demo.css"/>
+  <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../px-theme/px-theme.html"/>
+  <link rel="import" href="../px-api-viewer/px-api-viewer.html" />
+  <link rel="import" href="../px-tabs/px-tab-set.html" />
+  <link rel="import" href="../iron-component-page/iron-component-page.html"/>
+  <link rel="import" href="px-rangepicker.html"/>
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+
+  <link rel="import" href="../px-demo-snippet/px-demo-snippet.html">
+  <link rel="import" href="../polymer-font-awesome/polymer-font-awesome.html">
+  <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+
+  </head>
+
+<body>
+
+  <!-- Wrap elements with auto-binding template to -->
+  <!-- allow use of Polymer bindings in main document -->
+  <template id="just-for-demo" is="dom-bind" >
+
+    <!-- discription -->
+    <div class="hero u-p++ text--shadow">
+  		<h1 class="delta">px-rangepicker</h1>
+  		<p >
+  			The	<code>px-rangepicker</code> component includes various elements used for structuring responsive layouts.
+  		</p>
+      <p >This component allows the user to select a date and time range precisely to the second or millisecond.
+        The main use case for the Range Picker so far is for plotting of time series data, where the user needs
+        to be able to select exactly what timeframe they would like to see.
+      </p>
+      <p >This counter represents when the px-rangepicker event/range property of the
+      range field are being fired/updated. The behavior depends on whether the range field uses
+      buttons. It is defined as followed:
+      <br>
+      - If it has buttons then it is fired when the user clicks the apply button AND the date/time is valid<br>
+      - If it doesn't have button then it is fired every time a change is made to the date/time AND the date/time is valid
+      </p>
+  		<div class="flex">
+  			<img class="u-mr--" src="https://img.shields.io/travis/PredixDev/px-rangepicker.svg?style=flat-square" alt="Travis"/>
+  			<img class="u-mr--" src="https://img.shields.io/bower/v/px-rangepicker.svg?style=flat-square" alt="Bower"/>
+  			<img class="u-mr--" src="https://img.shields.io/github/issues-raw/PredixDev/px-rangepicker.svg?style=flat-square" alt="Issues"/>
+  			<img class="u-mr--" src="https://img.shields.io/github/watchers/PredixDev/px-rangepicker.svg?style=social&label=Watch"/>
+  		</div>
+  	</div>
+    <br />
+
+    <!-- mega demo -->
+    <div style="position: relative;" class="u-pb++ flex flex--col" id="defaultTab">
+      <div class="tabContainer u-pt++ u-pl++">
+        <px-tab-set selected="{{selected}}" bare no-bottom-border>
+          <template is="dom-repeat" items="{{optionsArray}}">
+            <px-tab>Configuration {{indexPlusOne(index)}}</px-tab>
+          </template>
+        </px-tab-set>
+      </div>
+      <px-tab-pages selected="{{selected}}">
+        <template is="dom-repeat" items="{{optionsArray}}">
+          <section class="tab-page flex flex--right flex--wrap">
+            <div class="mega-demo flex u-pb++">
+            <!-- Properties -->
+            <div class="properties u-ph+ u-pb+ u-mt++ u-mh++">
+              <p class="epsilon">Properties</p>
+              <div class="flex u-mb-">
+                <input id="toggleTime{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.hideTime::change}}">
+                <label for$="toggleTime{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
+                <div class="u-ml-">Hide time</div>
+              </div>
+              <div class="flex u-mb-">
+                <input id="togglePresets{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.hidePresets::change}}">
+                <label for$="togglePresets{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
+                <div class="u-ml-">Hide Presets</div>
+              </div>
+              <div class="flex u-mb-">
+                <input id="toggleButtons{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.showButtons::change}}">
+                <label for$="toggleButtons{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
+                <div class="u-ml-">Show buttons</div>
+              </div>
+              <div class="flex u-mb-">
+                <input id="toggleFutureDates{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.blockFutureDates::change}}">
+                <label for$="toggleFutureDates{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
+                <div class="u-ml-">Block future dates</div>
+              </div>
+              <div class="flex u-mb-">
+                <input id="togglePastDates{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.blockPastDates::change}}">
+                <label for$="togglePastDates{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
+                <div class="u-ml-">Block past dates</div>
+              </div>
+              <div class="u-mb-">Date format: <input id="dateFormat" class="text-input" type="text" placeholder="YYYY/MM/DD" value="{{item.dateFormat::input}}" /></div>
+              <div class="u-mb-">Time format: <input id="timeFormat" class="text-input" type="text" placeholder="hh:mm:ss A" value="{{item.timeFormat::input}}" /></div>
+              <div class="u-mb-">Time zone: <input id="timeZone" class="text-input" type="text" placeholder="UTC" value="{{item.timeZone::input}}" /></div>
+              <div class="u-mb-">Show time zone:
+                <div style="width: 100%;">
+                  <px-dropdown id="showTimeZone" value="{{item.showTimeZone}}" display-value="text">
+                    <px-dropdown-content
+                      items='[
+                        {"key":"one", "val": "none"},
+                        {"key":"two", "val": "dropdown"},
+                        {"key":"three", "val": "extendedDropdown"},
+                        {"key":"four", "val": "text"},
+                        {"key":"five", "val": "abbreviatedText"}]'>
+                    </px-dropdown-content>
+                  </px-dropdown>
+                </div>
+              </div>
+              <div>More info on date and time format at <a href="http://momentjs.com/docs/#/parsing/string-format/" target="_blank" class="actionable">momentjs</a></div>
+            </div>
+
+            <div class="demoContainer u-mr++">
+              <!-- demo -->
+              <div class="flex flex--col">
+                <div class="flex__item demo u-ph+ u-pb+ u-mt++">
+                  <br />
+                  <span id="counter"><strong>px-datetime-range-submitted</strong> fired <strong>0</strong> time</span>
+                  <div>
+                    Current range object: From: <strong>{{item.range.from}}</strong> To: <strong>{{item.range.to}}</strong>
+                  </div>
+                  <br />
+                  <px-rangepicker
+                    id="range"
+                    range={{item.range}}
+                    date-format="{{item.dateFormat}}"
+                    time-format="{{item.timeFormat}}"
+                    show-buttons="{{item.showButtons}}"
+                    block-past-dates="{{item.blockPastDates}}"
+                    block-future-dates="{{item.blockFutureDates}}"
+                    hide-time="{{item.hideTime}}"
+                    hide-presets="{{item.hidePresets}}"
+                    show-time-zone="{{item.showTimeZone}}"
+                    is-valid="{{item.isValid}}"
+                    time-zone="{{item.timeZone}}">
+                  </px-rangepicker>
+                </div>
+                <div class="flex__item">
+                  <px-demo-snippet
+                    element-properties={{item}}
+                    element-name="px-rangepicker">
+                  </px-demo-snippet>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="background-color:white; margin:auto">
+            <div class="flex flex--col api u-mt++" >
+              <div>
+                <px-api-viewer source="px-rangepicker"></px-api-viewer>
+              </div>
+            </div>
+          </div>
+        </section>
+      </template>
+    </px-tab-pages>
+  </div>
+</template>
+<script>
+window.addEventListener('WebComponentsReady', function() {
+  var template = document.querySelector('template[is=dom-bind]'),
+      range = {"from": "2016-01-01T01:00:00.000Z", "to": "2016-07-01T11:00:00.000Z"},
+      dateFormat = ["YYYY/MM/DD","MM/DD/YY","DD/MM/YY"],
+      timeFormat = ["hh:mm:ss A","HH:mm:ss.SSS"],
+      showTimeZone = ["text","abbreviatedText","dropdown"],
+      timeZone =["UTC","America/Los_Angeles","America/New_York"];
+
+  var optionsArray = [
+    {
+      "range":range,
+      "dateFormat":dateFormat[0],
+      "timeFormat":timeFormat[0],
+      "showButtons":true,
+      "blockFutureDates":false,
+      "blockPastDates":false,
+      "hideTime":false,
+      "hidePresets":false,
+      "showTimeZone":showTimeZone[0],
+      "timeZone":timeZone[0]
+    },
+    {
+      "range":range,
+      "dateFormat":dateFormat[1],
+      "timeFormat":timeFormat[0],
+      "showButtons":false,
+      "blockPastDates":false,
+      "blockFutureDates":false,
+      "hidePresets":true,
+      "hideTime":true,
+      "showTimeZone":showTimeZone[1],
+      "timeZone":timeZone[1]
+    },
+    {
+      "range":range,
+      "dateFormat":dateFormat[2],
+      "timeFormat":timeFormat[1],
+      "showButtons":false,
+      "blockFutureDates":true,
+      "blockPastDates":false,
+      "hidePresets":true,
+      "hideTime":false,
+      "showTimeZone":showTimeZone[2],
+      "timeZone":timeZone[1]
+    }
+  ];
+
+    var indexPlusOne = function(num) {
+      return num + 1;
+    };
+    template.selected = "0";
+    template.optionsArray = optionsArray;
+    template.indexPlusOne = indexPlusOne;
+});
+</script>
+
+</body>
 </html>
