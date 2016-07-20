@@ -75,6 +75,11 @@
                 <div class="u-ml-">Hide date</div>
               </div>
               <div class="flex u-mb-">
+                <input id="togglePresets{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.hidePresets::change}}">
+                <label for$="togglePresets{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
+                <div class="u-ml-">Hide Presets</div>
+              </div>
+              <div class="flex u-mb-">
                 <input id="toggleButtons{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.showButtons::change}}">
                 <label for$="toggleButtons{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
                 <div class="u-ml-">Show buttons</div>
@@ -83,6 +88,11 @@
                 <input id="toggleFutureDates{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.blockFutureDates::change}}">
                 <label for$="toggleFutureDates{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
                 <div class="u-ml-">Block future dates</div>
+              </div>
+              <div class="flex u-mb-">
+                <input id="togglePastDates{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.blockPastDates::change}}">
+                <label for$="togglePastDates{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
+                <div class="u-ml-">Block past dates</div>
               </div>
               <div class="u-mb-">Date format: <input id="dateFormat" class="text-input" type="text" placeholder="YYYY/MM/DD" value="{{item.dateFormat::input}}" /></div>
               <div class="u-mb-">Time format: <input id="timeFormat" class="text-input" type="text" placeholder="hh:mm:ss A" value="{{item.timeFormat::input}}" /></div>
@@ -120,9 +130,11 @@
                     date-format="{{item.dateFormat}}"
                     time-format="{{item.timeFormat}}"
                     show-buttons="{{item.showButtons}}"
+                    block-past-dates="{{item.blockPastDates}}"
                     block-future-dates="{{item.blockFutureDates}}"
                     hide-time="{{item.hideTime}}"
                     hide-date="{{item.hideDate}}"
+                    hide-presets="{{item.hidePresets}}"
                     show-time-zone="{{item.showTimeZone}}"
                     is-valid="{{item.isValid}}"
                     time-zone="{{item.timeZone}}">
@@ -139,46 +151,6 @@
           </div>
           <div style="background-color:white;">
             <div class="flex flex--col api u-mt++" >
-              <!-- <div class="flex">
-                <div class="flex__item">
-                  <div class="flex flex--col childrenAssociated">
-                    <div class="componentHeader">Children Component</div>
-                    <div class="componentList">
-                      <ul>
-                        <li><a href="">item1</a></li>
-                        <li><a href="">item2</a></li>
-                        <li><a href="">item3</a></li>
-                        <li><a href="">item4</a></li>
-                        <li><a href="">item5</a></li>
-                        <li><a href="">item6</a></li>
-                        <li><a href="">item7</a></li>
-                        <li><a href="">item8</a></li>
-                        <li><a href="">item9</a></li>
-                        <li><a href="">item10</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex__item">
-                  <div class="flex flex--col">
-                    <div class="componentHeader">Associated Component</div>
-                    <div class="componentList">
-                      <ul>
-                        <li><a href="">item1</a></li>
-                        <li><a href="">item2</a></li>
-                        <li><a href="">item3</a></li>
-                        <li><a href="">item4</a></li>
-                        <li><a href="">item5</a></li>
-                        <li><a href="">item6</a></li>
-                        <li><a href="">item7</a></li>
-                        <li><a href="">item8</a></li>
-                        <li><a href="">item9</a></li>
-                        <li><a href="">item10</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
               <div>
                 <px-api-viewer source="px-rangepicker"></px-api-viewer>
               </div>
@@ -192,45 +164,47 @@
 <script>
 window.addEventListener('WebComponentsReady', function() {
   var template = document.querySelector('template[is=dom-bind]'),
-      range = {"from": "2016-07-01T17:09:09.540Z", "to": "2016-07-08T17:09:06.541Z"},
-      dateFormat = "YYYY/MM/DD",
-      timeFormat = "hh:mm:ss A",
-      showTimeZone = "text",
-      timeZone ="America/Los_Angeles";
+      range = {"from": "2016-01-01T0:00:00.000Z", "to": "2016-07-01T12:00:00.000Z"},
+      dateFormat = ["YYYY/MM/DD","MM/DD/YY","DD/MM/YY"],
+      timeFormat = ["hh:mm:ss A","HH:mm:ss.SSS"],
+      showTimeZone = ["text","dropdown"],
+      timeZone =["UTC","America/Los_Angeles"];
 
   var optionsArray = [
     {
       "range":range,
-      "dateFormat":dateFormat,
-      "timeFormat":timeFormat,
+      "dateFormat":dateFormat[0],
+      "timeFormat":timeFormat[0],
       "showButtons":true,
-      "blockFutureDates":true,
+      "blockFutureDates":false,
+      "blockPastDates":false,
       "hideTime":false,
       "hideDate":false,
-      "showTimeZone":showTimeZone,
-      "timeZone":timeZone
+      "hidePresets":false,
+      "showTimeZone":showTimeZone[0],
+      "timeZone":timeZone[0]
     },
     {
       "range":range,
-      "dateFormat":dateFormat,
-      "timeFormat":timeFormat,
+      "dateFormat":dateFormat[1],
+      "timeFormat":timeFormat[1],
       "showButtons":false,
       "blockFutureDates":false,
       "hideTime":false,
       "hideDate":true,
-      "showTimeZone":showTimeZone,
-      "timeZone":timeZone
+      "showTimeZone":showTimeZone[1],
+      "timeZone":timeZone[1]
     },
     {
       "range":range,
-      "dateFormat":dateFormat,
-      "timeFormat":timeFormat,
+      "dateFormat":dateFormat[2],
+      "timeFormat":timeFormat[1],
       "showButtons":false,
       "blockFutureDates":true,
       "hideTime":false,
       "hideDate":false,
-      "showTimeZone":showTimeZone,
-      "timeZone":timeZone
+      "showTimeZone":showTimeZone[0],
+      "timeZone":timeZone[0]
     }
   ];
 
