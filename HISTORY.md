@@ -1,3 +1,7 @@
+v1.1.3
+==================
+* Fixed footer
+
 v1.1.2
 ==================
 * Fixed bower links and added demo footer
