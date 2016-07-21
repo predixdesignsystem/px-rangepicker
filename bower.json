@@ -15,7 +15,7 @@
     "OSS_Notice.pdf"
   ],
   "dependencies": {
-    "polymer": "^1.6.0",
+    "polymer": "#^1.5.0",
     "px-theme": "https://github.com/PredixDev/px-theme.git#~0.8.0",
     "px-datetime-common": "~0.5.0",
     "px-datetime-range-field": "~0.3.0",
@@ -34,7 +34,8 @@
     "px-tabs": "~0.4.0",
     "ace-widget": "LostInBrittany/ace-widget#~1.0.13",
     "px-api-viewer": "https://github.com/PredixDev/px-api-viewer.git",
-    "px-clipboard": "^0.0.1",
-    "px-demo-snippet": "https://github.com/predixdev/px-demo-snippet.git"
+    "px-clipboard": "^0.0.4",
+    "px-demo-snippet": "https://github.com/predixdev/px-demo-snippet.git",
+    "px-list-inline-design": "^0.2.11"
   }
 }
