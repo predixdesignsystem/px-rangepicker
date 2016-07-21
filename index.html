@@ -37,11 +37,11 @@
         to be able to select exactly what timeframe they would like to see.
       </p>
       <p >This counter represents when the px-rangepicker event/range property of the
-      range field are being fired/updated. The behavior depends on whether the range field uses
+      range fields are being fired/updated. The behavior depends on whether the rangepicker uses
       buttons. It is defined as followed:
       <br>
       - If it has buttons then it is fired when the user clicks the apply button AND the date/time is valid<br>
-      - If it doesn't have button then it is fired every time a change is made to the date/time AND the date/time is valid
+      - If it doesn't have buttons then it is fired every time a valid change is made to the date or time
       </p>
   		<div class="flex">
   			<img class="u-mr--" src="https://img.shields.io/travis/PredixDev/px-rangepicker.svg?style=flat-square" alt="Travis" onerror="this.style.display='none'"/>
@@ -76,12 +76,12 @@
               <div class="flex u-mb-">
                 <input id="togglePresets{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.hidePresets::change}}">
                 <label for$="togglePresets{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
-                <div class="u-ml-">Hide Presets</div>
+                <div class="u-ml-">Hide Presets in panel</div>
               </div>
               <div class="flex u-mb-">
                 <input id="toggleButtons{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.showButtons::change}}">
                 <label for$="toggleButtons{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
-                <div class="u-ml-">Show buttons</div>
+                <div class="u-ml-">Show buttons in panel</div>
               </div>
               <div class="flex u-mb-">
                 <input id="toggleFutureDates{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.blockFutureDates::change}}">
