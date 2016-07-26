@@ -1,3 +1,7 @@
+v1.1.5
+==================
+* Added vulcanize
+
 v1.1.4
 ==================
 * Updated component description in demo
