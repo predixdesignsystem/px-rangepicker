@@ -1,6 +1,6 @@
 {
   "name": "px-rangepicker",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "main": [
     "px-rangepicker.html"
   ],
@@ -12,11 +12,14 @@
     "bower_components",
     "node_modules",
     "test",
-    "OSS_Notice.pdf"
+    "OSS_Notice.pdf",
+    "scripts",
+    ".github",
+    "px-rangepicker.png"
   ],
   "dependencies": {
     "polymer": "^1.5.0",
-    "px-theme": "https://github.com/PredixDev/px-theme.git#~0.8.0",
+    "px-theme": "~0.8.0",
     "px-datetime-common": "~0.5.0",
     "px-datetime-range-field": "~0.3.0",
     "px-datetime-range-panel": "~0.2.0",
@@ -25,16 +28,13 @@
     "px-toggle-design": "^0.2.12"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#~v1.1.0",
     "px-starter-kit-design": "#~0.5.4",
     "px-forms-design": "#~0.3.15",
     "px-tables-design": "#~0.3.12",
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#~1.2.3",
-    "polymer-font-awesome": "~0.1.5",
+    "px-polymer-font-awesome":"^0.1.8",
     "px-tabs": "~0.4.0",
-    "ace-widget": "LostInBrittany/ace-widget#~1.0.13",
     "px-api-viewer": "https://github.com/PredixDev/px-api-viewer.git",
-    "px-clipboard": "^0.0.4",
     "px-demo-snippet": "https://github.com/predixdev/px-demo-snippet.git",
     "px-list-inline-design": "^0.2.11"
   }

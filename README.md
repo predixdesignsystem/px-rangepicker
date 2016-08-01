@@ -1,10 +1,10 @@
 # Px-Rangepicker [![Build Status](https://travis-ci.org/PredixDev/px-rangepicker.svg?branch=master)](https://travis-ci.org/PredixDev/px-rangepicker)
 
-Px-Rangepicker enables setting a range of time using a calendar-based UI.
+[![px-rangepicker demo](px-rangepicker.png?raw=true)](https://github.com/PredixDev/px-rangepicker)
 
 ## Overview
 
-Use the Px-Rangepicker to add a web component to your application enabling users to choose a start date-time and an end date-time. A graphical calendar UI with two calendars is presented, as well as a time range selector below the calendars. A column of preset date-time ranges is available on the right hand side of the selection modal enabling the choice between configurable presets.
+Use the px-rangepicker to add a web component to your application enabling users to choose a start date-time and an end date-time. A graphical calendar UI with two calendars is presented, as well as a time range selector below the calendars. A column of preset date-time ranges is available on the right hand side of the selection modal enabling the choice between configurable presets.
 
 ## Usage
 
