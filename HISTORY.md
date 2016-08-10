@@ -1,3 +1,11 @@
+v1.1.7
+==================
+* updated mega demo styles and bower px-demo-snippet to ^
+
+v1.1.6
+==================
+* added image to readme, removed watch, added view on github
+
 v1.1.5
 ==================
 * Added vulcanize
