@@ -1,0 +1,32 @@
+<!doctype html>
+
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>px-range-picker Demo</title>
+    <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+    <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+
+    <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+    <link rel="import" href="polymer/polymer.html" />
+    <link rel="import" href="px-rangepicker.html" />
+    <link rel="import" href="px-theme/px-theme.html" />
+  </head>
+
+  <body>
+
+    <!-- Wrap elements with auto-binding template to -->
+    <!-- allow use of Polymer bindings in main document -->
+    <template is="dom-bind">
+      <px-rangepicker
+        range='{"from":"2016-08-09T01:00:00.000Z","to":"2016-08-10T11:00:00.000Z"}'
+        block-future-dates="true"
+        show-time-zone="text"
+        time-zone="UTC">
+      </px-rangepicker>
+    </template>
+
+  </body>
+</html>
