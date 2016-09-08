@@ -26,9 +26,13 @@
 @homepage index.html
 @demo demo.html
 -->
+
+<link rel="import" href="css/px-rangepicker-styles.html">
+
 <dom-module id="px-rangepicker">
-  <link rel="import" type="css" href="css/px-rangepicker.css"/>
   <template>
+    <style include="px-rangepicker-styles"></style>
+    <style include="px-theme-styles"></style>
     <div id="overlay" class="overlay visuallyhidden" on-tap="_processClose"></div>
     <px-datetime-range-field
       id="field"
