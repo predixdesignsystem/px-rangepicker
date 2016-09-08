@@ -1,3 +1,7 @@
+v1.1.10
+==================
+* added correct event listener to demo event counter
+
 v1.1.9
 ==================
 * Fixed demo event counter

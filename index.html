@@ -127,7 +127,7 @@
                 <div class="flex flex--col">
                   <div class="demo u-p+"> <!-- adding style so modal will show correctly -->
 
-                    <span id="counter{{indexPlusOne(index)}}"><strong>px-datetime-submitted</strong> fired <strong>0</strong> time(s)</span>
+                    <span id="counter{{indexPlusOne(index)}}"><strong>px-datetime-range-submitted</strong> fired <strong>0</strong> time(s)</span>
                     <div>
                       Current range object: From: <strong>{{item.range.from}}</strong> To: <strong>{{item.range.to}}</strong>
                     </div>
@@ -242,11 +242,11 @@ window.addEventListener('WebComponentsReady', function() {
       return num + 1;
     };
 
-    document.addEventListener('px-datetime-submitted', function(evt) {
+    document.addEventListener('px-datetime-range-submitted', function(evt) {
       counter++;
       for(var i=1; i<=optionsArray.length; i++) {
         var span = document.getElementById('counter'+i);
-        span.innerHTML = '<strong>px-datetime-submitted</strong> fired <strong>' + counter + '</strong> time(s)';
+        span.innerHTML = '<strong>px-datetime-range-submitted</strong> fired <strong>' + counter + '</strong> time(s)';
       }
     });
 
