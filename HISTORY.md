@@ -1,3 +1,11 @@
+v1.1.10
+==================
+* added correct event listener to demo event counter
+
+v1.1.9
+==================
+* Fixed demo event counter
+
 v1.1.8
 ==================
 * added overflow to demoContainer and removed flex__wrap from mega-demo
