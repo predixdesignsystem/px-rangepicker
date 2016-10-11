@@ -1,3 +1,11 @@
+v1.2.2
+==================
+* Push latest gulp file and demo snippet component.
+
+v1.2.1
+==================
+* Grunt to gulp migration & style module use.
+
 v1.1.10
 ==================
 * added correct event listener to demo event counter
