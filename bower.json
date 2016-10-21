@@ -1,6 +1,6 @@
 {
   "name": "px-rangepicker",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "main": [
     "px-rangepicker.html"
   ],
@@ -24,7 +24,7 @@
     "px-datetime-range-field": "~0.4.1",
     "px-datetime-range-panel": "~0.3.0",
     "px-headings-design": "^0.2.14",
-    "px-actionable-text-icons-design": "^0.0.3",
+    "px-actionable-text-icons-design": "^0.1.0",
     "px-toggle-design": "^0.2.12"
   },
   "devDependencies": {

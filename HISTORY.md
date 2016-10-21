@@ -1,3 +1,7 @@
+v1.2.3
+==================
+* Update dependencies
+
 v1.2.2
 ==================
 * Push latest gulp file and demo snippet component.
