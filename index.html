@@ -152,7 +152,8 @@
                   <div>
                     <px-demo-snippet
                       element-properties={{item}}
-                      element-name="px-rangepicker">
+                      element-name="px-rangepicker"
+                      links-includes="[[linksIncludes]]">
                     </px-demo-snippet>
                   </div>
                 </div>
@@ -255,6 +256,9 @@ window.addEventListener('WebComponentsReady', function() {
     template.selected = "0";
     template.optionsArray = optionsArray;
     template.indexPlusOne = indexPlusOne;
+    template.linksIncludes = ['px-datetime-common/px-polygit-imports-datetime.html','px-polymer-font-awesome/polymer-font-awesome.html'];
+
+
 });
 </script>
 
