@@ -1,3 +1,8 @@
+
+v1.2.5
+==================
+* bower updating px-demo-snippet
+
 v1.2.4
 ==================
 * fixed codepen
