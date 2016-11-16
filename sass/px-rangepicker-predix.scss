@@ -24,5 +24,5 @@ common/abstract rules go in px-rangepicker-sketch.scss, not in this file.
 @import 'px-rangepicker-sketch.scss';
 
 .overlay {
-  background-color: rgba($black, 0.1);
+  background-color: var(--px-rangepicker-overlay-color, rgba($black, 0.1));
 }

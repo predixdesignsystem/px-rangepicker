@@ -1,3 +1,6 @@
+v1.2.6
+==================
+* added style variable for theming
 
 v1.2.5
 ==================
