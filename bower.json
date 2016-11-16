@@ -1,13 +1,13 @@
 {
     "name": "px-rangepicker",
-    "version": "1.2.6",
+    "version": "1.2.7",
     "main": [
         "px-rangepicker.html"
     ],
     "ignore": [
         ".*",
         "npm-debug.log",
-        "Gruntfile.js",
+        "gulpfile.js",
         "sass",
         "bower_components",
         "node_modules",
