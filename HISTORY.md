@@ -1,7 +1,10 @@
+v1.2.9
+==================
+* increased demo container height to accomodate component
+
 v1.2.8
 ==================
 * removing px-theme style call
-
 
 v1.2.7
 ==================
