@@ -1,6 +1,6 @@
 {
     "name": "px-rangepicker",
-    "version": "1.2.9",
+    "version": "1.2.10",
     "main": [
         "px-rangepicker.html"
     ],
@@ -41,7 +41,7 @@
         "px-demo-snippet": "^0.6.9",
         "px-list-inline-design": "^0.2.11",
         "px-code-design": "~0.2.11",
-        "px-dropdown": "^0.12.1",
+        "px-dropdown": "~2.0.0",
         "px-polymer-font-awesome": "^0.1.9"
     }
 }

@@ -1,3 +1,7 @@
+v1.2.10
+==================
+* update dependencies for dropdown
+
 v1.2.9
 ==================
 * increased demo container height to accomodate component
