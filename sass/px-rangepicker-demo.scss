@@ -88,10 +88,10 @@ $inuit-enable-list-inline--delimited : true;
   }
 }
 .demo{
-  flex-basis: calculateRem(450px);
+  flex-basis: calculateRem(430px);
   background: $white;
   border: 1px solid $gray4;
-  overflow: auto;
+  overflow: visible;
 }
 .componentList {
   a {

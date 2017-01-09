@@ -1,6 +1,10 @@
+v1.3.2
+==================
+* changed overflow on demo so panel overlaps
+
 v1.3.1
 ==================
-* Update missed design depndencies
+* Update missed design dependencies
 
 v1.3.0
 ==================
