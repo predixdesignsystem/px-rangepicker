@@ -1,3 +1,7 @@
+v1.3.3
+==================
+* changing ghp.sh to account for Alpha releases
+
 v1.3.2
 ==================
 * changed overflow on demo so panel overlaps
