@@ -42,44 +42,15 @@
     </script>
 
     <!--
-      Try to load the correct theme very early to make sure it is parsed by Polymer.
-      Searches the URL for `theme=dark` to enable dark them. Otherwise, uses
-      the default light theme.
-    -->
-    <!--<script type="text/javascript">
-    (function(doc) {
-      var shouldUseDarkTheme = (window.location.href.indexOf('theme=dark') !== -1); 
-      var createThemeLink = function(themePath) {
-        var themeLink = document.createElement('link');
-        themeLink.setAttribute('rel', 'import');
-        themeLink.setAttribute('async', true);
-        themeLink.setAttribute('href', themePath);
-        return themeLink;
-      }
-
-      if (shouldUseDarkTheme) {
-        var darkThemeLink = createThemeLink('../../px-dark-theme/px-dark-theme-styles.html');
-        var darkDemoThemeLink = createThemeLink('../../px-dark-demo-theme/px-dark-demo-theme-styles.html');
-        doc.head.appendChild(darkThemeLink);
-        doc.head.appendChild(darkDemoThemeLink);
-      }
-      else {
-        var lightThemeLink = createThemeLink('../../px-theme/px-theme-styles.html');
-        doc.head.appendChild(lightThemeLink);
-      }
-    })(document);
-    </script>-->
-
-
-    <!--
       Load the Polymer library.
     -->
     <link rel="import" href="../polymer/polymer.html" />
 
     <!--
-      Load the light theme (default theme).
+      Load the dark theme (default theme).
     -->
-    <link async rel="import" href="../px-theme/px-theme-styles.html">
+    <link rel="import" href="../px-dark-theme/px-dark-theme-styles.html"> 
+    <link rel="import" href="../px-dark-demo-theme/px-dark-demo-theme-styles.html"> 
 
     <!--
       Asynchronously import the px-catalog element, which is the entrypoint

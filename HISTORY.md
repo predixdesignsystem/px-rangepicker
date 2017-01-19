@@ -1,5 +1,6 @@
 v1.3.5
 ==================
+* added index-dark-theme.html
 * Update to px-demo
 * removed demosass
 * Updated to cool grays
