@@ -1,3 +1,7 @@
+v1.3.6
+==================
+* Moved theming style includes and updated ghp.sh
+
 v1.3.5
 ==================
 * added index-dark-theme.html
