@@ -1,6 +1,7 @@
 v1.3.6
 ==================
 * Moved theming style includes and updated ghp.sh
+* updated api for new colors
 
 v1.3.5
 ==================
