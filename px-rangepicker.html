@@ -13,13 +13,18 @@
 
 
 <!--
-
-
-##### Usage
+#### Usage
 
     <px-rangepicker
-      range='{"from":"2016-01-01T00:00:00.000Z","to":"2016-07-01T11:00:00.000Z"}'
-    ></px-rangepicker>
+      range='{"from":"2016-01-01T00:00:00.000Z","to":"2016-07-01T11:00:00.000Z"}'>
+    </px-rangepicker>
+
+#### Styling
+The following custom property is available for styling. Please also refer to px-forms-design, px-datetime-range-field, and px-datetime-range-panel for additional style variables used by this component.
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--px-rangepicker-overlay-color` | Overlay color that covers the rest of the screen when the rangepicker is invoked |  `rgba($black, 0.1)`
 
 @element px-rangepicker
 @blurb Element allowing to choose a date (and time) range
@@ -32,7 +37,7 @@
 <dom-module id="px-rangepicker">
   <template>
     <style include="px-rangepicker-styles"></style>
-    
+
     <div id="overlay" class="overlay visuallyhidden" on-tap="_processClose"></div>
     <px-datetime-range-field
       id="field"
