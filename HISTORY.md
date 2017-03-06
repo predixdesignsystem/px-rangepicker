@@ -1,3 +1,7 @@
+v1.3.9
+==================
+* add Event Fired information to demo and update documentation
+
 v1.3.8
 ==================
 * added styling section to API documentation

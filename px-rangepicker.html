@@ -90,7 +90,7 @@ Custom property | Description | Default
         value: false
       },
       /**
-       * Moment format used for the date
+       * Moment format used to format the date
        *
        */
       dateFormat: {
@@ -98,7 +98,7 @@ Custom property | Description | Default
         value: 'MM/DD/YYYY'
       },
       /**
-       * Moment format used for the time
+       * Moment format used to format the time
        *
        */
        timeFormat: {
@@ -106,7 +106,7 @@ Custom property | Description | Default
         value: 'HH:mm A'
       },
       /**
-       * Whether this date picker should allow to pick time as well.
+       * Whether to allow time selection as well in this date picker
        *
        */
       hideTime: {
@@ -114,7 +114,7 @@ Custom property | Description | Default
         value: false
       },
       /**
-       * Whether this date picker should allow to pick time as well.
+       * Whether to show the preset date/time ranges
        *
        */
       hidePresets: {
@@ -122,14 +122,14 @@ Custom property | Description | Default
         value: false
       },
       /**
-       * Whether to show apply and cancel buttons
+       * Whether to show the Apply and Cancel buttons in the panel
        */
       showButtons: {
         type: Boolean,
         value: true
       },
       /**
-       * Whether the date currently shown is valid
+       * Whether the currently selected date is valid
        */
       isValid: {
         type: Boolean,
@@ -138,13 +138,13 @@ Custom property | Description | Default
       },
       /**
        *
-       * Can be set to show the timezone. Can have 2 values:
-       *  'dropdown': shows the time zone as a dropdown which the user can use to
-       * select a different time zone. Only contains a subset of all timezones
-       *  'extendedDropdown': shows the time zone as a dropdown which the user can use to
-       * select a different time zone. Contains all existing timezones (588)
-       *  'text': shows the time zone as text, non editable
-       *  'abbreviatedText': shows the time zone as an abbreviated text, non editable (such as PST, EST...)
+       * Timezone display format
+       * - 'dropdown': shows the timezone as a dropdown with which the user can
+       * select a different timezone. Contains only a subset of all timezones.
+       * - 'extendedDropdown': shows the timezone as a dropdown with which user can
+       * select a different timezone. Contains all existing timezones (588 total).
+       * - 'text': shows the timezone as text, non-editable.
+       * - 'abbreviatedText': shows the timezone as abbreviated text, non-editable (e.g. UTC, PST, EST).
        */
       showTimeZone: {
         type: String,
