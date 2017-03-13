@@ -1,3 +1,7 @@
+v1.3.10
+==================
+* converted time zone property to typeahead
+
 v1.3.9
 ==================
 * add Event Fired information to demo and update documentation

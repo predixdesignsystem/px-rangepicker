@@ -36,7 +36,7 @@
       <px-demo-configs configs="[[configs]]" props="{{props}}" chosen-config="{{chosenConfig}}"></px-demo-configs>
 
       <!-- Props -->
-      <px-demo-props props="{{props}}" config="[[chosenConfig]]"></px-demo-props>
+      <px-demo-props props="{{props}}" config="[[chosenConfig]]" class="flex__item flex__item--msfix"></px-demo-props>
 
       <!-- Code Editor -->
       <px-demo-code-editor props="{{props}}"></px-demo-code-editor>
@@ -103,7 +103,11 @@
        */
       props: {
         type: Object,
-        value: function(){ return this.demoProps; }
+        value: function(){ 
+          var props =  this.demoProps; 
+              props.timeZone.inputLocalCandidates = Px.moment.tz.names();
+            return props;
+          }
       },
 
       /**
@@ -217,9 +221,8 @@
       timeZone: {
         type: String,
         defaultValue: 'UTC',
-        inputType: 'text',
-        inputPlaceholder: 'America/Los_Angeles',
-        readonly: false
+        inputType: 'typeahead',
+        inputPlaceholder: 'UTC'
       },
 
       showTimeZone: {
