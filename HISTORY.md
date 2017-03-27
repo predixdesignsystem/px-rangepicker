@@ -1,3 +1,7 @@
+v1.4.0
+==================
+* added localization and dayWeekStartIndex (controlling at which week day the calendar starts)
+
 v1.3.10
 ==================
 * converted time zone property to typeahead

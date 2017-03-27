@@ -58,7 +58,8 @@
             hide-presets="{{props.hidePresets.value}}"
             show-time-zone="{{props.showTimeZone.value}}"
             is-valid="{{props.isValid.value}}"
-            time-zone="{{props.timeZone.value}}">
+            time-zone="{{props.timeZone.value}}"
+            day-week-start-index="{{props.dayWeekStartIndex.value}}">
         </px-rangepicker>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
@@ -103,8 +104,8 @@
        */
       props: {
         type: Object,
-        value: function(){ 
-          var props =  this.demoProps; 
+        value: function(){
+          var props =  this.demoProps;
               props.timeZone.inputLocalCandidates = Px.moment.tz.names();
             return props;
           }
@@ -216,6 +217,13 @@
         inputType: 'text',
         inputPlaceholder: 'HH:mm:ss',
         readonly: false
+      },
+
+      dayWeekStartIndex: {
+        type: Number,
+        inputLabel: 'Day Week Start Index (0-6)',
+        defaultValue: 0,
+        inputType: 'number'
       },
 
       timeZone: {

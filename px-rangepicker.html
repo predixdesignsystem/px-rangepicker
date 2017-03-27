@@ -9,7 +9,6 @@
 <link rel="import" href="../px-datetime-common/px-datetime-button-behavior.html"/>
 <link rel="import" href="../px-datetime-range-field/px-datetime-range-field.html"/>
 <link rel="import" href="../px-datetime-range-panel/px-datetime-range-panel.html"/>
-<link rel="import" href="../iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 
 
 <!--
@@ -67,7 +66,8 @@ Custom property | Description | Default
       block-future-dates="{{blockFutureDates}}"
       block-past-dates="{{blockPastDates}}"
       preset-ranges="{{presetRanges}}"
-      time-zone="[[timeZone]]">
+      time-zone="[[timeZone]]"
+      day-week-start-index="[[dayWeekStartIndex]]">
     </px-datetime-range-panel>
   </template>
 </dom-module>
@@ -79,7 +79,7 @@ Custom property | Description | Default
     behaviors: [
       pxDatetimeRangeBehavior,
       pxDatetimeButtonBehavior,
-      Polymer.IronA11yKeysBehavior],
+      pxDatetimeSharedBehavior.dayWeekStartIndex],
 
     properties: {
       /**
