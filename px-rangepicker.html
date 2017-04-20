@@ -51,7 +51,10 @@ Custom property | Description | Default
       block-past-dates="{{blockPastDates}}"
       is-valid="{{isValid}}"
       show-time-zone="[[showTimeZone]]"
-      prevent-notification-on-change>
+      prevent-notification-on-change
+      resources="[[resources]]"
+      language="[[language]]"
+      formats="[[formats]]">
     </px-datetime-range-field>
     <px-datetime-range-panel
       id="panel"
@@ -67,7 +70,10 @@ Custom property | Description | Default
       block-past-dates="{{blockPastDates}}"
       preset-ranges="{{presetRanges}}"
       time-zone="[[timeZone]]"
-      day-week-start-index="[[dayWeekStartIndex]]">
+      day-week-start-index="[[dayWeekStartIndex]]"
+      resources="[[resources]]"
+      language="[[language]]"
+      formats="[[formats]]">
     </px-datetime-range-panel>
   </template>
 </dom-module>
@@ -78,8 +84,7 @@ Custom property | Description | Default
     is: 'px-rangepicker',
     behaviors: [
       pxDatetimeRangeBehavior,
-      pxDatetimeButtonBehavior,
-      pxDatetimeSharedBehavior.dayWeekStartIndex],
+      pxDatetimeButtonBehavior],
 
     properties: {
       /**
