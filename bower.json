@@ -5,6 +5,7 @@
     "px-rangepicker.html"
   ],
   "ignore": [
+    "*.enc",
     ".*",
     "node_modules",
     "bower_components",
