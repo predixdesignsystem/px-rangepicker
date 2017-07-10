@@ -38,5 +38,8 @@
   "devDependencies": {
     "px-starter-kit-design": "^0.7.0",
     "px-demo": "^1.0.6"
+  },
+  "resolutions": {
+    "webcomponentsjs": "^0.7.24"
   }
 }
