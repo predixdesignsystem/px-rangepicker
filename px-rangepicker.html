@@ -192,7 +192,7 @@ Custom property | Description
     listeners: {
       'px-datetime-entry-icon-clicked':'_toggleBoxOpen',
       'px-datetime-button-clicked': '_buttonClicked',
-      'opened-changed' : '_handleOpenPanels'
+      'tap' : '_handleTap'
     },
     observers: [
       '_momentChanged(fromMoment, toMoment)'
@@ -270,10 +270,19 @@ Custom property | Description
     /**
      * If the calendar is open and the dropdown is selected, close the calendar
      */
-    _handleOpenPanels: function(evt){
+    _handleTap: function(evt) {
       if(this._opened === true){
-        this._close();
+
+        var path = Polymer.dom(evt).path;
+
+        for (var i=0; i<path.length; i++) {
+          if (path[i].nodeName === 'PX-DROPDOWN') {
+            this._close();
+            return;
+          }
+        }
+
       }
-    },
+    }
   });
 </script>
