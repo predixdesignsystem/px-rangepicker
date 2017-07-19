@@ -20,9 +20,8 @@
 #### Styling
 The following custom property is available for styling. Please also refer to px-forms-design, px-datetime-range-field, and px-datetime-range-panel for additional style variables used by this component.
 
-Custom property | Description | Default
-----------------|-------------|----------
-`--px-rangepicker-overlay-color` | Overlay color that covers the rest of the screen when the rangepicker is invoked |  `rgba($black, 0.1)`
+Custom property | Description
+:----------------|:-------------
 
 @element px-rangepicker
 @blurb Element allowing to choose a date (and time) range
@@ -39,7 +38,6 @@ Custom property | Description | Default
     <div id="overlay" class="overlay visuallyhidden" on-tap="_processClose"></div>
     <px-datetime-range-field
       id="field"
-      class="relative"
       from-moment="{{fromMoment}}"
       to-moment="{{toMoment}}"
       time-zone="{{timeZone}}"
@@ -57,7 +55,7 @@ Custom property | Description | Default
     </px-datetime-range-field>
     <px-datetime-range-panel
       id="panel"
-      class="visuallyhidden relative"
+      class="visuallyhidden absolute u-mt+"
       from-moment="{{fromMoment}}"
       to-moment="{{toMoment}}"
       time-format="{{timeFormat}}"
@@ -82,7 +80,8 @@ Custom property | Description | Default
     is: 'px-rangepicker',
     behaviors: [
       pxDatetimeRangeBehavior,
-      pxDatetimeButtonBehavior],
+      pxDatetimeButtonBehavior
+    ],
 
     properties: {
       /**
@@ -125,13 +124,6 @@ Custom property | Description | Default
         value: false
       },
       /**
-       * Whether to show the Apply and Cancel buttons in the panel
-       */
-      showButtons: {
-        type: Boolean,
-        value: true
-      },
-      /**
        * Whether the currently selected date is valid
        */
       isValid: {
@@ -142,10 +134,8 @@ Custom property | Description | Default
       /**
        *
        * Timezone display format
-       * - 'dropdown': shows the timezone as a dropdown with which the user can
-       * select a different timezone. Contains only a subset of all timezones.
-       * - 'extendedDropdown': shows the timezone as a dropdown with which user can
-       * select a different timezone. Contains all existing timezones (588 total).
+       * - 'dropdown': shows the timezone as a dropdown with which the user can select a different timezone. Contains only a subset of all timezones.
+       * - 'extendedDropdown': shows the timezone as a dropdown with which user can select a different timezone. Contains all existing timezones (588 total).
        * - 'text': shows the timezone as text, non-editable.
        * - 'abbreviatedText': shows the timezone as abbreviated text, non-editable (e.g. UTC, PST, EST).
        */
@@ -201,7 +191,8 @@ Custom property | Description | Default
     },
     listeners: {
       'px-datetime-entry-icon-clicked':'_toggleBoxOpen',
-      'px-datetime-button-clicked': '_buttonClicked'
+      'px-datetime-button-clicked': '_buttonClicked',
+      'opened-changed' : '_handleOpenPanels'
     },
     observers: [
       '_momentChanged(fromMoment, toMoment)'
@@ -219,6 +210,7 @@ Custom property | Description | Default
         this._close();
       }
     },
+
     _onEnter: function(evt) {
       if(this._opened) {
         this._applyCurrentValues(this.$.field.isValid);
@@ -255,6 +247,7 @@ Custom property | Description | Default
         this._open();
       }
     },
+
     _processClose: function() {
       //If we show time make sure it is valid on closing. If we show buttons don't validate
       var canApplyValues = !this.showButtons && this.$.panel.timeIsValid && this.$.field.isValid;
@@ -263,7 +256,6 @@ Custom property | Description | Default
     },
 
     _momentChanged: function(momentObj) {
-
       //we're closed, moment has changed by user changing the input fields.
       if(!this._opened && this.$.field.isValid && this.$.panel.timeIsValid) {
         this._applyCurrentValues(true);
@@ -273,6 +265,15 @@ Custom property | Description | Default
     _buttonClicked: function(evt) {
       this._applyCurrentValues(evt.detail.action && this.$.field.isValid && this.$.panel.timeIsValid);
       this._close();
-    }
+    },
+
+    /**
+     * If the calendar is open and the dropdown is selected, close the calendar
+     */
+    _handleOpenPanels: function(evt){
+      if(this._opened === true){
+        this._close();
+      }
+    },
   });
 </script>

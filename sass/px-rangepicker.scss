@@ -25,16 +25,10 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 @import "px-helpers-design/_generic.helpers.scss";
 
 // Base
-@import "px-flexbox-design/_base.flexbox.scss";
-@import "px-viewport-design/_base.viewport.scss";
 
 // Component
-.relative {
-  position: relative;
-}
-
-.aboveOverlay {
-  z-index: 2;
+.absolute {
+  position: absolute;
 }
 
 .overlay {
@@ -45,6 +39,7 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
   height: 100%;
 }
 
+
 // Trumps
-@import "px-spacing-responsive-design/_trumps.spacing-responsive.scss";
-@import "px-widths-responsive-design/_trumps.widths-responsive.scss";
+$inuit-enable-margins--large      : true;
+@import "px-spacing-design/_trumps.spacing.scss";

@@ -1,6 +1,6 @@
 {
   "name": "px-rangepicker",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "main": [
     "px-rangepicker.html"
   ],
@@ -27,17 +27,17 @@
   ],
   "dependencies": {
     "polymer": "^1.9.0",
-    "px-theme": "^3.0.0",
     "px-datetime-common": "^1.0.0",
     "px-datetime-range-field": "^1.0.0",
-    "px-datetime-range-panel": "^1.0.0",
-    "px-headings-design": "^1.0.0",
-    "px-actionable-text-icons-design": "^2.0.0",
-    "px-toggle-design": "^2.0.0"
+    "px-datetime-range-panel": "^1.0.0"
   },
   "devDependencies": {
-    "px-starter-kit-design": "^1.0.0",
-    "px-demo": "^2.0.0"
+    "px-theme": "^3.0.0",
+    "px-demo": "^2.0.0",
+    "px-box-sizing-design": "^1.0.0",
+    "px-normalize-design": "^1.0.0",
+    "px-helpers-design": "^1.0.0",
+    "px-spacing-design": "^1.0.0"
   },
   "resolutions": {
     "webcomponentsjs": "^0.7.24"
