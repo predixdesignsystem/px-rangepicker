@@ -1,3 +1,10 @@
+v2.0.0
+==================
+* component redesign
+* combined -predix and -sketch sass files
+* update dependencies for design refresh
+* make showButtons false by default
+
 v1.4.0
 ==================
 * added localization through resources, language, formats and Px.moment.changeLocale()

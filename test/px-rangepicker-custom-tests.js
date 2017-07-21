@@ -39,6 +39,7 @@ function runCustomTests() {
     var submitEventCount = 0,
         submitListener;
     suiteSetup(function() {
+      picker.showButtons = true;
 
       submitListener = function(evt) {
         submitEventCount++;
@@ -255,7 +256,7 @@ function runCustomTests() {
       //change a date
       panel.fromMoment = panel.fromMoment.clone();
       panel.toMoment = panel.toMoment.clone();
-      
+
       //make sure time is invalid
       panel._toTimeIsValid = false;
       overlay.click();
