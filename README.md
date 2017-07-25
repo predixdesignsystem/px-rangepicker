@@ -2,7 +2,7 @@
 
 ## Overview
 
-Px-rangepicker is a Predix UI component that allows users to choose a start date-time and an end date-time. A graphical calendar UI with two calendars is presented, as well as a time range selector below the calendars. A column of preset date-time ranges is available on the right hand side of the selection modal enabling the choice between configurable presets.
+`Px-rangepicker` is a Predix UI component which provides an interface (using `px-datetime-range-panel`) for selecting two date/time values to create a date/time range.
 
 ## Usage
 
