@@ -1,14 +1,9 @@
-<!--
-    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
-    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
-    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs.
--->
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="../px-datetime-common/px-datetime-range-behavior.html"/>
 <link rel="import" href="../px-datetime-common/px-datetime-button-behavior.html"/>
 <link rel="import" href="../px-datetime-range-field/px-datetime-range-field.html"/>
 <link rel="import" href="../px-datetime-range-panel/px-datetime-range-panel.html"/>
-
+<link rel="import" href="css/px-rangepicker-styles.html"/>
 
 <!--
 #### Usage
@@ -26,11 +21,8 @@ Custom property | Description
 @element px-rangepicker
 @blurb Element allowing to choose a date (and time) range
 @homepage index.html
-@demo demo.html
+@demo index.html
 -->
-
-<link rel="import" href="css/px-rangepicker-styles.html">
-
 <dom-module id="px-rangepicker">
   <template>
     <style include="px-rangepicker-styles"></style>
