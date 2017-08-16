@@ -1,3 +1,7 @@
+v2.0.3
+==================
+* expose allow-wrap for mobile (#44)
+
 v2.0.2
 ==================
 * Fix comment for analyzer

@@ -43,7 +43,8 @@ Custom property | Description
       prevent-notification-on-change
       resources="[[resources]]"
       language="[[language]]"
-      formats="[[formats]]">
+      formats="[[formats]]"
+      allow-wrap="[[allowWrap]]">
     </px-datetime-range-field>
     <px-datetime-range-panel
       id="panel"
@@ -112,6 +113,14 @@ Custom property | Description
        *
        */
       hidePresets: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * Whether to allow the range field to wrap at smaller screen resolutions / parent container sizes.
+       *
+       */
+      allowWrap: {
         type: Boolean,
         value: false
       },

@@ -57,7 +57,8 @@
             hide-presets="{{props.hidePresets.value}}"
             show-time-zone="{{props.showTimeZone.value}}"
             is-valid="{{props.isValid.value}}"
-            time-zone="{{props.timeZone.value}}">
+            time-zone="{{props.timeZone.value}}"
+            allow-wrap="{{props.allowWrap.value}}">
         </px-rangepicker>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
@@ -196,6 +197,12 @@
       },
 
       blockPastDates: {
+        type: Boolean,
+        defaultValue: false,
+        inputType: 'toggle'
+      },
+
+      allowWrap: {
         type: Boolean,
         defaultValue: false,
         inputType: 'toggle'
