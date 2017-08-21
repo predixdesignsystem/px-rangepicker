@@ -1,3 +1,7 @@
+v2.0.4
+==================
+* add min and max date support
+
 v2.0.3
 ==================
 * expose allow-wrap for mobile (#44)

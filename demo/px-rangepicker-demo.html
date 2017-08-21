@@ -58,7 +58,9 @@
             show-time-zone="{{props.showTimeZone.value}}"
             is-valid="{{props.isValid.value}}"
             time-zone="{{props.timeZone.value}}"
-            allow-wrap="{{props.allowWrap.value}}">
+            allow-wrap="{{props.allowWrap.value}}"
+            min="{{props.min.value}}"
+            max="{{props.max.value}}">
         </px-rangepicker>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
@@ -127,7 +129,7 @@
               configReset: true },
 
             { configName: "Calendar Only",
-              range: {"from": "2016-01-01T01:00:00.000Z", "to": "2016-07-01T11:00:00.000Z"},
+              range: {"from": Px.moment().subtract(1, 'day').toISOString(), "to": Px.moment().add(1, 'day').toISOString()},
               dateFormat: "MM/DD/YY",
               timeFormat: "hh:mm:ss A",
               showButtons: false,
@@ -140,7 +142,7 @@
             },
 
             { configName: "Calendar & Presets",
-              range: {"from": "2016-01-01T01:00:00.000Z", "to": "2016-07-01T11:00:00.000Z"},
+              range: {"from": Px.moment().subtract(1, 'day').toISOString(), "to": Px.moment().toISOString()},
               dateFormat: "DD/MM/YY",
               timeFormat: "HH:mm:ss.SSS",
               showButtons: false,
@@ -241,9 +243,21 @@
       range: {
         type: Object,
         defaultValue: {
-          from : "2015-07-01T01:00:00.000Z",
-          to : "2016-07-08T14:00:00.000Z"
+          from : Px.moment().subtract(1, 'day').toISOString(),
+          to : Px.moment().add(1, 'day').toISOString()
         },
+        inputType: 'code:JSON'
+      },
+
+      min: {
+        type: Object,
+        defaultValue: Px.moment().subtract(7, 'day'),
+        inputType: 'code:JSON'
+      },
+
+      max: {
+        type: Object,
+        defaultValue: Px.moment().add(7, 'day'),
         inputType: 'code:JSON'
       }
 
