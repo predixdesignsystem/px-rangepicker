@@ -39,6 +39,7 @@ Custom property | Description
       block-future-dates="{{blockFutureDates}}"
       block-past-dates="{{blockPastDates}}"
       is-valid="{{isValid}}"
+      hide-validation-messages="{{hideValidationMessages}}"
       show-time-zone="[[showTimeZone]]"
       prevent-notification-on-change
       resources="[[resources]]"
@@ -135,6 +136,13 @@ Custom property | Description
         type: Boolean,
         notify: true,
         value: true
+      },
+      /**
+       * Hides the validation messages if set to true
+       */
+      hideValidationMessages: {
+        type: Boolean,
+        value: false
       },
       /**
        *
