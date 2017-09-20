@@ -1,3 +1,7 @@
+v2.1.1
+==================
+* updated css variable documentation
+
 v2.1.0
 ==================
 * added `hideValidationMessages` property
