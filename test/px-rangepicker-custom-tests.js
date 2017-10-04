@@ -4,33 +4,30 @@ function runCustomTests() {
   var picker = document.getElementById('picker'),
       panel = Polymer.dom(picker.root).querySelector('px-datetime-range-panel'),
       field = Polymer.dom(picker.root).querySelector('px-datetime-range-field'),
-      overlay = Polymer.dom(picker.root).querySelector('#overlay');
+      dropdown = Polymer.dom(picker.root).querySelector('#dropdown'),
+      heading = document.querySelector('h3');
   // This is the placeholder suite to place custom tests in
   // Use testCase(options) for a more convenient setup of the test cases
   suite('interaction', function() {
 
-    test('panel and overlay hidden at startup', function() {
-      assert.isTrue(panel.classList.contains('visuallyhidden'));
-      assert.isTrue(overlay.classList.contains('visuallyhidden'));
+    test('panel hidden at startup', function() {
+      assert.isFalse(dropdown.opened);
     });
 
-    test('open shows the panel and overlay', function() {
+    test('open shows the panel', function() {
       picker._open();
-      assert.isFalse(panel.classList.contains('visuallyhidden'));
-      assert.isFalse(overlay.classList.contains('visuallyhidden'));
+      assert.isTrue(dropdown.opened);
     });
 
-    test('close hides the panel and overlay', function() {
+    test('close hides the panel', function() {
       picker._close();
-      assert.isTrue(panel.classList.contains('visuallyhidden'));
-      assert.isTrue(overlay.classList.contains('visuallyhidden'));
+      assert.isFalse(dropdown.opened);
     });
 
-    test('click on overlay closes panel', function() {
+    test('click on heading closes panel', function() {
       picker._open();
-      overlay.click();
-      assert.isTrue(panel.classList.contains('visuallyhidden'));
-      assert.isTrue(overlay.classList.contains('visuallyhidden'));
+      heading.click();
+      assert.isFalse(dropdown.opened);
     });
   });
 
@@ -52,7 +49,7 @@ function runCustomTests() {
       picker.removeEventListener('px-datetime-range-submitted', submitListener);
     });
 
-    test('clicking overlay should not apply new value', function() {
+    test('clicking heading should not apply new value', function() {
       var prevRange = picker.range,
           prevFrom = picker.fromMoment,
           prevTo = picker.toMoment,
@@ -63,7 +60,7 @@ function runCustomTests() {
       //change a date
       panel.toMoment = panel.toMoment.clone().add(1, 'day');
 
-      overlay.click();
+      heading.click();
 
       //shouldn't have changed
       assert.equal(prevFrom.toISOString(), picker.range.from);
@@ -157,7 +154,7 @@ function runCustomTests() {
       picker.removeEventListener('px-datetime-range-submitted', submitListener);
     });
 
-    test('clicking overlay should apply new value', function() {
+    test('clicking heading should apply new value', function() {
       var prevRange = picker.range,
           prevFrom = picker.fromMoment,
           prevTo = picker.toMoment,
@@ -168,7 +165,7 @@ function runCustomTests() {
       //change a date
       panel.toMoment = panel.toMoment.clone().add(1, 'day');
 
-      overlay.click();
+      heading.click();
 
       //should have changed
       assert.equal(prevFrom.toISOString(), picker.range.from);
@@ -178,7 +175,7 @@ function runCustomTests() {
       assert.equal(prevCount + 1, submitEventCount);
     });
 
-    test('clicking overlay when time not valid should not apply new value', function() {
+    test('clicking heading when time not valid should not apply new value', function() {
       var prevRange = picker.range,
           prevFrom = picker.fromMoment,
           prevTo = picker.toMoment,
@@ -191,7 +188,7 @@ function runCustomTests() {
       //make sure time is invalid
       panel._toTimeIsValid = false;
 
-      overlay.click();
+      heading.click();
 
       //shouldn't have changed
       assert.equal(prevFrom.toISOString(), picker.range.from);
@@ -259,7 +256,7 @@ function runCustomTests() {
 
       //make sure time is invalid
       panel._toTimeIsValid = false;
-      overlay.click();
+      heading.click();
 
       //see what dates are
       assert.equal(panel.fromMoment.toISOString(),picker.range.from);

@@ -3,6 +3,7 @@
 <link rel="import" href="../px-datetime-common/px-datetime-button-behavior.html"/>
 <link rel="import" href="../px-datetime-range-field/px-datetime-range-field.html"/>
 <link rel="import" href="../px-datetime-range-panel/px-datetime-range-panel.html"/>
+<link rel="import" href="../iron-dropdown/iron-dropdown.html"/>
 <link rel="import" href="css/px-rangepicker-styles.html"/>
 
 <!--
@@ -28,9 +29,9 @@ Custom property | Description
   <template>
     <style include="px-rangepicker-styles"></style>
 
-    <div id="overlay" class="overlay visuallyhidden" on-tap="_processClose"></div>
     <px-datetime-range-field
       id="field"
+      slot="dropdown-trigger"
       from-moment="{{fromMoment}}"
       to-moment="{{toMoment}}"
       time-zone="{{timeZone}}"
@@ -50,26 +51,33 @@ Custom property | Description
       min="[[min]]"
       max="[[max]]">
     </px-datetime-range-field>
-    <px-datetime-range-panel
-      id="panel"
-      class="visuallyhidden absolute u-mt+"
-      from-moment="{{fromMoment}}"
-      to-moment="{{toMoment}}"
-      time-format="{{timeFormat}}"
-      hide-time="{{hideTime}}"
-      hide-presets="{{hidePresets}}"
-      show-buttons="{{showButtons}}"
-      block-future-dates="{{blockFutureDates}}"
-      block-past-dates="{{blockPastDates}}"
-      preset-ranges="{{presetRanges}}"
-      time-zone="[[timeZone]]"
-      day-week-start-index="[[dayWeekStartIndex]]"
-      resources="[[resources]]"
-      language="[[language]]"
-      formats="[[formats]]"
-      min="[[min]]"
-      max="[[max]]">
-    </px-datetime-range-panel>
+    <iron-dropdown
+      id="dropdown"
+      opened="{{_opened}}"
+      vertical-offset="20"
+      dynamic-align
+      no-overlap>
+      <px-datetime-range-panel
+        id="panel"
+        slot="dropdown-content"
+        from-moment="{{fromMoment}}"
+        to-moment="{{toMoment}}"
+        time-format="{{timeFormat}}"
+        hide-time="{{hideTime}}"
+        hide-presets="{{hidePresets}}"
+        show-buttons="{{showButtons}}"
+        block-future-dates="{{blockFutureDates}}"
+        block-past-dates="{{blockPastDates}}"
+        preset-ranges="{{presetRanges}}"
+        time-zone="[[timeZone]]"
+        day-week-start-index="[[dayWeekStartIndex]]"
+        resources="[[resources]]"
+        language="[[language]]"
+        formats="[[formats]]"
+        min="[[min]]"
+        max="[[max]]">
+      </px-datetime-range-panel>
+    </iron-dropdown>
   </template>
 </dom-module>
 
@@ -235,31 +243,19 @@ Custom property | Description
      * Opens the calendar
      */
     _open: function() {
-      this.toggleClass('visuallyhidden', false, this.$.panel);
-      this.toggleClass('visuallyhidden', false, this.$.overlay);
-      this.toggleClass('aboveOverlay', true, this.$.field);
-
-      this.set('_opened', true);
+      this.$.dropdown.open();
     },
     /**
      * Closes the calendar
      */
     _close: function() {
-      this.toggleClass('visuallyhidden', true, this.$.panel);
-      this.toggleClass('visuallyhidden', true, this.$.overlay);
-      this.toggleClass('aboveOverlay', false, this.$.field);
-
-      this.set('_opened', false);
+      this.$.dropdown.close();
     },
     /**
      * Opens the calendar if closed, closes it if opened
      */
     _toggleBoxOpen: function() {
-      if(this._opened) {
-        this._close();
-      } else {
-        this._open();
-      }
+      this.$.dropdown.toggle();
     },
 
     _processClose: function() {
