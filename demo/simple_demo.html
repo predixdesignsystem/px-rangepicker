@@ -1,28 +1,41 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Predix UI</title>
-    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
 
-    <link rel="import" href="../../polymer/polymer.html" />
-    <link rel="import" href="../../px-theme/px-theme-styles.html">
-    <style include="px-theme-styles" is="custom-style"></style>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Predix UI</title>
+  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
 
-    <link rel="import" href="../px-rangepicker.html" />
+  <link rel="import" href="../../polymer/polymer.html" />
+  <link rel="import" href="../../px-theme/px-theme-styles.html">
+  <style include="px-theme-styles" is="custom-style"></style>
 
-  </head>
+  <link rel="import" href="../px-rangepicker.html" />
 
-  <body>
-    <h2>px-rangepicker</h2>
-    <px-rangepicker
-      show-buttons
-      date-format="Y-MM-DD"
-      time-format="HH:mm:ss"
-      show-time-zone="dropdown"
-      >
-    </px-rangepicker>
-  </body>
+</head>
+
+<body>
+  <dom-bind>
+    <template is="dom-bind">
+      <h2>px-rangepicker</h2>
+      <px-rangepicker
+        show-buttons date-format="YY-MM-DD"
+        time-format="HH:mm"
+        range="[[range]]">
+      </px-rangepicker>
+    </template>
+  </dom-bind>
+  <script>
+    window.addEventListener('WebComponentsReady', function () {
+      var template = document.querySelector('template[is=dom-bind]'),
+        range = { "from": "2016-01-01T01:00:00.000Z", "to": "2016-07-01T11:00:00.000Z" };
+      template.range = range;
+      document.addEventListener('px-datetime-range-submitted', function (evt) {
+        console.log("fired")
+      });
+    });
+  </script>
+</body>
+
 </html>
-

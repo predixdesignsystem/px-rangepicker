@@ -18,7 +18,9 @@
 <!-- Demo DOM module -->
 <dom-module id="px-rangepicker-demo">
   <template>
+    <custom-style>
      <style include="px-demo-styles" is="custom-style"></style>
+    </custom-style>
 
     <!-- Header -->
     <px-demo-header
@@ -33,16 +35,16 @@
     <!-- Interactive -->
     <px-demo-interactive>
       <!-- Configs -->
-      <px-demo-configs configs="[[configs]]" props="{{props}}" chosen-config="{{chosenConfig}}"></px-demo-configs>
+      <px-demo-configs slot="px-demo-configs" configs="[[configs]]" props="{{props}}" chosen-config="{{chosenConfig}}"></px-demo-configs>
 
       <!-- Props -->
-      <px-demo-props props="{{props}}" config="[[chosenConfig]]" class="flex__item flex__item--msfix"></px-demo-props>
+      <px-demo-props slot="px-demo-props" props="{{props}}" config="[[chosenConfig]]" class="flex__item flex__item--msfix"></px-demo-props>
 
       <!-- Code Editor -->
-      <px-demo-code-editor props="{{props}}"></px-demo-code-editor>
+      <px-demo-code-editor slot="px-demo-code-editor" props="{{props}}"></px-demo-code-editor>
 
       <!-- Component ---------------------------------------------------------->
-      <px-demo-component style="height:600px">
+      <px-demo-component slot="px-demo-component" style="height:600px">
         <p class=u-mb0>Event fired: <strong>px-datetime-range-submitted</strong></p>
         <p class="zeta u-mt0">See API Reference below for more details</p>
         <p class="u-mb++">Current dateTime object: <strong>{{props.range.value.from}}</strong> To: <strong>{{props.range.value.to}}</strong></p>
@@ -67,6 +69,7 @@
       <!-- END Component ------------------------------------------------------>
 
       <px-demo-component-snippet
+          slot="px-demo-comonent-snippet"
           element-properties="{{props}}"
           element-name="px-rangepicker"
           links-includes="[[linksIncludes]]">
