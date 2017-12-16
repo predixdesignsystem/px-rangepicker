@@ -29,7 +29,8 @@
     "polymer": "#1.9 - 2",
     "px-datetime-common": "allowBlank",
     "px-datetime-range-field": "allowBlank",
-    "px-datetime-range-panel": "allowBlank"
+    "px-datetime-range-panel": "allowBlank",
+    "iron-dropdown": "^2.0.0"
   },
   "devDependencies": {
     "px-theme": "^3.0.0",
