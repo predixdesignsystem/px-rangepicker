@@ -21,20 +21,22 @@
     <template is="dom-bind">
       <h2>px-rangepicker</h2>
       <px-rangepicker
-        show-buttons date-format="YY-MM-DD"
-        time-format="HH:mm"
-        range="[[range]]">
+        show-buttons
+        date-format="YYYY-MM-DD"
+        time-format="HH:mm:ss">
       </px-rangepicker>
     </template>
   </dom-bind>
   <script>
     window.addEventListener('WebComponentsReady', function () {
-      var template = document.querySelector('template[is=dom-bind]'),
-        range = { "from": "2016-01-01T01:00:00.000Z", "to": "2016-07-01T11:00:00.000Z" };
-      template.range = range;
-      document.addEventListener('px-datetime-range-submitted', function (evt) {
-        console.log("fired")
-      });
+      var template = document.querySelector('template[is=dom-bind]');
+      template.fromMoment = Px.moment().startOf('day').subtract(7, 'days');
+      template.toMoment = Px.moment().startOf('day').subtract(1, 'days');
+
+      // Support hybrid mode
+      var templatev1 = document.querySelector('dom-bind');
+      templatev1.fromMoment = template.fromMoment;
+      templatev1.toMoment = template.toMoment;
     });
   </script>
 </body>

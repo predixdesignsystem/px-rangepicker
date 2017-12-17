@@ -32,24 +32,23 @@ Custom property | Description
     <px-datetime-range-field
       id="field"
       slot="dropdown-trigger"
-      from-moment="{{fromMoment}}"
-      to-moment="{{toMoment}}"
-      time-zone="{{timeZone}}"
+      from-moment="{{_tempFromMomentObj}}"
+      to-moment="{{_tempToMomentObj}}"
       date-format="{{dateFormat}}"
       time-format="{{timeFormat}}"
       hide-time="{{hideTime}}"
+      time-zone="{{timeZone}}"
+      show-time-zone="[[showTimeZone]]"
       block-future-dates="{{blockFutureDates}}"
       block-past-dates="{{blockPastDates}}"
-      is-valid="{{isValid}}"
       hide-validation-messages="{{hideValidationMessages}}"
-      show-time-zone="[[showTimeZone]]"
       prevent-notification-on-change
+      allow-wrap="[[allowWrap]]"
       resources="[[resources]]"
       language="[[language]]"
       formats="[[formats]]"
-      allow-wrap="[[allowWrap]]"
-      min="[[min]]"
-      max="[[max]]">
+      min-date="[[minDate]]"
+      max-date="[[maxDate]]">
     </px-datetime-range-field>
     <iron-dropdown
       id="dropdown"
@@ -60,8 +59,8 @@ Custom property | Description
       <px-datetime-range-panel
         id="panel"
         slot="dropdown-content"
-        from-moment="{{fromMoment}}"
-        to-moment="{{toMoment}}"
+        from-moment="{{_tempFromMomentObj}}"
+        to-moment="{{_tempToMomentObj}}"
         time-format="{{timeFormat}}"
         hide-time="{{hideTime}}"
         hide-presets="{{hidePresets}}"
@@ -74,8 +73,8 @@ Custom property | Description
         resources="[[resources]]"
         language="[[language]]"
         formats="[[formats]]"
-        min="[[min]]"
-        max="[[max]]">
+        min-date="[[minDate]]"
+        max-date="[[maxDate]]">
       </px-datetime-range-panel>
     </iron-dropdown>
   </template>
@@ -86,7 +85,7 @@ Custom property | Description
 
     is: 'px-rangepicker',
     behaviors: [
-      pxDatetimeRangeBehavior,
+      pxDatetimeTempRangeBehavior,
       pxDatetimeButtonBehavior
     ],
 
@@ -213,18 +212,21 @@ Custom property | Description
     },
     listeners: {
       'px-datetime-entry-icon-clicked':'_toggleBoxOpen',
-      'px-datetime-button-clicked': '_buttonClicked',
-      'tap' : '_handleTap'
+      'px-datetime-button-clicked': '_buttonClicked'
+      // 'tap' : '_handleTap'
     },
-    observers: [
-      '_momentChanged(fromMoment, toMoment)'
-    ],
     /**
      * Key bindings for iron-a11y-keys-behavior
      */
     keyBindings: {
       'esc' : '_onEsc',
       'enter': '_onEnter'
+    },
+
+    attached: function() {
+      // this.$.calendar.addEventListener('from-moment-changed', this._calendarMomentChanged.bind(this));
+      // this.$.timeTemplate.addEventListener('moment-obj-changed', this._calendarTimeMomentChanged.bind(this));
+      // this.$.field.addEventListener('moment-obj-changed', this._fieldMomentChanged.bind(this));
     },
 
     _onEsc: function(evt) {
@@ -272,27 +274,71 @@ Custom property | Description
       }
     },
 
+    _tempMomentChanged: function(origin) {
+      if(origin === 'rangefield') {
+        //field only changes moment when it has been validated, we can trust that change
+        this._applyTempMoment();
+      } else if(origin === 'rangepanel') {
+        //time changed in calendar. Only process if no button,
+        if(!this.showButtons) {
+          this._validateCalendarMoment();
+        }
+      }
+    },
+
+    _calendarMomentChanged : function(evt) {
+      this._tempMomentChanged('calendar');
+    },
+
+    _calendarTimeMomentChanged : function(evt) {
+      this._tempMomentChanged('calendarTime');
+    },
+
+    _fieldMomentChanged : function(evt) {
+      this._tempMomentChanged('field');
+    },
+
+    /**
+     */
+     _validateCalendarMoment: function(newMoment) {
+
+      if(this.opened) {
+
+        //apply: accept if valid
+        if(this.$.field.isValid) {
+          this._applyTempMoment();
+          this._close();
+        } else {
+          //don't close, can't apply if not valid
+        }
+      }
+    },
+
     _buttonClicked: function(evt) {
-      this._applyCurrentValues(evt.detail.action && this.$.field.isValid && this.$.panel.timeIsValid);
+      if(evt.detail.action) {
+        this._validateCalendarMoment();
+      } else {
+        this._rollbackTempMoment();
+      }
       this._close();
     },
 
     /**
      * If the calendar is open and the dropdown is selected, close the calendar
      */
-    _handleTap: function(evt) {
-      if(this._opened === true){
+    // _handleTap: function(evt) {
+    //   if(this._opened === true){
 
-        var path = Polymer.dom(evt).path;
+    //     var path = Polymer.dom(evt).path;
 
-        for (var i=0; i<path.length; i++) {
-          if (path[i].nodeName === 'PX-DROPDOWN') {
-            this._close();
-            return;
-          }
-        }
+    //     for (var i=0; i<path.length; i++) {
+    //       if (path[i].nodeName === 'PX-DROPDOWN') {
+    //         this._close();
+    //         return;
+    //       }
+    //     }
 
-      }
-    }
+    //   }
+    // }
   });
 </script>
