@@ -30,7 +30,7 @@ Custom property | Description
     <style include="px-rangepicker-styles"></style>
 
     <px-datetime-range-field
-      id="field"
+      id="rangeField"
       slot="dropdown-trigger"
       from-moment="{{_tempFromMomentObj}}"
       to-moment="{{_tempToMomentObj}}"
@@ -52,7 +52,7 @@ Custom property | Description
     </px-datetime-range-field>
     <iron-dropdown
       id="dropdown"
-      opened="{{_opened}}"
+      opened="{{opened}}"
       vertical-offset="20"
       dynamic-align
       no-overlap>
@@ -93,7 +93,7 @@ Custom property | Description
       /**
        * Whether the panel is opened
        */
-      _opened: {
+      opened: {
         type: Boolean,
         value: false
       },
@@ -224,20 +224,21 @@ Custom property | Description
     },
 
     attached: function() {
-      // this.$.calendar.addEventListener('from-moment-changed', this._calendarMomentChanged.bind(this));
-      // this.$.timeTemplate.addEventListener('moment-obj-changed', this._calendarTimeMomentChanged.bind(this));
-      // this.$.field.addEventListener('moment-obj-changed', this._fieldMomentChanged.bind(this));
+      // this.$.panel.addEventListener('from-moment-changed', this._calendarFromMomentChanged.bind(this));
+      // this.$.panel.addEventListener('to-moment-changed', this._calendarToMomentChanged.bind(this));
+      // this.$.rangeField.addEventListener('from-moment-changed', this._rangeFieldMomentChanged.bind(this));
+      // this.$.rangeField.addEventListener('to-moment-changed', this._rangeFieldMomentChanged.bind(this));
     },
 
     _onEsc: function(evt) {
-      if(this._opened) {
+      if(this.opened) {
         this._close();
       }
     },
 
     _onEnter: function(evt) {
-      if(this._opened) {
-        this._applyCurrentValues(this.$.field.isValid);
+      if(this.opened) {
+        this._validateCalendarMoment();
         this._close();
       }
     },
@@ -263,21 +264,21 @@ Custom property | Description
     _processClose: function() {
       //If we show time make sure it is valid on closing. If we show buttons don't validate
       var canApplyValues = !this.showButtons && this.$.panel.timeIsValid && this.$.field.isValid;
-      this._applyCurrentValues(canApplyValues);
+      this._applyTempRangeMoment(canApplyValues);
       this._close();
     },
 
-    _momentChanged: function(momentObj) {
-      //we're closed, moment has changed by user changing the input fields.
-      if(!this._opened && this.$.field.isValid && this.$.panel.timeIsValid) {
-        this._applyCurrentValues(true);
-      }
-    },
+    // _momentChanged: function(momentObj) {
+    //   //we're closed, moment has changed by user changing the input fields.
+    //   if(!this.opened && this.$.rangeField.isValid && this.$.panel.timeIsValid) {
+    //     this._applyTempRangeMoment(true);
+    //   }
+    // },
 
     _tempMomentChanged: function(origin) {
       if(origin === 'rangefield') {
         //field only changes moment when it has been validated, we can trust that change
-        this._applyTempMoment();
+        this._applyTempRangeMoment();
       } else if(origin === 'rangepanel') {
         //time changed in calendar. Only process if no button,
         if(!this.showButtons) {
@@ -286,27 +287,28 @@ Custom property | Description
       }
     },
 
-    _calendarMomentChanged : function(evt) {
-      this._tempMomentChanged('calendar');
+    _calendarToMomentChanged : function(evt) {
+      if(evt.detail.value){
+        this.set('_tempToMomentObj', evt.detail.value);
+      }
     },
 
-    _calendarTimeMomentChanged : function(evt) {
-      this._tempMomentChanged('calendarTime');
-    },
+    // _calendarTimeMomentChanged : function(evt) {
+    //   this._tempMomentChanged('calendarTime');
+    // },
 
-    _fieldMomentChanged : function(evt) {
-      this._tempMomentChanged('field');
+    _rangeFieldMomentChanged : function(evt) {
+      this._tempMomentChanged('rangefield');
     },
 
     /**
      */
      _validateCalendarMoment: function(newMoment) {
-
       if(this.opened) {
 
         //apply: accept if valid
-        if(this.$.field.isValid) {
-          this._applyTempMoment();
+        if(this.$.rangeField.isValid) {
+          this._applyTempRangeMoment();
           this._close();
         } else {
           //don't close, can't apply if not valid
@@ -318,7 +320,8 @@ Custom property | Description
       if(evt.detail.action) {
         this._validateCalendarMoment();
       } else {
-        this._rollbackTempMoment();
+        this._rollbackTempFromMoment();
+        this._rollbackTempToMoment();
       }
       this._close();
     },
@@ -327,7 +330,7 @@ Custom property | Description
      * If the calendar is open and the dropdown is selected, close the calendar
      */
     // _handleTap: function(evt) {
-    //   if(this._opened === true){
+    //   if(this.opened === true){
 
     //     var path = Polymer.dom(evt).path;
 
