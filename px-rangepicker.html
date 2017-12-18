@@ -226,8 +226,8 @@ Custom property | Description
     attached: function() {
       // this.$.panel.addEventListener('from-moment-changed', this._calendarFromMomentChanged.bind(this));
       // this.$.panel.addEventListener('to-moment-changed', this._calendarToMomentChanged.bind(this));
-      // this.$.rangeField.addEventListener('from-moment-changed', this._rangeFieldMomentChanged.bind(this));
-      // this.$.rangeField.addEventListener('to-moment-changed', this._rangeFieldMomentChanged.bind(this));
+      this.$.rangeField.addEventListener('from-moment-changed', this._rangeFieldMomentChanged.bind(this));
+      this.$.rangeField.addEventListener('to-moment-changed', this._rangeFieldMomentChanged.bind(this));
     },
 
     _onEsc: function(evt) {
@@ -298,7 +298,7 @@ Custom property | Description
     // },
 
     _rangeFieldMomentChanged : function(evt) {
-      this._tempMomentChanged('rangefield');
+      this._applyTempRangeMoment();
     },
 
     /**
