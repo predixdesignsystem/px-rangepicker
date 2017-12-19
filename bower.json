@@ -39,7 +39,8 @@
     "px-normalize-design": "^1.0.0",
     "px-helpers-design": "^1.0.0",
     "px-spacing-design": "^1.0.0",
-    "web-component-tester": "^6.4.0 "
+    "web-component-tester": "^6.4.0 ",
+    "iron-test-helpers": "^2.0.0"
   },
   "resolutions": {
     "webcomponentsjs": "^1.0.0"
