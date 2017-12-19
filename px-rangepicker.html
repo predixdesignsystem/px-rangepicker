@@ -284,21 +284,21 @@ Custom property | Description
       }
     },
 
-    _rangeFieldMomentChanged : function(evt) {
-      this._applyTempRangeMoment();
+    _rangeFieldMomentChanged : function() {
+      if(!this.opened) {
+        this._applyTempRangeMoment();
+      }
     },
 
     /**
      */
-     _validateCalendarMoment: function(newMoment) {
+     _validateCalendarMoment: function() {
       if(this.opened) {
-
         //apply: accept if valid
+        //only close if can apply
         if(this.$.rangeField.isValid) {
           this._applyTempRangeMoment();
           this.set('opened', false);
-        } else {
-          //don't close, can't apply if not valid
         }
       }
     },
