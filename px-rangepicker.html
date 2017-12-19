@@ -212,9 +212,12 @@ Custom property | Description
     },
     listeners: {
       'px-datetime-entry-icon-clicked':'_toggleBoxOpen',
-      'px-datetime-button-clicked': '_buttonClicked'
+      'px-datetime-button-clicked': '_buttonClicked',
       // 'tap' : '_handleTap'
     },
+    observers: [
+      '_processClose(opened)'
+    ],
     /**
      * Key bindings for iron-a11y-keys-behavior
      */
@@ -232,27 +235,15 @@ Custom property | Description
 
     _onEsc: function(evt) {
       if(this.opened) {
-        this._close();
+        this.set('opened', false);
       }
     },
 
     _onEnter: function(evt) {
       if(this.opened) {
         this._validateCalendarMoment();
-        this._close();
+        this.set('opened', false);
       }
-    },
-    /**
-     * Opens the calendar
-     */
-    _open: function() {
-      this.$.dropdown.open();
-    },
-    /**
-     * Closes the calendar
-     */
-    _close: function() {
-      this.$.dropdown.close();
     },
     /**
      * Opens the calendar if closed, closes it if opened
@@ -261,19 +252,19 @@ Custom property | Description
       this.$.dropdown.toggle();
     },
 
-    _processClose: function() {
+    _processClose: function(evt) {
+      if(evt){return}
       //If we show time make sure it is valid on closing. If we show buttons don't validate
-      var canApplyValues = !this.showButtons && this.$.panel.timeIsValid && this.$.field.isValid;
-      this._applyTempRangeMoment(canApplyValues);
-      this._close();
-    },
+      var canApplyValues = !this.showButtons && this.$.panel.timeIsValid && this.$.rangeField.isValid;
+      if (canApplyValues){
+        this._applyTempRangeMoment(canApplyValues);
+      }
+      else {
+        this._rollbackTempFromMoment();
+        this._rollbackTempToMoment();
+      }
 
-    // _momentChanged: function(momentObj) {
-    //   //we're closed, moment has changed by user changing the input fields.
-    //   if(!this.opened && this.$.rangeField.isValid && this.$.panel.timeIsValid) {
-    //     this._applyTempRangeMoment(true);
-    //   }
-    // },
+    },
 
     _tempMomentChanged: function(origin) {
       if(origin === 'rangefield') {
@@ -293,10 +284,6 @@ Custom property | Description
       }
     },
 
-    // _calendarTimeMomentChanged : function(evt) {
-    //   this._tempMomentChanged('calendarTime');
-    // },
-
     _rangeFieldMomentChanged : function(evt) {
       this._applyTempRangeMoment();
     },
@@ -309,7 +296,7 @@ Custom property | Description
         //apply: accept if valid
         if(this.$.rangeField.isValid) {
           this._applyTempRangeMoment();
-          this._close();
+          this.set('opened', false);
         } else {
           //don't close, can't apply if not valid
         }
@@ -323,7 +310,7 @@ Custom property | Description
         this._rollbackTempFromMoment();
         this._rollbackTempToMoment();
       }
-      this._close();
+      this.set('opened', false);
     },
 
     /**
@@ -336,7 +323,7 @@ Custom property | Description
 
     //     for (var i=0; i<path.length; i++) {
     //       if (path[i].nodeName === 'PX-DROPDOWN') {
-    //         this._close();
+    //         this.set('opened', false);
     //         return;
     //       }
     //     }
