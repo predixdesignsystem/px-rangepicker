@@ -63,9 +63,7 @@ suite('submit with buttons', function() {
   });
 
   test('clicking heading should not apply new value', function(done) {
-    var prevFrom = picker.fromMoment,
-        prevTo = picker.toMoment,
-        prevCount = submitEventCount;
+    var prevCount = submitEventCount;
 
     picker.opened = true;
     flush(()=>{
@@ -75,41 +73,37 @@ suite('submit with buttons', function() {
       heading.click();
 
       //shouldn't have changed
-      assert.equal(prevFrom.toISOString(), "2017-01-05T00:30:00.000Z");
-      assert.equal(prevTo.toISOString(), "2018-01-05T00:30:00.000Z");
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-05T00:30:00.000Z");
       assert.equal(prevCount, submitEventCount);
       done();
     });
   });
 
   test('clicking apply should apply new value', function(done) {
-    var prevFrom = picker.fromMoment,
-        prevTo = picker.toMoment,
-        prevCount = submitEventCount,
+    var prevCount = submitEventCount,
         buttons = Polymer.dom(panel.root).querySelectorAll('px-datetime-buttons'),
         applyBtn = Polymer.dom(buttons[0].root).querySelectorAll('#submitButton');
 
     picker.opened = true;
 
     //change a date
-    panel.toMoment = panel.toMoment.clone().add(1, 'day');
 
-    //simulate apply
-    applyBtn[0].click();
     flush(()=>{
+      panel.toMoment = panel.toMoment.clone().add(1, 'day');
+      //simulate apply
+      applyBtn[0].click();
       assert.isFalse(picker.opened);
 
-      assert.equal(prevFrom.toISOString(), "2017-01-05T00:30:00.000Z");
-      assert.equal(prevTo.toISOString(), "2018-01-06T00:30:00.000Z");
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-06T00:30:00.000Z");
       assert.equal(prevCount + 1, submitEventCount);
       done();
     });
   });
 
   test('clicking cancel should not apply new value', function(done) {
-    var prevFrom = picker.fromMoment,
-        prevTo = picker.toMoment,
-        prevCount = submitEventCount,
+    var prevCount = submitEventCount,
         buttons = Polymer.dom(panel.root).querySelectorAll('px-datetime-buttons'),
         bothBtn = Polymer.dom(buttons[0].root).querySelectorAll('button');
 
@@ -125,17 +119,15 @@ suite('submit with buttons', function() {
       assert.isFalse(picker.opened);
 
       //shouldn't have changed
-      assert.equal(prevFrom.toISOString(), "2017-01-05T00:30:00.000Z");
-      assert.equal(prevTo.toISOString(), "2018-01-05T00:30:00.000Z");
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-05T00:30:00.000Z");
       assert.equal(prevCount, submitEventCount);
       done();
     });
   });
 
   test('when not opened changing values should apply directly', function(done) {
-    var prevFrom = picker.fromMoment,
-        prevTo = picker.toMoment,
-        prevCount = submitEventCount,
+    var prevCount = submitEventCount,
         e = document.createEvent('Event');
 
     //change a date
@@ -145,8 +137,8 @@ suite('submit with buttons', function() {
 
     flush(()=>{
       //should have changed
-      assert.equal(prevFrom.toISOString(), "2017-01-05T00:30:00.000Z");
-      assert.equal(prevTo.toISOString(), "2018-01-06T00:30:00.000Z");
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-06T00:30:00.000Z");
       assert.equal(prevCount + 1, submitEventCount);
       done();
     });
@@ -165,7 +157,7 @@ suite('submit without buttons', function() {
     field = Polymer.dom(picker.root).querySelector('px-datetime-range-field'),
     heading = document.querySelector('h3');
     picker.set('fromMoment', moment("2017-01-05T00:30:00.000Z").tz(picker.timeZone));
-      picker.set('toMoment', moment("2018-01-05T00:30:00.000Z").tz(picker.timeZone));
+    picker.set('toMoment', moment("2018-01-05T00:30:00.000Z").tz(picker.timeZone));
     picker.showButtons = false;
 
     submitListener = function(evt) {
@@ -183,32 +175,25 @@ suite('submit without buttons', function() {
   });
 
   test('clicking heading should apply new value', function(done) {
-    var prevRange = picker.range,
-        prevFrom = picker.fromMoment,
-        prevTo = picker.toMoment,
-        prevCount = submitEventCount;
+    var prevCount = submitEventCount;
 
     picker.opened = true;
 
     //change a date
     panel.toMoment = panel.toMoment.clone().add(1, 'day');
-
-    heading.click();
+    picker.opened = false;
 
     flush(()=>{
       //should have changed
-      assert.equal(prevFrom.toISOString(), "2017-01-05T00:30:00.000Z");
-      assert.equal(prevTo.toISOString(), "2018-01-06T00:30:00.000Z");
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-06T00:30:00.000Z");
       assert.equal(prevCount + 1, submitEventCount);
       done();
     });
   });
 
   test('clicking heading when time not valid should not apply new value', function(done) {
-    var prevRange = picker.range,
-        prevFrom = picker.fromMoment,
-        prevTo = picker.toMoment,
-        prevCount = submitEventCount;
+    var prevCount = submitEventCount;
 
     picker.opened = true;
 
@@ -217,12 +202,12 @@ suite('submit without buttons', function() {
     //make sure time is invalid
     panel._toTimeIsValid = false;
 
-    heading.click();
+    picker.opened = false;
 
     flush(()=>{
       //shouldn't have changed
-      assert.equal(prevFrom.toISOString(), "2017-01-05T00:30:00.000Z");
-      assert.equal(prevTo.toISOString(), "2018-01-05T00:30:00.000Z");
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-05T00:30:00.000Z");
       assert.equal(prevCount, submitEventCount);
 
       panel._toTimeIsValid = true;
@@ -231,10 +216,7 @@ suite('submit without buttons', function() {
   });
 
   test('when not opened changing values should apply directly', function(done) {
-    var prevRange = picker.range,
-        prevFrom = picker.fromMoment,
-        prevTo = picker.toMoment,
-        prevCount = submitEventCount;
+    var prevCount = submitEventCount;
         e = document.createEvent('Event');
 
     //change a date
@@ -244,18 +226,15 @@ suite('submit without buttons', function() {
 
     flush(()=>{
       //should have changed
-      assert.equal(prevFrom.toISOString(), "2017-01-05T00:30:00.000Z");
-      assert.equal(prevTo.toISOString(), "2018-01-06T00:30:00.000Z");
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-06T00:30:00.000Z");
       assert.equal(prevCount + 1, submitEventCount);
       done();
     });
   });
 
   test('when not opened changing invalid values should not apply directly', function(done) {
-    var prevRange = picker.range,
-        prevFrom = picker.fromMoment,
-        prevTo = picker.toMoment,
-        prevCount = submitEventCount;
+    var prevCount = submitEventCount;
         e = document.createEvent('Event');
 
     field._fromValid = false;
@@ -267,8 +246,8 @@ suite('submit without buttons', function() {
 
     flush(()=>{
       //shouldn't have changed
-      assert.equal(prevFrom.toISOString(), "2017-01-05T00:30:00.000Z");
-      assert.equal(prevTo.toISOString(), "2018-01-05T00:30:00.000Z");
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-05T00:30:00.000Z");
       assert.equal(prevCount, submitEventCount);
 
       field._fromValid = true;
@@ -285,6 +264,9 @@ suite('test past dates', function() {
     picker = fixture('px-rangepicker');
     panel = Polymer.dom(picker.root).querySelector('px-datetime-range-panel'),
     heading = document.querySelector('h3');
+    now = Px.moment();
+    picker.set('fromMoment', moment("2017-01-05T00:30:00.000Z").tz(picker.timeZone));
+    picker.set('toMoment', moment("2018-01-05T00:30:00.000Z").tz(picker.timeZone));
 
     flush(()=>{
       done();
@@ -294,18 +276,16 @@ suite('test past dates', function() {
   test('start date in past should be set to present date', function(done) {
     picker.setAttribute('block-past-dates',true);
 
-    var prevFrom = picker.fromMoment,
-        prevTo = picker.toMoment;
-
     picker.opened = true;
 
     //change a date
+    debugger
     panel.fromMoment = panel.fromMoment.clone();
     panel.toMoment = panel.toMoment.clone();
 
     //make sure time is invalid
     panel._toTimeIsValid = false;
-    heading.click();
+    picker.opened = false;
 
     flush(()=>{
       //see what dates are
