@@ -5,7 +5,7 @@ suite('interaction', function() {
   let picker, dropdown, rangeField;
 
   setup(function(done) {
-    picker = fixture('px-rangepicker'),
+    picker = fixture('px_rangepicker'),
     dropdown = Polymer.dom(picker.root).querySelector('#dropdown'),
     rangeField = Polymer.dom(picker.root).querySelector('px-datetime-range-field');
 
@@ -35,7 +35,7 @@ suite('submit with buttons', function() {
       submitListener;
 
   setup(function(done) {
-    picker = fixture('px-rangepicker'),
+    picker = fixture('px_rangepicker'),
     panel = Polymer.dom(picker.root).querySelector('px-datetime-range-panel'),
     rangeField = Polymer.dom(picker.root).querySelector('px-datetime-range-field'),
     picker.set('fromMoment', moment("2017-01-05T00:30:00.000Z"));
@@ -146,7 +146,7 @@ suite('submit without buttons', function() {
   submitListener;
 
   setup(function(done) {
-    picker = fixture('px-rangepicker'),
+    picker = fixture('px_rangepicker'),
     panel = Polymer.dom(picker.root).querySelector('px-datetime-range-panel'),
     rangeField = Polymer.dom(picker.root).querySelector('px-datetime-range-field'),
     picker.set('fromMoment', moment("2017-01-05T00:30:00.000Z"));
