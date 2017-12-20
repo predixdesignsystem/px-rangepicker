@@ -50,7 +50,6 @@
         <p class="u-mb++">Current dateTime object: <strong>{{props.range.value.from}}</strong> To: <strong>{{props.range.value.to}}</strong></p>
 
         <px-rangepicker
-            range="{{props.range.value}}"
             date-format="{{props.dateFormat.value}}"
             time-format="{{props.timeFormat.value}}"
             show-buttons="{{props.showButtons.value}}"
@@ -62,17 +61,17 @@
             is-valid="{{props.isValid.value}}"
             time-zone="{{props.timeZone.value}}"
             allow-wrap="{{props.allowWrap.value}}"
-            min="{{props.min.value}}"
-            max="{{props.max.value}}">
+            min-date="{{props.minDate.value}}"
+            max-date="{{props.maxDate.value}}">
         </px-rangepicker>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
 
       <px-demo-component-snippet
-          slot="px-demo-comonent-snippet"
-          element-properties="{{props}}"
-          element-name="px-rangepicker"
-          links-includes="[[linksIncludes]]">
+        slot="px-demo-component-snippet"
+        element-properties="{{props}}"
+        element-name="px-rangepicker"
+        links-includes="[[linksIncludes]]">
       </px-demo-component-snippet>
     </px-demo-interactive>
 
@@ -133,7 +132,6 @@
               configReset: true },
 
             { configName: "Calendar Only",
-              range: {"from": Px.moment().subtract(1, 'day').toISOString(), "to": Px.moment().add(1, 'day').toISOString()},
               dateFormat: "MM/DD/YY",
               timeFormat: "hh:mm:ss A",
               showButtons: false,
@@ -146,7 +144,6 @@
             },
 
             { configName: "Calendar & Presets",
-              range: {"from": Px.moment().subtract(1, 'day').toISOString(), "to": Px.moment().toISOString()},
               dateFormat: "DD/MM/YY",
               timeFormat: "HH:mm:ss.SSS",
               showButtons: false,
@@ -244,24 +241,24 @@
         inputChoices: ['none', 'dropdown', 'extendedDropdown', 'text', 'abbreviatedText']
       },
 
-      range: {
+      // range: {
+      //   type: Object,
+      //   defaultValue: {
+      //     from : Px.moment().subtract(1, 'day').toISOString(),
+      //     to : Px.moment().add(1, 'day').toISOString()
+      //   },
+      //   inputType: 'code:JSON'
+      // },
+
+      minDate: {
         type: Object,
-        defaultValue: {
-          from : Px.moment().subtract(1, 'day').toISOString(),
-          to : Px.moment().add(1, 'day').toISOString()
-        },
+        defaultValue: Px.moment().subtract(1, 'month'),
         inputType: 'code:JSON'
       },
 
-      min: {
+      maxDate: {
         type: Object,
-        defaultValue: Px.moment().subtract(7, 'day'),
-        inputType: 'code:JSON'
-      },
-
-      max: {
-        type: Object,
-        defaultValue: Px.moment().add(7, 'day'),
+        defaultValue: Px.moment().add(1, 'month'),
         inputType: 'code:JSON'
       }
 
