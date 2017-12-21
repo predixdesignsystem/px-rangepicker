@@ -298,6 +298,7 @@ Custom property | Description
         //only close if can apply
         if(this.$.rangeField.isValid) {
           this._applyTempRangeMoment();
+          this.fire('px-datetime-range-submitted', {'fromMoment': this.fromMoment, 'toMoment': this.toMoment});
           this.set('opened', false);
         }
       }
