@@ -241,25 +241,16 @@
         inputChoices: ['none', 'dropdown', 'extendedDropdown', 'text', 'abbreviatedText']
       },
 
-      // range: {
-      //   type: Object,
-      //   defaultValue: {
-      //     from : Px.moment().subtract(1, 'day').toISOString(),
-      //     to : Px.moment().add(1, 'day').toISOString()
-      //   },
-      //   inputType: 'code:JSON'
-      // },
-
       minDate: {
         type: Object,
-        defaultValue: Px.moment().subtract(1, 'month'),
-        inputType: 'code:JSON'
+        defaultValue: Px.moment().subtract(1, 'month').toISOString(),
+        inputType: 'text'
       },
 
       maxDate: {
         type: Object,
-        defaultValue: Px.moment().add(1, 'month'),
-        inputType: 'code:JSON'
+        defaultValue: Px.moment().add(1, 'month').toISOString(),
+        inputType: 'text'
       }
 
     },
