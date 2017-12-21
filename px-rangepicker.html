@@ -213,7 +213,7 @@ Custom property | Description
     listeners: {
       'px-datetime-entry-icon-clicked':'_toggleBoxOpen',
       'px-datetime-button-clicked': '_buttonClicked',
-      // 'tap' : '_handleTap'
+      'tap' : '_handleTap'
     },
     observers: [
       '_processClose(opened)'
@@ -227,8 +227,6 @@ Custom property | Description
     },
 
     attached: function() {
-      // this.$.panel.addEventListener('from-moment-changed', this._calendarFromMomentChanged.bind(this));
-      // this.$.panel.addEventListener('to-moment-changed', this._calendarToMomentChanged.bind(this));
       this.$.rangeField.addEventListener('from-moment-changed', this._rangeFieldMomentChanged.bind(this));
       this.$.rangeField.addEventListener('to-moment-changed', this._rangeFieldMomentChanged.bind(this));
     },
@@ -317,19 +315,19 @@ Custom property | Description
     /**
      * If the calendar is open and the dropdown is selected, close the calendar
      */
-    // _handleTap: function(evt) {
-    //   if(this.opened === true){
+    _handleTap: function(evt) {
+      if(this.opened === true){
 
-    //     var path = Polymer.dom(evt).path;
+        var path = Polymer.dom(evt).path;
 
-    //     for (var i=0; i<path.length; i++) {
-    //       if (path[i].nodeName === 'PX-DROPDOWN') {
-    //         this.set('opened', false);
-    //         return;
-    //       }
-    //     }
+        for (var i=0; i<path.length; i++) {
+          if (path[i].nodeName === 'PX-DROPDOWN') {
+            this.set('opened', false);
+            return;
+          }
+        }
 
-    //   }
-    // }
+      }
+    }
   });
 </script>
