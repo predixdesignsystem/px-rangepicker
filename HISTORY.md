@@ -1,3 +1,9 @@
+V3.0.0
+==================
+* Polymer 1.X/2.X hybrid support
+* range property has been deleted, please use `fromMoment` and `toMoment` for controlling the range. the px-datetime-range-submitted event still exists when a new range is applied.
+* `fromMoment` and `toMoment` can be null to have an empty field
+
 v2.1.2
 ==================
 * add device flags

@@ -18,7 +18,9 @@
 <!-- Demo DOM module -->
 <dom-module id="px-rangepicker-demo">
   <template>
+    <custom-style>
      <style include="px-demo-styles" is="custom-style"></style>
+    </custom-style>
 
     <!-- Header -->
     <px-demo-header
@@ -33,43 +35,47 @@
     <!-- Interactive -->
     <px-demo-interactive>
       <!-- Configs -->
-      <px-demo-configs configs="[[configs]]" props="{{props}}" chosen-config="{{chosenConfig}}"></px-demo-configs>
+      <px-demo-configs slot="px-demo-configs" configs="[[configs]]" props="{{props}}" chosen-config="{{chosenConfig}}"></px-demo-configs>
 
       <!-- Props -->
-      <px-demo-props props="{{props}}" config="[[chosenConfig]]" class="flex__item flex__item--msfix"></px-demo-props>
+      <px-demo-props slot="px-demo-props" props="{{props}}" config="[[chosenConfig]]" class="flex__item flex__item--msfix"></px-demo-props>
 
       <!-- Code Editor -->
-      <px-demo-code-editor props="{{props}}"></px-demo-code-editor>
+      <px-demo-code-editor slot="px-demo-code-editor" props="{{props}}"></px-demo-code-editor>
 
       <!-- Component ---------------------------------------------------------->
-      <px-demo-component style="height:600px">
+      <px-demo-component slot="px-demo-component" style="height:600px">
         <p class=u-mb0>Event fired: <strong>px-datetime-range-submitted</strong></p>
         <p class="zeta u-mt0">See API Reference below for more details</p>
-        <p class="u-mb++">Current dateTime object: <strong>{{props.range.value.from}}</strong> To: <strong>{{props.range.value.to}}</strong></p>
+        <p class="u-mb++">Submitted range: <strong>{{props.fromMoment.value}}</strong> To: <strong>{{props.toMoment.value}}</strong></p>
 
         <px-rangepicker
-            range="{{props.range.value}}"
-            date-format="{{props.dateFormat.value}}"
-            time-format="{{props.timeFormat.value}}"
-            show-buttons="{{props.showButtons.value}}"
-            block-past-dates="{{props.blockPastDates.value}}"
-            block-future-dates="{{props.blockFutureDates.value}}"
-            hide-time="{{props.hideTime.value}}"
-            hide-presets="{{props.hidePresets.value}}"
-            show-time-zone="{{props.showTimeZone.value}}"
-            is-valid="{{props.isValid.value}}"
-            time-zone="{{props.timeZone.value}}"
-            allow-wrap="{{props.allowWrap.value}}"
-            min="{{props.min.value}}"
-            max="{{props.max.value}}">
+          from-moment="{{props.fromMoment.value}}"
+          to-moment="{{props.toMoment.value}}"
+          date-format="{{props.dateFormat.value}}"
+          time-format="{{props.timeFormat.value}}"
+          show-buttons="{{props.showButtons.value}}"
+          block-past-dates="{{props.blockPastDates.value}}"
+          block-future-dates="{{props.blockFutureDates.value}}"
+          hide-time="{{props.hideTime.value}}"
+          hide-presets="{{props.hidePresets.value}}"
+          hide-presets="{{props.hidePresets.value}}"
+          show-time-zone="{{props.showTimeZone.value}}"
+          is-valid="{{props.isValid.value}}"
+          time-zone="{{props.timeZone.value}}"
+          allow-wrap="{{props.allowWrap.value}}"
+          min-date="{{props.minDate.value}}"
+          max-date="{{props.maxDate.value}}">
         </px-rangepicker>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
 
       <px-demo-component-snippet
-          element-properties="{{props}}"
-          element-name="px-rangepicker"
-          links-includes="[[linksIncludes]]">
+        slot="px-demo-component-snippet"
+        element-properties="{{props}}"
+        element-name="px-rangepicker"
+        links-includes="[[linksIncludes]]"
+        suppress-property-values="[[suppressPropertyValues]]">
       </px-demo-component-snippet>
     </px-demo-interactive>
 
@@ -112,7 +118,10 @@
             return props;
           }
       },
-
+      suppressPropertyValues: {
+        type: Array,
+        value: function() { return ['toMoment', 'fromMoment']; }
+      },
       /**
        * An array of pre-configured `props` that can be used to provide the user
        * with a set of common examples. These configs will be made available
@@ -130,7 +139,6 @@
               configReset: true },
 
             { configName: "Calendar Only",
-              range: {"from": Px.moment().subtract(1, 'day').toISOString(), "to": Px.moment().add(1, 'day').toISOString()},
               dateFormat: "MM/DD/YY",
               timeFormat: "hh:mm:ss A",
               showButtons: false,
@@ -139,11 +147,12 @@
               hideTime: true,
               hidePresets: true,
               showTimeZone: "abbreviatedText",
-              timeZone: "America/Los_Angeles"
+              timeZone: "America/Los_Angeles",
+              fromMoment: Px.moment().subtract(8, 'day').startOf('day'),
+              toMoment: Px.moment().subtract(1, 'day').startOf('day')
             },
 
             { configName: "Calendar & Presets",
-              range: {"from": Px.moment().subtract(1, 'day').toISOString(), "to": Px.moment().toISOString()},
               dateFormat: "DD/MM/YY",
               timeFormat: "HH:mm:ss.SSS",
               showButtons: false,
@@ -152,7 +161,9 @@
               hideTime: true,
               hidePresets: false,
               showTimeZone: "extendedDropdown",
-              timeZone: "America/New_York"
+              timeZone: "America/New_York",
+              fromMoment: Px.moment().subtract(8, 'day').startOf('day'),
+              toMoment: Px.moment().subtract(1, 'day').startOf('day')
             }
           ]
         }
@@ -241,25 +252,27 @@
         inputChoices: ['none', 'dropdown', 'extendedDropdown', 'text', 'abbreviatedText']
       },
 
-      range: {
-        type: Object,
-        defaultValue: {
-          from : Px.moment().subtract(1, 'day').toISOString(),
-          to : Px.moment().add(1, 'day').toISOString()
-        },
-        inputType: 'code:JSON'
+      minDate: {
+        type: String,
+        defaultValue: Px.moment().subtract(3, 'month').toISOString(),
+        inputType: 'text',
+        inputPlaceholder: 'ISOString'
       },
 
-      min: {
-        type: Object,
-        defaultValue: Px.moment().subtract(7, 'day'),
-        inputType: 'code:JSON'
+      maxDate: {
+        type: String,
+        defaultValue: Px.moment().add(3, 'month').toISOString(),
+        inputType: 'text'
       },
 
-      max: {
+      fromMoment: {
         type: Object,
-        defaultValue: Px.moment().add(7, 'day'),
-        inputType: 'code:JSON'
+        defaultValue: null
+      },
+
+      toMoment: {
+        type: Object,
+        defaultValue: null
       }
 
     },

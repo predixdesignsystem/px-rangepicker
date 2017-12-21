@@ -1,28 +1,48 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Predix UI</title>
-    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
 
-    <link rel="import" href="../../polymer/polymer.html" />
-    <link rel="import" href="../../px-theme/px-theme-styles.html">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Predix UI</title>
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="../../polymer/polymer.html" />
+  <link rel="import" href="../../px-theme/px-theme-styles.html">
+  <link rel="import" href="../px-rangepicker.html" />
+
+  <custom-style>
     <style include="px-theme-styles" is="custom-style"></style>
+  </custom-style>
+</head>
 
-    <link rel="import" href="../px-rangepicker.html" />
+<body>
+  <dom-bind>
+    <template is="dom-bind">
+      <h2>px-rangepicker</h2>
+      <px-rangepicker
+        show-buttons
+        date-format="MM-DD-YY"
+        time-format="HH:mm:ss"
+        allow-wrap
+        show-time-zone="abbreviatedText"
+        from-moment="{{fromMoment}}"
+        to-moment="{{toMoment}}">
+      </px-rangepicker>
+    </template>
+  </dom-bind>
+  <script>
+    window.addEventListener('WebComponentsReady', function () {
+      var template = document.querySelector('template[is=dom-bind]');
+      template.fromMoment = Px.moment().startOf('day').subtract(7, 'days');
+      template.toMoment = Px.moment().startOf('day').subtract(1, 'days');
 
-  </head>
+      // Support hybrid mode
+      var templatev1 = document.querySelector('dom-bind');
+      templatev1.fromMoment = template.fromMoment;
+      templatev1.toMoment = template.toMoment;
+    });
+  </script>
+</body>
 
-  <body>
-    <h2>px-rangepicker</h2>
-    <px-rangepicker
-      show-buttons
-      date-format="Y-MM-DD"
-      time-format="HH:mm:ss"
-      show-time-zone="dropdown"
-      >
-    </px-rangepicker>
-  </body>
 </html>
-

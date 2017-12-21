@@ -1,271 +1,267 @@
-// This is the wrapper for custom tests, called upon web components ready state
-function runCustomTests() {
-  // Place any setup steps like variable declaration and initialization here
-  var picker = document.getElementById('picker'),
-      panel = Polymer.dom(picker.root).querySelector('px-datetime-range-panel'),
-      field = Polymer.dom(picker.root).querySelector('px-datetime-range-field'),
-      overlay = Polymer.dom(picker.root).querySelector('#overlay');
-  // This is the placeholder suite to place custom tests in
-  // Use testCase(options) for a more convenient setup of the test cases
-  suite('interaction', function() {
+// This is the placeholder suite to place custom tests in
+// Use testCase(options) for a more convenient setup of the test cases
+suite('interaction', function() {
 
-    test('panel and overlay hidden at startup', function() {
-      assert.isTrue(panel.classList.contains('visuallyhidden'));
-      assert.isTrue(overlay.classList.contains('visuallyhidden'));
-    });
+  let picker, dropdown, rangeField;
 
-    test('open shows the panel and overlay', function() {
-      picker._open();
-      assert.isFalse(panel.classList.contains('visuallyhidden'));
-      assert.isFalse(overlay.classList.contains('visuallyhidden'));
-    });
+  setup(function(done) {
+    picker = fixture('px_rangepicker'),
+    dropdown = Polymer.dom(picker.root).querySelector('#dropdown'),
+    rangeField = Polymer.dom(picker.root).querySelector('px-datetime-range-field');
 
-    test('close hides the panel and overlay', function() {
-      picker._close();
-      assert.isTrue(panel.classList.contains('visuallyhidden'));
-      assert.isTrue(overlay.classList.contains('visuallyhidden'));
-    });
-
-    test('click on overlay closes panel', function() {
-      picker._open();
-      overlay.click();
-      assert.isTrue(panel.classList.contains('visuallyhidden'));
-      assert.isTrue(overlay.classList.contains('visuallyhidden'));
+    flush(()=>{
+      done();
     });
   });
 
-  suite('submit with buttons', function() {
+  test('panel hidden at startup', function() {
+    assert.isFalse(picker.opened);
+  });
 
-    var submitEventCount = 0,
-        submitListener;
-    suiteSetup(function() {
-      picker.showButtons = true;
+  test('clicking icon opens the panel', function() {
+  var field = Polymer.dom(rangeField.root).querySelector('px-datetime-field'),
+      entry = Polymer.dom(field.root).querySelector('px-datetime-entry'),
+      icons = Polymer.dom(entry.root).querySelectorAll('px-icon');
 
-      submitListener = function(evt) {
-        submitEventCount++;
-      };
+  icons[0].click();
+  assert.isTrue(picker.opened);
+  });
 
-      picker.addEventListener('px-datetime-range-submitted', submitListener);
-    });
+});
 
-    suiteTeardown(function() {
-      picker.removeEventListener('px-datetime-range-submitted', submitListener);
-    });
+suite('submit with buttons', function() {
 
-    test('clicking overlay should not apply new value', function() {
-      var prevRange = picker.range,
-          prevFrom = picker.fromMoment,
-          prevTo = picker.toMoment,
-          prevCount = submitEventCount;
+  let picker, panel, rangeField, submitEventCount = 0,
+      submitListener;
 
-      picker._open();
+  setup(function(done) {
+    picker = fixture('px_rangepicker'),
+    panel = Polymer.dom(picker.root).querySelector('px-datetime-range-panel'),
+    rangeField = Polymer.dom(picker.root).querySelector('px-datetime-range-field'),
+    picker.set('fromMoment', moment("2017-01-05T00:30:00.000Z"));
+    picker.set('toMoment', moment("2018-01-05T00:30:00.000Z"));
+    picker.showButtons = true;
 
-      //change a date
-      panel.toMoment = panel.toMoment.clone().add(1, 'day');
+    submitListener = function(evt) {
+      submitEventCount++;
+    };
+    picker.addEventListener('px-datetime-range-submitted', submitListener);
 
-      overlay.click();
-
-      //shouldn't have changed
-      assert.equal(prevFrom.toISOString(), picker.range.from);
-      assert.equal(prevTo.toISOString(), picker.range.to);
-      assert.equal(prevRange.from, picker.range.from);
-      assert.equal(prevRange.to, picker.range.to);
-      assert.equal(prevCount, submitEventCount);
-    });
-
-    test('clicking apply should apply new value', function() {
-      var prevRange = picker.range,
-          prevFrom = picker.fromMoment,
-          prevTo = picker.toMoment,
-          prevCount = submitEventCount;
-
-      picker._open();
-
-      //change a date
-      panel.toMoment = panel.toMoment.clone().add(1, 'day');
-
-      //simulate apply
-      picker.dispatchEvent(new CustomEvent('px-datetime-button-clicked', { 'detail': {'action': true}}))
-
-      assert.isFalse(picker._opened);
-
-
-      assert.equal(prevFrom.toISOString(), picker.range.from);
-      assert.equal(prevTo.clone().add(1, 'day').toISOString(), picker.range.to);
-      assert.equal(prevRange.from, picker.range.from);
-      assert.notEqual(prevRange.to, picker.range.to);
-      assert.equal(prevCount + 1, submitEventCount);
-    });
-
-    test('clicking cancel should not apply new value', function() {
-      var prevRange = picker.range,
-          prevFrom = picker.fromMoment,
-          prevTo = picker.toMoment,
-          prevCount = submitEventCount;
-
-      picker._open();
-
-      //change a date
-      panel.toMoment = panel.toMoment.clone().add(1, 'day');
-
-      //simulate apply
-      picker.dispatchEvent(new CustomEvent('px-datetime-button-clicked', { 'detail': {'action': false}}))
-
-      assert.isFalse(picker._opened);
-
-      //shouldn't have changed
-      assert.equal(prevFrom.toISOString(), picker.range.from);
-      assert.equal(prevTo.toISOString(), picker.range.to);
-      assert.equal(prevRange.from, picker.range.from);
-      assert.equal(prevRange.to, picker.range.to);
-      assert.equal(prevCount, submitEventCount);
-    });
-
-    test('when not opened changing values should apply directly', function() {
-      var prevRange = picker.range,
-          prevFrom = picker.fromMoment,
-          prevTo = picker.toMoment,
-          prevCount = submitEventCount;
-
-      //change a date
-      field.toMoment = field.toMoment.clone().add(1, 'day');
-
-      //should have changed
-      assert.equal(prevFrom.toISOString(), picker.range.from);
-      assert.equal(prevTo.clone().add(1, 'day').toISOString(), picker.range.to);
-      assert.equal(prevRange.from, picker.range.from);
-      assert.notEqual(prevRange.to, picker.range.to);
-      assert.equal(prevCount + 1, submitEventCount);
-    });
-  })
-
-  suite('submit without buttons', function() {
-
-    var submitEventCount = 0,
-        submitListener;
-    suiteSetup(function() {
-
-      picker.showButtons = false;
-      submitListener = function(evt) {
-        submitEventCount++;
-      };
-
-      picker.addEventListener('px-datetime-range-submitted', submitListener);
-    });
-
-    suiteTeardown(function() {
-      picker.removeEventListener('px-datetime-range-submitted', submitListener);
-    });
-
-    test('clicking overlay should apply new value', function() {
-      var prevRange = picker.range,
-          prevFrom = picker.fromMoment,
-          prevTo = picker.toMoment,
-          prevCount = submitEventCount;
-
-      picker._open();
-
-      //change a date
-      panel.toMoment = panel.toMoment.clone().add(1, 'day');
-
-      overlay.click();
-
-      //should have changed
-      assert.equal(prevFrom.toISOString(), picker.range.from);
-      assert.equal(prevTo.clone().add(1, 'day').toISOString(), picker.range.to);
-      assert.equal(prevRange.from, picker.range.from);
-      assert.notEqual(prevRange.to, picker.range.to);
-      assert.equal(prevCount + 1, submitEventCount);
-    });
-
-    test('clicking overlay when time not valid should not apply new value', function() {
-      var prevRange = picker.range,
-          prevFrom = picker.fromMoment,
-          prevTo = picker.toMoment,
-          prevCount = submitEventCount;
-
-      picker._open();
-
-      //change a date
-      panel.toMoment = panel.toMoment.clone().add(1, 'day');
-      //make sure time is invalid
-      panel._toTimeIsValid = false;
-
-      overlay.click();
-
-      //shouldn't have changed
-      assert.equal(prevFrom.toISOString(), picker.range.from);
-      assert.equal(prevTo.toISOString(), picker.range.to);
-      assert.equal(prevRange.from, picker.range.from);
-      assert.equal(prevRange.to, picker.range.to);
-      assert.equal(prevCount, submitEventCount);
-
-      panel._toTimeIsValid = true;
-    });
-
-    test('when not opened changing values should apply directly', function() {
-      var prevRange = picker.range,
-          prevFrom = picker.fromMoment,
-          prevTo = picker.toMoment,
-          prevCount = submitEventCount;
-
-      //change a date
-      field.toMoment = field.toMoment.clone().add(1, 'day');
-
-      //should have changed
-      assert.equal(prevFrom.toISOString(), picker.range.from);
-      assert.equal(prevTo.clone().add(1, 'day').toISOString(), picker.range.to);
-      assert.equal(prevRange.from, picker.range.from);
-      assert.notEqual(prevRange.to, picker.range.to);
-      assert.equal(prevCount + 1, submitEventCount);
-    });
-
-    test('when not opened changing invalid values should not apply directly', function() {
-      var prevRange = picker.range,
-          prevFrom = picker.fromMoment,
-          prevTo = picker.toMoment,
-          prevCount = submitEventCount;
-
-      field._fromValid = false;
-
-      //change a date
-      field.toMoment = field.toMoment.clone().add(1, 'day');
-
-      //shouldn't have changed
-      assert.equal(prevFrom.toISOString(), picker.range.from);
-      assert.equal(prevTo.toISOString(), picker.range.to);
-      assert.equal(prevRange.from, picker.range.from);
-      assert.equal(prevRange.to, picker.range.to);
-      assert.equal(prevCount, submitEventCount);
-
-      field._fromValid = true;
-    });
-  })
-
-  suite('test past dates', function() {
-
-    test('start date in past should be set to present date', function() {
-      picker.setAttribute('block-past-dates',true);
-
-      var prevRange = picker.range,
-          prevFrom = picker.fromMoment,
-          prevTo = picker.toMoment;
-
-      picker._open();
-
-      //change a date
-      panel.fromMoment = panel.fromMoment.clone();
-      panel.toMoment = panel.toMoment.clone();
-
-      //make sure time is invalid
-      panel._toTimeIsValid = false;
-      overlay.click();
-
-      //see what dates are
-      assert.equal(panel.fromMoment.toISOString(),picker.range.from);
-      assert.equal(panel.toMoment.toISOString(),picker.range.to);
-
-      panel._toTimeIsValid = true;
+    flush(()=>{
+      done();
     });
   });
-};
+
+  suiteTeardown(function() {
+    picker.removeEventListener('px-datetime-range-submitted', submitListener);
+  });
+
+  test('closing panel should not apply new value', function(done) {
+    var prevCount = submitEventCount;
+
+    picker.opened = true;
+    flush(()=>{
+      //change a date
+      panel.toMoment = panel.toMoment.clone().add(1, 'day');
+
+      picker.opened = false;
+
+      //shouldn't have changed
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-05T00:30:00.000Z");
+      // assert.equal(prevCount, submitEventCount);
+      done();
+    });
+  });
+
+  test('clicking apply should apply new value', function(done) {
+    var prevCount = submitEventCount,
+        buttons = Polymer.dom(panel.root).querySelectorAll('px-datetime-buttons'),
+        applyBtn = Polymer.dom(buttons[0].root).querySelectorAll('#submitButton');
+
+    picker.opened = true;
+
+    //change a date
+
+    flush(()=>{
+      panel.toMoment = panel.toMoment.clone().add(1, 'day');
+      //simulate apply
+      applyBtn[0].click();
+      assert.isFalse(picker.opened);
+
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-06T00:30:00.000Z");
+      // assert.equal(prevCount + 1, submitEventCount);
+      done();
+    });
+  });
+
+  test('clicking cancel should not apply new value', function(done) {
+    var prevCount = submitEventCount,
+        buttons = Polymer.dom(panel.root).querySelectorAll('px-datetime-buttons'),
+        bothBtn = Polymer.dom(buttons[0].root).querySelectorAll('button');
+
+    picker.opened = true;
+
+    //change a date
+    panel.toMoment = panel.toMoment.clone().add(1, 'day');
+
+    //simulate apply
+    bothBtn[0].click();
+
+    flush(()=>{
+      assert.isFalse(picker.opened);
+
+      //shouldn't have changed
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-05T00:30:00.000Z");
+      // assert.equal(prevCount, submitEventCount);
+      done();
+    });
+  });
+
+  test('when not opened changing values should apply directly', function(done) {
+    var prevCount = submitEventCount,
+        e = document.createEvent('Event');
+
+    //change a date
+    rangeField.toMoment = rangeField.toMoment.clone().add(1, 'day');
+    e.initEvent("blur", true, true);
+    picker.dispatchEvent(e);
+
+    flush(()=>{
+      //should have changed
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-06T00:30:00.000Z");
+      // assert.equal(prevCount + 1, submitEventCount);
+      done();
+    });
+  });
+});
+
+suite('submit without buttons', function() {
+
+  let picker, panel, rangeField,
+  submitEventCount = 0,
+  submitListener;
+
+  setup(function(done) {
+    picker = fixture('px_rangepicker'),
+    panel = Polymer.dom(picker.root).querySelector('px-datetime-range-panel'),
+    rangeField = Polymer.dom(picker.root).querySelector('px-datetime-range-field'),
+    picker.set('fromMoment', moment("2017-01-05T00:30:00.000Z"));
+    picker.set('toMoment', moment("2018-01-05T00:30:00.000Z"));
+    picker.showButtons = false;
+
+    submitListener = function(evt) {
+      submitEventCount++;
+    };
+    picker.addEventListener('px-datetime-range-submitted', submitListener);
+
+    flush(()=>{
+      done();
+    });
+  });
+
+  suiteTeardown(function() {
+    picker.removeEventListener('px-datetime-range-submitted', submitListener);
+  });
+
+  test('closing panel should apply new value', function(done) {
+    var prevCount = submitEventCount;
+
+    picker.opened = true;
+
+    //change a date
+    panel.toMoment = panel.toMoment.clone().add(1, 'day');
+    picker.opened = false;
+
+    flush(()=>{
+      //should have changed
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-06T00:30:00.000Z");
+      // assert.equal(prevCount + 1, submitEventCount);
+      done();
+    });
+  });
+
+  test('closing panel when time not valid should not apply new value', function(done) {
+    var prevCount = submitEventCount;
+
+    picker.opened = true;
+
+    //change a date
+    panel.toMoment = panel.toMoment.clone().add(1, 'day');
+    //make sure time is invalid
+    panel._toTimeIsValid = false;
+
+    picker.opened = false;
+
+    flush(()=>{
+      //shouldn't have changed
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-05T00:30:00.000Z");
+      // assert.equal(prevCount, submitEventCount);
+
+      panel._toTimeIsValid = true;
+      done();
+    });
+  });
+
+  test('when not opened changing values should apply directly on blur', function(done) {
+    var prevCount = submitEventCount;
+        e = document.createEvent('Event');
+
+    //change a date
+    rangeField.toMoment = rangeField.toMoment.clone().add(1, 'day');
+    e.initEvent("blur", true, true);
+    picker.dispatchEvent(e);
+
+    flush(()=>{
+      //should have changed
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-06T00:30:00.000Z");
+      // assert.equal(prevCount + 1, submitEventCount);
+      done();
+    });
+  });
+
+  test('when not opened changing values should apply directly on Enter', function(done) {
+    var prevCount = submitEventCount;
+        e = document.createEvent('Event');
+
+    //change a date
+    rangeField.toMoment = rangeField.toMoment.clone().add(1, 'day');
+    MockInteractions.pressAndReleaseKeyOn(rangeField, 13, [], 'Enter');
+
+    flush(()=>{
+      //should have changed
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-06T00:30:00.000Z");
+      // assert.equal(prevCount + 1, submitEventCount);
+      done();
+    });
+  });
+
+  test('when not opened changing invalid values should not apply directly', function(done) {
+    var prevCount = submitEventCount,
+        e = document.createEvent('Event'),
+        field = Polymer.dom(rangeField.root).querySelector('px-datetime-field'),
+        entries = Polymer.dom(field.root).querySelectorAll('px-datetime-entry'),
+        dateCells = Polymer.dom(entries[0].root).querySelectorAll('px-datetime-entry-cell'),
+        dateInput = Polymer.dom(dateCells[1].root).querySelector('input');
+
+    //change a date
+    dateInput.value = "99";
+    MockInteractions.pressAndReleaseKeyOn(field, 13, [], 'Enter');
+
+    flush(()=>{
+      //shouldn't have changed
+      assert.isFalse(rangeField.isValid);
+      assert.equal(picker.fromMoment.toISOString(), "2017-01-05T00:30:00.000Z");
+      assert.equal(picker.toMoment.toISOString(), "2018-01-05T00:30:00.000Z");
+
+      done();
+    });
+  });
+});
