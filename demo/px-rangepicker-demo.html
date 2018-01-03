@@ -59,7 +59,7 @@
           block-future-dates="{{props.blockFutureDates.value}}"
           hide-time="{{props.hideTime.value}}"
           hide-presets="{{props.hidePresets.value}}"
-          hide-presets="{{props.hidePresets.value}}"
+          hide-icon="{{props.hideIcon.value}}"
           show-time-zone="{{props.showTimeZone.value}}"
           is-valid="{{props.isValid.value}}"
           time-zone="{{props.timeZone.value}}"
@@ -193,6 +193,12 @@
       hidePresets: {
         type: Boolean,
         inputLabel : 'Hide Presets in Panel',
+        defaultValue: false,
+        inputType: 'toggle'
+      },
+
+      hideIcon: {
+        type: Boolean,
         defaultValue: false,
         inputType: 'toggle'
       },

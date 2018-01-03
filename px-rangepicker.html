@@ -40,6 +40,7 @@ Custom property | Description
       time-format="{{timeFormat}}"
       hide-time="{{hideTime}}"
       time-zone="{{timeZone}}"
+      hide-icon="{{hideIcon}}"
       show-time-zone="[[showTimeZone]]"
       block-future-dates="{{blockFutureDates}}"
       block-past-dates="{{blockPastDates}}"
@@ -128,6 +129,13 @@ Custom property | Description
        *
        */
       hidePresets: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * Controls whether the calendar/clock icon should be hidden
+       */
+       hideIcon: {
         type: Boolean,
         value: false
       },

@@ -1,3 +1,7 @@
+v3.1.0
+==================
+* exposed `hideIcon` property
+
 v3.0.1
 ==================
 * add links in docs
