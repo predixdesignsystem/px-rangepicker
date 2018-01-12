@@ -98,7 +98,7 @@ Custom property | Description
        */
       opened: {
         type: Boolean,
-        value: false
+        observer: '_processClose'
       },
       /**
        * Moment format used to format the date
@@ -225,9 +225,6 @@ Custom property | Description
       'px-datetime-button-clicked': '_buttonClicked',
       'tap' : '_handleTap'
     },
-    observers: [
-      '_processClose(opened)'
-    ],
     /**
      * Key bindings for iron-a11y-keys-behavior
      */
@@ -260,16 +257,16 @@ Custom property | Description
       this.$.dropdown.toggle();
     },
 
-    _processClose: function(evt) {
-      if(evt){return}
+    _processClose: function(newVal,oldVal) {
+      if(oldVal === undefined || newVal){return;}
       //If we show time make sure it is valid on closing. If we show buttons don't validate
       var canApplyValues = !this.showButtons && this.$.panel.timeIsValid && this.$.rangeField.isValid;
       if (canApplyValues){
         this._applyTempRangeMoment(canApplyValues);
       }
       else {
-        this._rollbackTempFromMoment();
-        this._rollbackTempToMoment();
+        this._rollbackTempFromMoment(this.fromMoment);
+        this._rollbackTempToMoment(this.toMoment);
       }
 
     },

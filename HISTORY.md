@@ -1,3 +1,7 @@
+v3.1.1
+==================
+* prevent `_processClosed()` from running when `opened` is instantiated
+
 v3.1.0
 ==================
 * exposed `hideIcon` property
