@@ -1,3 +1,7 @@
+v3.1.2
+==================
+* added `sudo:required` to travis
+
 v3.1.1
 ==================
 * prevent `_processClosed()` from running when `opened` is instantiated
