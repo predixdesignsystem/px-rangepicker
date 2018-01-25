@@ -1,3 +1,7 @@
+V3.2.0
+==================
+* added ability to display title above the fields through the `showFieldTitles` property
+
 v3.1.3
 ==================
 * Updated to newest px-datetime-common behavior versions

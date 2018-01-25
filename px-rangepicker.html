@@ -21,6 +21,8 @@ The following custom property is available for styling. Please also refer to px-
 Custom property | Description
 :----------------|:-------------
 `px-datetime` components | the css variables are defined in the other `px-datetime` components
+`--px-datetime-range-field-margin-between-fields` | When `showFieldTitles` is true this is the amount of space between the fields
+
 
 @element px-rangepicker
 @blurb Element allowing to choose a date (and time) range
@@ -47,6 +49,7 @@ Custom property | Description
       hide-validation-messages="{{hideValidationMessages}}"
       prevent-notification-on-change
       allow-wrap="[[allowWrap]]"
+      show-field-titles="[[showFieldTitles]]"
       resources="[[resources]]"
       language="[[language]]"
       formats="[[formats]]"
@@ -144,6 +147,15 @@ Custom property | Description
        *
        */
       allowWrap: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * This will remove the `to` inbetween the fields and
+       * add titles above the fields. This allows for a
+       * more flexable design.
+       */
+       showFieldTitles: {
         type: Boolean,
         value: false
       },
