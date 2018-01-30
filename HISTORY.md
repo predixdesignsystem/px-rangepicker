@@ -1,3 +1,7 @@
+V3.2.1
+==================
+* cleaned up api and exposed the `required` property
+
 V3.2.0
 ==================
 * added ability to display title above the fields through the `showFieldTitles` property

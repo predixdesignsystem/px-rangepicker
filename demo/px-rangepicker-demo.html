@@ -66,7 +66,8 @@
           time-zone="{{props.timeZone.value}}"
           allow-wrap="{{props.allowWrap.value}}"
           min-date="{{props.minDate.value}}"
-          max-date="{{props.maxDate.value}}">
+          max-date="{{props.maxDate.value}}"
+          required="{{props.required.value}}">
         </px-rangepicker>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
@@ -208,6 +209,12 @@
         type: Boolean,
         inputLabel : 'Show Buttons in Panel',
         defaultValue: true,
+        inputType: 'toggle'
+      },
+
+      required: {
+        type: Boolean,
+        defaultValue: false,
         inputType: 'toggle'
       },
 

@@ -12,7 +12,8 @@ The datetime components rely on [Moment.js](https://momentjs.com/) and [Moment T
 #### Usage
 
     <px-rangepicker
-      range='{"from":"2016-01-01T00:00:00.000Z","to":"2016-07-01T11:00:00.000Z"}'>
+      from-moment="{{...}}"
+      to-moment="{{...}}">
     </px-rangepicker>
 
 #### Styling
@@ -54,7 +55,8 @@ Custom property | Description
       language="[[language]]"
       formats="[[formats]]"
       min-date="[[minDate]]"
-      max-date="[[maxDate]]">
+      max-date="[[maxDate]]"
+      required="[[required]]">
     </px-datetime-range-field>
     <iron-dropdown
       id="dropdown"
@@ -105,7 +107,6 @@ Custom property | Description
       },
       /**
        * Moment format used to format the date
-       *
        */
       dateFormat: {
         type: String,
@@ -113,7 +114,6 @@ Custom property | Description
       },
       /**
        * Moment format used to format the time
-       *
        */
        timeFormat: {
         type: String,
@@ -121,7 +121,6 @@ Custom property | Description
       },
       /**
        * Whether to allow time selection as well in this date picker
-       *
        */
       hideTime: {
         type: Boolean,
@@ -129,7 +128,6 @@ Custom property | Description
       },
       /**
        * Whether to show the preset date/time ranges
-       *
        */
       hidePresets: {
         type: Boolean,
@@ -144,7 +142,6 @@ Custom property | Description
       },
       /**
        * Whether to allow the range field to wrap at smaller screen resolutions / parent container sizes.
-       *
        */
       allowWrap: {
         type: Boolean,
@@ -168,6 +165,14 @@ Custom property | Description
         value: true
       },
       /**
+       * Boolean stating if the range field is required.
+       * Will result in an error if left blank.
+       */
+       required: {
+        type: Boolean,
+        value: false
+      },
+      /**
        * Hides the validation messages if set to true
        */
       hideValidationMessages: {
@@ -175,7 +180,6 @@ Custom property | Description
         value: false
       },
       /**
-       *
        * Timezone display format
        * - 'dropdown': shows the timezone as a dropdown with which the user can select a different timezone. Contains only a subset of all timezones.
        * - 'extendedDropdown': shows the timezone as a dropdown with which user can select a different timezone. Contains all existing timezones (588 total).
@@ -187,8 +191,6 @@ Custom property | Description
         value: ''
       },
       /**
-       * (optional)
-       *
        * The preset date/time ranges to be displayed.
        *
        *```
