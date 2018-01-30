@@ -1,3 +1,7 @@
+V3.2.2
+==================
+* fixed panel position bug
+
 V3.2.1
 ==================
 * cleaned up api and exposed the `required` property

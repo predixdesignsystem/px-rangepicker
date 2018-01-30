@@ -16,8 +16,11 @@
 // Base
 
 // Component
-px-datetime-range-field {
-  display: inline-block;
+px-datetime-range-panel {
+  display: block; // need for iron-dropdown
+}
+:host {
+  display: inline-block; // need for iron-dropdown
 }
 
 // Trumps
