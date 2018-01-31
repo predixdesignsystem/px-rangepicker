@@ -265,3 +265,66 @@ suite('submit without buttons', function() {
     });
   });
 });
+
+suite('iron-dropdown positioning', function() {
+
+  let frame, doc, html;
+
+  setup(function(done) {
+    frame = fixture('frameFxt');
+
+    flush(() => {
+      frame = document.querySelector("#frame"); //get the iframe
+      doc = frame.contentDocument || frame.contentWindow.document;
+      html = `
+        <html>
+
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>Predix UI</title>
+          <script src="../../webcomponentsjs/webcomponents-lite.js"><\/script>
+
+          <link rel="import" href="../../polymer/polymer.html" />
+          <link rel="import" href="../../px-theme/px-theme-styles.html">
+          <link rel="import" href="../px-rangepicker.html" />
+
+          <custom-style>
+            <style include="px-theme-styles" is="custom-style"></style>
+          </custom-style>
+        </head>
+
+        <body>
+          <div style="height: 200px"></div>
+          <px-rangepicker
+            show-buttons
+            opened>
+          </px-rangepicker>
+        </body>
+
+        </html>
+
+      `;
+      doc.open();
+      doc.write(html);
+      frame.contentWindow.addEventListener("WebComponentsReady", function(){
+        console.log("hi");
+        window.requestAnimationFrame(function(){
+          setTimeout(function(){
+            done();
+          });
+        });
+      });
+      doc.close();
+    });
+  });
+
+  test('panel covers field when it cant fit top or bottom', function() {
+    var rangepicker = doc.querySelector('px-rangepicker'),
+        rangePanel = Polymer.dom(rangepicker.root).querySelector('px-datetime-range-panel'),
+        rangePanelMaxHeight = rangePanel.style.maxHeight;
+    assert.approximately(parseInt(rangePanelMaxHeight), 421, 1, "panel max height");
+  });
+
+});
+
