@@ -64,6 +64,7 @@ Custom property | Description
       vertical-offset="50"
       vertical-align="auto"
       horizontal-align="auto"
+      scroll-action="{{scrollAction}}"
       dynamic-align>
       <px-datetime-range-panel
         id="panel"
@@ -116,7 +117,7 @@ Custom property | Description
       /**
        * Moment format used to format the time
        */
-       timeFormat: {
+      timeFormat: {
         type: String,
         value: 'HH:mm A'
       },
@@ -137,7 +138,7 @@ Custom property | Description
       /**
        * Controls whether the calendar/clock icon should be hidden
        */
-       hideIcon: {
+      hideIcon: {
         type: Boolean,
         value: false
       },
@@ -153,9 +154,23 @@ Custom property | Description
        * add titles above the fields. This allows for a
        * more flexable design.
        */
-       showFieldTitles: {
+      showFieldTitles: {
         type: Boolean,
         value: false
+      },
+      /**
+       * Controls if the page can be scrolled when the
+       * panel is open.
+       * Sets the `scrollAction` property on `iron-dropdown`
+       *
+       * lock - blocks scrolling from happening
+       * refit - computes the new position of the panel
+       * cancel - causes the overlay to close
+       */
+       scrollAction: {
+        type: String,
+        value: "lock",
+        reflectToAttribute: true
       },
       /**
        * Whether the currently selected date is valid
@@ -169,7 +184,7 @@ Custom property | Description
        * Boolean stating if the range field is required.
        * Will result in an error if left blank.
        */
-       required: {
+      required: {
         type: Boolean,
         value: false
       },

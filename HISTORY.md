@@ -1,3 +1,7 @@
+V3.3.0
+==================
+* added `scrollAction` property to control page scrolling when panel is open
+
 V3.2.2
 ==================
 * fixed panel position bug

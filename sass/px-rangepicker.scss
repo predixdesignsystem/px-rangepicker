@@ -16,9 +16,16 @@
 // Base
 
 // Component
-px-datetime-range-panel {
-  display: block; // need for iron-dropdown
+
+//panel will scroll if it needs to when scroolPage is lock
+:host([scroll-action="lock"]) px-datetime-range-panel {
+  display: block;
 }
+//panel won't shrink when scrollPage is refit
+:host([scroll-action="refit"]) px-datetime-range-panel {
+  display: inline;
+}
+
 :host {
   display: inline-block; // need for iron-dropdown
 }
