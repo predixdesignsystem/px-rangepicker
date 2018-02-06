@@ -1,3 +1,7 @@
+V3.3.1
+==================
+* reflected the range-field validation state to the `isValid` prop
+
 V3.3.0
 ==================
 * added `scrollAction` property to control page scrolling when panel is open
@@ -277,7 +281,7 @@ v0.1.6
 
 v0.1.5
 ==================
-* Fixed bug where if the user clicks a first date, then chooses a preset, the calendar doesnt visually update to the preset.
+* Fixed bug where if the user clicks a first date, then chooses a preset, the calendar doesn't visually update to the preset.
 
 v0.1.4
 ==================

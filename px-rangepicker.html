@@ -266,6 +266,7 @@ Custom property | Description
     attached: function() {
       this.$.rangeField.addEventListener('from-moment-changed', this._rangeFieldMomentChanged.bind(this));
       this.$.rangeField.addEventListener('to-moment-changed', this._rangeFieldMomentChanged.bind(this));
+      this.$.rangeField.addEventListener('is-valid-changed', this._handleValidation.bind(this));
     },
 
     _onEsc: function(evt) {
@@ -326,16 +327,22 @@ Custom property | Description
     },
 
     /**
+     * update the `isValid` property based on validity of range-field
+     */
+    _handleValidation: function(e) {
+      e.detail.value ? this.isValid = true : this.isValid = false;
+    },
+
+    /**
+     * If the calendar is open and the rangeField is valid
+     * when enter/apply is pressed apply the calendar value.
+     * We only want the calendar to close if the selection is applied
      */
      _validateCalendarMoment: function() {
-      if(this.opened) {
-        //apply: accept if valid
-        //only close if can apply
-        if(this.$.rangeField.isValid) {
-          this._applyTempRangeMoment();
-          this.fire('px-datetime-range-submitted', {'fromMoment': this.fromMoment, 'toMoment': this.toMoment});
-          this.set('opened', false);
-        }
+      if(this.opened && this.isValid) {
+        this._applyTempRangeMoment();
+        this.fire('px-datetime-range-submitted', {'fromMoment': this.fromMoment, 'toMoment': this.toMoment});
+        this.set('opened', false);
       }
     },
 
