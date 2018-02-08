@@ -69,6 +69,7 @@ Custom property | Description
       <px-datetime-range-panel
         id="panel"
         slot="dropdown-content"
+        class$="{{_handleIsValid(isValid)}}"
         from-moment="{{_tempFromMomentObj}}"
         to-moment="{{_tempToMomentObj}}"
         time-format="{{timeFormat}}"
@@ -329,8 +330,23 @@ Custom property | Description
     /**
      * update the `isValid` property based on validity of range-field
      */
-    _handleValidation: function(e) {
-      e.detail.value ? this.isValid = true : this.isValid = false;
+    _handleValidation: function (e) {
+      if (e.detail.value) {
+        this.isValid = true
+        this.$.panel.allowApply = true;
+      }
+      else  {
+        this.isValid = false;
+        this.$.panel.allowApply = false;
+      }
+    },
+
+    /**
+     * helper function to added the invalid class on the range panel
+     * if the rangepicker is invalid
+     */
+    _handleIsValid: function(isValid) {
+      return isValid ? "" : "invalid";
     },
 
     /**
@@ -361,7 +377,6 @@ Custom property | Description
      */
     _handleTap: function(evt) {
       if(this.opened === true){
-
         var path = Polymer.dom(evt).path;
 
         for (var i=0; i<path.length; i++) {
@@ -370,8 +385,8 @@ Custom property | Description
             return;
           }
         }
-
       }
     }
+
   });
 </script>

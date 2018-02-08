@@ -30,6 +30,13 @@
   display: inline-block; // need for iron-dropdown
 }
 
+.invalid {
+  --px-calendar-background-color--hover: var(--px-calendar-background-color--hover--invalid, lightgray);
+  --px-calendar-background-color--pressed: var(--px-calendar-background-color--pressed--invalid, lightgray);
+  --px-calendar-background-color--selected: var(--px-calendar-background-color--selected--invalid, lightgray);
+  --px-calendar-alt-background-color: var(--px-calendar-alt-background-color--invalid, whitesmoke);
+}
+
 // Trumps
 $inuit-enable-margins--large      : true;
 @import "px-spacing-design/_trumps.spacing.scss";

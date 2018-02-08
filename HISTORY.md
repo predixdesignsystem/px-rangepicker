@@ -1,3 +1,7 @@
+V3.3.2
+==================
+* visually represent the range-field invalid state in the ranpe-panel
+
 V3.3.1
 ==================
 * reflected the range-field validation state to the `isValid` prop
