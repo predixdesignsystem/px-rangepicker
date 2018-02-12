@@ -19,9 +19,9 @@ suite('interaction', function() {
   });
 
   test('clicking icon opens the panel', function() {
-  var field = Polymer.dom(rangeField.root).querySelector('px-datetime-field'),
-      entry = Polymer.dom(field.root).querySelector('px-datetime-entry'),
-      icons = Polymer.dom(entry.root).querySelectorAll('px-icon');
+    var field = Polymer.dom(rangeField.root).querySelector('px-datetime-field'),
+        entry = Polymer.dom(field.root).querySelector('px-datetime-entry'),
+        icons = Polymer.dom(entry.root).querySelectorAll('px-icon');
 
   icons[0].click();
   assert.isTrue(picker.opened);
@@ -54,6 +54,57 @@ suite('submit with buttons', function() {
 
   suiteTeardown(function() {
     picker.removeEventListener('px-datetime-range-submitted', submitListener);
+  });
+
+  test('invalid calendar cell changed color', function(done) {
+    var prevCount = submitEventCount;
+
+    picker.opened = true;
+    flush(()=>{
+      field = Polymer.dom(rangeField.root).querySelector('px-datetime-field'),
+      entry = Polymer.dom(field.root).querySelector('px-datetime-entry'),
+      cells = Polymer.dom(entry.root).querySelectorAll('px-datetime-entry-cell'),
+      cellInput = Polymer.dom(cells[1].root).querySelector('input'),
+      calendar = Polymer.dom(panel.root).querySelector('px-calendar-picker'),
+      calendarCells = Polymer.dom(calendar.root).querySelectorAll('px-calendar-cell')
+      ;
+      cellInput.value = "99";
+      cells[1]._handleBlur();
+      picker.opened = true;
+
+      flush(()=>{
+        var selectedCell = Polymer.dom(calendarCells[3].root).querySelector('button'),
+            styles = window.getComputedStyle(selectedCell).backgroundColor;
+        assert.equal(styles, "rgba(136, 154, 165, 0.5)", "grey8 color");
+
+        done();
+      });
+    });
+  });
+
+  test('valid calendar cell normal color', function(done) {
+    var prevCount = submitEventCount;
+
+    picker.opened = true;
+    flush(()=>{
+      field = Polymer.dom(rangeField.root).querySelector('px-datetime-field'),
+      entry = Polymer.dom(field.root).querySelector('px-datetime-entry'),
+      cells = Polymer.dom(entry.root).querySelectorAll('px-datetime-entry-cell'),
+      cellInput = Polymer.dom(cells[1].root).querySelector('input'),
+      calendar = Polymer.dom(panel.root).querySelector('px-calendar-picker'),
+      calendarCells = Polymer.dom(calendar.root).querySelectorAll('px-calendar-cell')
+      ;
+      picker.opened = true;
+
+      flush(()=>{
+        var selectedCell = Polymer.dom(calendarCells[3].root).querySelector('button'),
+            styles = window.getComputedStyle(selectedCell).backgroundColor;
+            debugger
+        assert.equal(styles, "rgb(9, 129, 156)", "select-default color");
+
+        done();
+      });
+    });
   });
 
   test('closing panel should not apply new value', function(done) {

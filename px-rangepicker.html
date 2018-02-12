@@ -179,7 +179,8 @@ Custom property | Description
       isValid: {
         type: Boolean,
         notify: true,
-        value: true
+        value: true,
+        observer: '_updatedStyleOnValid'
       },
       /**
        * Boolean stating if the range field is required.
@@ -347,6 +348,20 @@ Custom property | Description
      */
     _handleIsValid: function(isValid) {
       return isValid ? "" : "invalid";
+    },
+
+    /**
+     * needed for polymer 1 only.
+     * The implementation of the css-custom-properties is different form polymer 1 to polymer 2.
+     * In polymer 1 css-custom-properties are not always dynamic. In this specific case when
+     * the `invalid` class is applied to `px-datetime-range-panel`, I want the css variables in
+     * `px-calendar-picker` to update.
+     * I am forcing an `updateStyles` so that the styles cross the tree will be reapplied.
+     * This allows for the new css-variables to be applied to the sub-component. It is
+     * generally a last resort to for `updateStyles`.
+     */
+    _updatedStyleOnValid: function() {
+      this.updateStyles();
     },
 
     /**

@@ -1,3 +1,7 @@
+V3.3.3
+==================
+* fixed polymer 1 bug with calendar changing color on invalid
+
 V3.3.2
 ==================
 * visually represent the range-field invalid state in the ranpe-panel
