@@ -1,0 +1,247 @@
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="../px-datetime-common/px-datetime-range-behavior.html"/>
+<link rel="import" href="../px-datetime-common/px-datetime-button-behavior.html"/>
+<link rel="import" href="../px-datetime-range-field/px-datetime-range-field.html"/>
+<link rel="import" href="../px-datetime-range-panel/px-datetime-range-panel.html"/>
+<link rel="import" href="../iron-dropdown/iron-dropdown.html"/>
+<link rel="import" href="css/px-rangepicker-styles.html"/>
+
+<dom-module id="px-rangepicker-content">
+  <template>
+    <style include="px-rangepicker-styles"></style>
+
+    <iron-dropdown
+      id="dropdown"
+      opened="{{opened}}"
+      vertical-align="auto"
+      horizontal-align="auto"
+      scroll-action="{{scrollAction}}"
+      dynamic-align>
+      <px-datetime-range-panel
+        id="panel"
+        slot="dropdown-content"
+        class$="{{_handleIsValid(isValid)}}"
+        from-moment="{{fromMoment}}"
+        to-moment="{{toMoment}}"
+        time-format="{{timeFormat}}"
+        hide-time="{{hideTime}}"
+        hide-presets="{{hidePresets}}"
+        show-buttons="{{showButtons}}"
+        block-future-dates="{{blockFutureDates}}"
+        block-past-dates="{{blockPastDates}}"
+        preset-ranges="{{presetRanges}}"
+        time-zone="[[timeZone]]"
+        day-week-start-index="[[dayWeekStartIndex]]"
+        resources="[[resources]]"
+        language="[[language]]"
+        formats="[[formats]]"
+        min-date="[[minDate]]"
+        max-date="[[maxDate]]"
+        time-is-valid="{{timeIsValid}}">
+      </px-datetime-range-panel>
+    </iron-dropdown>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'px-rangepicker-content',
+    behaviors: [
+      PxDatetimeBehavior.TempRange
+    ],
+
+    properties: {
+      /**
+       * Whether the panel is opened
+       */
+      opened: {
+        type: Boolean,
+        notify: true
+      },
+      /**
+       * Moment format used to format the date
+       */
+      dateFormat: {
+        type: String,
+        value: 'MM/DD/YYYY'
+      },
+      /**
+       * Moment format used to format the time
+       */
+      timeFormat: {
+        type: String,
+        value: 'HH:mm A'
+      },
+      /**
+       * Whether to allow time selection as well in this date picker
+       */
+      hideTime: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * Whether to show the preset date/time ranges
+       */
+      hidePresets: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * Controls whether the calendar/clock icon should be hidden
+       */
+      hideIcon: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * Whether to allow the range field to wrap at smaller screen resolutions / parent container sizes.
+       */
+      allowWrap: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * This will remove the `to` inbetween the fields and
+       * add titles above the fields. This allows for a
+       * more flexable design.
+       */
+      showFieldTitles: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * Controls if the page can be scrolled when the
+       * panel is open.
+       * Sets the `scrollAction` property on `iron-dropdown`
+       *
+       * lock - blocks scrolling from happening
+       * refit - computes the new position of the panel
+       * cancel - causes the overlay to close
+       */
+       scrollAction: {
+        type: String,
+        value: "lock",
+        reflectToAttribute: true
+      },
+      /**
+       * Whether the currently selected date is valid
+       */
+      isValid: {
+        type: Boolean,
+        notify: true,
+        value: true,
+        observer: '_updatedStyleOnValid'
+      },
+      /**
+       * Whether the currently selected date is valid
+       */
+      timeIsValid: {
+        type: Boolean,
+        notify: true
+      },
+      /**
+       * Boolean stating if the range field is required.
+       * Will result in an error if left blank.
+       */
+      required: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * Hides the validation messages if set to true
+       */
+      hideValidationMessages: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * Timezone display format
+       * - 'dropdown': shows the timezone as a dropdown with which the user can select a different timezone. Contains only a subset of all timezones.
+       * - 'extendedDropdown': shows the timezone as a dropdown with which user can select a different timezone. Contains all existing timezones (588 total).
+       * - 'text': shows the timezone as text, non-editable.
+       * - 'abbreviatedText': shows the timezone as abbreviated text, non-editable (e.g. UTC, PST, EST).
+       */
+      showTimeZone: {
+        type: String,
+        value: ''
+      },
+      /**
+       * The preset date/time ranges to be displayed.
+       *
+       *```
+       *   [
+       *    {
+       *      "displayText": "Last 5 Minutes",
+       *      "startDateTime": "2013-02-04T22:44:30.652Z",
+       *      "endDateTime": "2013-02-04T22:49:30.652Z"
+       *    },
+       *    {
+       *      "displayText": "Last 12 Hours",
+       *      "startDateTime": "2013-02-04T10:44:30.652Z",
+       *      "endDateTime": "2013-02-04T22:49:30.652Z"
+       *    }
+       *   ]
+       * ```
+       *
+       * @default Last 7 Days + This Month + Last Month
+       */
+      presetRanges: {
+        type: Object,
+        value: function() {
+          var now = Px.moment();
+          return [
+            {
+              "displayText": "Last 7 Days",
+              "startDateTime": now.clone().subtract(7, 'days'),
+              "endDateTime": now
+            },
+            {
+              "displayText": "This Month",
+              "startDateTime": now.clone().startOf('month'),
+              "endDateTime": now.clone().endOf('month')
+            },
+            {
+              "displayText": "Last Month",
+              "startDateTime": now.clone().subtract(1, 'months').startOf('month'),
+              "endDateTime": now.clone().subtract(1, 'months').endOf('month')
+            }
+          ]
+        }
+      }
+    },
+    /**
+     * Opens the calendar if closed, closes it if opened
+     */
+    _toggleBoxOpen: function() {
+      this.$.dropdown.toggle();
+    },
+
+    _handleValidation: function (isValid) {
+      this.$.panel.allowApply = isValid;
+    },
+
+    /**
+     * helper function to added the invalid class on the range panel
+     * if the rangepicker is invalid
+     */
+    _handleIsValid: function(isValid) {
+      return isValid ? "" : "invalid";
+    },
+
+    /**
+     * needed for polymer 1 only.
+     * The implementation of the css-custom-properties is different form polymer 1 to polymer 2.
+     * In polymer 1 css-custom-properties are not always dynamic. In this specific case when
+     * the `invalid` class is applied to `px-datetime-range-panel`, I want the css variables in
+     * `px-calendar-picker` to update.
+     * I am forcing an `updateStyles` so that the styles cross the tree will be reapplied.
+     * This allows for the new css-variables to be applied to the sub-component. It is
+     * generally a last resort to for `updateStyles`.
+     */
+    _updatedStyleOnValid: function() {
+      this.updateStyles();
+    }
+
+  });
+</script>
