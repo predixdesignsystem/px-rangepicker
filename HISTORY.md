@@ -1,3 +1,7 @@
+V3.3.4
+==================
+* updated sass to add more flexibility for position the fields
+
 V3.3.3
 ==================
 * fixed polymer 1 bug with calendar changing color on invalid
