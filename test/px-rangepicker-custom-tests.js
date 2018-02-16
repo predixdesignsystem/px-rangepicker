@@ -56,7 +56,7 @@ suite('submit with buttons', function() {
     picker.removeEventListener('px-datetime-range-submitted', submitListener);
   });
 
-  test('invalid calendar cell changed color', function(done) {
+  test('invalid calendar cell disable apply', function(done) {
     var prevCount = submitEventCount;
 
     picker.opened = true;
@@ -64,19 +64,14 @@ suite('submit with buttons', function() {
       field = Polymer.dom(rangeField.root).querySelector('px-datetime-field'),
       entry = Polymer.dom(field.root).querySelector('px-datetime-entry'),
       cells = Polymer.dom(entry.root).querySelectorAll('px-datetime-entry-cell'),
-      cellInput = Polymer.dom(cells[1].root).querySelector('input'),
-      calendar = Polymer.dom(panel.root).querySelector('px-calendar-picker'),
-      calendarCells = Polymer.dom(calendar.root).querySelectorAll('px-calendar-cell')
-      ;
+      cellInput = Polymer.dom(cells[1].root).querySelector('input');
+
       cellInput.value = "99";
       cells[1]._handleBlur();
       picker.opened = true;
 
       flush(()=>{
-        var selectedCell = Polymer.dom(calendarCells[3].root).querySelector('button'),
-            styles = window.getComputedStyle(selectedCell).backgroundColor;
-        assert.equal(styles, "rgba(136, 154, 165, 0.5)", "grey8 color");
-
+        assert.isFalse(panel.allowApply, "Don't allow Apply");
         done();
       });
     });
@@ -86,24 +81,10 @@ suite('submit with buttons', function() {
     var prevCount = submitEventCount;
 
     picker.opened = true;
+
     flush(()=>{
-      field = Polymer.dom(rangeField.root).querySelector('px-datetime-field'),
-      entry = Polymer.dom(field.root).querySelector('px-datetime-entry'),
-      cells = Polymer.dom(entry.root).querySelectorAll('px-datetime-entry-cell'),
-      cellInput = Polymer.dom(cells[1].root).querySelector('input'),
-      calendar = Polymer.dom(panel.root).querySelector('px-calendar-picker'),
-      calendarCells = Polymer.dom(calendar.root).querySelectorAll('px-calendar-cell')
-      ;
-      picker.opened = true;
-
-      flush(()=>{
-        var selectedCell = Polymer.dom(calendarCells[3].root).querySelector('button'),
-            styles = window.getComputedStyle(selectedCell).backgroundColor;
-            debugger
-        assert.equal(styles, "rgb(9, 129, 156)", "select-default color");
-
-        done();
-      });
+      assert.isTrue(panel.allowApply, "Do allow Apply");
+      done();
     });
   });
 

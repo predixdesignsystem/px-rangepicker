@@ -30,6 +30,10 @@
   display: inline-block; // need for iron-dropdown
 }
 
+px-datetime-range-field {
+  width: 100%;
+}
+
 .invalid {
   --px-calendar-background-color--hover: var(--px-calendar-background-color--hover--invalid, lightgray);
   --px-calendar-background-color--pressed: var(--px-calendar-background-color--pressed--invalid, lightgray);
