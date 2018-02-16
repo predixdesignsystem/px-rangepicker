@@ -63,7 +63,8 @@
           allow-wrap="{{props.allowWrap.value}}"
           min-date="{{props.minDate.value}}"
           max-date="{{props.maxDate.value}}"
-          required="{{props.required.value}}">
+          required="{{props.required.value}}"
+          hoist="{{props.hoist.value}}">
         </px-rangepicker>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
@@ -289,7 +290,13 @@
       toMoment: {
         type: Object,
         defaultValue: null
-      }
+      },
+
+      hoist: {
+        type: Boolean,
+        defaultValue: false,
+        inputType: 'toggle'
+      },
 
     },
 

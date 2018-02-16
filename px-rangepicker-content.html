@@ -16,7 +16,8 @@
       vertical-align="auto"
       horizontal-align="auto"
       scroll-action="{{scrollAction}}"
-      dynamic-align>
+      dynamic-align
+      position-target="[[positionTarget]]">
       <px-datetime-range-panel
         id="panel"
         slot="dropdown-content"
@@ -208,7 +209,8 @@
             }
           ]
         }
-      }
+      },
+      positionTarget: HTMLElement
     },
     /**
      * Opens the calendar if closed, closes it if opened

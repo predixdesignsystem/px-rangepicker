@@ -4,6 +4,7 @@
 <link rel="import" href="../px-datetime-range-field/px-datetime-range-field.html"/>
 <link rel="import" href="../px-datetime-range-panel/px-datetime-range-panel.html"/>
 <link rel="import" href="../iron-dropdown/iron-dropdown.html"/>
+<link rel="import" href="../px-overlay/px-overlay-content.html"/>
 <link rel="import" href="px-rangepicker-content.html"/>
 <link rel="import" href="css/px-rangepicker-styles.html"/>
 
@@ -59,29 +60,35 @@ Custom property | Description
       max-date="[[maxDate]]"
       required="[[required]]">
     </px-datetime-range-field>
-    <px-rangepicker-content
-      id="rangepickerContent"
-      opened="{{opened}}"
-      scroll-action="{{scrollAction}}"
-      is-valid="{{isValid}}"
-      from-moment="{{_tempFromMomentObj}}"
-      to-moment="{{_tempToMomentObj}}"
-      time-format="{{timeFormat}}"
-      hide-time="{{hideTime}}"
-      hide-presets="{{hidePresets}}"
-      show-buttons="{{showButtons}}"
-      block-future-dates="{{blockFutureDates}}"
-      block-past-dates="{{blockPastDates}}"
-      preset-ranges="{{presetRanges}}"
-      time-zone="[[timeZone]]"
-      day-week-start-index="[[dayWeekStartIndex]]"
-      resources="[[resources]]"
-      language="[[language]]"
-      formats="[[formats]]"
-      min-date="[[minDate]]"
-      max-date="[[maxDate]]"
-      time-is-valid="{{timeIsValid}}">
-    </px-rangepicker-content>
+    <px-overlay-content
+      hoist="[[hoist]]"
+      container-type="[[containerType]]"
+      event-names='["px-datetime-button-clicked", "item-selected"]'>
+      <px-rangepicker-content
+        id="rangepickerContent"
+        position-target="[[_returnFieldElem()]]"
+        opened="{{opened}}"
+        scroll-action="{{scrollAction}}"
+        is-valid="{{isValid}}"
+        from-moment="{{_tempFromMomentObj}}"
+        to-moment="{{_tempToMomentObj}}"
+        time-format="{{timeFormat}}"
+        hide-time="{{hideTime}}"
+        hide-presets="{{hidePresets}}"
+        show-buttons="{{showButtons}}"
+        block-future-dates="{{blockFutureDates}}"
+        block-past-dates="{{blockPastDates}}"
+        preset-ranges="{{presetRanges}}"
+        time-zone="[[timeZone]]"
+        day-week-start-index="[[dayWeekStartIndex]]"
+        resources="[[resources]]"
+        language="[[language]]"
+        formats="[[formats]]"
+        min-date="[[minDate]]"
+        max-date="[[maxDate]]"
+        time-is-valid="{{timeIsValid}}">
+      </px-rangepicker-content>
+    </px-overlay-content>
   </template>
 </dom-module>
 
@@ -99,6 +106,7 @@ Custom property | Description
        */
       opened: {
         type: Boolean,
+        notify: true,
         observer: '_processClose'
       },
       /**
@@ -242,6 +250,14 @@ Custom property | Description
             }
           ]
         }
+      },
+
+      /**
+       * Specifies if the dropdown content should get hoisted to a container in order to escape its current stacking context
+       */
+       hoist: {
+        type: Boolean,
+        value: false
       }
     },
     listeners: {
@@ -283,7 +299,7 @@ Custom property | Description
     },
 
     _processClose: function(newVal,oldVal) {
-      if(oldVal === undefined || newVal){return;}
+      if(oldVal === undefined || newVal) { return; }
       //If we show time make sure it is valid on closing. If we show buttons don't validate
       var canApplyValues = !this.showButtons && this.$.rangepickerContent.timeIsValid && this.$.rangeField.isValid;
       if (canApplyValues){
@@ -354,6 +370,10 @@ Custom property | Description
           }
         }
       }
+    },
+
+    _returnFieldElem: function() {
+      return this.$.rangeField;
     }
 
   });
