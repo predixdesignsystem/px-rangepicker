@@ -5,6 +5,7 @@
 <link rel="import" href="../px-datetime-range-panel/px-datetime-range-panel.html"/>
 <link rel="import" href="../iron-dropdown/iron-dropdown.html"/>
 <link rel="import" href="../px-overlay/px-overlay-content.html"/>
+<link rel="import" href="../px-overlay/px-overlay-behavior.html"/>
 <link rel="import" href="px-rangepicker-content.html"/>
 <link rel="import" href="css/px-rangepicker-styles.html"/>
 
@@ -85,8 +86,7 @@ Custom property | Description
         language="[[language]]"
         formats="[[formats]]"
         min-date="[[minDate]]"
-        max-date="[[maxDate]]"
-        time-is-valid="{{timeIsValid}}">
+        max-date="[[maxDate]]">
       </px-rangepicker-content>
     </px-overlay-content>
   </template>
@@ -97,7 +97,8 @@ Custom property | Description
 
     is: 'px-rangepicker',
     behaviors: [
-      PxDatetimeBehavior.TempRange
+      PxDatetimeBehavior.TempRange,
+      PxOverlayBehavior.sharedProperties
     ],
 
     properties: {

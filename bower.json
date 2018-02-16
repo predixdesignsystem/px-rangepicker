@@ -1,6 +1,6 @@
 {
   "name": "px-rangepicker",
-  "version": "3.3.5",
+  "version": "3.4.0",
   "main": [
     "px-rangepicker.html"
   ],
@@ -29,8 +29,9 @@
     "polymer": "#1.9 - 2",
     "px-datetime-common": "^3.0.0",
     "px-datetime-range-field": "^2.0.0",
-    "px-datetime-range-panel": "^2.0.0",
-    "iron-dropdown": "^2.0.0"
+    "px-datetime-range-panel": "^2.2.3",
+    "iron-dropdown": "^2.0.0",
+    "px-overlay": "^2.0.0"
   },
   "devDependencies": {
     "px-theme": "^3.0.0",

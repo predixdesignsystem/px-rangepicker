@@ -35,9 +35,9 @@ suite('submit with buttons', function() {
       submitListener;
 
   setup(function(done) {
-    picker = fixture('px_rangepicker'),
-    panel = Polymer.dom(picker.root).querySelector('px-datetime-range-panel'),
-    rangeField = Polymer.dom(picker.root).querySelector('px-datetime-range-field'),
+    picker = fixture('px_rangepicker');
+    panel = Polymer.dom(Polymer.dom(picker.root).querySelector('px-rangepicker-content').root).querySelector('px-datetime-range-panel');
+    rangeField = Polymer.dom(picker.root).querySelector('px-datetime-range-field');
     picker.set('fromMoment', moment("2017-01-05T00:30:00.000Z"));
     picker.set('toMoment', moment("2018-01-05T00:30:00.000Z"));
     picker.showButtons = true;
@@ -61,9 +61,9 @@ suite('submit with buttons', function() {
 
     picker.opened = true;
     flush(()=>{
-      field = Polymer.dom(rangeField.root).querySelector('px-datetime-field'),
-      entry = Polymer.dom(field.root).querySelector('px-datetime-entry'),
-      cells = Polymer.dom(entry.root).querySelectorAll('px-datetime-entry-cell'),
+      field = Polymer.dom(rangeField.root).querySelector('px-datetime-field');
+      entry = Polymer.dom(field.root).querySelector('px-datetime-entry');
+      cells = Polymer.dom(entry.root).querySelectorAll('px-datetime-entry-cell');
       cellInput = Polymer.dom(cells[1].root).querySelector('input');
 
       cellInput.value = "99";
@@ -178,9 +178,9 @@ suite('submit without buttons', function() {
   submitListener;
 
   setup(function(done) {
-    picker = fixture('px_rangepicker'),
-    panel = Polymer.dom(picker.root).querySelector('px-datetime-range-panel'),
-    rangeField = Polymer.dom(picker.root).querySelector('px-datetime-range-field'),
+    picker = fixture('px_rangepicker');
+    panel = Polymer.dom(Polymer.dom(picker.root).querySelector('px-rangepicker-content').root).querySelector('px-datetime-range-panel');
+    rangeField = Polymer.dom(picker.root).querySelector('px-datetime-range-field');
     picker.set('fromMoment', moment("2017-01-05T00:30:00.000Z"));
     picker.set('toMoment', moment("2018-01-05T00:30:00.000Z"));
     picker.showButtons = false;
@@ -202,11 +202,11 @@ suite('submit without buttons', function() {
   test('closing panel should apply new value', function(done) {
     var prevCount = submitEventCount;
 
-    picker.opened = true;
+    picker.set('opened', true);
 
     //change a date
-    panel.toMoment = panel.toMoment.clone().add(1, 'day');
-    picker.opened = false;
+    panel.set('toMoment', panel.toMoment.clone().add(1, 'day'));
+    picker.set('opened', false);
 
     flush(()=>{
       //should have changed
@@ -326,8 +326,8 @@ suite('iron-dropdown positioning', function() {
           </custom-style>
         </head>
 
-        <body>
-          <div style="height: 200px"></div>
+        <body style="height: 500px">
+          <div style="height: 300px"></div>
           <px-rangepicker
             show-buttons
             opened>
@@ -353,9 +353,13 @@ suite('iron-dropdown positioning', function() {
 
   test('panel covers field when it cant fit top or bottom', function() {
     var rangepicker = doc.querySelector('px-rangepicker'),
-        rangePanel = Polymer.dom(rangepicker.root).querySelector('px-datetime-range-panel'),
-        rangePanelMaxHeight = rangePanel.style.maxHeight;
-    assert.approximately(parseInt(rangePanelMaxHeight), 421, 1, "panel max height");
+        rangeField = rangepicker.$.rangeField,
+        rangePanel = Polymer.dom(Polymer.dom(rangepicker.root).querySelector('px-rangepicker-content').root).querySelector('px-datetime-range-panel'),
+        rangeFieldSize = rangeField.getBoundingClientRect(),
+        rangePanelSize = rangePanel.getBoundingClientRect();
+
+    assert.isAtMost(rangePanelSize.top, rangeFieldSize.top);
+    assert.isAtLeast(rangePanelSize.bottom, rangeFieldSize.bottom);
   });
 
 });

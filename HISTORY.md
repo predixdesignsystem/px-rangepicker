@@ -1,3 +1,10 @@
+v3.4.0
+==================
+* Broke components up so iron-dropdown content is is a separate component, px-rangepicker-content
+* Added px-overlay-content to hoist px-rangepicker-content up the dom
+* Added hoist option, defaulted to false
+* Added containerType option to specify which container it should hoist to
+
 V3.3.5
 ==================
 * updated tests

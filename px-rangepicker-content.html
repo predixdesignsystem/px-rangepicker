@@ -20,6 +20,7 @@
       position-target="[[positionTarget]]">
       <px-datetime-range-panel
         id="panel"
+        time-is-valid="{{timeIsValid}}"
         slot="dropdown-content"
         class$="{{_handleIsValid(isValid)}}"
         from-moment="{{fromMoment}}"
@@ -37,8 +38,7 @@
         language="[[language]]"
         formats="[[formats]]"
         min-date="[[minDate]]"
-        max-date="[[maxDate]]"
-        time-is-valid="{{timeIsValid}}">
+        max-date="[[maxDate]]">
       </px-datetime-range-panel>
     </iron-dropdown>
   </template>
@@ -138,8 +138,7 @@
        * Whether the currently selected date is valid
        */
       timeIsValid: {
-        type: Boolean,
-        notify: true
+        type: Boolean
       },
       /**
        * Boolean stating if the range field is required.
