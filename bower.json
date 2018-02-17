@@ -29,7 +29,7 @@
     "polymer": "#1.9 - 2",
     "px-datetime-common": "^3.0.0",
     "px-datetime-range-field": "^2.0.0",
-    "px-datetime-range-panel": "^2.2.3",
+    "px-datetime-range-panel": "^2.3.0",
     "iron-dropdown": "^2.0.0",
     "px-overlay": "^2.0.0"
   },
