@@ -1,11 +1,13 @@
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="../px-datetime-common/px-datetime-range-behavior.html"/>
-<link rel="import" href="../px-datetime-common/px-datetime-button-behavior.html"/>
-<link rel="import" href="../px-datetime-range-field/px-datetime-range-field.html"/>
 <link rel="import" href="../px-datetime-range-panel/px-datetime-range-panel.html"/>
 <link rel="import" href="../iron-dropdown/iron-dropdown.html"/>
 <link rel="import" href="css/px-rangepicker-styles.html"/>
 
+<!--
+We needed to split the rangepicker into two different components
+because of the way we hoist the panel
+-->
 <dom-module id="px-rangepicker-content">
   <template>
     <style include="px-rangepicker-styles"></style>
@@ -65,43 +67,37 @@
        * Moment format used to format the date
        */
       dateFormat: {
-        type: String,
-        value: 'MM/DD/YYYY'
+        type: String
       },
       /**
        * Moment format used to format the time
        */
       timeFormat: {
-        type: String,
-        value: 'HH:mm A'
+        type: String
       },
       /**
        * Whether to allow time selection as well in this date picker
        */
       hideTime: {
-        type: Boolean,
-        value: false
+        type: Boolean
       },
       /**
        * Whether to show the preset date/time ranges
        */
       hidePresets: {
-        type: Boolean,
-        value: false
+        type: Boolean
       },
       /**
        * Controls whether the calendar/clock icon should be hidden
        */
       hideIcon: {
-        type: Boolean,
-        value: false
+        type: Boolean
       },
       /**
        * Whether to allow the range field to wrap at smaller screen resolutions / parent container sizes.
        */
       allowWrap: {
-        type: Boolean,
-        value: false
+        type: Boolean
       },
       /**
        * This will remove the `to` inbetween the fields and
@@ -109,8 +105,7 @@
        * more flexable design.
        */
       showFieldTitles: {
-        type: Boolean,
-        value: false
+        type: Boolean
       },
       /**
        * Controls if the page can be scrolled when the
@@ -122,17 +117,13 @@
        * cancel - causes the overlay to close
        */
        scrollAction: {
-        type: String,
-        value: "lock",
-        reflectToAttribute: true
+        type: String
       },
       /**
        * Whether the currently selected date is valid
        */
       isValid: {
         type: Boolean,
-        notify: true,
-        value: true,
         observer: '_updatedStyleOnValid'
       },
       /**
@@ -146,15 +137,13 @@
        * Will result in an error if left blank.
        */
       required: {
-        type: Boolean,
-        value: false
+        type: Boolean
       },
       /**
        * Hides the validation messages if set to true
        */
       hideValidationMessages: {
-        type: Boolean,
-        value: false
+        type: Boolean
       },
       /**
        * Timezone display format
@@ -164,61 +153,30 @@
        * - 'abbreviatedText': shows the timezone as abbreviated text, non-editable (e.g. UTC, PST, EST).
        */
       showTimeZone: {
-        type: String,
-        value: ''
+        type: String
       },
       /**
        * The preset date/time ranges to be displayed.
        *
-       *```
-       *   [
-       *    {
-       *      "displayText": "Last 5 Minutes",
-       *      "startDateTime": "2013-02-04T22:44:30.652Z",
-       *      "endDateTime": "2013-02-04T22:49:30.652Z"
-       *    },
-       *    {
-       *      "displayText": "Last 12 Hours",
-       *      "startDateTime": "2013-02-04T10:44:30.652Z",
-       *      "endDateTime": "2013-02-04T22:49:30.652Z"
-       *    }
-       *   ]
-       * ```
-       *
        * @default Last 7 Days + This Month + Last Month
        */
       presetRanges: {
-        type: Object,
-        value: function() {
-          var now = Px.moment();
-          return [
-            {
-              "displayText": "Last 7 Days",
-              "startDateTime": now.clone().subtract(7, 'days'),
-              "endDateTime": now
-            },
-            {
-              "displayText": "This Month",
-              "startDateTime": now.clone().startOf('month'),
-              "endDateTime": now.clone().endOf('month')
-            },
-            {
-              "displayText": "Last Month",
-              "startDateTime": now.clone().subtract(1, 'months').startOf('month'),
-              "endDateTime": now.clone().subtract(1, 'months').endOf('month')
-            }
-          ]
-        }
+        type: Object
       },
       positionTarget: HTMLElement
     },
     /**
      * Opens the calendar if closed, closes it if opened
+     * called in `px-rangepicker.html`
      */
     _toggleBoxOpen: function() {
       this.$.dropdown.toggle();
     },
 
+    /**
+     * Sets the `allowApply` prop on `px-datetime-range-panel`
+     * called in `px-rangepicker.html`
+     */
     _handleValidation: function (isValid) {
       this.$.panel.allowApply = isValid;
     },
