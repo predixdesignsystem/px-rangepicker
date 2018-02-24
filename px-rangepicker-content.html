@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="../px-datetime-common/px-datetime-range-behavior.html"/>
 <link rel="import" href="../px-datetime-range-panel/px-datetime-range-panel.html"/>
+<link rel="import" href="../px-datetime-common/px-datetime-button-behavior.html"/>
 <link rel="import" href="../iron-dropdown/iron-dropdown.html"/>
 <link rel="import" href="css/px-rangepicker-styles.html"/>
 
@@ -52,7 +53,8 @@ because of the way we hoist the panel
 
     is: 'px-rangepicker-content',
     behaviors: [
-      PxDatetimeBehavior.TempRange
+      PxDatetimeBehavior.TempRange,
+      PxDatetimeBehavior.Buttons
     ],
 
     properties: {

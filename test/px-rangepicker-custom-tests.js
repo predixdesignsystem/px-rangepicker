@@ -56,6 +56,36 @@ suite('submit with buttons', function() {
     picker.removeEventListener('px-datetime-range-submitted', submitListener);
   });
 
+  test('Buttons are displayed', function(done) {
+    var prevCount = submitEventCount;
+
+    picker.opened = true;
+    flush(()=>{
+      assert.isTrue(panel.showButtons, "panel should have show buttons to true");
+      done();
+    });
+  });
+
+  test('invalid calendar cell disable apply', function(done) {
+    var prevCount = submitEventCount;
+
+    picker.opened = true;
+    flush(()=>{
+      field = Polymer.dom(rangeField.root).querySelector('px-datetime-field');
+      entry = Polymer.dom(field.root).querySelector('px-datetime-entry');
+      cells = Polymer.dom(entry.root).querySelectorAll('px-datetime-entry-cell');
+      cellInput = Polymer.dom(cells[1].root).querySelector('input');
+
+      cellInput.value = "99";
+      cells[1]._handleBlur();
+      picker.opened = true;
+
+      flush(()=>{
+        assert.isFalse(panel.allowApply, "Don't allow Apply");
+        done();
+      });
+    });
+  });
   test('invalid calendar cell disable apply', function(done) {
     var prevCount = submitEventCount;
 
@@ -197,6 +227,16 @@ suite('submit without buttons', function() {
 
   suiteTeardown(function() {
     picker.removeEventListener('px-datetime-range-submitted', submitListener);
+  });
+
+  test('Buttons are not displayed', function(done) {
+    var prevCount = submitEventCount;
+
+    picker.opened = true;
+    flush(()=>{
+      assert.isFalse(panel.showButtons, "panel should have show buttons to false");
+      done();
+    });
   });
 
   test('closing panel should apply new value', function(done) {

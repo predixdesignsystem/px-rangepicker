@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="../px-datetime-common/px-datetime-range-behavior.html"/>
+<link rel="import" href="../px-datetime-common/px-datetime-button-behavior.html"/>
 <link rel="import" href="../px-datetime-range-field/px-datetime-range-field.html"/>
 <link rel="import" href="../px-overlay/px-overlay-content.html"/>
 <link rel="import" href="../px-overlay/px-overlay-behavior.html"/>
@@ -95,7 +96,8 @@ Custom property | Description
     is: 'px-rangepicker',
     behaviors: [
       PxDatetimeBehavior.TempRange,
-      PxOverlayBehavior.sharedProperties
+      PxOverlayBehavior.sharedProperties,
+      PxDatetimeBehavior.Buttons
     ],
 
     properties: {

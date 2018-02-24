@@ -1,3 +1,7 @@
+v3.4.1
+==================
+* fixed showbuttons bug
+
 v3.4.0
 ==================
 * Broke components up so iron-dropdown content is in a separate component, px-rangepicker-content
