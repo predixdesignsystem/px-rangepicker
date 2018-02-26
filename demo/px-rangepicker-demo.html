@@ -61,6 +61,7 @@
           is-valid="{{props.isValid.value}}"
           time-zone="{{props.timeZone.value}}"
           allow-wrap="{{props.allowWrap.value}}"
+          full-width="{{props.fullWidth.value}}"
           min-date="{{props.minDate.value}}"
           max-date="{{props.maxDate.value}}"
           required="{{props.required.value}}"
@@ -234,6 +235,12 @@
       },
 
       showFieldTitles: {
+        type: Boolean,
+        defaultValue: false,
+        inputType: 'toggle'
+      },
+
+      fullWidth: {
         type: Boolean,
         defaultValue: false,
         inputType: 'toggle'

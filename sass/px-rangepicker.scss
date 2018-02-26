@@ -29,6 +29,9 @@
 :host {
   display: inline-block; // need for iron-dropdown
 }
+:host([full-width][show-field-titles]) {
+  width: 100%;
+}
 
 px-datetime-range-field {
   width: 100%;

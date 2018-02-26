@@ -24,6 +24,8 @@ Custom property | Description
 :----------------|:-------------
 `px-datetime` components | the css variables are defined in the other `px-datetime` components
 `--px-datetime-range-field-margin-between-fields` | When `showFieldTitles` is true this is the amount of space between the fields
+`--px-datetime-range-field-column-min-width` | When `fullWidth` is true this sets the min-width that each field is allowed to be before the grid wraps.
+`--px-datetime-range-field-justify-fields` | Sets the flex `justify-content` value for the fields
 
 
 @element px-rangepicker
@@ -52,6 +54,7 @@ Custom property | Description
       prevent-notification-on-change
       allow-wrap="[[allowWrap]]"
       show-field-titles="[[showFieldTitles]]"
+      full-width="[[fullWidth]]"
       resources="[[resources]]"
       language="[[language]]"
       formats="[[formats]]"
@@ -159,6 +162,28 @@ Custom property | Description
       showFieldTitles: {
         type: Boolean,
         value: false
+      },
+      /**
+       * For layout purposes.
+       * This will display grid the fields. `showFieldTitles` must be true for styles to take effect.
+       *
+       * `--px-datetime-range-field-column-min-width` (default: 250px) - controls
+       * the min-width that each field is allowed to be before the grid wraps.
+       *
+       * `--px-datetime-range-field-margin-between-fields` (default: 10px) - controls
+       * the horizontal spacing between the fields.
+       *
+       * This means each field will take up half of the container that `px-datetime-range-field`
+       * is in, minus the space between the fields. When the container scales smaller than 510px or
+       * `(--px-datetime-range-field-column-min-width * 2 + --px-datetime-range-field-margin-between-fields)`.
+       *
+       * The fields will wrap under each other regardless of the `allow-wrap` prop in every browser except for IE.
+       * Setting this property will override anything set in the `--px-datetime-range-field-justify-fields`
+       */
+      fullWidth: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * Controls if the page can be scrolled when the
