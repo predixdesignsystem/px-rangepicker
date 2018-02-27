@@ -1,6 +1,10 @@
 v3.4.1
 ==================
-* fixed showbuttons bug
+* Fixed showbuttons bug
+
+V3.5.0
+==================
+* added `fullWidth` to layout fields using css-grid
 
 v3.4.0
 ==================
