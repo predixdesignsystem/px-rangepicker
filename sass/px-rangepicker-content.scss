@@ -1,0 +1,35 @@
+/*
+ * Copyright (c) 2014 GE Global Research. All rights reserved.
+ *
+ * The copyright to the computer software herein is the property of
+ * GE Global Research. The software may be used and/or copied only
+ * with the written permission of GE Global Research or in accordance
+ * with the terms and conditions stipulated in the agreement/contract
+ * under which the software has been supplied.
+ */
+
+// Generic
+@import "px-normalize-design/_generic.normalize.scss";
+@import "px-box-sizing-design/_generic.box-sizing.scss";
+
+// Base
+
+// Component
+
+//panel will scroll if it needs to when scroolPage is lock
+:host([scroll-action="lock"]) px-datetime-range-panel {
+  display: block;
+}
+//panel won't shrink when scrollPage is refit
+:host([scroll-action="refit"]) px-datetime-range-panel {
+  display: inline;
+}
+
+.invalid {
+  --px-calendar-background-color--hover: var(--px-calendar-background-color--hover--invalid, lightgray);
+  --px-calendar-background-color--pressed: var(--px-calendar-background-color--pressed--invalid, lightgray);
+  --px-calendar-background-color--selected: var(--px-calendar-background-color--selected--invalid, lightgray);
+  --px-calendar-alt-background-color: var(--px-calendar-alt-background-color--invalid, whitesmoke);
+}
+
+// Trumps

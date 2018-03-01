@@ -11,20 +11,10 @@
 // Generic
 @import "px-normalize-design/_generic.normalize.scss";
 @import "px-box-sizing-design/_generic.box-sizing.scss";
-@import "px-helpers-design/_generic.helpers.scss";
 
 // Base
 
 // Component
-
-//panel will scroll if it needs to when scroolPage is lock
-:host([scroll-action="lock"]) px-datetime-range-panel {
-  display: block;
-}
-//panel won't shrink when scrollPage is refit
-:host([scroll-action="refit"]) px-datetime-range-panel {
-  display: inline;
-}
 
 :host {
   display: inline-block; // need for iron-dropdown
@@ -37,13 +27,4 @@ px-datetime-range-field {
   width: 100%;
 }
 
-.invalid {
-  --px-calendar-background-color--hover: var(--px-calendar-background-color--hover--invalid, lightgray);
-  --px-calendar-background-color--pressed: var(--px-calendar-background-color--pressed--invalid, lightgray);
-  --px-calendar-background-color--selected: var(--px-calendar-background-color--selected--invalid, lightgray);
-  --px-calendar-alt-background-color: var(--px-calendar-alt-background-color--invalid, whitesmoke);
-}
-
 // Trumps
-$inuit-enable-margins--large      : true;
-@import "px-spacing-design/_trumps.spacing.scss";

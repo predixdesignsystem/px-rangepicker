@@ -3,7 +3,7 @@
 <link rel="import" href="../px-datetime-range-panel/px-datetime-range-panel.html"/>
 <link rel="import" href="../px-datetime-common/px-datetime-button-behavior.html"/>
 <link rel="import" href="../iron-dropdown/iron-dropdown.html"/>
-<link rel="import" href="css/px-rangepicker-styles.html"/>
+<link rel="import" href="css/px-rangepicker-content-styles.html"/>
 
 <!--
 We needed to split the rangepicker into two different components
@@ -11,7 +11,7 @@ because of the way we hoist the panel
 -->
 <dom-module id="px-rangepicker-content">
   <template>
-    <style include="px-rangepicker-styles"></style>
+    <style include="px-rangepicker-content-styles"></style>
 
     <iron-dropdown
       id="dropdown"
@@ -119,7 +119,8 @@ because of the way we hoist the panel
        * cancel - causes the overlay to close
        */
        scrollAction: {
-        type: String
+        type: String,
+        reflectToAttribute: true
       },
       /**
        * Whether the currently selected date is valid

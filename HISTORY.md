@@ -1,3 +1,7 @@
+v3.4.2
+==================
+* Split sass into two files to fix layout bugs
+
 v3.4.1
 ==================
 * Fixed showbuttons bug

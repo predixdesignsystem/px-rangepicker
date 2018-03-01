@@ -23,6 +23,7 @@ The following custom property is available for styling. Please also refer to px-
 Custom property | Description
 :----------------|:-------------
 `px-datetime` components | the css variables are defined in the other `px-datetime` components
+`--px-datetime-field-margin-bottom` | Sets the margin under the fields. If allowWrap is true this should be set to 20px.
 `--px-datetime-range-field-margin-between-fields` | When `showFieldTitles` is true this is the amount of space between the fields
 `--px-datetime-range-field-column-min-width` | When `fullWidth` is true this sets the min-width that each field is allowed to be before the grid wraps.
 `--px-datetime-range-field-justify-fields` | Sets the flex `justify-content` value for the fields
@@ -161,7 +162,8 @@ Custom property | Description
        */
       showFieldTitles: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * For layout purposes.
@@ -196,8 +198,7 @@ Custom property | Description
        */
        scrollAction: {
         type: String,
-        value: "lock",
-        reflectToAttribute: true
+        value: "lock"
       },
       /**
        * Whether the currently selected date is valid
