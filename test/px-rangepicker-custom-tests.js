@@ -417,9 +417,10 @@ suite('layout', function() {
   test('when showFieldTitles and fullWidth are true, display grid', function(done) {
     var rangeFields = Polymer.dom(rangeFxt.root).querySelector('px-datetime-range-field');
     rangeFxt.fullWidth = true;
-    rangeFxt.showFieldTtitles = true;
+    rangeFxt.showFieldTitles = true;
 
     flush(() => {
+      debugger
       var styles = window.getComputedStyle(rangeFxt).width;
       assert.isTrue(rangeFields.fullWidth, "Rangefield fullWidth value");
       assert.equal(styles, "900px", "rangefield width");
