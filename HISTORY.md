@@ -1,10 +1,8 @@
-v3.4.2
-==================
-* Split sass into two files to fix layout bugs
-
-v3.4.1
+v3.5.1
 ==================
 * Fixed showbuttons bug
+* Split sass into two files to fix layout bugs
+* fixed versioning
 
 V3.5.0
 ==================
