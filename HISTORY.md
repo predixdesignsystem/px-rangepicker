@@ -1,3 +1,7 @@
+v3.5.2
+==================
+* Added ability to hoist timezone dropdown
+
 v3.5.1
 ==================
 * Fixed showbuttons bug
