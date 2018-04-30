@@ -58,5 +58,6 @@
         "webcomponentsjs": "^0.7.0"
       }
     }
-  }
+  },
+  "license": "Apache-2.0"
 }
