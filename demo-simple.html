@@ -28,102 +28,98 @@ limitations under the License.
     <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
     <link rel="import" href="polymer/polymer.html" />
 
-    <link rel="import" href="../px-theme/px-theme-styles.html">
-    <style include="px-theme-styles" is="custom-style"></style>
+    <script type="module" src="../px-theme/px-theme-styles.js"></script>
+    <!-- FIXME(polymer-modulizer):
+        These imperative modules that innerHTML your HTML are
+        a hacky way to be sure that any mixins in included style
+        modules are ready before any elements that reference them are
+        instantiated, otherwise the CSS @apply mixin polyfill won't be
+        able to expand the underlying CSS custom properties.
+        See: https://github.com/Polymer/polymer-modulizer/issues/154
+        -->
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+$_documentContainer.innerHTML = `<style include="px-theme-styles" is="custom-style"></style>`;
+document.head.appendChild($_documentContainer.content);
+</script>
 
-    <link rel="import" href="px-rangepicker.html" />
+    <script type="module" src="./px-rangepicker.js"></script>
   </head>
 
   <body>
 
     <!-- Wrap elements with auto-binding template to -->
     <!-- allow use of Polymer bindings in main document -->
-    <template is="dom-bind">
-      <px-rangepicker
-        id="frenchPicker"
-        range='{"from":"2016-08-09T01:00:00.000Z","to":"2016-08-10T11:00:00.000Z"}'
-        block-future-dates="true"
-        show-time-zone="text"
-        time-zone="UTC">
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<template is="dom-bind">
+      <px-rangepicker id="frenchPicker" range="{&quot;from&quot;:&quot;2016-08-09T01:00:00.000Z&quot;,&quot;to&quot;:&quot;2016-08-10T11:00:00.000Z&quot;}" block-future-dates="true" show-time-zone="text" time-zone="UTC">
       </px-rangepicker>
-      <px-rangepicker
-        range='{"from":"2016-08-09T01:00:00.000Z","to":"2016-08-10T11:00:00.000Z"}'
-        show-time-zone="text"
-        time-zone="UTC">
+      <px-rangepicker range="{&quot;from&quot;:&quot;2016-08-09T01:00:00.000Z&quot;,&quot;to&quot;:&quot;2016-08-10T11:00:00.000Z&quot;}" show-time-zone="text" time-zone="UTC">
       </px-rangepicker>
-      <px-rangepicker
-        block-past-dates
-        show-time-zone="text"
-        time-zone="UTC">
+      <px-rangepicker block-past-dates="" show-time-zone="text" time-zone="UTC">
       </px-rangepicker>
-      <px-rangepicker
-        range='{"from":"2016-08-09T01:00:00.000Z","to":"2016-08-10T11:00:00.000Z"}'
-        show-time-zone="text"
-        time-zone="UTC">
+      <px-rangepicker range="{&quot;from&quot;:&quot;2016-08-09T01:00:00.000Z&quot;,&quot;to&quot;:&quot;2016-08-10T11:00:00.000Z&quot;}" show-time-zone="text" time-zone="UTC">
       </px-rangepicker>
-      <px-rangepicker
-        range='{"from":"2016-08-09T01:00:00.000Z","to":"2016-08-10T11:00:00.000Z"}'
-        show-time-zone="text"
-        time-zone="UTC">
+      <px-rangepicker range="{&quot;from&quot;:&quot;2016-08-09T01:00:00.000Z&quot;,&quot;to&quot;:&quot;2016-08-10T11:00:00.000Z&quot;}" show-time-zone="text" time-zone="UTC">
       </px-rangepicker>
-      <px-rangepicker
-        range='{"from":"2016-08-09T01:00:00.000Z","to":"2016-08-10T11:00:00.000Z"}'
-        block-future-dates="true"
-        show-time-zone="text"
-        time-zone="UTC">
+      <px-rangepicker range="{&quot;from&quot;:&quot;2016-08-09T01:00:00.000Z&quot;,&quot;to&quot;:&quot;2016-08-10T11:00:00.000Z&quot;}" block-future-dates="true" show-time-zone="text" time-zone="UTC">
       </px-rangepicker>
 
-    </template>
+    </template>`;
 
-  <script>
-    addEventListener('WebComponentsReady', function() {
-      var frenchPicker = document.getElementById('frenchPicker'),
-          now = Px.moment();
-      Px.moment.changeLocale('fr', function() {
-        frenchPicker.set('language',"fr");
-      frenchPicker.set('resources',{
-            "fr": {
-              "Future dates are not allowed": "dates futures pas autorisees",
-              "Past dates are not allowed": "dates passees pas autorisees",
-              "Year": "annee",
-              "Month": "mois",
-              "Day": "jour",
-              "Hour": "heure",
-              "Minute": "minute",
-              "Second": "seconde",
-              "Millisecond": "milliseconde",
-              "is not valid": "nest pas valide",
-              "This hour is not within a 12 hour clock": "cette heure nest pas valide pour 12h",
-              "TO": "a",
-              "from": "de",
-              "from can not be later than to": "de ne peut etre apres a",
-              "Today": "aujourdhui",
-              "Presets": "preconfiguration",
-              "Cancel": "annuler",
-              "Apply": "valider"
-            }
-            });
-        frenchPicker.set('presetRanges', [
-            {
-              "displayText": "7 derniers jours",
-              "startDateTime": now.clone().subtract(7, 'days'),
-              "endDateTime": now
-            },
-            {
-              "displayText": "Mois actuel",
-              "startDateTime": now.clone().startOf('month'),
-              "endDateTime": now.clone().endOf('month')
-            },
-            {
-              "displayText": "Mois dernier",
-              "startDateTime": now.clone().subtract(1, 'months').startOf('month'),
-              "endDateTime": now.clone().subtract(1, 'months').endOf('month')
-            }
-          ]);
+document.body.appendChild($_documentContainer.content);
+</script>
+
+  <script type="module">
+import 'px-theme/px-theme-styles.js';
+import './px-rangepicker.js';
+var frenchPicker = document.getElementById('frenchPicker'),
+    now = Px.moment();
+Px.moment.changeLocale('fr', function() {
+  frenchPicker.set('language',"fr");
+frenchPicker.set('resources',{
+      "fr": {
+        "Future dates are not allowed": "dates futures pas autorisees",
+        "Past dates are not allowed": "dates passees pas autorisees",
+        "Year": "annee",
+        "Month": "mois",
+        "Day": "jour",
+        "Hour": "heure",
+        "Minute": "minute",
+        "Second": "seconde",
+        "Millisecond": "milliseconde",
+        "is not valid": "nest pas valide",
+        "This hour is not within a 12 hour clock": "cette heure nest pas valide pour 12h",
+        "TO": "a",
+        "from": "de",
+        "from can not be later than to": "de ne peut etre apres a",
+        "Today": "aujourdhui",
+        "Presets": "preconfiguration",
+        "Cancel": "annuler",
+        "Apply": "valider"
+      }
       });
-
-    });
-  </script>
+  frenchPicker.set('presetRanges', [
+      {
+        "displayText": "7 derniers jours",
+        "startDateTime": now.clone().subtract(7, 'days'),
+        "endDateTime": now
+      },
+      {
+        "displayText": "Mois actuel",
+        "startDateTime": now.clone().startOf('month'),
+        "endDateTime": now.clone().endOf('month')
+      },
+      {
+        "displayText": "Mois dernier",
+        "startDateTime": now.clone().subtract(1, 'months').startOf('month'),
+        "endDateTime": now.clone().subtract(1, 'months').endOf('month')
+      }
+    ]);
+});
+</script>
   </body>
 
 </html>

@@ -21,44 +21,58 @@ limitations under the License.
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Predix UI</title>
-  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
-  <link rel="import" href="../../polymer/polymer.html" />
-  <link rel="import" href="../../px-theme/px-theme-styles.html">
-  <link rel="import" href="../px-rangepicker.html" />
+  <script type="module" src="../../@polymer/polymer/polymer-legacy.js"></script>
+  <script type="module" src="../../px-theme/px-theme-styles.js"></script>
+  <script type="module" src="../px-rangepicker.js"></script>
 
-  <custom-style>
+  <!-- FIXME(polymer-modulizer):
+        These imperative modules that innerHTML your HTML are
+        a hacky way to be sure that any mixins in included style
+        modules are ready before any elements that reference them are
+        instantiated, otherwise the CSS @apply mixin polyfill won't be
+        able to expand the underlying CSS custom properties.
+        See: https://github.com/Polymer/polymer-modulizer/issues/154
+        -->
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<custom-style>
     <style include="px-theme-styles" is="custom-style"></style>
-  </custom-style>
+  </custom-style>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
 </head>
 
 <body>
-  <dom-bind>
+  <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<dom-bind>
     <template is="dom-bind">
       <h2>px-rangepicker</h2>
-      <px-rangepicker
-        show-buttons
-        date-format="MM-DD-YY"
-        time-format="HH:mm:ss"
-        allow-wrap
-        show-time-zone="abbreviatedText"
-        from-moment="{{fromMoment}}"
-        to-moment="{{toMoment}}">
+      <px-rangepicker show-buttons="" date-format="MM-DD-YY" time-format="HH:mm:ss" allow-wrap="" show-time-zone="abbreviatedText" from-moment="{{fromMoment}}" to-moment="{{toMoment}}">
       </px-rangepicker>
     </template>
-  </dom-bind>
-  <script>
-    window.addEventListener('WebComponentsReady', function () {
-      var template = document.querySelector('template[is=dom-bind]');
-      template.fromMoment = Px.moment().startOf('day').subtract(7, 'days');
-      template.toMoment = Px.moment().startOf('day').subtract(1, 'days');
+  </dom-bind>`;
 
-      // Support hybrid mode
-      var templatev1 = document.querySelector('dom-bind');
-      templatev1.fromMoment = template.fromMoment;
-      templatev1.toMoment = template.toMoment;
-    });
-  </script>
+document.body.appendChild($_documentContainer.content);
+</script>
+  <script type="module">
+import '@polymer/polymer/polymer-legacy.js';
+import 'px-theme/px-theme-styles.js';
+import '../px-rangepicker.js';
+var template = document.querySelector('template[is=dom-bind]');
+template.fromMoment = Px.moment().startOf('day').subtract(7, 'days');
+template.toMoment = Px.moment().startOf('day').subtract(1, 'days');
+
+// Support hybrid mode
+var templatev1 = document.querySelector('dom-bind');
+templatev1.fromMoment = template.fromMoment;
+templatev1.toMoment = template.toMoment;
+</script>
 </body>
 
 </html>
